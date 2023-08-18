@@ -1,0 +1,13 @@
+[package]
+name = "py-autosar-data"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "autosar_data"
+crate-type = ["cdylib"]
+
+[dependencies]
+autosar-data = {version = "0.7"}
+autosar-data-specification = {version = "0.7", features = ["pylib"]}
+pyo3 = "0.19.2"
