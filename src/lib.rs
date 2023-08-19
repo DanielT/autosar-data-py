@@ -7,21 +7,22 @@ use std::hash::Hasher;
 use ::autosar_data as autosar_data_rs;
 use autosar_data_rs::CompatibilityError;
 use pyo3::create_exception;
+use pyo3::exceptions::PyTypeError;
 use pyo3::prelude::*;
 use pyo3::types::*;
 
 create_exception!(module, AutosarDataError, pyo3::exceptions::PyException);
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone)]
 struct AutosarModel(autosar_data_rs::AutosarModel);
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone)]
 struct ArxmlFile(autosar_data_rs::ArxmlFile);
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone)]
 struct Element(autosar_data_rs::Element);
 
 #[pyclass]
@@ -40,7 +41,7 @@ struct ElementsIterator(autosar_data_rs::ElementsIterator);
 struct AttributeIterator(autosar_data_rs::AttributeIterator);
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone)]
 struct IncompatibleElementError {
     element: Element,
     version_mask: u32,
@@ -48,7 +49,7 @@ struct IncompatibleElementError {
 }
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone)]
 struct IncompatibleAttributeError {
     element: Element,
     attribute: autosar_data_rs::AttributeName,
@@ -57,7 +58,7 @@ struct IncompatibleAttributeError {
 }
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone)]
 struct IncompatibleAttributeValueError {
     element: Element,
     attribute: autosar_data_rs::AttributeName,
@@ -67,7 +68,7 @@ struct IncompatibleAttributeValueError {
 }
 
 #[pyclass(frozen)]
-#[derive(Clone, PartialEq, Eq)]
+#[derive(Clone)]
 struct ElementType(autosar_data_specification::ElementType);
 
 #[pyclass(frozen)]
@@ -77,7 +78,7 @@ struct Attribute {
 }
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone)]
 enum ContentType {
     /// The element only contains other elements
     Elements,
@@ -667,13 +668,52 @@ impl Element {
         })
     }
 
-    fn set_file_membership(&self, file_membership: HashSet<ArxmlFile>) {
-        self.0.set_file_membership(
-            file_membership
-                .iter()
-                .map(|weak| weak.0.downgrade())
-                .collect(),
-        )
+    #[setter]
+    fn set_file_membership(&self, file_membership_obj: PyObject) -> PyResult<()> {
+        Python::with_gil(|py| -> PyResult<()> {
+            let iter: Box<dyn Iterator<Item = &PyAny>> = if let Ok(set) =
+                file_membership_obj.extract::<&PySet>(py)
+            {
+                Box::new(set.iter())
+            } else if let Ok(frozenset) = file_membership_obj.extract::<&PyFrozenSet>(py) {
+                Box::new(frozenset.iter())
+            } else if let Ok(list) = file_membership_obj.extract::<&PyList>(py) {
+                Box::new(list.iter())
+            } else if let Ok(tuple) = file_membership_obj.extract::<&PyTuple>(py) {
+                let bool_item = tuple.get_item(0).and_then(|item| item.extract::<&PyBool>());
+                let fs = tuple
+                    .get_item(1)
+                    .and_then(|item| item.extract::<&PyFrozenSet>());
+                if tuple.len() == 2 && bool_item.is_ok() && fs.is_ok() {
+                    Box::new(fs.unwrap().iter())
+                } else {
+                    return Err(PyTypeError::new_err(format!(
+                        "argument 'file_membership': '{}' object cannot be converted to 'set' or 'list'",
+                        file_membership_obj.as_ref(py).get_type().name()?
+                    )));
+                }
+            } else if let Ok(value) = file_membership_obj.extract::<ArxmlFile>(py) {
+                self.0
+                    .set_file_membership([value.0.downgrade()].into_iter().collect());
+                return Ok(());
+            } else {
+                return Err(PyTypeError::new_err(format!(
+                    "argument 'file_membership': '{}' object cannot be converted to 'set' or 'list'",
+                    file_membership_obj.as_ref(py).get_type().name()?
+                )));
+            };
+
+            let mut fileset = HashSet::new();
+            for item in iter {
+                let weakfile = item.extract::<ArxmlFile>()?.0.downgrade();
+                fileset.insert(weakfile);
+            }
+            self.0.set_file_membership(fileset);
+
+            Ok(())
+        })?;
+
+        Ok(())
     }
 
     fn add_to_file(&self, file: &ArxmlFile) -> PyResult<()> {
@@ -708,6 +748,21 @@ impl IncompatibleAttributeError {
             self.target_version
         )
     }
+
+    #[getter]
+    fn get_attribute(&self) -> autosar_data_rs::AttributeName {
+        self.attribute
+    }
+
+    #[getter]
+    fn get_version_mask(&self) -> u32 {
+        self.version_mask
+    }
+
+    #[getter]
+    fn get_element(&self) -> Element {
+        self.element.clone()
+    }
 }
 
 #[pymethods]
@@ -725,6 +780,26 @@ impl IncompatibleAttributeValueError {
             self.target_version
         )
     }
+
+    #[getter]
+    fn get_attribute(&self) -> autosar_data_rs::AttributeName {
+        self.attribute
+    }
+
+    #[getter]
+    fn get_attribute_value(&self) -> String {
+        self.attribute_value.clone()
+    }
+
+    #[getter]
+    fn get_version_mask(&self) -> u32 {
+        self.version_mask
+    }
+
+    #[getter]
+    fn get_element(&self) -> Element {
+        self.element.clone()
+    }
 }
 
 #[pymethods]
@@ -739,6 +814,16 @@ impl IncompatibleElementError {
             self.element.0.xml_path(),
             self.target_version
         )
+    }
+
+    #[getter]
+    fn get_version_mask(&self) -> u32 {
+        self.version_mask
+    }
+
+    #[getter]
+    fn get_element(&self) -> Element {
+        self.element.clone()
     }
 }
 
