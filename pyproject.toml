@@ -10,7 +10,10 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
-
+version = "0.1.0"
+description = "read, write and modify Autosar arxml data using Python"
+authors = [{name="Daniel Thaler", email="daniel@dthaler.de"}]
+readme = "README.md"
 
 [tool.maturin]
 features = ["pyo3/extension-module"]

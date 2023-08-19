@@ -2,6 +2,10 @@
 name = "py-autosar-data"
 version = "0.1.0"
 edition = "2021"
+description = "read, write and modify Autosar arxml data using Python"
+authors = ["Daniel Thaler <daniel@dthaler.de>"]
+license = "MIT OR Apache-2.0"
+keywords = ["arxml", "automotive", "file-format", "Autosar"]
 
 [lib]
 name = "autosar_data"

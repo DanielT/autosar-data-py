@@ -15,11 +15,117 @@ This crate implements Python bindings for autosar-data using [PyO3](https://pyo3
 
 ## Example
 
+### Load data from a file
+
 ```python
 from autosar_data import *
 
-# create a new data model
+# load a file
 model = AutosarModel()
+(arxmlfile, warnings) = model.load_file("filename.arxml", False)
+```
+
+### Load data from text
+
+```python
+from autosar_data import *
+# alternatively: load a buffer
+model = AutosarModel()
+filebuf = """<?xml version="1.0" encoding="utf-8"?>
+    <AUTOSAR xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00050.xsd" xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <AR-PACKAGES><AR-PACKAGE><SHORT-NAME>Pkg</SHORT-NAME></AR-PACKAGE></AR-PACKAGES></AUTOSAR>"""
+(arxmlfile, warnings) = model.load_buffer(filebuf, "filename.arxml", False)
+```
+
+### Create data from scratch
+
+```python
+from autosar_data import *
+# alternatively: create a new data model from scratch
+model = AutosarModel()
+
+# create a file in the model
+file1 = model.create_file("filename.arxml", specification.AutosarVersion.Autosar_4_3_0)
+# a model can consist of multiple files - elements appear in all of them by default, unless restrictions are set
+file2 = model.create_file("filename2.arxml", specification.AutosarVersion.Autosar_00051)
+
+# initially the model only has its root element, <AUTOSAR>. Create some elements
+el_elements = model.root_element \
+    .create_sub_element(specification.ElementName.ArPackages) \
+    .create_named_sub_element(specification.ElementName.ArPackage, "Pkg") \
+    .create_sub_element(specification.ElementName.Elements)
+
+# create some more elements
+el_fibex_element_ref = el_elements \
+    .create_named_sub_element(specification.ElementName.System, "System") \
+    .create_sub_element(specification.ElementName.FibexElements) \
+    .create_sub_element(specification.ElementName.FibexElementRefConditional) \
+    .create_sub_element(specification.ElementName.FibexElementRef)
+el_can_cluster = model.root_element \
+    .get_sub_element(specification.ElementName.ArPackages) \
+    .create_named_sub_element(specification.ElementName.ArPackage, "Pkg2") \
+    .create_sub_element(specification.ElementName.Elements) \
+    .create_named_sub_element(specification.ElementName.CanCluster, "CanCluster")
+
+# set a cross reference
+el_fibex_element_ref.reference_target = el_can_cluster
+
+# check the cross reference
+el_fibex_element_ref.character_data
+# '/Pkg2/CanCluster'
+el_fibex_element_ref.reference_target == el_can_cluster
+# True
+
+# get an attribute
+el_fibex_element_ref.attribute_value(specification.AttributeName.Dest)
+# EnumItem.CanCluster
+model.root_element.attribute_value(specification.AttributeName.xmlns)
+# 'http://autosar.org/schema/r4.0'
+
+# set an attribute value
+el_fibex_element_ref.set_attribute(specification.AttributeName.Dest, specification.EnumItem.ISignal)
+# setting the DEST of the reference to an invalid value has invalidated the
+# reference, so accessing el_fibex_element_ref.reference_target will now cause an exception
+
+el_can_cluster.set_attribute(specification.AttributeName.Uuid, "1234567890abcdefg")
+
+# get the current xml text of the model:
+print(file1.serialize())
+# this prints "<?xml version="1.0" encoding="utf-8"?>\n<AUTOSAR ..."
+
+# write all the files in the model - this will create filename.arxml and filename2.arxml with identical content
+model.write()
+
+# get the autosar paths of all elements in the model
+paths = model.identifiable_elements
+# paths = ['/Pkg', '/Pkg/System', '/Pkg2', '/Pkg2/CanCluster']
+
+# get an element by its path
+el_ar_package1 = model.get_element_by_path("/Pkg")
+el_ar_package2 = model.get_element_by_path("/Pkg2")
+el_system = model.get_element_by_path("/Pkg/System")
+
+# restrict the packages to only appear in one file each
+el_ar_package1.remove_from_file(file2)
+el_ar_package2.remove_from_file(file1)
+
+# write all the files in the model - now the content is different
+model.write()
+```
+
+### Working with data
+
+```python
+from autosar_data import *
+
+model = AutosarModel()
+(arxmlfile, warnings) = model.load_file("somefile.arxml", False)
+
+# display all the triggered PDUs in the file
+for (depth, element) in model.elements_dfs:
+    if element.element_name == specification.ElementName.PduTriggering:
+        pdu = element.get_sub_element(specification.ElementName.IPduRef).reference_target
+        print(str.format("PDU: <{}> = {}", pdu.element_name, pdu.item_name))
 
 ```
 
