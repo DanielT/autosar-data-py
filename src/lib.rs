@@ -1,4 +1,8 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::hash_map::DefaultHasher;
+use std::collections::HashMap;
+use std::collections::HashSet;
+use std::hash::Hash;
+use std::hash::Hasher;
 
 use ::autosar_data as autosar_data_rs;
 use autosar_data_rs::CompatibilityError;
@@ -98,15 +102,44 @@ impl AutosarModel {
         self.0.root_element().serialize()
     }
 
-    fn create_file(&self, filename: &str, version: autosar_data_rs::AutosarVersion) -> PyResult<ArxmlFile> {
+    fn __richcmp__(&self, other: &AutosarModel, op: pyo3::basic::CompareOp) -> bool {
+        match op {
+            pyo3::pyclass::CompareOp::Eq => self.0 == other.0,
+            pyo3::pyclass::CompareOp::Ne => self.0 != other.0,
+            pyo3::pyclass::CompareOp::Lt
+            | pyo3::pyclass::CompareOp::Le
+            | pyo3::pyclass::CompareOp::Gt
+            | pyo3::pyclass::CompareOp::Ge => false,
+        }
+    }
+
+    fn __hash__(&self) -> isize {
+        let mut hasher = DefaultHasher::new();
+        self.0.hash(&mut hasher);
+        hasher.finish() as isize
+    }
+
+    fn create_file(
+        &self,
+        filename: &str,
+        version: autosar_data_rs::AutosarVersion,
+    ) -> PyResult<ArxmlFile> {
         match self.0.create_file(filename, version) {
             Ok(file) => Ok(ArxmlFile(file)),
             Err(error) => PyResult::Err(AutosarDataError::new_err(error.to_string())),
         }
     }
 
-    fn load_buffer(&self, buffer: &str, filename: &str, strict: bool) -> PyResult<(ArxmlFile, Vec<String>)> {
-        match self.0.load_named_arxml_buffer(buffer.as_bytes(), filename, strict) {
+    fn load_buffer(
+        &self,
+        buffer: &str,
+        filename: &str,
+        strict: bool,
+    ) -> PyResult<(ArxmlFile, Vec<String>)> {
+        match self
+            .0
+            .load_named_arxml_buffer(buffer.as_bytes(), filename, strict)
+        {
             Ok((file, warn)) => {
                 let warnstrings: Vec<String> = warn.iter().map(|w| w.to_string()).collect();
                 Ok((ArxmlFile(file), warnstrings))
@@ -199,6 +232,23 @@ impl ArxmlFile {
         self.serialize()
     }
 
+    fn __richcmp__(&self, other: &ArxmlFile, op: pyo3::basic::CompareOp) -> bool {
+        match op {
+            pyo3::pyclass::CompareOp::Eq => self.0 == other.0,
+            pyo3::pyclass::CompareOp::Ne => self.0 != other.0,
+            pyo3::pyclass::CompareOp::Lt
+            | pyo3::pyclass::CompareOp::Le
+            | pyo3::pyclass::CompareOp::Gt
+            | pyo3::pyclass::CompareOp::Ge => false,
+        }
+    }
+
+    fn __hash__(&self) -> isize {
+        let mut hasher = DefaultHasher::new();
+        self.0.hash(&mut hasher);
+        hasher.finish() as isize
+    }
+
     #[getter]
     fn filename(&self) -> String {
         self.0.filename().to_string_lossy().into_owned()
@@ -223,7 +273,10 @@ impl ArxmlFile {
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
-    fn check_version_compatibility(&self, target_version: autosar_data_rs::AutosarVersion) -> Vec<PyObject> {
+    fn check_version_compatibility(
+        &self,
+        target_version: autosar_data_rs::AutosarVersion,
+    ) -> Vec<PyObject> {
         Python::with_gil(|py| {
             self.0
                 .check_version_compatibility(target_version)
@@ -263,7 +316,10 @@ impl ArxmlFile {
                         )
                         .unwrap()
                         .into_py(py),
-                        CompatibilityError::IncompatibleElement { element, version_mask } => Py::new(
+                        CompatibilityError::IncompatibleElement {
+                            element,
+                            version_mask,
+                        } => Py::new(
                             py,
                             IncompatibleElementError {
                                 element: Element(element.to_owned()),
@@ -313,6 +369,23 @@ impl Element {
 
     fn __str__(&self) -> String {
         self.0.serialize()
+    }
+
+    fn __richcmp__(&self, other: &Element, op: pyo3::basic::CompareOp) -> bool {
+        match op {
+            pyo3::pyclass::CompareOp::Eq => self.0 == other.0,
+            pyo3::pyclass::CompareOp::Ne => self.0 != other.0,
+            pyo3::pyclass::CompareOp::Lt
+            | pyo3::pyclass::CompareOp::Le
+            | pyo3::pyclass::CompareOp::Gt
+            | pyo3::pyclass::CompareOp::Ge => false,
+        }
+    }
+
+    fn __hash__(&self) -> isize {
+        let mut hasher = DefaultHasher::new();
+        self.0.hash(&mut hasher);
+        hasher.finish() as isize
     }
 
     fn serialize(&self) -> String {
@@ -421,7 +494,10 @@ impl Element {
         item_name: &str,
         position: usize,
     ) -> PyResult<Element> {
-        match self.0.create_named_sub_element_at(element_name, item_name, position) {
+        match self
+            .0
+            .create_named_sub_element_at(element_name, item_name, position)
+        {
             Ok(element) => Ok(Element(element)),
             Err(error) => Err(AutosarDataError::new_err(error.to_string())),
         }
@@ -506,7 +582,9 @@ impl Element {
 
     #[getter]
     fn character_data(&self) -> Option<PyObject> {
-        self.0.character_data().map(|cdata| character_data_to_object(&cdata))
+        self.0
+            .character_data()
+            .map(|cdata| character_data_to_object(&cdata))
     }
 
     fn insert_character_content_item(&self, chardata: &str, position: usize) -> PyResult<()> {
@@ -536,14 +614,22 @@ impl Element {
         Some(character_data_to_object(&self.0.attribute_value(attrname)?))
     }
 
-    fn set_attribute(&self, attrname: autosar_data_rs::AttributeName, value: PyObject) -> PyResult<()> {
+    fn set_attribute(
+        &self,
+        attrname: autosar_data_rs::AttributeName,
+        value: PyObject,
+    ) -> PyResult<()> {
         let cdata = extract_character_data(value)?;
         self.0
             .set_attribute(attrname, cdata)
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
-    fn set_attribute_string(&self, attrname: autosar_data_rs::AttributeName, text: &str) -> PyResult<()> {
+    fn set_attribute_string(
+        &self,
+        attrname: autosar_data_rs::AttributeName,
+        text: &str,
+    ) -> PyResult<()> {
         self.0
             .set_attribute_string(attrname, text)
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
@@ -573,7 +659,8 @@ impl Element {
                     })
                     .collect();
                 let frozenset: &PyFrozenSet = PyFrozenSet::new(py, file_set.iter()).unwrap();
-                let pytuple: &PyTuple = PyTuple::new(py, [local.to_object(py), frozenset.to_object(py)].iter());
+                let pytuple: &PyTuple =
+                    PyTuple::new(py, [local.to_object(py), frozenset.to_object(py)].iter());
                 Ok(pytuple.to_object(py))
             }
             Err(error) => Err(AutosarDataError::new_err(error.to_string())),
@@ -581,8 +668,12 @@ impl Element {
     }
 
     fn set_file_membership(&self, file_membership: HashSet<ArxmlFile>) {
-        self.0
-            .set_file_membership(file_membership.iter().map(|weak| weak.0.downgrade()).collect())
+        self.0.set_file_membership(
+            file_membership
+                .iter()
+                .map(|weak| weak.0.downgrade())
+                .collect(),
+        )
     }
 
     fn add_to_file(&self, file: &ArxmlFile) -> PyResult<()> {
@@ -714,7 +805,11 @@ impl ElementsDfsIterator {
             self.0.next().map(|(depth, elem)| {
                 PyTuple::new(
                     py,
-                    [depth.to_object(py), Py::new(py, Element(elem)).unwrap().into_py(py)].iter(),
+                    [
+                        depth.to_object(py),
+                        Py::new(py, Element(elem)).unwrap().into_py(py),
+                    ]
+                    .iter(),
                 )
                 .to_object(py)
             })
@@ -733,7 +828,11 @@ impl ArxmlFileElementsDfsIterator {
             self.0.next().map(|(depth, elem)| {
                 PyTuple::new(
                     py,
-                    [depth.to_object(py), Py::new(py, Element(elem)).unwrap().into_py(py)].iter(),
+                    [
+                        depth.to_object(py),
+                        Py::new(py, Element(elem)).unwrap().into_py(py),
+                    ]
+                    .iter(),
                 )
                 .to_object(py)
             })
@@ -750,8 +849,12 @@ impl ElementContentIterator {
     fn __next__(&mut self) -> Option<PyObject> {
         let ec = self.0.next()?;
         Python::with_gil(|py| match ec {
-            autosar_data_rs::ElementContent::Element(elem) => Some(Py::new(py, Element(elem)).unwrap().into_py(py)),
-            autosar_data_rs::ElementContent::CharacterData(cdata) => Some(character_data_to_object(&cdata)),
+            autosar_data_rs::ElementContent::Element(elem) => {
+                Some(Py::new(py, Element(elem)).unwrap().into_py(py))
+            }
+            autosar_data_rs::ElementContent::CharacterData(cdata) => {
+                Some(character_data_to_object(&cdata))
+            }
         })
     }
 }
@@ -853,7 +956,9 @@ fn extract_character_data(any: PyObject) -> PyResult<autosar_data_rs::CharacterD
 
 fn character_data_to_object(cdata: &autosar_data_rs::CharacterData) -> PyObject {
     Python::with_gil(|py| match cdata {
-        autosar_data_rs::CharacterData::Enum(enumitem) => Py::new(py, *enumitem).unwrap().into_py(py),
+        autosar_data_rs::CharacterData::Enum(enumitem) => {
+            Py::new(py, *enumitem).unwrap().into_py(py)
+        }
         autosar_data_rs::CharacterData::String(s) => PyString::new(py, s).into_py(py),
         autosar_data_rs::CharacterData::UnsignedInteger(val) => val.to_object(py),
         autosar_data_rs::CharacterData::Double(val) => val.to_object(py),
