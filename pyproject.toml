@@ -6,6 +6,10 @@ build-backend = "maturin"
 name = "autosar-data"
 requires-python = ">=3.7"
 classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
@@ -15,5 +19,13 @@ description = "read, write and modify Autosar arxml data using Python"
 authors = [{name="Daniel Thaler", email="daniel@dthaler.de"}]
 readme = "README.md"
 
+[project.urls]
+Source = "https://github.com/DanielT/autosar-data-py"
+Tracker = "https://github.com/DanielT/autosar-data-py/issues"
+
 [tool.maturin]
 features = ["pyo3/extension-module"]
+
+[tool.pytest.ini_options]
+python_files = ["test.py", "test_*.py", "*_test.py"]
+testpaths = ["test"]
