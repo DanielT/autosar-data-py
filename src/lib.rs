@@ -45,7 +45,9 @@ struct AttributeIterator(autosar_data_rs::AttributeIterator);
 #[pyclass(frozen)]
 #[derive(Debug, Clone)]
 struct IncompatibleElementError {
+    #[pyo3(get)]
     element: Element,
+    #[pyo3(get)]
     version_mask: u32,
     target_version: AutosarVersion,
 }
@@ -53,8 +55,11 @@ struct IncompatibleElementError {
 #[pyclass(frozen)]
 #[derive(Debug, Clone)]
 struct IncompatibleAttributeError {
+    #[pyo3(get)]
     element: Element,
+    #[pyo3(get)]
     attribute: String,
+    #[pyo3(get)]
     version_mask: u32,
     target_version: AutosarVersion,
 }
@@ -62,9 +67,13 @@ struct IncompatibleAttributeError {
 #[pyclass(frozen)]
 #[derive(Debug, Clone)]
 struct IncompatibleAttributeValueError {
+    #[pyo3(get)]
     element: Element,
+    #[pyo3(get)]
     attribute: String,
+    #[pyo3(get)]
     attribute_value: String,
+    #[pyo3(get)]
     version_mask: u32,
     target_version: AutosarVersion,
 }
@@ -115,21 +124,6 @@ impl IncompatibleAttributeError {
             self.target_version
         )
     }
-
-    #[getter]
-    fn get_attribute(&self) -> String {
-        self.attribute.to_string()
-    }
-
-    #[getter]
-    fn get_version_mask(&self) -> u32 {
-        self.version_mask
-    }
-
-    #[getter]
-    fn get_element(&self) -> Element {
-        self.element.clone()
-    }
 }
 
 #[pymethods]
@@ -147,26 +141,6 @@ impl IncompatibleAttributeValueError {
             self.target_version
         )
     }
-
-    #[getter]
-    fn get_attribute(&self) -> String {
-        self.attribute.to_string()
-    }
-
-    #[getter]
-    fn get_attribute_value(&self) -> String {
-        self.attribute_value.clone()
-    }
-
-    #[getter]
-    fn get_version_mask(&self) -> u32 {
-        self.version_mask
-    }
-
-    #[getter]
-    fn get_element(&self) -> Element {
-        self.element.clone()
-    }
 }
 
 #[pymethods]
@@ -181,16 +155,6 @@ impl IncompatibleElementError {
             self.element.0.xml_path(),
             self.target_version
         )
-    }
-
-    #[getter]
-    fn get_version_mask(&self) -> u32 {
-        self.version_mask
-    }
-
-    #[getter]
-    fn get_element(&self) -> Element {
-        self.element.clone()
     }
 }
 
