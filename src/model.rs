@@ -38,11 +38,7 @@ impl AutosarModel {
         hasher.finish() as isize
     }
 
-    fn create_file(
-        &self,
-        filename: &str,
-        version: AutosarVersion,
-    ) -> PyResult<ArxmlFile> {
+    fn create_file(&self, filename: &str, version: AutosarVersion) -> PyResult<ArxmlFile> {
         match self.0.create_file(filename, version.into()) {
             Ok(file) => Ok(ArxmlFile(file)),
             Err(error) => PyResult::Err(AutosarDataError::new_err(error.to_string())),

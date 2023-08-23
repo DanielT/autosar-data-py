@@ -45,28 +45,28 @@ impl AutosarVersion {
     }
 }
 
-impl Into<autosar_data_specification::AutosarVersion> for AutosarVersion {
-    fn into(self) -> autosar_data_specification::AutosarVersion {
-        match self {
-            Self::Autosar_4_0_1 => autosar_data_specification::AutosarVersion::Autosar_4_0_1,
-            Self::Autosar_4_0_2 => autosar_data_specification::AutosarVersion::Autosar_4_0_2,
-            Self::Autosar_4_0_3 => autosar_data_specification::AutosarVersion::Autosar_4_0_3,
-            Self::Autosar_4_1_1 => autosar_data_specification::AutosarVersion::Autosar_4_1_1,
-            Self::Autosar_4_1_2 => autosar_data_specification::AutosarVersion::Autosar_4_1_2,
-            Self::Autosar_4_1_3 => autosar_data_specification::AutosarVersion::Autosar_4_1_3,
-            Self::Autosar_4_2_1 => autosar_data_specification::AutosarVersion::Autosar_4_2_1,
-            Self::Autosar_4_2_2 => autosar_data_specification::AutosarVersion::Autosar_4_2_2,
-            Self::Autosar_4_3_0 => autosar_data_specification::AutosarVersion::Autosar_4_3_0,
-            Self::Autosar_00042 => autosar_data_specification::AutosarVersion::Autosar_00042,
-            Self::Autosar_00043 => autosar_data_specification::AutosarVersion::Autosar_00043,
-            Self::Autosar_00044 => autosar_data_specification::AutosarVersion::Autosar_00044,
-            Self::Autosar_00045 => autosar_data_specification::AutosarVersion::Autosar_00045,
-            Self::Autosar_00046 => autosar_data_specification::AutosarVersion::Autosar_00046,
-            Self::Autosar_00047 => autosar_data_specification::AutosarVersion::Autosar_00047,
-            Self::Autosar_00048 => autosar_data_specification::AutosarVersion::Autosar_00048,
-            Self::Autosar_00049 => autosar_data_specification::AutosarVersion::Autosar_00049,
-            Self::Autosar_00050 => autosar_data_specification::AutosarVersion::Autosar_00050,
-            Self::Autosar_00051 => autosar_data_specification::AutosarVersion::Autosar_00051,
+impl From<AutosarVersion> for autosar_data_specification::AutosarVersion {
+    fn from(val: AutosarVersion) -> Self {
+        match val {
+            AutosarVersion::Autosar_4_0_1 => Self::Autosar_4_0_1,
+            AutosarVersion::Autosar_4_0_2 => Self::Autosar_4_0_2,
+            AutosarVersion::Autosar_4_0_3 => Self::Autosar_4_0_3,
+            AutosarVersion::Autosar_4_1_1 => Self::Autosar_4_1_1,
+            AutosarVersion::Autosar_4_1_2 => Self::Autosar_4_1_2,
+            AutosarVersion::Autosar_4_1_3 => Self::Autosar_4_1_3,
+            AutosarVersion::Autosar_4_2_1 => Self::Autosar_4_2_1,
+            AutosarVersion::Autosar_4_2_2 => Self::Autosar_4_2_2,
+            AutosarVersion::Autosar_4_3_0 => Self::Autosar_4_3_0,
+            AutosarVersion::Autosar_00042 => Self::Autosar_00042,
+            AutosarVersion::Autosar_00043 => Self::Autosar_00043,
+            AutosarVersion::Autosar_00044 => Self::Autosar_00044,
+            AutosarVersion::Autosar_00045 => Self::Autosar_00045,
+            AutosarVersion::Autosar_00046 => Self::Autosar_00046,
+            AutosarVersion::Autosar_00047 => Self::Autosar_00047,
+            AutosarVersion::Autosar_00048 => Self::Autosar_00048,
+            AutosarVersion::Autosar_00049 => Self::Autosar_00049,
+            AutosarVersion::Autosar_00050 => Self::Autosar_00050,
+            AutosarVersion::Autosar_00051 => Self::Autosar_00051,
         }
     }
 }

@@ -45,7 +45,9 @@ struct AttributeIterator(autosar_data_rs::AttributeIterator);
 #[pyclass(frozen)]
 #[derive(Debug, Clone)]
 struct IncompatibleElementError {
+    #[pyo3(get)]
     element: Element,
+    #[pyo3(get)]
     version_mask: u32,
     target_version: AutosarVersion,
 }
@@ -53,8 +55,11 @@ struct IncompatibleElementError {
 #[pyclass(frozen)]
 #[derive(Debug, Clone)]
 struct IncompatibleAttributeError {
+    #[pyo3(get)]
     element: Element,
+    #[pyo3(get)]
     attribute: String,
+    #[pyo3(get)]
     version_mask: u32,
     target_version: AutosarVersion,
 }
@@ -62,9 +67,13 @@ struct IncompatibleAttributeError {
 #[pyclass(frozen)]
 #[derive(Debug, Clone)]
 struct IncompatibleAttributeValueError {
+    #[pyo3(get)]
     element: Element,
+    #[pyo3(get)]
     attribute: String,
+    #[pyo3(get)]
     attribute_value: String,
+    #[pyo3(get)]
     version_mask: u32,
     target_version: AutosarVersion,
 }
@@ -115,21 +124,6 @@ impl IncompatibleAttributeError {
             self.target_version
         )
     }
-
-    #[getter]
-    fn get_attribute(&self) -> String {
-        self.attribute.to_string()
-    }
-
-    #[getter]
-    fn get_version_mask(&self) -> u32 {
-        self.version_mask
-    }
-
-    #[getter]
-    fn get_element(&self) -> Element {
-        self.element.clone()
-    }
 }
 
 #[pymethods]
@@ -147,26 +141,6 @@ impl IncompatibleAttributeValueError {
             self.target_version
         )
     }
-
-    #[getter]
-    fn get_attribute(&self) -> String {
-        self.attribute.to_string()
-    }
-
-    #[getter]
-    fn get_attribute_value(&self) -> String {
-        self.attribute_value.clone()
-    }
-
-    #[getter]
-    fn get_version_mask(&self) -> u32 {
-        self.version_mask
-    }
-
-    #[getter]
-    fn get_element(&self) -> Element {
-        self.element.clone()
-    }
 }
 
 #[pymethods]
@@ -181,16 +155,6 @@ impl IncompatibleElementError {
             self.element.0.xml_path(),
             self.target_version
         )
-    }
-
-    #[getter]
-    fn get_version_mask(&self) -> u32 {
-        self.version_mask
-    }
-
-    #[getter]
-    fn get_element(&self) -> Element {
-        self.element.clone()
     }
 }
 
@@ -225,7 +189,9 @@ impl ElementType {
     }
 
     fn reference_dest_value(&self, target: &ElementType) -> Option<String> {
-        self.0.reference_dest_value(&target.0).map(|enumitem| enumitem.to_string())
+        self.0
+            .reference_dest_value(&target.0)
+            .map(|enumitem| enumitem.to_string())
     }
 
     fn find_sub_element(&self, target_name: String, version: u32) -> PyResult<Option<ElementType>> {
@@ -389,12 +355,17 @@ fn autosar_data(py: Python, m: &PyModule) -> PyResult<()> {
     Ok(())
 }
 
-fn extract_character_data(spec: &CharacterDataSpec, any: PyObject) -> PyResult<autosar_data_rs::CharacterData> {
+fn extract_character_data(
+    spec: &CharacterDataSpec,
+    any: PyObject,
+) -> PyResult<autosar_data_rs::CharacterData> {
     Python::with_gil(|py| {
         if let Ok(text) = any.extract::<String>(py) {
-            parse_cdata_string(spec, text).map_err(|_| AutosarDataError::new_err(
-                autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
-            ))
+            parse_cdata_string(spec, text).map_err(|_| {
+                AutosarDataError::new_err(
+                    autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
+                )
+            })
         } else if let Ok(val) = any.extract::<u64>(py) {
             Ok(autosar_data_rs::CharacterData::UnsignedInteger(val))
         } else if let Ok(val) = any.extract::<f64>(py) {
@@ -407,7 +378,10 @@ fn extract_character_data(spec: &CharacterDataSpec, any: PyObject) -> PyResult<a
     })
 }
 
-fn parse_cdata_string(spec: &CharacterDataSpec, text: String) -> Result<autosar_data_rs::CharacterData, ()> {
+fn parse_cdata_string(
+    spec: &CharacterDataSpec,
+    text: String,
+) -> Result<autosar_data_rs::CharacterData, ()> {
     match spec {
         CharacterDataSpec::Enum { items } => {
             let enumitem = autosar_data_rs::EnumItem::from_str(&text).map_err(|_| ())?;
@@ -417,7 +391,11 @@ fn parse_cdata_string(spec: &CharacterDataSpec, text: String) -> Result<autosar_
                 Err(())
             }
         }
-        CharacterDataSpec::Pattern { check_fn, max_length, .. } => {
+        CharacterDataSpec::Pattern {
+            check_fn,
+            max_length,
+            ..
+        } => {
             if text.len() < max_length.unwrap_or(usize::MAX) && check_fn(text.as_bytes()) {
                 Ok(autosar_data_rs::CharacterData::String(text))
             } else {
@@ -438,7 +416,7 @@ fn parse_cdata_string(spec: &CharacterDataSpec, text: String) -> Result<autosar_
                 Err(())
             }
         }
-        CharacterDataSpec::Double =>  {
+        CharacterDataSpec::Double => {
             if let Ok(val) = text.parse() {
                 Ok(autosar_data_rs::CharacterData::Double(val))
             } else {
