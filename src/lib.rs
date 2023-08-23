@@ -3,6 +3,7 @@ use std::str::FromStr;
 use ::autosar_data as autosar_data_rs;
 use autosar_data_specification::CharacterDataSpec;
 use pyo3::create_exception;
+use pyo3::intern;
 use pyo3::prelude::*;
 use pyo3::types::*;
 
@@ -352,6 +353,7 @@ fn autosar_data(py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<Attribute>()?;
     m.add_class::<ValidSubElementInfo>()?;
     m.add("AutosarDataError", py.get_type::<AutosarDataError>())?;
+    m.add("version", intern!(m.py(), env!("CARGO_PKG_VERSION")))?;
     Ok(())
 }
 
