@@ -1,5 +1,9 @@
 # `autosar-data-py`
 
+[![PyPI version](https://badge.fury.io/py/autosar-data.svg)](https://badge.fury.io/py/autosar-data)
+[![Github Actions](https://github.com/DanielT/autosar-data-py/workflows/Test/badge.svg)](https://github.com/DanielT/autosar-data-py/actions)
+[![codecov](https://codecov.io/gh/DanielT/autosar-data-py/branch/main/graph/badge.svg?token=RGKUUJTWZ5)](https://codecov.io/gh/DanielT/autosar-data-py)
+
 Python bindings for [autosar-data](https://github.com/DanielT/autosar-data)
 
 ## Features
