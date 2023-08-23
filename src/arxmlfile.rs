@@ -57,10 +57,7 @@ impl ArxmlFile {
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
-    fn check_version_compatibility(
-        &self,
-        target_version: AutosarVersion,
-    ) -> Vec<PyObject> {
+    fn check_version_compatibility(&self, target_version: AutosarVersion) -> Vec<PyObject> {
         Python::with_gil(|py| {
             self.0
                 .check_version_compatibility(target_version.into())
