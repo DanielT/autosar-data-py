@@ -1,4 +1,7 @@
+use std::str::FromStr;
+
 use ::autosar_data as autosar_data_rs;
+use autosar_data_specification::CharacterDataSpec;
 use pyo3::create_exception;
 use pyo3::prelude::*;
 use pyo3::types::*;
@@ -6,6 +9,9 @@ use pyo3::types::*;
 mod arxmlfile;
 mod element;
 mod model;
+mod version;
+
+use version::*;
 
 create_exception!(module, AutosarDataError, pyo3::exceptions::PyException);
 
@@ -41,26 +47,26 @@ struct AttributeIterator(autosar_data_rs::AttributeIterator);
 struct IncompatibleElementError {
     element: Element,
     version_mask: u32,
-    target_version: autosar_data_rs::AutosarVersion,
+    target_version: AutosarVersion,
 }
 
 #[pyclass(frozen)]
 #[derive(Debug, Clone)]
 struct IncompatibleAttributeError {
     element: Element,
-    attribute: autosar_data_rs::AttributeName,
+    attribute: String,
     version_mask: u32,
-    target_version: autosar_data_rs::AutosarVersion,
+    target_version: AutosarVersion,
 }
 
 #[pyclass(frozen)]
 #[derive(Debug, Clone)]
 struct IncompatibleAttributeValueError {
     element: Element,
-    attribute: autosar_data_rs::AttributeName,
+    attribute: String,
     attribute_value: String,
     version_mask: u32,
-    target_version: autosar_data_rs::AutosarVersion,
+    target_version: AutosarVersion,
 }
 
 #[pyclass(frozen)]
@@ -69,8 +75,19 @@ struct ElementType(autosar_data_specification::ElementType);
 
 #[pyclass(frozen)]
 struct Attribute {
-    pub attrname: autosar_data_rs::AttributeName,
+    pub attrname: String,
     pub content: PyObject,
+}
+
+#[pyclass(frozen)]
+#[derive(Debug, Clone)]
+struct ValidSubElementInfo {
+    #[pyo3(get)]
+    element_name: String,
+    #[pyo3(get)]
+    is_named: bool,
+    #[pyo3(get)]
+    is_allowed: bool,
 }
 
 #[pyclass(frozen)]
@@ -92,7 +109,7 @@ impl IncompatibleAttributeError {
 
     fn __str__(&self) -> String {
         format!(
-            "Attribute {} in <{}> is incompatible with version {}",
+            "Attribute {} in <{}> is incompatible with version {:?}",
             self.attribute,
             self.element.0.xml_path(),
             self.target_version
@@ -100,8 +117,8 @@ impl IncompatibleAttributeError {
     }
 
     #[getter]
-    fn get_attribute(&self) -> autosar_data_rs::AttributeName {
-        self.attribute
+    fn get_attribute(&self) -> String {
+        self.attribute.to_string()
     }
 
     #[getter]
@@ -123,7 +140,7 @@ impl IncompatibleAttributeValueError {
 
     fn __str__(&self) -> String {
         format!(
-            "Attribute value {} in attribue {} of element <{}> is incompatible with version {}",
+            "Attribute value {} in attribue {} of element <{}> is incompatible with version {:?}",
             self.attribute_value,
             self.attribute,
             self.element.0.xml_path(),
@@ -132,8 +149,8 @@ impl IncompatibleAttributeValueError {
     }
 
     #[getter]
-    fn get_attribute(&self) -> autosar_data_rs::AttributeName {
-        self.attribute
+    fn get_attribute(&self) -> String {
+        self.attribute.to_string()
     }
 
     #[getter]
@@ -160,7 +177,7 @@ impl IncompatibleElementError {
 
     fn __str__(&self) -> String {
         format!(
-            "Element <{}> is incompatible with version {}",
+            "Element <{}> is incompatible with version {:?}",
             self.element.0.xml_path(),
             self.target_version
         )
@@ -203,22 +220,20 @@ impl ElementType {
         self.0.splittable()
     }
 
-    fn splittable_in(&self, version: autosar_data_rs::AutosarVersion) -> bool {
-        self.0.splittable_in(version)
+    fn splittable_in(&self, version: AutosarVersion) -> bool {
+        self.0.splittable_in(version.into())
     }
 
-    fn reference_dest_value(&self, target: &ElementType) -> Option<autosar_data_rs::EnumItem> {
-        self.0.reference_dest_value(&target.0)
+    fn reference_dest_value(&self, target: &ElementType) -> Option<String> {
+        self.0.reference_dest_value(&target.0).map(|enumitem| enumitem.to_string())
     }
 
-    fn find_sub_element(
-        &self,
-        target_name: autosar_data_rs::ElementName,
-        version: u32,
-    ) -> Option<ElementType> {
-        self.0
-            .find_sub_element(target_name, version)
-            .map(|(etype, _)| ElementType(etype))
+    fn find_sub_element(&self, target_name: String, version: u32) -> PyResult<Option<ElementType>> {
+        let elem_name = get_element_name(target_name)?;
+        Ok(self
+            .0
+            .find_sub_element(elem_name, version)
+            .map(|(etype, _)| ElementType(etype)))
     }
 }
 
@@ -314,7 +329,7 @@ impl AttributeIterator {
     fn __next__(&mut self) -> Option<Attribute> {
         let autosar_data_rs::Attribute { attrname, content } = self.0.next()?;
         Some(Attribute {
-            attrname,
+            attrname: attrname.to_string(),
             content: character_data_to_object(&content),
         })
     }
@@ -334,8 +349,8 @@ impl Attribute {
     }
 
     #[getter]
-    fn attrname(&self) -> autosar_data_rs::AttributeName {
-        self.attrname
+    fn attrname(&self) -> String {
+        self.attrname.to_string()
     }
 
     #[getter]
@@ -344,16 +359,18 @@ impl Attribute {
     }
 }
 
+#[pymethods]
+impl ValidSubElementInfo {
+    fn __repr__(&self) -> String {
+        format!("{:#?}", self)
+    }
+}
+
 /// A Python module implemented in Rust.
 #[pymodule]
 fn autosar_data(py: Python, m: &PyModule) -> PyResult<()> {
-    let submodule = PyModule::new(py, "specification")?;
-    submodule.add_class::<autosar_data_rs::ElementName>()?;
-    submodule.add_class::<autosar_data_rs::AttributeName>()?;
-    submodule.add_class::<autosar_data_rs::AutosarVersion>()?;
-    submodule.add_class::<autosar_data_rs::EnumItem>()?;
-    submodule.add_class::<ElementType>()?;
-    m.add_submodule(submodule)?;
+    m.add_class::<ElementType>()?;
+    m.add_class::<AutosarVersion>()?;
     m.add_class::<AutosarModel>()?;
     m.add_class::<ArxmlFile>()?;
     m.add_class::<Element>()?;
@@ -367,20 +384,21 @@ fn autosar_data(py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<ElementsIterator>()?;
     m.add_class::<AttributeIterator>()?;
     m.add_class::<Attribute>()?;
+    m.add_class::<ValidSubElementInfo>()?;
     m.add("AutosarDataError", py.get_type::<AutosarDataError>())?;
     Ok(())
 }
 
-fn extract_character_data(any: PyObject) -> PyResult<autosar_data_rs::CharacterData> {
+fn extract_character_data(spec: &CharacterDataSpec, any: PyObject) -> PyResult<autosar_data_rs::CharacterData> {
     Python::with_gil(|py| {
         if let Ok(text) = any.extract::<String>(py) {
-            Ok(autosar_data_rs::CharacterData::String(text))
+            parse_cdata_string(spec, text).map_err(|_| AutosarDataError::new_err(
+                autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
+            ))
         } else if let Ok(val) = any.extract::<u64>(py) {
             Ok(autosar_data_rs::CharacterData::UnsignedInteger(val))
         } else if let Ok(val) = any.extract::<f64>(py) {
             Ok(autosar_data_rs::CharacterData::Double(val))
-        } else if let Ok(enumitem) = any.extract::<autosar_data_rs::EnumItem>(py) {
-            Ok(autosar_data_rs::CharacterData::Enum(enumitem))
         } else {
             Err(AutosarDataError::new_err(
                 autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
@@ -389,13 +407,70 @@ fn extract_character_data(any: PyObject) -> PyResult<autosar_data_rs::CharacterD
     })
 }
 
+fn parse_cdata_string(spec: &CharacterDataSpec, text: String) -> Result<autosar_data_rs::CharacterData, ()> {
+    match spec {
+        CharacterDataSpec::Enum { items } => {
+            let enumitem = autosar_data_rs::EnumItem::from_str(&text).map_err(|_| ())?;
+            if items.iter().any(|(spec_item, _)| *spec_item == enumitem) {
+                Ok(autosar_data_rs::CharacterData::Enum(enumitem))
+            } else {
+                Err(())
+            }
+        }
+        CharacterDataSpec::Pattern { check_fn, max_length, .. } => {
+            if text.len() < max_length.unwrap_or(usize::MAX) && check_fn(text.as_bytes()) {
+                Ok(autosar_data_rs::CharacterData::String(text))
+            } else {
+                Err(())
+            }
+        }
+        CharacterDataSpec::String { max_length, .. } => {
+            if text.len() < max_length.unwrap_or(usize::MAX) {
+                Ok(autosar_data_rs::CharacterData::String(text))
+            } else {
+                Err(())
+            }
+        }
+        CharacterDataSpec::UnsignedInteger => {
+            if let Ok(val) = text.parse() {
+                Ok(autosar_data_rs::CharacterData::UnsignedInteger(val))
+            } else {
+                Err(())
+            }
+        }
+        CharacterDataSpec::Double =>  {
+            if let Ok(val) = text.parse() {
+                Ok(autosar_data_rs::CharacterData::Double(val))
+            } else {
+                Err(())
+            }
+        }
+    }
+}
+
 fn character_data_to_object(cdata: &autosar_data_rs::CharacterData) -> PyObject {
     Python::with_gil(|py| match cdata {
         autosar_data_rs::CharacterData::Enum(enumitem) => {
-            Py::new(py, *enumitem).unwrap().into_py(py)
+            PyString::new(py, enumitem.to_str()).into_py(py)
         }
         autosar_data_rs::CharacterData::String(s) => PyString::new(py, s).into_py(py),
         autosar_data_rs::CharacterData::UnsignedInteger(val) => val.to_object(py),
         autosar_data_rs::CharacterData::Double(val) => val.to_object(py),
+    })
+}
+
+fn get_element_name(name_str: String) -> PyResult<autosar_data_rs::ElementName> {
+    autosar_data_rs::ElementName::from_str(&name_str).or_else(|_| {
+        PyResult::Err(AutosarDataError::new_err(format!(
+            "Cannot convert \"{name_str}\" to ElementName"
+        )))
+    })
+}
+
+fn get_attribute_name(name_str: String) -> PyResult<autosar_data_rs::AttributeName> {
+    autosar_data_rs::AttributeName::from_str(&name_str).or_else(|_| {
+        PyResult::Err(AutosarDataError::new_err(format!(
+            "Cannot convert \"{name_str}\" to AttributeName"
+        )))
     })
 }

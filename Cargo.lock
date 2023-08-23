@@ -26,9 +26,6 @@ name = "autosar-data-specification"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a49cef1cb790fc97f6e3816c8232b41689a1a7b6be3265d93ab6e85fca3df292"
-dependencies = [
- "pyo3",
-]
 
 [[package]]
 name = "bitflags"

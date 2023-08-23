@@ -49,27 +49,27 @@ from autosar_data import *
 model = AutosarModel()
 
 # create a file in the model
-file1 = model.create_file("filename.arxml", specification.AutosarVersion.Autosar_4_3_0)
+file1 = model.create_file("filename.arxml", AutosarVersion.Autosar_4_3_0)
 # a model can consist of multiple files - elements appear in all of them by default, unless restrictions are set
-file2 = model.create_file("filename2.arxml", specification.AutosarVersion.Autosar_00051)
+file2 = model.create_file("filename2.arxml", AutosarVersion.Autosar_00051)
 
 # initially the model only has its root element, <AUTOSAR>. Create some elements
 el_elements = model.root_element \
-    .create_sub_element(specification.ElementName.ArPackages) \
-    .create_named_sub_element(specification.ElementName.ArPackage, "Pkg") \
-    .create_sub_element(specification.ElementName.Elements)
+    .create_sub_element("AR-PACKAGES") \
+    .create_named_sub_element("AR-PACKAGE", "Pkg") \
+    .create_sub_element("ELEMENTS")
 
 # create some more elements
 el_fibex_element_ref = el_elements \
-    .create_named_sub_element(specification.ElementName.System, "System") \
-    .create_sub_element(specification.ElementName.FibexElements) \
-    .create_sub_element(specification.ElementName.FibexElementRefConditional) \
-    .create_sub_element(specification.ElementName.FibexElementRef)
+    .create_named_sub_element("SYSTEM", "System") \
+    .create_sub_element("FIBEX-ELEMENTS") \
+    .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL") \
+    .create_sub_element("FIBEX-ELEMENT-REF")
 el_can_cluster = model.root_element \
-    .get_sub_element(specification.ElementName.ArPackages) \
-    .create_named_sub_element(specification.ElementName.ArPackage, "Pkg2") \
-    .create_sub_element(specification.ElementName.Elements) \
-    .create_named_sub_element(specification.ElementName.CanCluster, "CanCluster")
+    .get_sub_element("AR-PACKAGES") \
+    .create_named_sub_element("AR-PACKAGE", "Pkg2") \
+    .create_sub_element("ELEMENTS") \
+    .create_named_sub_element("CAN-CLUSTER", "CanCluster")
 
 # set a cross reference
 el_fibex_element_ref.reference_target = el_can_cluster
@@ -81,17 +81,17 @@ el_fibex_element_ref.reference_target == el_can_cluster
 # True
 
 # get an attribute
-el_fibex_element_ref.attribute_value(specification.AttributeName.Dest)
+el_fibex_element_ref.attribute_value("DEST")
 # EnumItem.CanCluster
-model.root_element.attribute_value(specification.AttributeName.xmlns)
+model.root_element.attribute_value("xmlns")
 # 'http://autosar.org/schema/r4.0'
 
 # set an attribute value
-el_fibex_element_ref.set_attribute(specification.AttributeName.Dest, specification.EnumItem.ISignal)
+el_fibex_element_ref.set_attribute("DEST", "I-SIGNAL")
 # setting the DEST of the reference to an invalid value has invalidated the
 # reference, so accessing el_fibex_element_ref.reference_target will now cause an exception
 
-el_can_cluster.set_attribute(specification.AttributeName.Uuid, "1234567890abcdefg")
+el_can_cluster.set_attribute("UUID", "1234567890abcdefg")
 
 # get the current xml text of the model:
 print(file1.serialize())
@@ -127,8 +127,8 @@ model = AutosarModel()
 
 # display all the triggered PDUs in the file
 for (depth, element) in model.elements_dfs:
-    if element.element_name == specification.ElementName.PduTriggering:
-        pdu = element.get_sub_element(specification.ElementName.IPduRef).reference_target
+    if element.element_name == "PDU-TRIGGERING":
+        pdu = element.get_sub_element("I-PDU-REF").reference_target
         print(str.format("PDU: <{}> = {}", pdu.element_name, pdu.item_name))
 
 ```

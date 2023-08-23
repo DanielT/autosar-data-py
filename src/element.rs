@@ -48,8 +48,8 @@ impl Element {
     }
 
     #[getter]
-    fn element_name(&self) -> autosar_data_rs::ElementName {
-        self.0.element_name()
+    fn element_name(&self) -> String {
+        self.0.element_name().to_string()
     }
 
     #[getter]
@@ -105,29 +105,24 @@ impl Element {
         }
     }
 
-    fn create_sub_element(&self, element_name: autosar_data_rs::ElementName) -> PyResult<Element> {
+    fn create_sub_element(&self, name_str: String) -> PyResult<Element> {
+        let element_name = get_element_name(name_str)?;
         match self.0.create_sub_element(element_name) {
             Ok(element) => Ok(Element(element)),
             Err(error) => Err(AutosarDataError::new_err(error.to_string())),
         }
     }
 
-    fn create_sub_element_at(
-        &self,
-        element_name: autosar_data_rs::ElementName,
-        position: usize,
-    ) -> PyResult<Element> {
+    fn create_sub_element_at(&self, name_str: String, position: usize) -> PyResult<Element> {
+        let element_name = get_element_name(name_str)?;
         match self.0.create_sub_element_at(element_name, position) {
             Ok(element) => Ok(Element(element)),
             Err(error) => Err(AutosarDataError::new_err(error.to_string())),
         }
     }
 
-    fn create_named_sub_element(
-        &self,
-        element_name: autosar_data_rs::ElementName,
-        item_name: &str,
-    ) -> PyResult<Element> {
+    fn create_named_sub_element(&self, name_str: String, item_name: &str) -> PyResult<Element> {
+        let element_name = get_element_name(name_str)?;
         match self.0.create_named_sub_element(element_name, item_name) {
             Ok(element) => Ok(Element(element)),
             Err(error) => Err(AutosarDataError::new_err(error.to_string())),
@@ -136,10 +131,11 @@ impl Element {
 
     fn create_named_sub_element_at(
         &self,
-        element_name: autosar_data_rs::ElementName,
+        name_str: String,
         item_name: &str,
         position: usize,
     ) -> PyResult<Element> {
+        let element_name = get_element_name(name_str)?;
         match self
             .0
             .create_named_sub_element_at(element_name, item_name, position)
@@ -198,8 +194,9 @@ impl Element {
         }
     }
 
-    fn get_sub_element(&self, name: autosar_data_rs::ElementName) -> Option<Element> {
-        self.0.get_sub_element(name).map(Element)
+    fn get_sub_element(&self, name_str: String) -> PyResult<Option<Element>> {
+        let element_name = get_element_name(name_str)?;
+        Ok(self.0.get_sub_element(element_name).map(Element))
     }
 
     #[getter]
@@ -214,7 +211,14 @@ impl Element {
 
     #[setter]
     fn set_character_data(&self, chardata: PyObject) -> PyResult<()> {
-        let cdata = extract_character_data(chardata)?;
+        let spec = self
+            .0
+            .element_type()
+            .chardata_spec()
+            .ok_or(AutosarDataError::new_err(
+                autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
+            ))?;
+        let cdata = extract_character_data(spec, chardata)?;
         self.0
             .set_character_data(cdata)
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
@@ -256,41 +260,53 @@ impl Element {
         AttributeIterator(self.0.attributes())
     }
 
-    fn attribute_value(&self, attrname: autosar_data_rs::AttributeName) -> Option<PyObject> {
-        Some(character_data_to_object(&self.0.attribute_value(attrname)?))
+    fn attribute_value(&self, attrname_str: String) -> PyResult<Option<PyObject>> {
+        let attrname = get_attribute_name(attrname_str)?;
+        Ok(self
+            .0
+            .attribute_value(attrname)
+            .map(|cdata| character_data_to_object(&cdata)))
     }
 
-    fn set_attribute(
-        &self,
-        attrname: autosar_data_rs::AttributeName,
-        value: PyObject,
-    ) -> PyResult<()> {
-        let cdata = extract_character_data(value)?;
+    fn set_attribute(&self, attrname_str: String, value: PyObject) -> PyResult<()> {
+        let attrname = get_attribute_name(attrname_str)?;
+        let attrspec = self.0.element_type().find_attribute_spec(attrname).ok_or(
+            AutosarDataError::new_err(
+                autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
+            ),
+        )?;
+        let cdata = extract_character_data(attrspec.spec, value)?;
         self.0
             .set_attribute(attrname, cdata)
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
-    fn set_attribute_string(
-        &self,
-        attrname: autosar_data_rs::AttributeName,
-        text: &str,
-    ) -> PyResult<()> {
+    fn set_attribute_string(&self, attrname_str: String, text: &str) -> PyResult<()> {
+        let attrname = get_attribute_name(attrname_str)?;
         self.0
             .set_attribute_string(attrname, text)
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
-    fn remove_attribute(&self, attrname: autosar_data_rs::AttributeName) -> bool {
-        self.0.remove_attribute(attrname)
+    fn remove_attribute(&self, attrname_str: String) -> PyResult<bool> {
+        let attrname = get_attribute_name(attrname_str)?;
+        Ok(self.0.remove_attribute(attrname))
     }
 
     fn sort(&self) {
         self.0.sort()
     }
 
-    fn list_valid_sub_elements(&self) -> Vec<(autosar_data_rs::ElementName, bool, bool)> {
-        self.0.list_valid_sub_elements()
+    fn list_valid_sub_elements(&self) -> Vec<ValidSubElementInfo> {
+        self.0
+            .list_valid_sub_elements()
+            .iter()
+            .map(|(name, is_named, is_allowed)| ValidSubElementInfo {
+                element_name: name.to_string(),
+                is_named: *is_named,
+                is_allowed: *is_allowed,
+            })
+            .collect()
     }
 
     #[getter]

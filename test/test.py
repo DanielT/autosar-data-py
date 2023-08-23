@@ -11,9 +11,9 @@ def test_others():
     assert not ct_repr is None
 
     # ElementType
-    assert model.root_element.element_type.splittable_in(specification.AutosarVersion.Autosar_00042) == False
-    ar_pkg_type = model.root_element.element_type.find_sub_element(specification.ElementName.ArPackages, 1)
-    assert ar_pkg_type.splittable_in(specification.AutosarVersion.Autosar_00042) == True
+    assert model.root_element.element_type.splittable_in(AutosarVersion.Autosar_00042) == False
+    ar_pkg_type = model.root_element.element_type.find_sub_element("AR-PACKAGES", 1)
+    assert ar_pkg_type.splittable_in(AutosarVersion.Autosar_00042) == True
     et_str = ar_pkg_type.__str__()
     et_repr = ar_pkg_type.__repr__()
     assert not et_str is None

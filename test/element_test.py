@@ -5,8 +5,8 @@ def test_element_basic():
     model = AutosarModel()
 
     # create some elements
-    el_ar_packages = model.root_element.create_sub_element(specification.ElementName.ArPackages)
-    el_ar_package = el_ar_packages.create_named_sub_element(specification.ElementName.ArPackage, "Pkg1")
+    el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
+    el_ar_package = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg1")
     assert isinstance(el_ar_packages, Element)
     assert isinstance(el_ar_package, Element)
 
@@ -20,7 +20,7 @@ def test_element_basic():
 
     # identifiable elements always have a ShortName sub element
     assert el_ar_package.is_identifiable
-    el_short_name = el_ar_package.get_sub_element(specification.ElementName.ShortName)
+    el_short_name = el_ar_package.get_sub_element("SHORT-NAME")
     assert isinstance(el_short_name, Element)
 
     # properties of named elements
@@ -65,7 +65,7 @@ def test_element_basic():
     assert el_ar_packages != el_ar_package
 
     # Elements can be sorted
-    el_ar_packages.create_named_sub_element(specification.ElementName.ArPackage, "AAA")
+    el_ar_packages.create_named_sub_element("AR-PACKAGE", "AAA")
     sub_elements = [e for e in el_ar_packages.sub_elements]
     assert sub_elements[0].item_name == "NewName"
     assert sub_elements[1].item_name == "AAA"
@@ -83,12 +83,12 @@ def test_element_content():
     model = AutosarModel()
 
     # create some elements for the test
-    el_ar_packages = model.root_element.create_sub_element(specification.ElementName.ArPackages)
-    el_pkg1 = el_ar_packages.create_named_sub_element(specification.ElementName.ArPackage, "Pkg1")
-    el_short_name = el_pkg1.get_sub_element(specification.ElementName.ShortName)
+    el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
+    el_pkg1 = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg1")
+    el_short_name = el_pkg1.get_sub_element("SHORT-NAME")
     el_l2 = el_pkg1 \
-        .create_sub_element(specification.ElementName.Desc) \
-        .create_sub_element(specification.ElementName.L2)
+        .create_sub_element("DESC") \
+        .create_sub_element("L-2")
     
     # different elements have different content types
     assert el_pkg1.content_type == ContentType.Elements
@@ -98,7 +98,7 @@ def test_element_content():
     # create some items for the content of el_l2
     el_l2.insert_character_content_item("text", 0)
     assert len([c for c in el_l2.content]) == 1
-    el_l2.create_sub_element(specification.ElementName.Br)
+    el_l2.create_sub_element("BR")
     assert len([c for c in el_l2.content]) == 2
 
     # check the content
@@ -115,18 +115,18 @@ def test_element_content():
         el_short_name.insert_character_content_item("text", 0)
 
     el_elements = el_ar_packages \
-        .create_named_sub_element(specification.ElementName.ArPackage, "SysPkg") \
-        .create_sub_element(specification.ElementName.Elements)
+        .create_named_sub_element("AR-PACKAGE", "SysPkg") \
+        .create_sub_element("ELEMENTS")
     el_fibex_element_ref = el_elements \
-        .create_named_sub_element(specification.ElementName.System, "System") \
-        .create_sub_element(specification.ElementName.FibexElements) \
-        .create_sub_element(specification.ElementName.FibexElementRefConditional) \
-        .create_sub_element(specification.ElementName.FibexElementRef)
+        .create_named_sub_element("SYSTEM", "System") \
+        .create_sub_element("FIBEX-ELEMENTS") \
+        .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL") \
+        .create_sub_element("FIBEX-ELEMENT-REF")
     el_can_cluster = model.root_element \
-        .get_sub_element(specification.ElementName.ArPackages) \
-        .create_named_sub_element(specification.ElementName.ArPackage, "CanPkg") \
-        .create_sub_element(specification.ElementName.Elements) \
-        .create_named_sub_element(specification.ElementName.CanCluster, "CanCluster")
+        .get_sub_element("AR-PACKAGES") \
+        .create_named_sub_element("AR-PACKAGE", "CanPkg") \
+        .create_sub_element("ELEMENTS") \
+        .create_named_sub_element("CAN-CLUSTER", "CanCluster")
     
     # various character data elements have constraints, e.g the reference element can only contain an autosar path
     # integers, or strings that do not look like paths cause an exception
@@ -153,28 +153,28 @@ def test_element_creation():
     model = AutosarModel()
 
     # create an unnamed element
-    el_ar_packages = model.root_element.create_sub_element(specification.ElementName.ArPackages)
+    el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
 
     # create a named element
-    el_pkg1 = el_ar_packages.create_named_sub_element(specification.ElementName.ArPackage, "Pkg1")
+    el_pkg1 = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg1")
 
     # create an element at a given position
     # not every position is allowed
     with pytest.raises(AutosarDataError):
-        el_elements = el_pkg1.create_sub_element_at(specification.ElementName.Elements, 0)
+        el_elements = el_pkg1.create_sub_element_at("ELEMENTS", 0)
     # position 1 (after ShortName) is allowed
     assert len([e for e in el_pkg1.sub_elements]) == 1
-    el_elements = el_pkg1.create_sub_element_at(specification.ElementName.Elements, 1)
+    el_elements = el_pkg1.create_sub_element_at("ELEMENTS", 1)
 
     # create a named sub element at a given position
-    el_elements.create_named_sub_element_at(specification.ElementName.System, "System", 0)
+    el_elements.create_named_sub_element_at("SYSTEM", "System", 0)
 
     # create an element by copying another element and all of its sub elements
     el_pkg2 = el_ar_packages.create_copied_sub_element(el_pkg1)
     # because the item_name must be unique among the siblings, the element might be renamed while copying
     assert el_pkg2.item_name == "Pkg1_1"
     el_pkg2.item_name = "Pkg2"
-    copied_system = el_pkg2.get_sub_element(specification.ElementName.Elements).get_sub_element(specification.ElementName.System)
+    copied_system = el_pkg2.get_sub_element("ELEMENTS").get_sub_element("SYSTEM")
     assert copied_system.item_name == "System"
     assert copied_system.path == "/Pkg2/System"
 
@@ -187,7 +187,7 @@ def test_element_creation():
     with pytest.raises(AutosarDataError):
         el_pkg1.move_element_here(el_pkg2)
     # valid: ArPackage inside Arpackages
-    el_pkg1.create_sub_element(specification.ElementName.ArPackages).move_element_here(el_pkg2)
+    el_pkg1.create_sub_element("AR-PACKAGES").move_element_here(el_pkg2)
     assert el_pkg2.path == "/Pkg1/Pkg2"
     assert copied_system.path == "/Pkg1/Pkg2/System"
 
@@ -204,16 +204,16 @@ def test_element_creation():
     # in all cases only valid sub elements can be created
     # el_pkg1 already has a ShortName, and only one of these is allowed
     with pytest.raises(AutosarDataError):
-        el_pkg1.create_sub_element(specification.ElementName.ShortName)
+        el_pkg1.create_sub_element("SHORT-NAME")
     # the element Autosar is not a valid sub element of ArPackage
     with pytest.raises(AutosarDataError):
-         el_pkg1.create_sub_element_at(specification.ElementName.Autosar, 1)
+         el_pkg1.create_sub_element_at("AUTOSAR", 1)
     
     # it is possible to check which sub elements would be valid
     # returns a list of tuples: (ElementName, is_named, currently_allowed)
-    allowed_elements = [ename if allowed else None for (ename, identifiable, allowed) in el_pkg1.list_valid_sub_elements()]
-    assert not specification.ElementName.Autosar in allowed_elements
-    assert specification.ElementName.Category in allowed_elements
+    allowed_elements = [vsi.element_name if vsi.is_allowed else None for vsi in el_pkg1.list_valid_sub_elements()]
+    assert not "AUTOSAR" in allowed_elements
+    assert "CATEGORY" in allowed_elements
     
     # remove an element
     el_ar_packages.remove_sub_element(el_pkg3)
@@ -225,23 +225,23 @@ def test_element_creation():
     # validate the resulting model
     element_info = [x for x in model.root_element.elements_dfs]
     # element info is a list of tuple(depth, element)
-    assert element_info[0][1].element_name == specification.ElementName.Autosar
-    assert element_info[1][1].element_name == specification.ElementName.ArPackages
-    assert element_info[2][1].element_name == specification.ElementName.ArPackage
+    assert element_info[0][1].element_name == "AUTOSAR"
+    assert element_info[1][1].element_name == "AR-PACKAGES"
+    assert element_info[2][1].element_name == "AR-PACKAGE"
     assert element_info[2][1].item_name == "Pkg1"
-    assert element_info[3][1].element_name == specification.ElementName.ShortName
-    assert element_info[4][1].element_name == specification.ElementName.Elements
-    assert element_info[5][1].element_name == specification.ElementName.System
+    assert element_info[3][1].element_name == "SHORT-NAME"
+    assert element_info[4][1].element_name == "ELEMENTS"
+    assert element_info[5][1].element_name == "SYSTEM"
     assert element_info[5][1].item_name == "System"
-    assert element_info[6][1].element_name == specification.ElementName.ShortName
-    assert element_info[7][1].element_name == specification.ElementName.ArPackages
-    assert element_info[8][1].element_name == specification.ElementName.ArPackage
+    assert element_info[6][1].element_name == "SHORT-NAME"
+    assert element_info[7][1].element_name == "AR-PACKAGES"
+    assert element_info[8][1].element_name == "AR-PACKAGE"
     assert element_info[8][1].item_name == "Pkg2"
-    assert element_info[9][1].element_name == specification.ElementName.ShortName
-    assert element_info[10][1].element_name == specification.ElementName.Elements
-    assert element_info[11][1].element_name == specification.ElementName.System
+    assert element_info[9][1].element_name == "SHORT-NAME"
+    assert element_info[10][1].element_name == "ELEMENTS"
+    assert element_info[11][1].element_name == "SYSTEM"
     assert element_info[11][1].item_name == "System"
-    assert element_info[12][1].element_name == specification.ElementName.ShortName
+    assert element_info[12][1].element_name == "SHORT-NAME"
     assert len(element_info) == 13
     
 def test_element_attributes():
@@ -250,10 +250,10 @@ def test_element_attributes():
 
     attributes = [attr for attr in el_autosar.attributes]
     assert isinstance(attributes[0], Attribute)
-    assert attributes[0].attrname == specification.AttributeName.xsiSchemalocation
-    assert attributes[1].attrname == specification.AttributeName.xmlns
+    assert attributes[0].attrname == "xsi:schemaLocation"
+    assert attributes[1].attrname == "xmlns"
     assert attributes[1].content == "http://autosar.org/schema/r4.0"
-    assert attributes[2].attrname == specification.AttributeName.xmlnsXsi
+    assert attributes[2].attrname == "xmlns:xsi"
     assert attributes[2].content == "http://www.w3.org/2001/XMLSchema-instance"
     assert len(attributes) == 3
 
@@ -261,27 +261,27 @@ def test_element_attributes():
     assert not attributes[0].__repr__() is None
     assert not attributes[0].__str__() is None
 
-    el_autosar.set_attribute(specification.AttributeName.S, "some text")
+    el_autosar.set_attribute("S", "some text")
     # attribute values are checked - attribute T must contain a valid timestamp
     with pytest.raises(AutosarDataError):
-        el_autosar.set_attribute(specification.AttributeName.T, "some text")
+        el_autosar.set_attribute("T", "some text")
     # the function set_attribute_string automatically converts an input string to enum or integer if the attribute requires this
-    el_autosar.set_attribute_string(specification.AttributeName.T, "2023-04-05T12:34:56Z")
-    assert el_autosar.attribute_value(specification.AttributeName.T) == "2023-04-05T12:34:56Z"
+    el_autosar.set_attribute_string("T", "2023-04-05T12:34:56Z")
+    assert el_autosar.attribute_value("T") == "2023-04-05T12:34:56Z"
 
     assert len([attr for attr in el_autosar.attributes]) == 5
-    el_autosar.remove_attribute(specification.AttributeName.T)
+    el_autosar.remove_attribute("T")
     assert len([attr for attr in el_autosar.attributes]) == 4
 
 
 def test_file_membership():
     model = AutosarModel()
-    file1 = model.create_file("file1", specification.AutosarVersion.Autosar_00050)
-    file2 = model.create_file("file2", specification.AutosarVersion.Autosar_00050)
-    el_ar_packages = model.root_element.create_sub_element(specification.ElementName.ArPackages)
-    el_pkg1 = el_ar_packages.create_named_sub_element(specification.ElementName.ArPackage, "Pkg1")
-    el_pkg1.create_sub_element(specification.ElementName.Elements)
-    el_pkg2 = el_ar_packages.create_named_sub_element(specification.ElementName.ArPackage, "Pkg2")
+    file1 = model.create_file("file1", AutosarVersion.Autosar_00050)
+    file2 = model.create_file("file2", AutosarVersion.Autosar_00050)
+    el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
+    el_pkg1 = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg1")
+    el_pkg1.create_sub_element("ELEMENTS")
+    el_pkg2 = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg2")
 
     total_element_count = len([e for e in model.elements_dfs])
     # initially all elements are part of every file

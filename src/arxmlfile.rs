@@ -46,24 +46,24 @@ impl ArxmlFile {
     }
 
     #[getter]
-    fn version(&self) -> autosar_data_rs::AutosarVersion {
-        self.0.version()
+    fn version(&self) -> AutosarVersion {
+        self.0.version().into()
     }
 
     #[setter]
-    fn set_version(&self, version: autosar_data_rs::AutosarVersion) -> PyResult<()> {
+    fn set_version(&self, version: AutosarVersion) -> PyResult<()> {
         self.0
-            .set_version(version)
+            .set_version(version.into())
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
     fn check_version_compatibility(
         &self,
-        target_version: autosar_data_rs::AutosarVersion,
+        target_version: AutosarVersion,
     ) -> Vec<PyObject> {
         Python::with_gil(|py| {
             self.0
-                .check_version_compatibility(target_version)
+                .check_version_compatibility(target_version.into())
                 .0
                 .iter()
                 .map(|cerr| -> PyObject {
@@ -76,7 +76,7 @@ impl ArxmlFile {
                             py,
                             IncompatibleAttributeError {
                                 element: Element(element.to_owned()),
-                                attribute: *attribute,
+                                attribute: attribute.to_string(),
                                 version_mask: *version_mask,
                                 target_version,
                             },
@@ -92,7 +92,7 @@ impl ArxmlFile {
                             py,
                             IncompatibleAttributeValueError {
                                 element: Element(element.to_owned()),
-                                attribute: *attribute,
+                                attribute: attribute.to_string(),
                                 attribute_value: attribute_value.to_owned(),
                                 version_mask: *version_mask,
                                 target_version,

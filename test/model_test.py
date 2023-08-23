@@ -7,7 +7,7 @@ def test_model_basic():
     # check that the object was created - model is not None
     assert isinstance(model, AutosarModel)
     assert isinstance(model.root_element, Element)
-    assert model.root_element.element_name == specification.ElementName.Autosar
+    assert model.root_element.element_name == "AUTOSAR"
     assert len(model.files) == 0
     assert len(model.identifiable_elements) == 0
 
@@ -17,19 +17,19 @@ def test_model_files(tmp_path):
 
     # create a file
     filename1 = os.path.join(tmp_path, "test.arxml")
-    file1 = model.create_file(filename1, specification.AutosarVersion.Autosar_00051)
+    file1 = model.create_file(filename1, AutosarVersion.Autosar_00051)
     assert isinstance(file1, ArxmlFile)
     assert file1.filename == os.path.join(tmp_path, "test.arxml")
 
     # create another file
-    file2 = model.create_file("test2.arxml", specification.AutosarVersion.Autosar_00051)
+    file2 = model.create_file("test2.arxml", AutosarVersion.Autosar_00051)
     assert isinstance(file2, ArxmlFile)
     assert len(model.files) == 2
 
     # create a file with the same name as file1
     with pytest.raises(AutosarDataError):
         # a file called "$tmp_path/test.arxml" already exists in the model
-        file3 = model.create_file(filename1, specification.AutosarVersion.Autosar_00051)
+        file3 = model.create_file(filename1, AutosarVersion.Autosar_00051)
     
     # remove file2 from the model again
     model.remove_file(file2)
@@ -72,19 +72,19 @@ def test_model_identifiables():
     model = AutosarModel()
     # create some elements
     el_elements = model.root_element \
-        .create_sub_element(specification.ElementName.ArPackages) \
-        .create_named_sub_element(specification.ElementName.ArPackage, "Pkg") \
-        .create_sub_element(specification.ElementName.Elements)
+        .create_sub_element("AR-PACKAGES") \
+        .create_named_sub_element("AR-PACKAGE", "Pkg") \
+        .create_sub_element("ELEMENTS")
     el_fibex_element_ref = el_elements \
-        .create_named_sub_element(specification.ElementName.System, "System") \
-        .create_sub_element(specification.ElementName.FibexElements) \
-        .create_sub_element(specification.ElementName.FibexElementRefConditional) \
-        .create_sub_element(specification.ElementName.FibexElementRef)
+        .create_named_sub_element("SYSTEM", "System") \
+        .create_sub_element("FIBEX-ELEMENTS") \
+        .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL") \
+        .create_sub_element("FIBEX-ELEMENT-REF")
     el_can_cluster = model.root_element \
-        .get_sub_element(specification.ElementName.ArPackages) \
-        .create_named_sub_element(specification.ElementName.ArPackage, "Pkg2") \
-        .create_sub_element(specification.ElementName.Elements) \
-        .create_named_sub_element(specification.ElementName.CanCluster, "CanCluster")
+        .get_sub_element("AR-PACKAGES") \
+        .create_named_sub_element("AR-PACKAGE", "Pkg2") \
+        .create_sub_element("ELEMENTS") \
+        .create_named_sub_element("CAN-CLUSTER", "CanCluster")
     assert isinstance(el_elements, Element)
     assert isinstance(el_fibex_element_ref, Element)
     assert isinstance(el_can_cluster, Element)
@@ -127,29 +127,29 @@ def test_model_misc():
 
     # dfs iterator test: create some elements
     el_elements = model.root_element \
-        .create_sub_element(specification.ElementName.ArPackages) \
-        .create_named_sub_element(specification.ElementName.ArPackage, "Pkg1") \
-        .create_sub_element(specification.ElementName.Elements)
+        .create_sub_element("AR-PACKAGES") \
+        .create_named_sub_element("AR-PACKAGE", "Pkg1") \
+        .create_sub_element("ELEMENTS")
     elements = [{"depth":depth, "element":element} for (depth, element) in model.elements_dfs]
     assert len(elements) == 5
     assert elements[0]['depth'] == 0
-    assert elements[0]['element'].element_name == specification.ElementName.Autosar
+    assert elements[0]['element'].element_name == "AUTOSAR"
     assert elements[0]['element'] == model.root_element
     assert elements[1]['depth'] == 1
-    assert elements[1]['element'].element_name == specification.ElementName.ArPackages
+    assert elements[1]['element'].element_name == "AR-PACKAGES"
     assert elements[2]['depth'] == 2
-    assert elements[2]['element'].element_name == specification.ElementName.ArPackage
+    assert elements[2]['element'].element_name == "AR-PACKAGE"
     assert elements[3]['depth'] == 3
-    assert elements[3]['element'].element_name == specification.ElementName.ShortName
+    assert elements[3]['element'].element_name == "SHORT-NAME"
     assert elements[4]['depth'] == 3
-    assert elements[4]['element'].element_name == specification.ElementName.Elements
+    assert elements[4]['element'].element_name == "ELEMENTS"
 
     # create a ref element for check_references()
     el_fibex_element_ref = el_elements \
-        .create_named_sub_element(specification.ElementName.System, "System") \
-        .create_sub_element(specification.ElementName.FibexElements) \
-        .create_sub_element(specification.ElementName.FibexElementRefConditional) \
-        .create_sub_element(specification.ElementName.FibexElementRef)
+        .create_named_sub_element("SYSTEM", "System") \
+        .create_sub_element("FIBEX-ELEMENTS") \
+        .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL") \
+        .create_sub_element("FIBEX-ELEMENT-REF")
     # set the referecne to a nonexistent path
     el_fibex_element_ref.character_data = "/Pkg"
     broken_refs = model.check_references()
@@ -157,8 +157,8 @@ def test_model_misc():
     assert broken_refs[0] == el_fibex_element_ref
 
     # create a second ArPackage "pkg2" and put it in front of the existing "Pkg1"
-    el_ar_packages = model.root_element.get_sub_element(specification.ElementName.ArPackages)
-    el_pkg2 = el_ar_packages.create_named_sub_element_at(specification.ElementName.ArPackage, "Pkg2", 0)
+    el_ar_packages = model.root_element.get_sub_element("AR-PACKAGES")
+    el_pkg2 = el_ar_packages.create_named_sub_element_at("AR-PACKAGE", "Pkg2", 0)
     el_pkg1 = model.get_element_by_path("/Pkg1")
     # verify the initial order
     subelements = [elem for elem in el_ar_packages.sub_elements]

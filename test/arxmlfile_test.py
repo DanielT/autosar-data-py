@@ -4,8 +4,8 @@ import pytest
 def test_arxlfile_basic():
     model = AutosarModel()
 
-    file1 = model.create_file("filename1.arxml", specification.AutosarVersion.Autosar_00051)
-    file2 = model.create_file("filename2.arxml", specification.AutosarVersion.Autosar_00051)
+    file1 = model.create_file("filename1.arxml", AutosarVersion.Autosar_00051)
+    file2 = model.create_file("filename2.arxml", AutosarVersion.Autosar_00051)
     assert isinstance(file1, ArxmlFile)
     assert isinstance(file2, ArxmlFile)
 
@@ -27,9 +27,9 @@ def test_arxlfile_basic():
         file1.filename = file2.filename
     
     # each file has a version
-    assert file1.version == specification.AutosarVersion.Autosar_00051
-    file1.version = specification.AutosarVersion.Autosar_4_3_0
-    assert file1.version == specification.AutosarVersion.Autosar_4_3_0
+    assert file1.version == AutosarVersion.Autosar_00051
+    file1.version = AutosarVersion.Autosar_4_3_0
+    assert file1.version == AutosarVersion.Autosar_4_3_0
 
     # ArxmlFile has __str__ and __repr__
     arxmlfile_repr = file1.__repr__()
@@ -59,22 +59,22 @@ def test_arxlfile_basic():
 def test_check_version_compatibility():
     model = AutosarModel()
 
-    file1 = model.create_file("filename", specification.AutosarVersion.Autosar_00050)
+    file1 = model.create_file("filename", AutosarVersion.Autosar_00050)
     el_elements = model.root_element \
-        .create_sub_element(specification.ElementName.ArPackages) \
-        .create_named_sub_element(specification.ElementName.ArPackage, "Pkg") \
-        .create_sub_element(specification.ElementName.Elements)
-    el_acl_object_set = el_elements.create_named_sub_element(specification.ElementName.AclObjectSet, "AclObjectSet")
-    el_short_name = el_acl_object_set.get_sub_element(specification.ElementName.ShortName)
-    el_short_name.set_attribute(specification.AttributeName.BlueprintValue, "xyz")
+        .create_sub_element("AR-PACKAGES") \
+        .create_named_sub_element("AR-PACKAGE", "Pkg") \
+        .create_sub_element("ELEMENTS")
+    el_acl_object_set = el_elements.create_named_sub_element("ACL-OBJECT-SET", "AclObjectSet")
+    el_short_name = el_acl_object_set.get_sub_element("SHORT-NAME")
+    el_short_name.set_attribute("BLUEPRINT-VALUE", "xyz")
     el_blueprint_ref = el_acl_object_set \
-        .create_sub_element(specification.ElementName.DerivedFromBlueprintRefs) \
-        .create_sub_element(specification.ElementName.DerivedFromBlueprintRef)
-    el_blueprint_ref.set_attribute(specification.AttributeName.Dest, specification.EnumItem.AbstractImplementationDataType)
+        .create_sub_element("DERIVED-FROM-BLUEPRINT-REFS") \
+        .create_sub_element("DERIVED-FROM-BLUEPRINT-REF")
+    el_blueprint_ref.set_attribute("DEST", "ABSTRACT-IMPLEMENTATION-DATA-TYPE")
     el_adaptive_sw_component_type = el_elements \
-        .create_named_sub_element(specification.ElementName.AdaptiveApplicationSwComponentType, "AdaptiveApplicationSwComponentType")
+        .create_named_sub_element("ADAPTIVE-APPLICATION-SW-COMPONENT-TYPE", "AdaptiveApplicationSwComponentType")
 
-    compat_problems = file1.check_version_compatibility(specification.AutosarVersion.Autosar_4_3_0)
+    compat_problems = file1.check_version_compatibility(AutosarVersion.Autosar_4_3_0)
     assert len(compat_problems) == 3
     assert isinstance(compat_problems[0], IncompatibleAttributeError)
     assert isinstance(compat_problems[1], IncompatibleAttributeValueError)
@@ -82,7 +82,7 @@ def test_check_version_compatibility():
 
     # IncompatibleAttributeError
     assert compat_problems[0].element == el_short_name
-    assert compat_problems[0].attribute == specification.AttributeName.BlueprintValue
+    assert compat_problems[0].attribute == "BLUEPRINT-VALUE"
     error_str = compat_problems[0].__str__()
     error_repr = compat_problems[0].__repr__()
     assert not error_str is None
@@ -90,7 +90,7 @@ def test_check_version_compatibility():
 
     # IncompatibleAttributeValueError
     assert compat_problems[1].element == el_blueprint_ref
-    assert compat_problems[1].attribute == specification.AttributeName.Dest
+    assert compat_problems[1].attribute == "DEST"
     assert compat_problems[1].attribute_value == "ABSTRACT-IMPLEMENTATION-DATA-TYPE" # todo - type conversion of AttributeValue to string?
     error_str = compat_problems[1].__str__()
     error_repr = compat_problems[1].__repr__()
