@@ -298,14 +298,3 @@ def test_file_membership():
     assert file1_element_count < total_element_count
     assert file2_element_count < total_element_count
     assert file1_element_count != file2_element_count
-
-    # directly copy the file membership from el_pkg1 to el_pkg2
-    el_pkg2.file_membership = el_pkg1.file_membership
-    assert len(el_pkg2.file_membership[1]) == 1
-    assert file1 in el_pkg2.file_membership[1]
-
-    # add el_pkg2 to file2 again and remove it from file1
-    el_pkg2.add_to_file(file2)
-    el_pkg2.remove_from_file(file1)
-    assert len(el_pkg2.file_membership[1]) == 1
-    assert file2 in el_pkg2.file_membership[1]

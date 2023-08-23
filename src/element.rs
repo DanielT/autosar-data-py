@@ -1,11 +1,9 @@
 use std::collections::hash_map::DefaultHasher;
-use std::collections::HashSet;
 use std::hash::Hash;
 use std::hash::Hasher;
 
 use crate::*;
 use ::autosar_data as autosar_data_rs;
-use pyo3::exceptions::PyTypeError;
 
 #[pymethods]
 impl Element {
@@ -327,54 +325,6 @@ impl Element {
             }
             Err(error) => Err(AutosarDataError::new_err(error.to_string())),
         })
-    }
-
-    #[setter]
-    fn set_file_membership(&self, file_membership_obj: PyObject) -> PyResult<()> {
-        Python::with_gil(|py| -> PyResult<()> {
-            let iter: Box<dyn Iterator<Item = &PyAny>> = if let Ok(set) =
-                file_membership_obj.extract::<&PySet>(py)
-            {
-                Box::new(set.iter())
-            } else if let Ok(frozenset) = file_membership_obj.extract::<&PyFrozenSet>(py) {
-                Box::new(frozenset.iter())
-            } else if let Ok(list) = file_membership_obj.extract::<&PyList>(py) {
-                Box::new(list.iter())
-            } else if let Ok(tuple) = file_membership_obj.extract::<&PyTuple>(py) {
-                let bool_item = tuple.get_item(0).and_then(|item| item.extract::<&PyBool>());
-                let fs = tuple
-                    .get_item(1)
-                    .and_then(|item| item.extract::<&PyFrozenSet>());
-                if let (2, Ok(_), Ok(fs_val)) = (tuple.len(), bool_item, fs) {
-                    Box::new(fs_val.iter())
-                } else {
-                    return Err(PyTypeError::new_err(format!(
-                        "argument 'file_membership': '{}' object cannot be converted to 'set' or 'list'",
-                        file_membership_obj.as_ref(py).get_type().name()?
-                    )));
-                }
-            } else if let Ok(value) = file_membership_obj.extract::<ArxmlFile>(py) {
-                self.0
-                    .set_file_membership([value.0.downgrade()].into_iter().collect());
-                return Ok(());
-            } else {
-                return Err(PyTypeError::new_err(format!(
-                    "argument 'file_membership': '{}' object cannot be converted to 'set' or 'list'",
-                    file_membership_obj.as_ref(py).get_type().name()?
-                )));
-            };
-
-            let mut fileset = HashSet::new();
-            for item in iter {
-                let weakfile = item.extract::<ArxmlFile>()?.0.downgrade();
-                fileset.insert(weakfile);
-            }
-            self.0.set_file_membership(fileset);
-
-            Ok(())
-        })?;
-
-        Ok(())
     }
 
     fn add_to_file(&self, file: &ArxmlFile) -> PyResult<()> {
