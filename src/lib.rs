@@ -118,8 +118,13 @@ impl IncompatibleAttributeError {
     }
 
     fn __str__(&self) -> String {
+        let allowed_versions = autosar_data_specification::expand_version_mask(self.version_mask)
+            .iter()
+            .map(|ver| ver.describe())
+            .collect::<Vec<&'static str>>()
+            .join(", ");
         format!(
-            "Attribute {} in <{}> is incompatible with version {:?}",
+            "Attribute {} in <{}> is incompatible with version {:?}. It is allowed in \"{allowed_versions}\"",
             self.attribute,
             self.element.0.xml_path(),
             self.target_version
@@ -134,8 +139,13 @@ impl IncompatibleAttributeValueError {
     }
 
     fn __str__(&self) -> String {
+        let allowed_versions = autosar_data_specification::expand_version_mask(self.version_mask)
+            .iter()
+            .map(|ver| ver.describe())
+            .collect::<Vec<&'static str>>()
+            .join(", ");
         format!(
-            "Attribute value {} in attribue {} of element <{}> is incompatible with version {:?}",
+            "Attribute value {} in attribue {} of element <{}> is incompatible with version {:?}. It is allowed in \"{allowed_versions}\"",
             self.attribute_value,
             self.attribute,
             self.element.0.xml_path(),
@@ -151,8 +161,13 @@ impl IncompatibleElementError {
     }
 
     fn __str__(&self) -> String {
+        let allowed_versions = autosar_data_specification::expand_version_mask(self.version_mask)
+            .iter()
+            .map(|ver| ver.describe())
+            .collect::<Vec<&'static str>>()
+            .join(", ");
         format!(
-            "Element <{}> is incompatible with version {:?}",
+            "Element <{}> is incompatible with version {:?}. It is allowed in \"{allowed_versions}\"",
             self.element.0.xml_path(),
             self.target_version
         )
