@@ -1,7 +1,7 @@
 from autosar_data import *
 import pytest
 
-def test_arxlfile_basic():
+def test_arxlfile_basic() -> None:
     model = AutosarModel()
 
     file1 = model.create_file("filename1.arxml", AutosarVersion.Autosar_00051)
@@ -56,7 +56,7 @@ def test_arxlfile_basic():
         print(file1.model)
 
 
-def test_check_version_compatibility():
+def test_check_version_compatibility() -> None:
     model = AutosarModel()
 
     file1 = model.create_file("filename", AutosarVersion.Autosar_00050)

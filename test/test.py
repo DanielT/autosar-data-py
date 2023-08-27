@@ -1,7 +1,7 @@
 from autosar_data import *
 import pytest
 
-def test_others():
+def test_others() -> None:
     model = AutosarModel()
 
     # content type - __str__ / __repr__

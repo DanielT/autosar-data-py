@@ -1,7 +1,7 @@
 from autosar_data import *
 import pytest
 
-def test_version():
+def test_version() -> None:
     model = AutosarModel()
 
     ver = AutosarVersion("AUTOSAR_4-0-1.xsd")

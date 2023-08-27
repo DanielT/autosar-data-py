@@ -1,7 +1,7 @@
 from autosar_data import *
 import pytest
 
-def test_element_basic():
+def test_element_basic() -> None:
     model = AutosarModel()
 
     # create some elements
@@ -37,13 +37,13 @@ def test_element_basic():
     assert el_ar_packages.item_name is None
     with pytest.raises(AutosarDataError):
         print(el_ar_packages.path)
-    
+
     # the behavior of the element is determined by its element_type
     assert el_ar_packages.is_identifiable == el_ar_packages.element_type.is_named
     assert el_ar_packages.is_reference == el_ar_packages.element_type.is_ref
     assert not el_ar_packages.element_type.is_ordered
     assert el_ar_packages.element_type.splittable != 0
-    
+
     # Element has __str__ and __repr__
     el_ar_packages_repr = el_ar_packages.__repr__()
     assert not el_ar_packages_repr is None
@@ -79,7 +79,7 @@ def test_element_basic():
     assert el_ar_package.xml_path == "/<AUTOSAR>/<AR-PACKAGES>/NewName"
 
 
-def test_element_content():
+def test_element_content() -> None:
     model = AutosarModel()
 
     # create some elements for the test
@@ -89,7 +89,7 @@ def test_element_content():
     el_l2 = el_pkg1 \
         .create_sub_element("DESC") \
         .create_sub_element("L-2")
-    
+
     # different elements have different content types
     assert el_pkg1.content_type == ContentType.Elements
     assert el_short_name.content_type == ContentType.CharacterData
@@ -100,7 +100,7 @@ def test_element_content():
     assert len([c for c in el_l2.content]) == 1
     el_l2.create_sub_element("BR")
     assert len([c for c in el_l2.content]) == 2
-    
+
     assert el_l2.content_item_count == 2
 
     # check the content
@@ -129,7 +129,7 @@ def test_element_content():
         .create_named_sub_element("AR-PACKAGE", "CanPkg") \
         .create_sub_element("ELEMENTS") \
         .create_named_sub_element("CAN-CLUSTER", "CanCluster")
-    
+
     # various character data elements have constraints, e.g the reference element can only contain an autosar path
     # integers, or strings that do not look like paths cause an exception
     with pytest.raises(AutosarDataError):
@@ -146,7 +146,7 @@ def test_element_content():
         el_fibex_element_ref.set_attribute("DEST", "bla")
     with pytest.raises(AutosarDataError):
         el_fibex_element_ref.set_attribute("DEST", "default")
-    
+
     # in cases where the element name of the target is NOT a valid value in the "DEST" attribute
     # the function reference_dest_value() can be used instead
     destval = el_fibex_element_ref.element_type.reference_dest_value(el_can_cluster.element_type)
@@ -196,7 +196,7 @@ def test_element_content():
         el_cse_code.character_data = "text"
 
 
-def test_element_creation():
+def test_element_creation() -> None:
     model = AutosarModel()
 
     # create an unnamed element
@@ -259,7 +259,7 @@ def test_element_creation():
     # the element Autosar is not a valid sub element of ArPackage
     with pytest.raises(AutosarDataError):
          el_pkg1.create_sub_element_at("AUTOSAR", 1)
-    
+
     # it is possible to check which sub elements would be valid
     # returns a list of tuples: (ElementName, is_named, currently_allowed)
     vsi_list = el_pkg1.list_valid_sub_elements()
@@ -268,14 +268,14 @@ def test_element_creation():
     allowed_elements = [vsi.element_name if vsi.is_allowed else None for vsi in vsi_list]
     assert not "AUTOSAR" in allowed_elements
     assert "CATEGORY" in allowed_elements
-    
+
     # remove an element
     el_ar_packages.remove_sub_element(el_pkg3)
     with pytest.raises(AutosarDataError):
         invalid = el_pkg3.path
     with pytest.raises(AutosarDataError):
-        invalid = el_pkg3.model
-    
+        invalid2 = el_pkg3.model
+
     # validate the resulting model
     element_info = [x for x in model.root_element.elements_dfs]
     # element info is a list of tuple(depth, element)
@@ -297,8 +297,9 @@ def test_element_creation():
     assert element_info[11][1].item_name == "System"
     assert element_info[12][1].element_name == "SHORT-NAME"
     assert len(element_info) == 13
-    
-def test_element_attributes():
+
+
+def test_element_attributes() -> None:
     model = AutosarModel()
     el_autosar = model.root_element
 
@@ -328,7 +329,7 @@ def test_element_attributes():
     assert len([attr for attr in el_autosar.attributes]) == 4
 
 
-def test_file_membership():
+def test_file_membership() -> None:
     model = AutosarModel()
     file1 = model.create_file("file1", AutosarVersion.Autosar_00050)
     file2 = model.create_file("file2", AutosarVersion.Autosar_00050)

@@ -2,7 +2,7 @@ from autosar_data import *
 import pytest
 import os
 
-def test_model_basic():
+def test_model_basic() -> None:
     model = AutosarModel()
     # check that the object was created - model is not None
     assert isinstance(model, AutosarModel)
@@ -12,7 +12,7 @@ def test_model_basic():
     assert len(model.identifiable_elements) == 0
 
 
-def test_model_files(tmp_path):
+def test_model_files(tmp_path: str) -> None:
     model = AutosarModel()
 
     # create a file
@@ -68,7 +68,7 @@ def test_model_files(tmp_path):
 
 
 
-def test_model_identifiables():
+def test_model_identifiables() -> None:
     model = AutosarModel()
     # create some elements
     el_elements = model.root_element \
@@ -108,7 +108,7 @@ def test_model_identifiables():
     assert el_can_cluster_referrers[0] == el_fibex_element_ref
 
 
-def test_model_misc():
+def test_model_misc() -> None:
     model = AutosarModel()
     model2 = AutosarModel()
 
