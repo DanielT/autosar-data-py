@@ -51,10 +51,7 @@ impl AutosarModel {
         filename: &str,
         strict: bool,
     ) -> PyResult<(ArxmlFile, Vec<String>)> {
-        match self
-            .0
-            .load_buffer(buffer.as_bytes(), filename, strict)
-        {
+        match self.0.load_buffer(buffer.as_bytes(), filename, strict) {
             Ok((file, warn)) => {
                 let warnstrings: Vec<String> = warn.iter().map(|w| w.to_string()).collect();
                 Ok((ArxmlFile(file), warnstrings))
