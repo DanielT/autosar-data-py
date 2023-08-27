@@ -197,6 +197,15 @@ impl Element {
         Ok(self.0.get_sub_element(element_name).map(Element))
     }
 
+    fn get_sub_element_at(&self, position: usize) -> Option<Element> {
+        self.0.get_sub_element_at(position).map(Element)
+    }
+
+    #[getter]
+    fn position(&self) -> Option<usize> {
+        self.0.position()
+    }
+
     #[getter]
     fn sub_elements(&self) -> ElementsIterator {
         ElementsIterator(self.0.sub_elements())
@@ -246,6 +255,11 @@ impl Element {
             Ok(()) => Ok(()),
             Err(error) => Err(AutosarDataError::new_err(error.to_string())),
         }
+    }
+
+    #[getter]
+    fn content_item_count(&self) -> usize {
+        self.0.content_item_count()
     }
 
     #[getter]
