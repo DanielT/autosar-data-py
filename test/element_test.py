@@ -100,6 +100,8 @@ def test_element_content():
     assert len([c for c in el_l2.content]) == 1
     el_l2.create_sub_element("BR")
     assert len([c for c in el_l2.content]) == 2
+    
+    assert el_l2.content_item_count == 2
 
     # check the content
     content = [c for c in el_l2.content]
@@ -134,8 +136,21 @@ def test_element_content():
         el_fibex_element_ref.character_data = 1
     with pytest.raises(AutosarDataError):
         el_fibex_element_ref.character_data = "? what ?"
+    with pytest.raises(AutosarDataError):
+        el_fibex_element_ref.character_data = AutosarVersion.Autosar_00042 # wrong datatype
     # "looks like" an autosar path
     el_fibex_element_ref.character_data = "/something/else"
+
+    # the DEST attribute of el_fibex_element_ref takes an enum value, all other values cause an error
+    with pytest.raises(AutosarDataError):
+        el_fibex_element_ref.set_attribute("DEST", "bla")
+    with pytest.raises(AutosarDataError):
+        el_fibex_element_ref.set_attribute("DEST", "default")
+    
+    # in cases where the element name of the target is NOT a valid value in the "DEST" attribute
+    # the function reference_dest_value() can be used instead
+    destval = el_fibex_element_ref.element_type.reference_dest_value(el_can_cluster.element_type)
+    el_fibex_element_ref.set_attribute("DEST", destval)
 
     # there is special handling for references
     with pytest.raises(AutosarDataError):
@@ -147,6 +162,38 @@ def test_element_content():
     # remove the character data
     el_fibex_element_ref.remove_character_data()
     assert el_fibex_element_ref.character_data is None
+
+    # some elements have the data type double / f64 for their character content
+    model = AutosarModel()
+    el_macrotick = model.root_element \
+        .create_sub_element("AR-PACKAGES") \
+        .create_named_sub_element("AR-PACKAGE", "pkg") \
+        .create_sub_element("ELEMENTS") \
+        .create_named_sub_element("FLEXRAY-CLUSTER", "fc") \
+        .create_sub_element("FLEXRAY-CLUSTER-VARIANTS") \
+        .create_sub_element("FLEXRAY-CLUSTER-CONDITIONAL") \
+        .create_sub_element("MACROTICK-DURATION")
+    el_macrotick.character_data = 2.71828
+    el_macrotick.character_data = "3.1415" # automatic conversion to double
+    with pytest.raises(AutosarDataError):
+        el_macrotick.character_data = "not numeric"
+
+    # it seems there is only one element with datatype unsigned integer, and only in Autosar 4.0.1
+    model = AutosarModel()
+    arxmlfile = model.create_file("file", AutosarVersion.Autosar_4_0_1)
+    el_cse_code = model.root_element \
+        .create_sub_element("AR-PACKAGES") \
+        .create_named_sub_element("AR-PACKAGE", "pkg") \
+        .create_sub_element("ELEMENTS") \
+        .create_named_sub_element("BSW-MODULE-TIMING", "bmt") \
+        .create_sub_element("TIMING-GUARANTEES") \
+        .create_named_sub_element("SYNCHRONIZATION-TIMING-CONSTRAINT", "stc") \
+        .create_sub_element("TOLERANCE") \
+        .create_sub_element("CSE-CODE")
+    el_cse_code.character_data = 42
+    el_cse_code.character_data = "42" # automatic conversion
+    with pytest.raises(AutosarDataError):
+        el_cse_code.character_data = "text"
 
 
 def test_element_creation():
@@ -165,9 +212,12 @@ def test_element_creation():
     # position 1 (after ShortName) is allowed
     assert len([e for e in el_pkg1.sub_elements]) == 1
     el_elements = el_pkg1.create_sub_element_at("ELEMENTS", 1)
+    assert el_elements.position == 1
 
     # create a named sub element at a given position
     el_elements.create_named_sub_element_at("SYSTEM", "System", 0)
+    el_system = el_elements.get_sub_element_at(0)
+    assert el_system.element_name == "SYSTEM"
 
     # create an element by copying another element and all of its sub elements
     el_pkg2 = el_ar_packages.create_copied_sub_element(el_pkg1)
@@ -180,6 +230,7 @@ def test_element_creation():
 
     # create a copied elelemt at a given position
     el_pkg3 = el_ar_packages.create_copied_sub_element_at(el_pkg1, 0)
+    assert el_pkg3.position == 0
     el_pkg3.item_name = "Pkg3"
 
     # elements can be moved to a different parent, as long as this results in a valid hierarchy
@@ -211,7 +262,10 @@ def test_element_creation():
     
     # it is possible to check which sub elements would be valid
     # returns a list of tuples: (ElementName, is_named, currently_allowed)
-    allowed_elements = [vsi.element_name if vsi.is_allowed else None for vsi in el_pkg1.list_valid_sub_elements()]
+    vsi_list = el_pkg1.list_valid_sub_elements()
+    vsi_dbg = vsi_list[0].__repr__()
+    assert not vsi_dbg is None
+    allowed_elements = [vsi.element_name if vsi.is_allowed else None for vsi in vsi_list]
     assert not "AUTOSAR" in allowed_elements
     assert "CATEGORY" in allowed_elements
     
@@ -298,3 +352,6 @@ def test_file_membership():
     assert file1_element_count < total_element_count
     assert file2_element_count < total_element_count
     assert file1_element_count != file2_element_count
+
+    el_pkg1.add_to_file(file2)
+    assert file2 in el_pkg1.file_membership[1]

@@ -17,11 +17,9 @@ use version::*;
 create_exception!(module, AutosarDataError, pyo3::exceptions::PyException);
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone)]
 struct AutosarModel(autosar_data_rs::AutosarModel);
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone)]
 struct ArxmlFile(autosar_data_rs::ArxmlFile);
 
 #[pyclass(frozen)]
@@ -44,7 +42,7 @@ struct ElementsIterator(autosar_data_rs::ElementsIterator);
 struct AttributeIterator(autosar_data_rs::AttributeIterator);
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 struct IncompatibleElementError {
     #[pyo3(get)]
     element: Element,
@@ -54,7 +52,7 @@ struct IncompatibleElementError {
 }
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 struct IncompatibleAttributeError {
     #[pyo3(get)]
     element: Element,
@@ -66,7 +64,7 @@ struct IncompatibleAttributeError {
 }
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 struct IncompatibleAttributeValueError {
     #[pyo3(get)]
     element: Element,
@@ -80,7 +78,6 @@ struct IncompatibleAttributeValueError {
 }
 
 #[pyclass(frozen)]
-#[derive(Clone)]
 struct ElementType(autosar_data_specification::ElementType);
 
 #[pyclass(frozen)]
@@ -90,7 +87,7 @@ struct Attribute {
 }
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 struct ValidSubElementInfo {
     #[pyo3(get)]
     element_name: String,
@@ -101,7 +98,7 @@ struct ValidSubElementInfo {
 }
 
 #[pyclass(frozen)]
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 enum ContentType {
     /// The element only contains other elements
     Elements,

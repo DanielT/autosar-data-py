@@ -116,6 +116,11 @@ def test_model_misc():
     assert model != model2
     # two references to the same model are equal
     assert model.root_element.model == model
+    # inequalities do not exist
+    assert not model < model2
+    assert not model > model2
+    assert not model <= model2
+    assert not model >= model2
 
     # the model can be displayed as a string
     model_str = str.format("{}", model)

@@ -18,3 +18,10 @@ def test_others():
     et_repr = ar_pkg_type.__repr__()
     assert not et_str is None
     assert not et_repr is None
+
+    # invalid items
+    with pytest.raises(AutosarDataError):
+        model.root_element.create_sub_element("bla")
+    
+    with pytest.raises(AutosarDataError):
+        model.root_element.set_attribute("bla", 0)
