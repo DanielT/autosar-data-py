@@ -12,8 +12,13 @@ def test_others() -> None:
 
     # ElementType
     assert model.root_element.element_type.splittable_in(AutosarVersion.Autosar_00042) == False
-    ar_pkg_type = model.root_element.element_type.find_sub_element("AR-PACKAGES", 1)
+    # find a sub element for a particular version
+    ar_pkg_type = model.root_element.element_type.find_sub_element("AR-PACKAGES", AutosarVersion.Autosar_4_0_1)
     assert ar_pkg_type.splittable_in(AutosarVersion.Autosar_00042) == True
+    # find a sub element for multiple versions
+    ar_pkg_type = model.root_element.element_type.find_sub_element("AR-PACKAGES", [AutosarVersion.Autosar_4_0_1, AutosarVersion.Autosar_4_0_2])
+    assert ar_pkg_type.splittable_in(AutosarVersion.Autosar_00042) == True
+
     et_str = ar_pkg_type.__str__()
     et_repr = ar_pkg_type.__repr__()
     assert not et_str is None

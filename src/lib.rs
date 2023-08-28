@@ -1,6 +1,7 @@
 use std::str::FromStr;
 
 use ::autosar_data as autosar_data_rs;
+use autosar_data_specification::expand_version_mask;
 use autosar_data_specification::CharacterDataSpec;
 use pyo3::create_exception;
 use pyo3::intern;
@@ -47,7 +48,7 @@ struct IncompatibleElementError {
     #[pyo3(get)]
     element: Element,
     #[pyo3(get)]
-    version_mask: u32,
+    allowed_versions: Vec<AutosarVersion>,
     target_version: AutosarVersion,
 }
 
@@ -59,7 +60,7 @@ struct IncompatibleAttributeError {
     #[pyo3(get)]
     attribute: String,
     #[pyo3(get)]
-    version_mask: u32,
+    allowed_versions: Vec<AutosarVersion>,
     target_version: AutosarVersion,
 }
 
@@ -73,7 +74,7 @@ struct IncompatibleAttributeValueError {
     #[pyo3(get)]
     attribute_value: String,
     #[pyo3(get)]
-    version_mask: u32,
+    allowed_versions: Vec<AutosarVersion>,
     target_version: AutosarVersion,
 }
 
@@ -115,13 +116,16 @@ impl IncompatibleAttributeError {
     }
 
     fn __str__(&self) -> String {
-        let allowed_versions = autosar_data_specification::expand_version_mask(self.version_mask)
-            .iter()
-            .map(|ver| ver.describe())
-            .collect::<Vec<&'static str>>()
-            .join(", ");
+        let ver_first: autosar_data_rs::AutosarVersion = self.allowed_versions[0].into();
+        let ver_last: autosar_data_rs::AutosarVersion =
+            self.allowed_versions[self.allowed_versions.len() - 1].into();
+        let allowed_versions_str = if ver_first != ver_last {
+            format!("{:?} - {:?}", ver_first, ver_last)
+        } else {
+            format!("{:?}", ver_first)
+        };
         format!(
-            "Attribute {} in <{}> is incompatible with version {:?}. It is allowed in \"{allowed_versions}\"",
+            "Attribute {} in <{}> is incompatible with version {:?}. It is allowed in {allowed_versions_str}",
             self.attribute,
             self.element.0.xml_path(),
             self.target_version
@@ -136,13 +140,16 @@ impl IncompatibleAttributeValueError {
     }
 
     fn __str__(&self) -> String {
-        let allowed_versions = autosar_data_specification::expand_version_mask(self.version_mask)
-            .iter()
-            .map(|ver| ver.describe())
-            .collect::<Vec<&'static str>>()
-            .join(", ");
+        let ver_first: autosar_data_rs::AutosarVersion = self.allowed_versions[0].into();
+        let ver_last: autosar_data_rs::AutosarVersion =
+            self.allowed_versions[self.allowed_versions.len() - 1].into();
+        let allowed_versions_str = if ver_first != ver_last {
+            format!("{:?} - {:?}", ver_first, ver_last)
+        } else {
+            format!("{:?}", ver_first)
+        };
         format!(
-            "Attribute value {} in attribue {} of element <{}> is incompatible with version {:?}. It is allowed in \"{allowed_versions}\"",
+            "Attribute value {} in attribue {} of element <{}> is incompatible with version {:?}. It is allowed in {allowed_versions_str}",
             self.attribute_value,
             self.attribute,
             self.element.0.xml_path(),
@@ -158,13 +165,16 @@ impl IncompatibleElementError {
     }
 
     fn __str__(&self) -> String {
-        let allowed_versions = autosar_data_specification::expand_version_mask(self.version_mask)
-            .iter()
-            .map(|ver| ver.describe())
-            .collect::<Vec<&'static str>>()
-            .join(", ");
+        let ver_first: autosar_data_rs::AutosarVersion = self.allowed_versions[0].into();
+        let ver_last: autosar_data_rs::AutosarVersion =
+            self.allowed_versions[self.allowed_versions.len() - 1].into();
+        let allowed_versions_str = if ver_first != ver_last {
+            format!("{:?} - {:?}", ver_first, ver_last)
+        } else {
+            format!("{:?}", ver_first)
+        };
         format!(
-            "Element <{}> is incompatible with version {:?}. It is allowed in \"{allowed_versions}\"",
+            "Element <{}> is incompatible with version {:?}. It is allowed in {allowed_versions_str}",
             self.element.0.xml_path(),
             self.target_version
         )
@@ -193,8 +203,12 @@ impl ElementType {
     }
 
     #[getter]
-    fn splittable(&self) -> u32 {
-        self.0.splittable()
+    fn splittable(&self) -> Vec<AutosarVersion> {
+        let versions = expand_version_mask(self.0.splittable());
+        versions
+            .iter()
+            .map(|&ver| AutosarVersion::from(ver))
+            .collect()
     }
 
     fn splittable_in(&self, version: AutosarVersion) -> bool {
@@ -207,7 +221,12 @@ impl ElementType {
             .map(|enumitem| enumitem.to_string())
     }
 
-    fn find_sub_element(&self, target_name: String, version: u32) -> PyResult<Option<ElementType>> {
+    fn find_sub_element(
+        &self,
+        target_name: String,
+        version_obj: PyObject,
+    ) -> PyResult<Option<ElementType>> {
+        let version = version_mask_from_any(version_obj)?;
         let elem_name = get_element_name(target_name)?;
         Ok(self
             .0
@@ -464,5 +483,27 @@ fn get_attribute_name(name_str: String) -> PyResult<autosar_data_rs::AttributeNa
         PyResult::Err(AutosarDataError::new_err(format!(
             "Cannot convert \"{name_str}\" to AttributeName"
         )))
+    })
+}
+
+fn version_mask_from_any(version_obj: PyObject) -> PyResult<u32> {
+    Python::with_gil(|py| {
+        if let Ok(list) = version_obj.extract::<&PyList>(py) {
+            let mut mask = 0;
+            for item in list {
+                let ver: autosar_data_rs::AutosarVersion = item.extract::<AutosarVersion>()?.into();
+                mask |= ver as u32;
+            }
+            println!("mask from list of {} versions: {:x}", list.len(), mask);
+            Ok(mask)
+        } else if let Ok(version_py) = version_obj.extract::<AutosarVersion>(py) {
+            let ver: autosar_data_rs::AutosarVersion = version_py.into();
+            println!("mask from single version: {:x}", ver as u32);
+            Ok(ver as u32)
+        } else {
+            Err(AutosarDataError::new_err(
+                autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
+            ))
+        }
     })
 }

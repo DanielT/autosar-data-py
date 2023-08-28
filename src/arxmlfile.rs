@@ -5,6 +5,7 @@ use std::hash::Hasher;
 use crate::*;
 use ::autosar_data as autosar_data_rs;
 use autosar_data_rs::CompatibilityError;
+use autosar_data_specification::expand_version_mask;
 
 #[pymethods]
 impl ArxmlFile {
@@ -74,7 +75,7 @@ impl ArxmlFile {
                             IncompatibleAttributeError {
                                 element: Element(element.to_owned()),
                                 attribute: attribute.to_string(),
-                                version_mask: *version_mask,
+                                allowed_versions: expand_version_mask(*version_mask).iter().map(|&v| v.into()).collect(),
                                 target_version,
                             },
                         )
@@ -91,7 +92,7 @@ impl ArxmlFile {
                                 element: Element(element.to_owned()),
                                 attribute: attribute.to_string(),
                                 attribute_value: attribute_value.to_owned(),
-                                version_mask: *version_mask,
+                                allowed_versions: expand_version_mask(*version_mask).iter().map(|&v| v.into()).collect(),
                                 target_version,
                             },
                         )
@@ -104,7 +105,7 @@ impl ArxmlFile {
                             py,
                             IncompatibleElementError {
                                 element: Element(element.to_owned()),
-                                version_mask: *version_mask,
+                                allowed_versions: expand_version_mask(*version_mask).iter().map(|&v| v.into()).collect(),
                                 target_version,
                             },
                         )
