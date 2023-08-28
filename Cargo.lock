@@ -10,9 +10,9 @@ checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 
 [[package]]
 name = "autosar-data"
-version = "0.9.0"
+version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "afc4bc184824fb827f9aa653a6c4dacc84792ea07576373571f17fcff67932f6"
+checksum = "220cf40add8815bc13a6c409a2ad62304ec0354e149bbcfe3c3516a1cf3f1726"
 dependencies = [
  "autosar-data-specification",
  "parking_lot",
@@ -23,9 +23,9 @@ dependencies = [
 
 [[package]]
 name = "autosar-data-specification"
-version = "0.9.0"
+version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9416209848fd7e671dba8c0590da6020c88cd6c2bc310ecf13864eea008306b7"
+checksum = "4b10b95c5e9c2cf046261b1d71e4ef6d063569378ac6a95687a9a88fb053852d"
 dependencies = [
  "num-derive",
  "num-traits",
