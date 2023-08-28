@@ -24,6 +24,8 @@ def test_others() -> None:
     assert not et_str is None
     assert not et_repr is None
 
+    assert isinstance(__version__, str)
+
     # invalid items
     with pytest.raises(AutosarDataError):
         model.root_element.create_sub_element("bla")

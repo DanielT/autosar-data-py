@@ -18,13 +18,16 @@ use version::*;
 create_exception!(module, AutosarDataError, pyo3::exceptions::PyException);
 
 #[pyclass(frozen)]
+/// Autosar data model. It contains all elements.
 struct AutosarModel(autosar_data_rs::AutosarModel);
 
 #[pyclass(frozen)]
+/// Represents a file that is part of an AutosarModel
 struct ArxmlFile(autosar_data_rs::ArxmlFile);
 
 #[pyclass(frozen)]
 #[derive(Debug, Clone)]
+/// An element in the Autosar data model
 struct Element(autosar_data_rs::Element);
 
 #[pyclass]
@@ -44,6 +47,7 @@ struct AttributeIterator(autosar_data_rs::AttributeIterator);
 
 #[pyclass(frozen)]
 #[derive(Debug)]
+/// Information about an element that is incompatible with a given target version
 struct IncompatibleElementError {
     #[pyo3(get)]
     element: Element,
@@ -54,6 +58,7 @@ struct IncompatibleElementError {
 
 #[pyclass(frozen)]
 #[derive(Debug)]
+/// Information about an attribute that is incompatible with a given target version
 struct IncompatibleAttributeError {
     #[pyo3(get)]
     element: Element,
@@ -66,6 +71,7 @@ struct IncompatibleAttributeError {
 
 #[pyclass(frozen)]
 #[derive(Debug)]
+/// Information about an attribute value that is incompatible with a given target version
 struct IncompatibleAttributeValueError {
     #[pyo3(get)]
     element: Element,
@@ -79,9 +85,11 @@ struct IncompatibleAttributeValueError {
 }
 
 #[pyclass(frozen)]
+/// Type of an Element in the specification
 struct ElementType(autosar_data_specification::ElementType);
 
 #[pyclass(frozen)]
+/// An attribute on an element
 struct Attribute {
     pub attrname: String,
     pub content: PyObject,
@@ -89,6 +97,7 @@ struct Attribute {
 
 #[pyclass(frozen)]
 #[derive(Debug)]
+/// Details about a particular sub element
 struct ValidSubElementInfo {
     #[pyo3(get)]
     element_name: String,
@@ -100,6 +109,7 @@ struct ValidSubElementInfo {
 
 #[pyclass(frozen)]
 #[derive(Debug)]
+/// The content type of an element
 enum ContentType {
     /// The element only contains other elements
     Elements,
@@ -364,7 +374,21 @@ impl ValidSubElementInfo {
     }
 }
 
-/// A Python module implemented in Rust.
+/// Provides functionality to read, modify and write Autosar arxml files,
+/// both separately and in projects consisting of multiple files.
+/// 
+/// Classes:
+/// 
+/// - ArxmlFile
+/// - AutosarModel
+/// - AutosarVersion
+/// - Element
+/// - ElementType
+/// - ValidSubElementInfo
+/// 
+/// Variables:
+/// 
+/// - __version__
 #[pymodule]
 fn autosar_data(py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<ElementType>()?;
@@ -384,7 +408,7 @@ fn autosar_data(py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<Attribute>()?;
     m.add_class::<ValidSubElementInfo>()?;
     m.add("AutosarDataError", py.get_type::<AutosarDataError>())?;
-    m.add("version", intern!(m.py(), env!("CARGO_PKG_VERSION")))?;
+    m.add("__version__", intern!(m.py(), env!("CARGO_PKG_VERSION")))?;
     Ok(())
 }
 

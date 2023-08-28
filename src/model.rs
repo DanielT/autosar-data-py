@@ -38,6 +38,7 @@ impl AutosarModel {
         hasher.finish() as isize
     }
 
+    /// create a new file in the model
     fn create_file(&self, filename: &str, version: AutosarVersion) -> PyResult<ArxmlFile> {
         match self.0.create_file(filename, version.into()) {
             Ok(file) => Ok(ArxmlFile(file)),
@@ -45,6 +46,7 @@ impl AutosarModel {
         }
     }
 
+    /// load a buffer (string) as arxml
     fn load_buffer(
         &self,
         buffer: &str,
@@ -60,6 +62,7 @@ impl AutosarModel {
         }
     }
 
+    /// load a file as arxml
     fn load_file(&self, filename: &str, strict: bool) -> PyResult<(ArxmlFile, Vec<String>)> {
         match self.0.load_file(filename, strict) {
             Ok((file, warn)) => {
@@ -70,10 +73,12 @@ impl AutosarModel {
         }
     }
 
+    /// remove a file from the model. Any elements belonging exclusively to that file will also be removed.
     fn remove_file(&self, file: &ArxmlFile) {
         self.0.remove_file(&file.0);
     }
 
+    /// serialize all files individually, to generate a dict(filename, serialized content),
     fn serialize_files(&self) -> HashMap<String, String> {
         let hm_orig: HashMap<std::path::PathBuf, String> = self.0.serialize_files();
         let mut hm_out = HashMap::<String, String>::new();
@@ -83,6 +88,7 @@ impl AutosarModel {
         hm_out
     }
 
+    /// write all files in the model to disk
     fn write(&self) -> PyResult<()> {
         self.0
             .write()
@@ -90,33 +96,40 @@ impl AutosarModel {
     }
 
     #[getter]
+    /// a list of ArxmlFile objects containing all files in the model
     fn files(&self) -> Vec<ArxmlFile> {
         self.0.files().map(ArxmlFile).collect()
     }
 
     #[getter]
+    /// The root element of the model, <AUTOSAR>
     fn root_element(&self) -> Element {
         Element(self.0.root_element())
     }
 
+    /// get an identifiable element in the model by its Autosar path
     fn get_element_by_path(&self, path: &str) -> Option<Element> {
         self.0.get_element_by_path(path).map(Element)
     }
 
     #[getter]
+    /// depth first dearch iterator over all elements in the model, regardless of their association with a file
     fn elements_dfs(&self) -> ElementsDfsIterator {
         ElementsDfsIterator(self.0.elements_dfs())
     }
 
+    ///sort the entire model in place. Takes all ordering constraints into account.
     fn sort(&self) {
         self.0.sort()
     }
 
     #[getter]
+    /// List of all paths of identifiable elements in the model
     fn identifiable_elements(&self) -> Vec<String> {
         self.0.identifiable_elements()
     }
 
+    /// get all reference elements which refer to the given Autosar path
     fn get_references_to(&self, target_path: &str) -> Vec<Element> {
         self.0
             .get_references_to(target_path)
@@ -125,6 +138,7 @@ impl AutosarModel {
             .collect()
     }
 
+    /// check all references in the model and return a list of elements containing invalid references
     fn check_references(&self) -> Vec<Element> {
         self.0
             .check_references()
