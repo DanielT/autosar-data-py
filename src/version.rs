@@ -5,25 +5,46 @@ use std::str::FromStr;
 #[pyclass(frozen)]
 #[derive(Debug, Clone, Copy)]
 pub(crate) enum AutosarVersion {
+    #[pyo3(name = "AUTOSAR_4_0_1")]
     Autosar_4_0_1,
+    #[pyo3(name = "AUTOSAR_4_0_2")]
     Autosar_4_0_2,
+    #[pyo3(name = "AUTOSAR_4_0_3")]
     Autosar_4_0_3,
+    #[pyo3(name = "AUTOSAR_4_1_1")]
     Autosar_4_1_1,
+    #[pyo3(name = "AUTOSAR_4_1_2")]
     Autosar_4_1_2,
+    #[pyo3(name = "AUTOSAR_4_1_3")]
     Autosar_4_1_3,
+    #[pyo3(name = "AUTOSAR_4_2_1")]
     Autosar_4_2_1,
+    #[pyo3(name = "AUTOSAR_4_2_2")]
     Autosar_4_2_2,
+    #[pyo3(name = "AUTOSAR_4_3_0")]
     Autosar_4_3_0,
+    #[pyo3(name = "AUTOSAR_00042")]
     Autosar_00042,
+    #[pyo3(name = "AUTOSAR_00043")]
     Autosar_00043,
+    #[pyo3(name = "AUTOSAR_00044")]
     Autosar_00044,
+    #[pyo3(name = "AUTOSAR_00045")]
     Autosar_00045,
+    #[pyo3(name = "AUTOSAR_00046")]
     Autosar_00046,
+    #[pyo3(name = "AUTOSAR_00047")]
     Autosar_00047,
+    #[pyo3(name = "AUTOSAR_00048")]
     Autosar_00048,
+    #[pyo3(name = "AUTOSAR_00049")]
     Autosar_00049,
+    #[pyo3(name = "AUTOSAR_00050")]
     Autosar_00050,
+    #[pyo3(name = "AUTOSAR_00051")]
     Autosar_00051,
+    #[pyo3(name = "LATEST")]
+    Latest,
 }
 
 #[pymethods]
@@ -42,6 +63,19 @@ impl AutosarVersion {
     fn __str__(&self) -> String {
         let ver: autosar_data_specification::AutosarVersion = (*self).into();
         ver.to_string()
+    }
+
+    fn __richcmp__(&self, other: AutosarVersion, op: pyo3::basic::CompareOp) -> bool {
+        let ver1: autosar_data_specification::AutosarVersion = (*self).into();
+        let ver2: autosar_data_specification::AutosarVersion = other.into();
+        match op {
+            pyo3::pyclass::CompareOp::Eq => ver1 == ver2,
+            pyo3::pyclass::CompareOp::Ne => ver1 != ver2,
+            pyo3::pyclass::CompareOp::Lt => (ver1 as u32) < (ver2 as u32),
+            pyo3::pyclass::CompareOp::Le => (ver1 as u32) <= (ver2 as u32),
+            pyo3::pyclass::CompareOp::Gt => (ver1 as u32) > (ver2 as u32),
+            pyo3::pyclass::CompareOp::Ge => (ver1 as u32) >= (ver2 as u32),
+        }
     }
 }
 
@@ -67,6 +101,7 @@ impl From<AutosarVersion> for autosar_data_specification::AutosarVersion {
             AutosarVersion::Autosar_00049 => Self::Autosar_00049,
             AutosarVersion::Autosar_00050 => Self::Autosar_00050,
             AutosarVersion::Autosar_00051 => Self::Autosar_00051,
+            AutosarVersion::Latest => Self::LATEST,
         }
     }
 }

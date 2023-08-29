@@ -11,13 +11,16 @@ def test_others() -> None:
     assert not ct_repr is None
 
     # ElementType
-    assert model.root_element.element_type.splittable_in(AutosarVersion.Autosar_00042) == False
+    assert model.root_element.element_type.splittable_in(AutosarVersion.AUTOSAR_00042) == False
     # find a sub element for a particular version
-    ar_pkg_type = model.root_element.element_type.find_sub_element("AR-PACKAGES", AutosarVersion.Autosar_4_0_1)
-    assert ar_pkg_type.splittable_in(AutosarVersion.Autosar_00042) == True
+    ar_pkg_type = model.root_element.element_type.find_sub_element("AR-PACKAGES", AutosarVersion.AUTOSAR_4_0_1)
+    assert ar_pkg_type.splittable_in(AutosarVersion.AUTOSAR_00042) == True
     # find a sub element for multiple versions
-    ar_pkg_type = model.root_element.element_type.find_sub_element("AR-PACKAGES", [AutosarVersion.Autosar_4_0_1, AutosarVersion.Autosar_4_0_2])
-    assert ar_pkg_type.splittable_in(AutosarVersion.Autosar_00042) == True
+    ar_pkg_type = model.root_element.element_type.find_sub_element("AR-PACKAGES", [AutosarVersion.AUTOSAR_4_0_1, AutosarVersion.AUTOSAR_4_0_2])
+    assert ar_pkg_type.splittable_in(AutosarVersion.AUTOSAR_00042) == True
+    with pytest.raises(TypeError):
+        model.root_element.element_type.find_sub_element("AR-PACKAGES", "wrong type")
+    assert AutosarVersion.AUTOSAR_4_0_1 in ar_pkg_type.splittable
 
     et_str = ar_pkg_type.__str__()
     et_repr = ar_pkg_type.__repr__()

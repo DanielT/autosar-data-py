@@ -21,14 +21,14 @@ impl AutosarModel {
         self.0.root_element().serialize()
     }
 
-    fn __richcmp__(&self, other: &AutosarModel, op: pyo3::basic::CompareOp) -> bool {
+    fn __richcmp__(&self, other: &AutosarModel, op: pyo3::basic::CompareOp) -> PyResult<bool> {
         match op {
-            pyo3::pyclass::CompareOp::Eq => self.0 == other.0,
-            pyo3::pyclass::CompareOp::Ne => self.0 != other.0,
-            pyo3::pyclass::CompareOp::Lt
-            | pyo3::pyclass::CompareOp::Le
-            | pyo3::pyclass::CompareOp::Gt
-            | pyo3::pyclass::CompareOp::Ge => false,
+            pyo3::pyclass::CompareOp::Eq => Ok(self.0 == other.0),
+            pyo3::pyclass::CompareOp::Ne => Ok(self.0 != other.0),
+            pyo3::pyclass::CompareOp::Lt => Err(pyo3::exceptions::PyTypeError::new_err("'<' is not supported between instances of 'builtins.AutosarModel' and 'builtins.AutosarModel'")),
+            pyo3::pyclass::CompareOp::Le => Err(pyo3::exceptions::PyTypeError::new_err("'<=' is not supported between instances of 'builtins.AutosarModel' and 'builtins.AutosarModel'")),
+            pyo3::pyclass::CompareOp::Gt => Err(pyo3::exceptions::PyTypeError::new_err("'>' is not supported between instances of 'builtins.AutosarModel' and 'builtins.AutosarModel'")),
+            pyo3::pyclass::CompareOp::Ge => Err(pyo3::exceptions::PyTypeError::new_err("'>=' is not supported between instances of 'builtins.AutosarModel' and 'builtins.AutosarModel'")),
         }
     }
 
@@ -39,6 +39,7 @@ impl AutosarModel {
     }
 
     /// create a new file in the model
+    #[pyo3(signature = (filename, version=AutosarVersion::Latest))]
     fn create_file(&self, filename: &str, version: AutosarVersion) -> PyResult<ArxmlFile> {
         match self.0.create_file(filename, version.into()) {
             Ok(file) => Ok(ArxmlFile(file)),
@@ -47,6 +48,7 @@ impl AutosarModel {
     }
 
     /// load a buffer (string) as arxml
+    #[pyo3(signature = (buffer, filename, strict=false))]
     fn load_buffer(
         &self,
         buffer: &str,
@@ -63,6 +65,7 @@ impl AutosarModel {
     }
 
     /// load a file as arxml
+    #[pyo3(signature = (filename, strict=false))]
     fn load_file(&self, filename: &str, strict: bool) -> PyResult<(ArxmlFile, Vec<String>)> {
         match self.0.load_file(filename, strict) {
             Ok((file, warn)) => {

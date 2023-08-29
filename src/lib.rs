@@ -1,6 +1,7 @@
 use std::str::FromStr;
 
 use ::autosar_data as autosar_data_rs;
+use autosar_data_rs::CharacterData;
 use autosar_data_specification::expand_version_mask;
 use autosar_data_specification::CharacterDataSpec;
 use pyo3::create_exception;
@@ -91,7 +92,9 @@ struct ElementType(autosar_data_specification::ElementType);
 #[pyclass(frozen)]
 /// An attribute on an element
 struct Attribute {
+    #[pyo3(get)]
     pub attrname: String,
+    #[pyo3(get)]
     pub content: PyObject,
 }
 
@@ -355,16 +358,6 @@ impl Attribute {
     fn __str__(&self) -> String {
         format!("Attribute({}=\"{}\")", self.attrname, self.content)
     }
-
-    #[getter]
-    fn attrname(&self) -> String {
-        self.attrname.to_string()
-    }
-
-    #[getter]
-    fn content(&self) -> &PyObject {
-        &self.content
-    }
 }
 
 #[pymethods]
@@ -376,18 +369,18 @@ impl ValidSubElementInfo {
 
 /// Provides functionality to read, modify and write Autosar arxml files,
 /// both separately and in projects consisting of multiple files.
-/// 
+///
 /// Classes:
-/// 
+///
 /// - ArxmlFile
 /// - AutosarModel
 /// - AutosarVersion
 /// - Element
 /// - ElementType
 /// - ValidSubElementInfo
-/// 
+///
 /// Variables:
-/// 
+///
 /// - __version__
 #[pymodule]
 fn autosar_data(py: Python, m: &PyModule) -> PyResult<()> {
@@ -414,73 +407,81 @@ fn autosar_data(py: Python, m: &PyModule) -> PyResult<()> {
 
 fn extract_character_data(
     spec: &CharacterDataSpec,
-    any: PyObject,
+    object: PyObject,
 ) -> PyResult<autosar_data_rs::CharacterData> {
     Python::with_gil(|py| {
-        if let Ok(text) = any.extract::<String>(py) {
-            parse_cdata_string(spec, text).map_err(|_| {
-                AutosarDataError::new_err(
-                    autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
-                )
-            })
-        } else if let Ok(val) = any.extract::<u64>(py) {
-            Ok(autosar_data_rs::CharacterData::UnsignedInteger(val))
-        } else if let Ok(val) = any.extract::<f64>(py) {
-            Ok(autosar_data_rs::CharacterData::Double(val))
-        } else {
-            Err(AutosarDataError::new_err(
-                autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
-            ))
+        let any: &PyAny = object.as_ref(py);
+        match spec {
+            CharacterDataSpec::Enum { .. } => {
+                if let Ok(strval) = any.extract::<String>() {
+                    if let Ok(enumitem) = autosar_data_rs::EnumItem::from_str(&strval) {
+                        Ok(CharacterData::Enum(enumitem))
+                    } else {
+                        Err(pyo3::exceptions::PyValueError::new_err(format!(
+                            "string value '{strval}' cannot be converted to 'EnumItem'"
+                        )))
+                    }
+                } else {
+                    Err(pyo3::exceptions::PyTypeError::new_err(format!(
+                        "'{}' cannot be converted to 'EnumItem'",
+                        any.get_type()
+                    )))
+                }
+            }
+            CharacterDataSpec::Pattern { .. } | CharacterDataSpec::String { .. } => {
+                if let Ok(text) = any.extract::<String>() {
+                    Ok(CharacterData::String(text))
+                } else if let Ok(intval) = any.extract::<u64>() {
+                    Ok(CharacterData::String(intval.to_string()))
+                } else if let Ok(floatval) = any.extract::<f64>() {
+                    Ok(CharacterData::String(floatval.to_string()))
+                } else {
+                    Err(pyo3::exceptions::PyTypeError::new_err(format!(
+                        "'{}' cannot be converted to 'str'",
+                        any.get_type()
+                    )))
+                }
+            }
+            CharacterDataSpec::UnsignedInteger => {
+                if let Ok(strval) = any.extract::<String>() {
+                    if let Ok(intval) = strval.parse() {
+                        Ok(CharacterData::UnsignedInteger(intval))
+                    } else {
+                        Err(pyo3::exceptions::PyValueError::new_err(format!(
+                            "invalid literal '{strval}' for conversion to int"
+                        )))
+                    }
+                } else if let Ok(intval) = any.extract::<u64>() {
+                    Ok(CharacterData::UnsignedInteger(intval))
+                } else {
+                    Err(pyo3::exceptions::PyTypeError::new_err(format!(
+                        "'{}' cannot be converted to 'int'",
+                        any.get_type()
+                    )))
+                }
+            }
+            CharacterDataSpec::Double => {
+                if let Ok(strval) = any.extract::<String>() {
+                    if let Ok(floatval) = strval.parse() {
+                        Ok(CharacterData::Double(floatval))
+                    } else {
+                        Err(pyo3::exceptions::PyValueError::new_err(format!(
+                            "invalid literal '{strval}' for conversion to float"
+                        )))
+                    }
+                } else if let Ok(intval) = any.extract::<u64>() {
+                    Ok(CharacterData::Double(intval as f64))
+                } else if let Ok(floatval) = any.extract::<f64>() {
+                    Ok(CharacterData::Double(floatval))
+                } else {
+                    Err(pyo3::exceptions::PyTypeError::new_err(format!(
+                        "'{}' cannot be converted to 'float'",
+                        any.get_type()
+                    )))
+                }
+            }
         }
     })
-}
-
-fn parse_cdata_string(
-    spec: &CharacterDataSpec,
-    text: String,
-) -> Result<autosar_data_rs::CharacterData, ()> {
-    match spec {
-        CharacterDataSpec::Enum { items } => {
-            let enumitem = autosar_data_rs::EnumItem::from_str(&text).map_err(|_| ())?;
-            if items.iter().any(|(spec_item, _)| *spec_item == enumitem) {
-                Ok(autosar_data_rs::CharacterData::Enum(enumitem))
-            } else {
-                Err(())
-            }
-        }
-        CharacterDataSpec::Pattern {
-            check_fn,
-            max_length,
-            ..
-        } => {
-            if text.len() < max_length.unwrap_or(usize::MAX) && check_fn(text.as_bytes()) {
-                Ok(autosar_data_rs::CharacterData::String(text))
-            } else {
-                Err(())
-            }
-        }
-        CharacterDataSpec::String { max_length, .. } => {
-            if text.len() < max_length.unwrap_or(usize::MAX) {
-                Ok(autosar_data_rs::CharacterData::String(text))
-            } else {
-                Err(())
-            }
-        }
-        CharacterDataSpec::UnsignedInteger => {
-            if let Ok(val) = text.parse() {
-                Ok(autosar_data_rs::CharacterData::UnsignedInteger(val))
-            } else {
-                Err(())
-            }
-        }
-        CharacterDataSpec::Double => {
-            if let Ok(val) = text.parse() {
-                Ok(autosar_data_rs::CharacterData::Double(val))
-            } else {
-                Err(())
-            }
-        }
-    }
 }
 
 fn character_data_to_object(cdata: &autosar_data_rs::CharacterData) -> PyObject {
@@ -525,9 +526,11 @@ fn version_mask_from_any(version_obj: PyObject) -> PyResult<u32> {
             println!("mask from single version: {:x}", ver as u32);
             Ok(ver as u32)
         } else {
-            Err(AutosarDataError::new_err(
-                autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
-            ))
+            let any = version_obj.as_ref(py);
+            Err(pyo3::exceptions::PyTypeError::new_err(format!(
+                "'{}' cannot be converted to 'VersionSpecification'",
+                any.get_type()
+            )))
         }
     })
 }

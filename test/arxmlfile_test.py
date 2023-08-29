@@ -4,8 +4,8 @@ import pytest
 def test_arxlfile_basic() -> None:
     model = AutosarModel()
 
-    file1 = model.create_file("filename1.arxml", AutosarVersion.Autosar_00051)
-    file2 = model.create_file("filename2.arxml", AutosarVersion.Autosar_00051)
+    file1 = model.create_file("filename1.arxml", AutosarVersion.AUTOSAR_00051)
+    file2 = model.create_file("filename2.arxml", AutosarVersion.AUTOSAR_00051)
     assert isinstance(file1, ArxmlFile)
     assert isinstance(file2, ArxmlFile)
 
@@ -27,9 +27,9 @@ def test_arxlfile_basic() -> None:
         file1.filename = file2.filename
     
     # each file has a version
-    assert file1.version == AutosarVersion.Autosar_00051
-    file1.version = AutosarVersion.Autosar_4_3_0
-    assert file1.version == AutosarVersion.Autosar_4_3_0
+    assert file1.version == AutosarVersion.AUTOSAR_00051
+    file1.version = AutosarVersion.AUTOSAR_4_3_0
+    assert file1.version == AutosarVersion.AUTOSAR_4_3_0
 
     # ArxmlFile has __str__ and __repr__
     arxmlfile_repr = file1.__repr__()
@@ -54,12 +54,15 @@ def test_arxlfile_basic() -> None:
     model = None
     with pytest.raises(AutosarDataError):
         print(file1.model)
+    # other operations also require a valid model
+    with pytest.raises(AutosarDataError):
+        print(file1.serialize())
 
 
 def test_check_version_compatibility() -> None:
     model = AutosarModel()
 
-    file1 = model.create_file("filename", AutosarVersion.Autosar_00050)
+    file1 = model.create_file("filename", AutosarVersion.AUTOSAR_00050)
     el_elements = model.root_element \
         .create_sub_element("AR-PACKAGES") \
         .create_named_sub_element("AR-PACKAGE", "Pkg") \
@@ -73,8 +76,11 @@ def test_check_version_compatibility() -> None:
     el_blueprint_ref.set_attribute("DEST", "ABSTRACT-IMPLEMENTATION-DATA-TYPE")
     el_adaptive_sw_component_type = el_elements \
         .create_named_sub_element("ADAPTIVE-APPLICATION-SW-COMPONENT-TYPE", "AdaptiveApplicationSwComponentType")
+    
+    with pytest.raises(AutosarDataError):
+        file1.version = AutosarVersion.AUTOSAR_4_3_0 # fails because there are compatibility problems
 
-    compat_problems = file1.check_version_compatibility(AutosarVersion.Autosar_4_3_0)
+    compat_problems = file1.check_version_compatibility(AutosarVersion.AUTOSAR_4_3_0)
     assert len(compat_problems) == 3
     assert isinstance(compat_problems[0], IncompatibleAttributeError)
     assert isinstance(compat_problems[1], IncompatibleAttributeValueError)
@@ -91,7 +97,7 @@ def test_check_version_compatibility() -> None:
     # IncompatibleAttributeValueError
     assert compat_problems[1].element == el_blueprint_ref
     assert compat_problems[1].attribute == "DEST"
-    assert compat_problems[1].attribute_value == "ABSTRACT-IMPLEMENTATION-DATA-TYPE" # todo - type conversion of AttributeValue to string?
+    assert compat_problems[1].attribute_value == "ABSTRACT-IMPLEMENTATION-DATA-TYPE"
     error_str = compat_problems[1].__str__()
     error_repr = compat_problems[1].__repr__()
     assert not error_str is None
@@ -103,3 +109,19 @@ def test_check_version_compatibility() -> None:
     error_repr = compat_problems[2].__repr__()
     assert not error_str is None
     assert not error_repr is None
+
+
+def test_file_misc() -> None:
+    model = AutosarModel()
+
+    file1 = model.create_file("filename1.arxml", AutosarVersion.AUTOSAR_00051)
+    file2 = model.create_file("filename2.arxml", AutosarVersion.AUTOSAR_00051)
+
+    with pytest.raises(TypeError):
+        file1 < file2
+    with pytest.raises(TypeError):
+        file1 > file2
+    with pytest.raises(TypeError):
+        file1 <= file2
+    with pytest.raises(TypeError):
+        file1 >= file2

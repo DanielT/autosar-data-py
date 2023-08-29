@@ -17,14 +17,14 @@ impl ArxmlFile {
         self.serialize()
     }
 
-    fn __richcmp__(&self, other: &ArxmlFile, op: pyo3::basic::CompareOp) -> bool {
+    fn __richcmp__(&self, other: &ArxmlFile, op: pyo3::basic::CompareOp) -> PyResult<bool> {
         match op {
-            pyo3::pyclass::CompareOp::Eq => self.0 == other.0,
-            pyo3::pyclass::CompareOp::Ne => self.0 != other.0,
-            pyo3::pyclass::CompareOp::Lt
-            | pyo3::pyclass::CompareOp::Le
-            | pyo3::pyclass::CompareOp::Gt
-            | pyo3::pyclass::CompareOp::Ge => false,
+            pyo3::pyclass::CompareOp::Eq => Ok(self.0 == other.0),
+            pyo3::pyclass::CompareOp::Ne => Ok(self.0 != other.0),
+            pyo3::pyclass::CompareOp::Lt => Err(pyo3::exceptions::PyTypeError::new_err("'<' is not supported between instances of 'builtins.Element' and 'builtins.Element'")),
+            pyo3::pyclass::CompareOp::Le => Err(pyo3::exceptions::PyTypeError::new_err("'<=' is not supported between instances of 'builtins.Element' and 'builtins.Element'")),
+            pyo3::pyclass::CompareOp::Gt => Err(pyo3::exceptions::PyTypeError::new_err("'>' is not supported between instances of 'builtins.Element' and 'builtins.Element'")),
+            pyo3::pyclass::CompareOp::Ge => Err(pyo3::exceptions::PyTypeError::new_err("'>=' is not supported between instances of 'builtins.Element' and 'builtins.Element'")),
         }
     }
 
@@ -75,7 +75,10 @@ impl ArxmlFile {
                             IncompatibleAttributeError {
                                 element: Element(element.to_owned()),
                                 attribute: attribute.to_string(),
-                                allowed_versions: expand_version_mask(*version_mask).iter().map(|&v| v.into()).collect(),
+                                allowed_versions: expand_version_mask(*version_mask)
+                                    .iter()
+                                    .map(|&v| v.into())
+                                    .collect(),
                                 target_version,
                             },
                         )
@@ -92,7 +95,10 @@ impl ArxmlFile {
                                 element: Element(element.to_owned()),
                                 attribute: attribute.to_string(),
                                 attribute_value: attribute_value.to_owned(),
-                                allowed_versions: expand_version_mask(*version_mask).iter().map(|&v| v.into()).collect(),
+                                allowed_versions: expand_version_mask(*version_mask)
+                                    .iter()
+                                    .map(|&v| v.into())
+                                    .collect(),
                                 target_version,
                             },
                         )
@@ -105,7 +111,10 @@ impl ArxmlFile {
                             py,
                             IncompatibleElementError {
                                 element: Element(element.to_owned()),
-                                allowed_versions: expand_version_mask(*version_mask).iter().map(|&v| v.into()).collect(),
+                                allowed_versions: expand_version_mask(*version_mask)
+                                    .iter()
+                                    .map(|&v| v.into())
+                                    .collect(),
                                 target_version,
                             },
                         )

@@ -87,13 +87,13 @@ class AutosarModel:
     """
     def __repr__(self) -> str: ...
     def __str__(self) -> str: ...
-    def create_file(self, filename: str, version: AutosarVersion) -> ArxmlFile:
+    def create_file(self, filename: str, version: AutosarVersion = AutosarVersion.LATEST) -> ArxmlFile:
         """create a new file in the model"""
         ...
-    def load_buffer(self, buffer: str, filename: str, strict: bool) -> Tuple[ArxmlFile, List[str]]:
+    def load_buffer(self, buffer: str, filename: str, strict: bool = False) -> Tuple[ArxmlFile, List[str]]:
         """load a buffer (string) as arxml"""
         ...
-    def load_file(self, filename: str, strict: bool) -> Tuple[ArxmlFile, List[str]]:
+    def load_file(self, filename: str, strict: bool = False) -> Tuple[ArxmlFile, List[str]]:
         """load a file as arxml"""
         ...
     def remove_file(self, arxmlfile: ArxmlFile) -> None:
@@ -252,9 +252,6 @@ class Element:
         ...
     def set_attribute(self, attrname: AttributeName, chardata: CharacterData) -> None:
         """set the given attribute to the provided value. If the attribute is valid for this element it will be created or modified as needed."""
-        ...
-    def set_attribute_string(self, attrname: AttributeName, value: str) -> None:
-        """like set_attribute, but the input will be converted to the target data type as needed"""
         ...
     def remove_attribute(self, attrname: AttributeName) -> None:
         """remove an attribute from the element"""

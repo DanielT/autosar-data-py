@@ -17,19 +17,19 @@ def test_model_files(tmp_path: str) -> None:
 
     # create a file
     filename1 = os.path.join(tmp_path, "test.arxml")
-    file1 = model.create_file(filename1, AutosarVersion.Autosar_00051)
+    file1 = model.create_file(filename1, AutosarVersion.AUTOSAR_00051)
     assert isinstance(file1, ArxmlFile)
     assert file1.filename == os.path.join(tmp_path, "test.arxml")
 
     # create another file
-    file2 = model.create_file("test2.arxml", AutosarVersion.Autosar_00051)
+    file2 = model.create_file("test2.arxml")
     assert isinstance(file2, ArxmlFile)
     assert len(model.files) == 2
 
     # create a file with the same name as file1
     with pytest.raises(AutosarDataError):
         # a file called "$tmp_path/test.arxml" already exists in the model
-        file3 = model.create_file(filename1, AutosarVersion.Autosar_00051)
+        file3 = model.create_file(filename1)
     
     # remove file2 from the model again
     model.remove_file(file2)
@@ -50,7 +50,7 @@ def test_model_files(tmp_path: str) -> None:
         
     # can't load a nonexistent file
     with pytest.raises(AutosarDataError):
-        model2.load_file("nonexistent_nothing", True)
+        model2.load_file("nonexistent_nothing")
     
     # create a string of arxml data from file1
     all_files_text = model.serialize_files()
@@ -58,14 +58,57 @@ def test_model_files(tmp_path: str) -> None:
 
     # load the string in a new model
     model3 = AutosarModel()
-    (m3_file, warnings) = model3.load_buffer(file1_text, "m3_file.arxml", True)
+    (m3_file, warnings) = model3.load_buffer(file1_text, "m3_file.arxml")
     assert isinstance(m3_file, ArxmlFile)
     assert len(warnings) == 0
 
     # can't load nonsense data as arxml
     with pytest.raises(AutosarDataError):
-        model3.load_buffer("hello, world!", "m3_file2.arxml", True)
+        model3.load_buffer("hello, world!", "m3_file2.arxml")
 
+
+def test_strict_parsing(tmp_path: str) -> None:
+    # the following arxml contains an element from the adaptive platform, but specifies version 4.3.0
+    buffer = """<?xml version="1.0" encoding="utf-8"?>
+<AUTOSAR xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-3-0.xsd" xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>Pkg</SHORT-NAME>
+      <ELEMENTS>
+        <ADAPTIVE-APPLICATION-SW-COMPONENT-TYPE>
+          <SHORT-NAME>AdaptiveApplicationSwComponentType</SHORT-NAME>
+        </ADAPTIVE-APPLICATION-SW-COMPONENT-TYPE>
+      </ELEMENTS>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>"""
+    model = AutosarModel()
+    filename = os.path.join(tmp_path, "test.arxml")
+    # loading the buffer with strict = False succeeds but produces warnings
+    (arxmlfile, warnings) = model.load_buffer(buffer, filename, False)
+    assert isinstance(arxmlfile, ArxmlFile)
+    assert len(warnings) != 0
+    # loading with strict = True triggers an exception
+    with pytest.raises(AutosarDataError):
+        model.load_buffer(buffer, filename, True)
+    
+    model.write()
+    # erase the model, so that loading the file with the existing filename works
+    model = AutosarModel()
+    # loading the file with strict = False succeeds but produces warnings
+    (arxmlfile, warnings) = model.load_file(filename, False)
+    assert isinstance(arxmlfile, ArxmlFile)
+    assert len(warnings) != 0
+    # loading with strict = True triggers an exception
+    with pytest.raises(AutosarDataError):
+        model.load_file(filename, False)
+
+
+def test_model_write() -> None:
+    model = AutosarModel()
+    model.create_file("/this/path/does/not/exist.arxml")
+    with pytest.raises(AutosarDataError):
+        model.write()
 
 
 def test_model_identifiables() -> None:
@@ -117,10 +160,22 @@ def test_model_misc() -> None:
     # two references to the same model are equal
     assert model.root_element.model == model
     # inequalities do not exist
-    assert not model < model2
-    assert not model > model2
-    assert not model <= model2
-    assert not model >= model2
+    with pytest.raises(TypeError):
+        model < model2
+    with pytest.raises(TypeError):
+        model > model2
+    with pytest.raises(TypeError):
+        model <= model2
+    with pytest.raises(TypeError):
+        model >= model2
+
+    # models can be hashed
+    modelset = set([model, model2])
+    assert len(modelset) == 2
+
+
+def test_model_misc_2() -> None:
+    model = AutosarModel()
 
     # the model can be displayed as a string
     model_str = str.format("{}", model)
@@ -129,6 +184,10 @@ def test_model_misc() -> None:
     # the model can be displayed as a string
     model_str = str.format("{}", model.__repr__())
     assert not model_str is None
+
+
+def test_model_misc_3() -> None:
+    model = AutosarModel()
 
     # dfs iterator test: create some elements
     el_elements = model.root_element \
@@ -149,6 +208,15 @@ def test_model_misc() -> None:
     assert elements[4]['depth'] == 3
     assert elements[4]['element'].element_name == "ELEMENTS"
 
+
+def test_model_misc_4() -> None:
+    model = AutosarModel()
+
+    # dfs iterator test: create some elements
+    el_elements = model.root_element \
+        .create_sub_element("AR-PACKAGES") \
+        .create_named_sub_element("AR-PACKAGE", "Pkg1") \
+        .create_sub_element("ELEMENTS")
     # create a ref element for check_references()
     el_fibex_element_ref = el_elements \
         .create_named_sub_element("SYSTEM", "System") \
@@ -177,7 +245,4 @@ def test_model_misc() -> None:
     assert subelements[0] == el_pkg1
     assert subelements[1] == el_pkg2
 
-    # models can be hashed
-    modelset = set([model, model2])
-    assert len(modelset) == 2
     

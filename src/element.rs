@@ -15,14 +15,14 @@ impl Element {
         self.0.serialize()
     }
 
-    fn __richcmp__(&self, other: &Element, op: pyo3::basic::CompareOp) -> bool {
+    fn __richcmp__(&self, other: &Element, op: pyo3::basic::CompareOp) -> PyResult<bool> {
         match op {
-            pyo3::pyclass::CompareOp::Eq => self.0 == other.0,
-            pyo3::pyclass::CompareOp::Ne => self.0 != other.0,
-            pyo3::pyclass::CompareOp::Lt
-            | pyo3::pyclass::CompareOp::Le
-            | pyo3::pyclass::CompareOp::Gt
-            | pyo3::pyclass::CompareOp::Ge => false,
+            pyo3::pyclass::CompareOp::Eq => Ok(self.0 == other.0),
+            pyo3::pyclass::CompareOp::Ne => Ok(self.0 != other.0),
+            pyo3::pyclass::CompareOp::Lt => Err(pyo3::exceptions::PyTypeError::new_err("'<' is not supported between instances of 'builtins.Element' and 'builtins.Element'")),
+            pyo3::pyclass::CompareOp::Le => Err(pyo3::exceptions::PyTypeError::new_err("'<=' is not supported between instances of 'builtins.Element' and 'builtins.Element'")),
+            pyo3::pyclass::CompareOp::Gt => Err(pyo3::exceptions::PyTypeError::new_err("'>' is not supported between instances of 'builtins.Element' and 'builtins.Element'")),
+            pyo3::pyclass::CompareOp::Ge => Err(pyo3::exceptions::PyTypeError::new_err("'>=' is not supported between instances of 'builtins.Element' and 'builtins.Element'")),
         }
     }
 
@@ -251,10 +251,9 @@ impl Element {
     }
 
     fn remove_character_content_item(&self, position: usize) -> PyResult<()> {
-        match self.0.remove_character_content_item(position) {
-            Ok(()) => Ok(()),
-            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
-        }
+        self.0
+            .remove_character_content_item(position)
+            .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
     #[getter]
@@ -272,7 +271,7 @@ impl Element {
         AttributeIterator(self.0.attributes())
     }
 
-    fn attribute_value(&self, attrname_str: String) -> PyResult<Option<PyObject>> {
+    pub(crate) fn attribute_value(&self, attrname_str: String) -> PyResult<Option<PyObject>> {
         let attrname = get_attribute_name(attrname_str)?;
         Ok(self
             .0
@@ -280,23 +279,16 @@ impl Element {
             .map(|cdata| character_data_to_object(&cdata)))
     }
 
-    fn set_attribute(&self, attrname_str: String, value: PyObject) -> PyResult<()> {
+    pub(crate) fn set_attribute(&self, attrname_str: String, value: PyObject) -> PyResult<()> {
         let attrname = get_attribute_name(attrname_str)?;
         let attrspec = self.0.element_type().find_attribute_spec(attrname).ok_or(
             AutosarDataError::new_err(
-                autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
+                autosar_data_rs::AutosarDataError::InvalidAttribute.to_string(),
             ),
         )?;
         let cdata = extract_character_data(attrspec.spec, value)?;
         self.0
             .set_attribute(attrname, cdata)
-            .map_err(|error| AutosarDataError::new_err(error.to_string()))
-    }
-
-    fn set_attribute_string(&self, attrname_str: String, text: &str) -> PyResult<()> {
-        let attrname = get_attribute_name(attrname_str)?;
-        self.0
-            .set_attribute_string(attrname, text)
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
