@@ -13,6 +13,7 @@ mod arxmlfile;
 mod element;
 mod model;
 mod version;
+mod specification;
 
 use version::*;
 
@@ -122,6 +123,63 @@ enum ContentType {
     Mixed,
 }
 
+#[pyclass]
+#[derive(Debug)]
+/// Specification of an attribute
+struct AttributeSpec {
+    #[pyo3(get)]
+    /// name of the attribute
+    attribute_name: String,
+    /// specification of the attribute value
+    value_spec: &'static CharacterDataSpec,
+    #[pyo3(get)]
+    /// is the attribute required or optional
+    required: bool,
+}
+
+#[pyclass]
+#[derive(Debug)]
+/// The character data in an element or attribute is an enum value
+struct CharacterDataTypeEnum {
+    #[pyo3(get)]
+    /// list of permitted enum values
+    values: Vec<String>,
+}
+
+#[pyclass]
+#[derive(Debug)]
+/// The character data in an element or attribute is a string that must match a regex
+struct CharacterDataTypeRestrictedString {
+    #[pyo3(get)]
+    /// validation regex
+    regex: String,
+    #[pyo3(get)]
+    /// max length (if any)
+    max_length: Option<usize>,
+}
+
+#[pyclass]
+#[derive(Debug)]
+/// The character data in an element or attribute is a string
+struct CharacterDataTypeString {
+    #[pyo3(get)]
+    /// does this element preserve whitespace in its character data
+    preserve_whitespace: bool,
+    #[pyo3(get)]
+    /// max length (if any)
+    max_length: Option<usize>,
+}
+
+#[pyclass]
+#[derive(Debug)]
+/// The character data in an element or attribute is an unsigned integer
+struct CharacterDataTypeUnsignedInt(());
+
+#[pyclass]
+#[derive(Debug)]
+/// The character data in an element or attribute is a float
+struct CharacterDataTypeFloat(());
+
 #[pymethods]
 impl IncompatibleAttributeError {
     fn __repr__(&self) -> String {
@@ -191,60 +249,6 @@ impl IncompatibleElementError {
             self.element.0.xml_path(),
             self.target_version
         )
-    }
-}
-
-#[pymethods]
-impl ElementType {
-    fn __repr__(&self) -> String {
-        format!("{:#?}", self.0)
-    }
-
-    #[getter]
-    fn is_named(&self) -> bool {
-        self.0.is_named()
-    }
-
-    #[getter]
-    fn is_ref(&self) -> bool {
-        self.0.is_ref()
-    }
-
-    #[getter]
-    fn is_ordered(&self) -> bool {
-        self.0.is_ordered()
-    }
-
-    #[getter]
-    fn splittable(&self) -> Vec<AutosarVersion> {
-        let versions = expand_version_mask(self.0.splittable());
-        versions
-            .iter()
-            .map(|&ver| AutosarVersion::from(ver))
-            .collect()
-    }
-
-    fn splittable_in(&self, version: AutosarVersion) -> bool {
-        self.0.splittable_in(version.into())
-    }
-
-    fn reference_dest_value(&self, target: &ElementType) -> Option<String> {
-        self.0
-            .reference_dest_value(&target.0)
-            .map(|enumitem| enumitem.to_string())
-    }
-
-    fn find_sub_element(
-        &self,
-        target_name: String,
-        version_obj: PyObject,
-    ) -> PyResult<Option<ElementType>> {
-        let version = version_mask_from_any(version_obj)?;
-        let elem_name = get_element_name(target_name)?;
-        Ok(self
-            .0
-            .find_sub_element(elem_name, version)
-            .map(|(etype, _)| ElementType(etype)))
     }
 }
 
@@ -367,6 +371,7 @@ impl ValidSubElementInfo {
     }
 }
 
+
 /// Provides functionality to read, modify and write Autosar arxml files,
 /// both separately and in projects consisting of multiple files.
 ///
@@ -399,7 +404,13 @@ fn autosar_data(py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<ElementsIterator>()?;
     m.add_class::<AttributeIterator>()?;
     m.add_class::<Attribute>()?;
+    m.add_class::<AttributeSpec>()?;
     m.add_class::<ValidSubElementInfo>()?;
+    m.add_class::<CharacterDataTypeEnum>()?;
+    m.add_class::<CharacterDataTypeFloat>()?;
+    m.add_class::<CharacterDataTypeRestrictedString>()?;
+    m.add_class::<CharacterDataTypeString>()?;
+    m.add_class::<CharacterDataTypeUnsignedInt>()?;
     m.add("AutosarDataError", py.get_type::<AutosarDataError>())?;
     m.add("__version__", intern!(m.py(), env!("CARGO_PKG_VERSION")))?;
     Ok(())

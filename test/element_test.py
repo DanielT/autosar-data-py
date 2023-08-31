@@ -469,6 +469,8 @@ def test_element_attributes() -> None:
     assert len([attr for attr in el_autosar.attributes]) == 5
     el_autosar.remove_attribute("T")
     assert len([attr for attr in el_autosar.attributes]) == 4
+    with pytest.raises(AutosarDataError):
+        el_autosar.remove_attribute("xyz")
 
 
 def test_file_membership() -> None:
@@ -477,7 +479,7 @@ def test_file_membership() -> None:
     file2 = model.create_file("file2", AutosarVersion.AUTOSAR_00050)
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
     el_pkg1 = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg1")
-    el_pkg1.create_sub_element("ELEMENTS")
+    el_elements = el_pkg1.create_sub_element("ELEMENTS")
     el_pkg2 = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg2")
 
     total_element_count = len([e for e in model.elements_dfs])
@@ -498,6 +500,10 @@ def test_file_membership() -> None:
 
     el_pkg1.add_to_file(file2)
     assert file2 in el_pkg1.file_membership[1]
+
+    el_pkg1.remove_sub_element(el_elements)
+    # with pytest.raises(AutosarDataError):
+    #     el_elements.remove_from_file(file2)
 
 
 def test_element_misc() -> None:

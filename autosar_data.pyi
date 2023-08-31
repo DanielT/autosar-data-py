@@ -27,6 +27,7 @@ EnumItem: TypeAlias = str # ~2500 variants is too many to list here
 CharacterData: TypeAlias = Union[EnumItem, str, int, float]
 ElementContent: TypeAlias = Union[Element, CharacterData]
 VersionSpecification: TypeAlias = Union[AutosarVersion, List[AutosarVersion]]
+CharacterDataType: TypeAlias = Union[CharacterDataTypeEnum, CharacterDataTypeFloat, CharacterDataTypeRestrictedString, CharacterDataTypeString, CharacterDataTypeUnsignedInt]
 
 class ArxmlFile:
     """
@@ -303,6 +304,13 @@ class ElementType:
     def find_sub_element(self, target_name: ElementName, version: VersionSpecification) -> ElementType:
         """find the ElementType of the named sub element in the specification of this ElementType"""
         ...
+    chardata_spec: CharacterDataType
+    """the specification of the character data content of elements of this type"""
+    attributes_spec: List[AttributeSpec]
+    """a list of the specifications of all attributes allowed on elements of this type"""
+    def find_attribute_spec(self, attribute_name: AttributeName) -> AttributeSpec:
+        """find the specification for the given attribute name"""
+        ...
 
 class ElementsDfsIterator:
     """
@@ -367,6 +375,43 @@ class ValidSubElementInfo:
     """is the sub element named, i.e. does it need to be created with create_named_sub_element"""
     is_allowed: bool
     """is the sub element currently allowed, given the existing content of the element. Note that some sub elements are mutually exclusive"""
+
+class AttributeSpec:
+    """The specification of an attribute"""
+    attribute_name: str
+    """name of the attribute"""
+    value_spec: CharacterDataType
+    """specification of the attribute value"""
+    required: bool
+    """is the attribute required or optional"""
+
+class CharacterDataTypeEnum:
+    """Character data type: enum"""
+    values: List[str]
+    """List of valid enum values"""
+
+class CharacterDataTypeFloat:
+    """Character data type: float"""
+    def __repr__(self) -> str: ...
+    def __str__(self) -> str: ...
+
+class CharacterDataTypeRestrictedString:
+    """Character data type: restricted string"""
+    def __repr__(self) -> str: ...
+    def __str__(self) -> str: ...
+    regex: str
+    """to be valid, a string must match this regex"""
+
+class CharacterDataTypeString:
+    """Character data type: string"""
+    def __repr__(self) -> str: ...
+    def __str__(self) -> str: ...
+
+class CharacterDataTypeUnsignedInt:
+    """Character data type: unsigned int"""
+    def __repr__(self) -> str: ...
+    def __str__(self) -> str: ...
+
 
 __version__: str
 """

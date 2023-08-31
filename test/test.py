@@ -20,6 +20,8 @@ def test_others() -> None:
     assert ar_pkg_type.splittable_in(AutosarVersion.AUTOSAR_00042) == True
     with pytest.raises(TypeError):
         model.root_element.element_type.find_sub_element("AR-PACKAGES", "wrong type")
+    with pytest.raises(TypeError):
+        model.root_element.element_type.find_sub_element("AR-PACKAGES", ["wrong type"])
     assert AutosarVersion.AUTOSAR_4_0_1 in ar_pkg_type.splittable
 
     et_str = ar_pkg_type.__str__()
