@@ -190,29 +190,17 @@ class Element:
     """reference to the model containing this element"""
     content_type: ContentType
     """content type of the element: character data (<X>some text</X>), elements (<X><Y></Y></X>), or Mixed"""
-    def create_sub_element(self, element_name: ElementName) -> Element:
-        """create a sub element under this element with the given ElementName"""
+    def create_sub_element(self, element_name: ElementName, position: int = None) -> Element:
+        """create a sub element under this element with the given ElementName (optionally at a specific position)"""
         ...
-    def create_sub_element_at(self, element_name: ElementName, position: int) -> Element:
-        """create a sub element under this element with the given ElementName at a specific position"""
+    def create_named_sub_element(self, element_name: ElementName, item_name: str, position: int = None) -> Element:
+        """create a named sub element under this element with the given ElementName (optionally at a specific position)"""
         ...
-    def create_named_sub_element(self, element_name: ElementName, item_name: str) -> Element:
-        """create a named sub element under this element with the given ElementName"""
+    def create_copied_sub_element(self, other: Element, position: int = None) -> Element:
+        """create a copy of some other element (with all of its children) as a child of this element (optionally at a specific position)"""
         ...
-    def create_named_sub_element_at(self, element_name: ElementName, item_name: str, position: int) -> Element:
-        """create a named sub element under this element with the given ElementName at a specific position"""
-        ...
-    def create_copied_sub_element(self, other: Element) -> Element:
-        """create a copy of some other element (with all of its children) as a child of this element"""
-        ...
-    def create_copied_sub_element_at(self, other: Element, position: int) -> Element:
-        """create a copy of some other element (with all of its children) as a child of this element at the given position"""
-        ...
-    def move_element_here(self, move_element: Element) -> Element:
-        """move an element from somewhere else in this model or from another model to become a child element"""
-        ...
-    def move_element_here_at(self, move_element: Element, position: int) -> Element:
-        """move an element from somewhere else in this model or from another model to become a child element at the given position"""
+    def move_element_here(self, move_element: Element, position: int = None) -> Element:
+        """move an element from somewhere else in this model or from another model to become a child element (optionally at a specific position)"""
         ...
     def remove_sub_element(self, element: Element) -> None:
         """remove a sub element and all of its content"""

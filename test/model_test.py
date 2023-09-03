@@ -234,7 +234,7 @@ def test_model_misc_4() -> None:
 
     # create a second ArPackage "pkg2" and put it in front of the existing "Pkg1"
     el_ar_packages = model.root_element.get_sub_element("AR-PACKAGES")
-    el_pkg2 = el_ar_packages.create_named_sub_element_at("AR-PACKAGE", "Pkg2", 0)
+    el_pkg2 = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg2", 0)
     el_pkg1 = model.get_element_by_path("/Pkg1")
     # verify the initial order
     subelements = [elem for elem in el_ar_packages.sub_elements]

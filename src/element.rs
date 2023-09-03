@@ -103,71 +103,77 @@ impl Element {
         }
     }
 
-    fn create_sub_element(&self, name_str: String) -> PyResult<Element> {
+    fn create_sub_element(&self, name_str: String, position: Option<usize>) -> PyResult<Element> {
         let element_name = get_element_name(name_str)?;
-        match self.0.create_sub_element(element_name) {
-            Ok(element) => Ok(Element(element)),
-            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+        if let Some(position) = position {
+            match self.0.create_sub_element_at(element_name, position) {
+                Ok(element) => Ok(Element(element)),
+                Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+            }
+        } else {
+            match self.0.create_sub_element(element_name) {
+                Ok(element) => Ok(Element(element)),
+                Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+            }
         }
     }
 
-    fn create_sub_element_at(&self, name_str: String, position: usize) -> PyResult<Element> {
-        let element_name = get_element_name(name_str)?;
-        match self.0.create_sub_element_at(element_name, position) {
-            Ok(element) => Ok(Element(element)),
-            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
-        }
-    }
-
-    fn create_named_sub_element(&self, name_str: String, item_name: &str) -> PyResult<Element> {
-        let element_name = get_element_name(name_str)?;
-        match self.0.create_named_sub_element(element_name, item_name) {
-            Ok(element) => Ok(Element(element)),
-            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
-        }
-    }
-
-    fn create_named_sub_element_at(
+    fn create_named_sub_element(
         &self,
         name_str: String,
         item_name: &str,
-        position: usize,
+        position: Option<usize>,
     ) -> PyResult<Element> {
         let element_name = get_element_name(name_str)?;
-        match self
-            .0
-            .create_named_sub_element_at(element_name, item_name, position)
-        {
-            Ok(element) => Ok(Element(element)),
-            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+        if let Some(position) = position {
+            match self
+                .0
+                .create_named_sub_element_at(element_name, item_name, position)
+            {
+                Ok(element) => Ok(Element(element)),
+                Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+            }
+        } else {
+            match self.0.create_named_sub_element(element_name, item_name) {
+                Ok(element) => Ok(Element(element)),
+                Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+            }
         }
     }
 
-    fn create_copied_sub_element(&self, other: &Element) -> PyResult<Element> {
-        match self.0.create_copied_sub_element(&other.0) {
-            Ok(element) => Ok(Element(element)),
-            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+    fn create_copied_sub_element(
+        &self,
+        other: &Element,
+        position: Option<usize>,
+    ) -> PyResult<Element> {
+        if let Some(position) = position {
+            match self.0.create_copied_sub_element_at(&other.0, position) {
+                Ok(element) => Ok(Element(element)),
+                Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+            }
+        } else {
+            match self.0.create_copied_sub_element(&other.0) {
+                Ok(element) => Ok(Element(element)),
+                Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+            }
         }
     }
 
-    fn create_copied_sub_element_at(&self, other: &Element, position: usize) -> PyResult<Element> {
-        match self.0.create_copied_sub_element_at(&other.0, position) {
-            Ok(element) => Ok(Element(element)),
-            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
-        }
-    }
-
-    fn move_element_here(&self, move_element: &Element) -> PyResult<Element> {
-        match self.0.move_element_here(&move_element.0) {
-            Ok(element) => Ok(Element(element)),
-            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
-        }
-    }
-
-    fn move_element_here_at(&self, move_element: &Element, position: usize) -> PyResult<Element> {
-        match self.0.move_element_here_at(&move_element.0, position) {
-            Ok(element) => Ok(Element(element)),
-            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+    fn move_element_here(
+        &self,
+        move_element: &Element,
+        position: Option<usize>,
+    ) -> PyResult<Element> {
+        if let Some(position) = position {
+            match self.0.move_element_here_at(&move_element.0, position) {
+                Ok(element) => Ok(Element(element)),
+                Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+            }
+        } else {
+            match self.0.move_element_here(&move_element.0) {
+                Ok(element) => Ok(Element(element)),
+                Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+            }
         }
     }
 

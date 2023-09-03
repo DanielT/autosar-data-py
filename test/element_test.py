@@ -310,14 +310,14 @@ def test_element_creation() -> None:
     # create an element at a given position
     # not every position is allowed
     with pytest.raises(AutosarDataError):
-        el_elements = el_pkg1.create_sub_element_at("ELEMENTS", 0)
+        el_elements = el_pkg1.create_sub_element("ELEMENTS", 0)
     # position 1 (after ShortName) is allowed
     assert len([e for e in el_pkg1.sub_elements]) == 1
-    el_elements = el_pkg1.create_sub_element_at("ELEMENTS", 1)
+    el_elements = el_pkg1.create_sub_element("ELEMENTS", 1)
     assert el_elements.position == 1
 
     # create a named sub element at a given position
-    el_elements.create_named_sub_element_at("SYSTEM", "System", 0)
+    el_elements.create_named_sub_element("SYSTEM", "System", 0)
     el_system = el_elements.get_sub_element_at(0)
     assert el_system.element_name == "SYSTEM"
 
@@ -331,7 +331,7 @@ def test_element_creation() -> None:
     assert copied_system.path == "/Pkg2/System"
 
     # create a copied elelemt at a given position
-    el_pkg3 = el_ar_packages.create_copied_sub_element_at(el_pkg1, 0)
+    el_pkg3 = el_ar_packages.create_copied_sub_element(el_pkg1, 0)
     assert el_pkg3.position == 0
     el_pkg3.item_name = "Pkg3"
 
@@ -344,12 +344,12 @@ def test_element_creation() -> None:
     assert el_pkg2.path == "/Pkg1/Pkg2"
     assert copied_system.path == "/Pkg1/Pkg2/System"
 
-    # move_element_here_at can move elements to a specified position within a target element
+    # move_element_here can move elements to a specified position within a target element
     # it can also be used to re-oder elements inside the current element
     sub_elements = [e for e in el_ar_packages.sub_elements]
     assert sub_elements[0] == el_pkg3
     assert sub_elements[1] == el_pkg1
-    el_ar_packages.move_element_here_at(el_pkg3, 1)
+    el_ar_packages.move_element_here(el_pkg3, 1)
     sub_elements = [e for e in el_ar_packages.sub_elements]
     assert sub_elements[0] == el_pkg1
     assert sub_elements[1] == el_pkg3
@@ -360,7 +360,7 @@ def test_element_creation() -> None:
         el_pkg1.create_sub_element("SHORT-NAME")
     # the element Autosar is not a valid sub element of ArPackage
     with pytest.raises(AutosarDataError):
-         el_pkg1.create_sub_element_at("AUTOSAR", 1)
+         el_pkg1.create_sub_element("AUTOSAR", 1)
 
     # it is possible to check which sub elements would be valid
     # returns a list of tuples: (ElementName, is_named, currently_allowed)
@@ -412,32 +412,32 @@ def test_element_action_errors() -> None:
     with pytest.raises(AutosarDataError):
         el_ar_package.create_sub_element("not an element")
     with pytest.raises(AutosarDataError):
-        el_ar_package.create_sub_element_at("not an element", 0)
+        el_ar_package.create_sub_element("not an element", 0)
     with pytest.raises(AutosarDataError):
         el_ar_package.create_sub_element("AUTOSAR")
     with pytest.raises(AutosarDataError):
-        el_ar_package.create_sub_element_at("AUTOSAR", 0)
+        el_ar_package.create_sub_element("AUTOSAR", 0)
 
     with pytest.raises(AutosarDataError):
         el_ar_package.create_named_sub_element("not an element", "name")
     with pytest.raises(AutosarDataError):
-        el_ar_package.create_named_sub_element_at("not an element", "name", 0)
+        el_ar_package.create_named_sub_element("not an element", "name", 0)
     with pytest.raises(AutosarDataError):
         el_ar_package.create_named_sub_element("AUTOSAR", "name")
     with pytest.raises(AutosarDataError):
-        el_ar_package.create_named_sub_element_at("AUTOSAR", "name", 0)
+        el_ar_package.create_named_sub_element("AUTOSAR", "name", 0)
 
     # cannot create invalid an structure by copying
     with pytest.raises(AutosarDataError):
         el_ar_package.create_copied_sub_element(el_ar_package2)
     with pytest.raises(AutosarDataError):
-        el_ar_package.create_copied_sub_element_at(el_ar_package2, 0)
+        el_ar_package.create_copied_sub_element(el_ar_package2, 0)
 
     # cannot create an invalid stucture by moving elements
     with pytest.raises(AutosarDataError):
         el_ar_package.move_element_here(el_ar_package2)
     with pytest.raises(AutosarDataError):
-        el_ar_package.move_element_here_at(el_ar_package2, 0)
+        el_ar_package.move_element_here(el_ar_package2, 0)
     
     # can't remove an element that is not a sub element
     with pytest.raises(AutosarDataError):
