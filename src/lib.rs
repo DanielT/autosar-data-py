@@ -12,8 +12,8 @@ use pyo3::types::*;
 mod arxmlfile;
 mod element;
 mod model;
-mod version;
 mod specification;
+mod version;
 
 use version::*;
 
@@ -370,7 +370,6 @@ impl ValidSubElementInfo {
         format!("{:#?}", self)
     }
 }
-
 
 /// Provides functionality to read, modify and write Autosar arxml files,
 /// both separately and in projects consisting of multiple files.

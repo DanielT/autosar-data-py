@@ -113,6 +113,7 @@ def test_model_write() -> None:
 
 def test_model_identifiables() -> None:
     model = AutosarModel()
+    model.create_file("file")
     # create some elements
     el_elements = model.root_element \
         .create_sub_element("AR-PACKAGES") \
@@ -188,9 +189,10 @@ def test_model_misc_2() -> None:
 
 def test_model_misc_3() -> None:
     model = AutosarModel()
+    model.create_file("file")
 
     # dfs iterator test: create some elements
-    el_elements = model.root_element \
+    model.root_element \
         .create_sub_element("AR-PACKAGES") \
         .create_named_sub_element("AR-PACKAGE", "Pkg1") \
         .create_sub_element("ELEMENTS")
@@ -211,6 +213,7 @@ def test_model_misc_3() -> None:
 
 def test_model_misc_4() -> None:
     model = AutosarModel()
+    model.create_file("file")
 
     # dfs iterator test: create some elements
     el_elements = model.root_element \

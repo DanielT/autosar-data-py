@@ -58,6 +58,7 @@ def test_element_basic_1() -> None:
 
 def test_element_basic_2() -> None:
     model = AutosarModel()
+    model.create_file("file")
     el_ar_package = model.root_element.create_sub_element("AR-PACKAGES").create_named_sub_element("AR-PACKAGE", "Pkg1")
     el_root = model.root_element
     # the behavior of the element is determined by its element_type
@@ -85,6 +86,7 @@ def test_element_basic_2() -> None:
 
 def test_element_basic_3() -> None:
     model = AutosarModel()
+    model.create_file("file")
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
     el_ar_package = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg1")
 
@@ -109,6 +111,7 @@ def test_element_basic_3() -> None:
 
 def test_element_content() -> None:
     model = AutosarModel()
+    model.create_file("file")
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
     el_pkg1 = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg1")
     el_short_name = el_pkg1.get_sub_element("SHORT-NAME")
@@ -145,6 +148,7 @@ def test_element_content() -> None:
 
 def test_element_references() -> None:
     model = AutosarModel()
+    model.create_file("file")
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
     el_elements = el_ar_packages \
         .create_named_sub_element("AR-PACKAGE", "SysPkg") \
@@ -201,6 +205,7 @@ def test_element_references() -> None:
 def test_element_character_data_1() -> None:
     # some elements have the data type double / f64 for their character content
     model = AutosarModel()
+    model.create_file("file")
     el_macrotick = model.root_element \
         .create_sub_element("AR-PACKAGES") \
         .create_named_sub_element("AR-PACKAGE", "pkg") \
@@ -222,6 +227,7 @@ def test_element_character_data_1() -> None:
 def test_element_character_data_2() -> None:
     # it seems there is only one element with datatype unsigned integer, and only in Autosar 4.0.1
     model = AutosarModel()
+    model.create_file("file")
     el_cse_code = model.root_element \
         .create_sub_element("AR-PACKAGES") \
         .create_named_sub_element("AR-PACKAGE", "pkg") \
@@ -244,6 +250,7 @@ def test_element_character_data_2() -> None:
 
 def test_element_character_data_3() -> None:
     model = AutosarModel()
+    model.create_file("file")
     el_fibex_element_ref = model.root_element.create_sub_element("AR-PACKAGES") \
         .create_named_sub_element("AR-PACKAGE", "Pkg") \
         .create_sub_element("ELEMENTS") \
@@ -263,6 +270,7 @@ def test_element_character_data_3() -> None:
 
 def test_element_character_data_4() -> None:
     model = AutosarModel()
+    model.create_file("file")
     model.root_element.set_attribute("S", "text")
     model.root_element.set_attribute("S", 42)
     model.root_element.set_attribute("S", 3.1415)
@@ -273,6 +281,7 @@ def test_element_character_data_4() -> None:
 
 def test_character_data_5() -> None:
     model = AutosarModel()
+    model.create_file("file")
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
     # can't set character data on elements that have ContentType: Elements
     with pytest.raises(AutosarDataError):
@@ -290,6 +299,7 @@ def test_character_data_5() -> None:
 
 def test_element_creation() -> None:
     model = AutosarModel()
+    model.create_file("file")
 
     # create an unnamed element
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
@@ -393,6 +403,7 @@ def test_element_creation() -> None:
 
 def test_element_action_errors() -> None:
     model = AutosarModel()
+    model.create_file("file")
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
     el_ar_package = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg")
     el_ar_package2 = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg2")
@@ -436,6 +447,7 @@ def test_element_action_errors() -> None:
 
 def test_element_attributes() -> None:
     model = AutosarModel()
+    model.create_file("file")
     el_autosar = model.root_element
 
     attributes = [attr for attr in el_autosar.attributes]
@@ -475,6 +487,7 @@ def test_element_attributes() -> None:
 
 def test_file_membership() -> None:
     model = AutosarModel()
+    model.create_file("file")
     file1 = model.create_file("file1", AutosarVersion.AUTOSAR_00050)
     file2 = model.create_file("file2", AutosarVersion.AUTOSAR_00050)
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
@@ -502,8 +515,8 @@ def test_file_membership() -> None:
     assert file2 in el_pkg1.file_membership[1]
 
     el_pkg1.remove_sub_element(el_elements)
-    # with pytest.raises(AutosarDataError):
-    #     el_elements.remove_from_file(file2)
+    with pytest.raises(AutosarDataError):
+        el_elements.remove_from_file(file2)
 
 
 def test_element_misc() -> None:

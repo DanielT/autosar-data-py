@@ -85,7 +85,9 @@ impl ElementType {
                 required: attrspec.required,
             })
         } else {
-            Err(pyo3::exceptions::PyValueError::new_err(format!("'{attrname_str}' is not a valid attribute for this ElementType")))
+            Err(pyo3::exceptions::PyValueError::new_err(format!(
+                "'{attrname_str}' is not a valid attribute for this ElementType"
+            )))
         }
     }
 }

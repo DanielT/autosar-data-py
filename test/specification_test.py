@@ -3,6 +3,7 @@ import pytest
 
 def test_specification_basic() -> None:
     model = AutosarModel()
+    model.create_file("file")
     assert model.root_element.element_type.chardata_spec is None
 
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
@@ -26,6 +27,7 @@ def test_specification_basic() -> None:
 
 def test_specification_enum() -> None:
     model = AutosarModel()
+    model.create_file("file")
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
     el_elements = el_ar_packages \
         .create_named_sub_element("AR-PACKAGE", "SysPkg") \
@@ -49,6 +51,7 @@ def test_specification_enum() -> None:
 
 def test_specification_float() -> None:
     model = AutosarModel()
+    model.create_file("file")
     el_macrotick = model.root_element \
         .create_sub_element("AR-PACKAGES") \
         .create_named_sub_element("AR-PACKAGE", "pkg") \
@@ -65,6 +68,7 @@ def test_specification_float() -> None:
 
 def test_specification_restricted_string() -> None:
     model = AutosarModel()
+    model.create_file("file")
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
     el_elements = el_ar_packages \
         .create_named_sub_element("AR-PACKAGE", "SysPkg") \
@@ -83,6 +87,7 @@ def test_specification_restricted_string() -> None:
 
 def test_specification_string() -> None:
     model = AutosarModel()
+    model.create_file("file")
     attr_s_spec = model.root_element.element_type.find_attribute_spec("S")
     print(attr_s_spec)
     assert isinstance(attr_s_spec, AttributeSpec)
@@ -95,6 +100,7 @@ def test_specification_string() -> None:
 
 def test_specification_uint() -> None:
     model = AutosarModel()
+    model.create_file("file")
     el_cse_code = model.root_element \
         .create_sub_element("AR-PACKAGES") \
         .create_named_sub_element("AR-PACKAGE", "pkg") \

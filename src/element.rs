@@ -305,11 +305,17 @@ impl Element {
         self.0
             .list_valid_sub_elements()
             .iter()
-            .map(|(name, is_named, is_allowed)| ValidSubElementInfo {
-                element_name: name.to_string(),
-                is_named: *is_named,
-                is_allowed: *is_allowed,
-            })
+            .map(
+                |autosar_data_rs::ValidSubElementInfo {
+                     element_name,
+                     is_named,
+                     is_allowed,
+                 }| ValidSubElementInfo {
+                    element_name: element_name.to_string(),
+                    is_named: *is_named,
+                    is_allowed: *is_allowed,
+                },
+            )
             .collect()
     }
 
