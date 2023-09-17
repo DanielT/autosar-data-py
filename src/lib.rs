@@ -5,6 +5,7 @@ use autosar_data_rs::CharacterData;
 use autosar_data_specification::expand_version_mask;
 use autosar_data_specification::CharacterDataSpec;
 use pyo3::create_exception;
+use pyo3::exceptions::{PyTypeError, PyValueError};
 use pyo3::intern;
 use pyo3::prelude::*;
 use pyo3::types::*;
@@ -371,6 +372,28 @@ impl ValidSubElementInfo {
     }
 }
 
+#[pyfunction]
+fn check_file(filename: &str) -> bool {
+    autosar_data_rs::check_file(filename)
+}
+
+#[pyfunction]
+fn check_buffer(object: PyObject) -> PyResult<bool> {
+    Python::with_gil(|py| {
+        if let Ok(bytebuffer) = object.extract::<&[u8]>(py) {
+            Ok(autosar_data_rs::check_buffer(bytebuffer))
+        } else if let Ok(stringbuffer) = object.extract::<&str>(py) {
+            Ok(autosar_data_rs::check_buffer(stringbuffer.as_bytes()))
+        } else {
+            let any = object.as_ref(py);
+            Err(PyTypeError::new_err(format!(
+                "'{}' cannot be converted to 'bytes'",
+                any.get_type()
+            )))
+        }
+    })
+}
+
 /// Provides functionality to read, modify and write Autosar arxml files,
 /// both separately and in projects consisting of multiple files.
 ///
@@ -382,6 +405,11 @@ impl ValidSubElementInfo {
 /// - Element
 /// - ElementType
 /// - ValidSubElementInfo
+///
+/// Functions:
+///
+/// - check_file
+/// - check_buffwe
 ///
 /// Variables:
 ///
@@ -410,6 +438,8 @@ fn autosar_data(py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<CharacterDataTypeRestrictedString>()?;
     m.add_class::<CharacterDataTypeString>()?;
     m.add_class::<CharacterDataTypeUnsignedInt>()?;
+    m.add_function(wrap_pyfunction!(check_file, m)?)?;
+    m.add_function(wrap_pyfunction!(check_buffer, m)?)?;
     m.add("AutosarDataError", py.get_type::<AutosarDataError>())?;
     m.add("__version__", intern!(m.py(), env!("CARGO_PKG_VERSION")))?;
     Ok(())
@@ -427,12 +457,12 @@ fn extract_character_data(
                     if let Ok(enumitem) = autosar_data_rs::EnumItem::from_str(&strval) {
                         Ok(CharacterData::Enum(enumitem))
                     } else {
-                        Err(pyo3::exceptions::PyValueError::new_err(format!(
+                        Err(PyValueError::new_err(format!(
                             "string value '{strval}' cannot be converted to 'EnumItem'"
                         )))
                     }
                 } else {
-                    Err(pyo3::exceptions::PyTypeError::new_err(format!(
+                    Err(PyTypeError::new_err(format!(
                         "'{}' cannot be converted to 'EnumItem'",
                         any.get_type()
                     )))
@@ -446,7 +476,7 @@ fn extract_character_data(
                 } else if let Ok(floatval) = any.extract::<f64>() {
                     Ok(CharacterData::String(floatval.to_string()))
                 } else {
-                    Err(pyo3::exceptions::PyTypeError::new_err(format!(
+                    Err(PyTypeError::new_err(format!(
                         "'{}' cannot be converted to 'str'",
                         any.get_type()
                     )))
@@ -457,14 +487,14 @@ fn extract_character_data(
                     if let Ok(intval) = strval.parse() {
                         Ok(CharacterData::UnsignedInteger(intval))
                     } else {
-                        Err(pyo3::exceptions::PyValueError::new_err(format!(
+                        Err(PyValueError::new_err(format!(
                             "invalid literal '{strval}' for conversion to int"
                         )))
                     }
                 } else if let Ok(intval) = any.extract::<u64>() {
                     Ok(CharacterData::UnsignedInteger(intval))
                 } else {
-                    Err(pyo3::exceptions::PyTypeError::new_err(format!(
+                    Err(PyTypeError::new_err(format!(
                         "'{}' cannot be converted to 'int'",
                         any.get_type()
                     )))
@@ -475,7 +505,7 @@ fn extract_character_data(
                     if let Ok(floatval) = strval.parse() {
                         Ok(CharacterData::Double(floatval))
                     } else {
-                        Err(pyo3::exceptions::PyValueError::new_err(format!(
+                        Err(PyValueError::new_err(format!(
                             "invalid literal '{strval}' for conversion to float"
                         )))
                     }
@@ -484,7 +514,7 @@ fn extract_character_data(
                 } else if let Ok(floatval) = any.extract::<f64>() {
                     Ok(CharacterData::Double(floatval))
                 } else {
-                    Err(pyo3::exceptions::PyTypeError::new_err(format!(
+                    Err(PyTypeError::new_err(format!(
                         "'{}' cannot be converted to 'float'",
                         any.get_type()
                     )))
@@ -537,7 +567,7 @@ fn version_mask_from_any(version_obj: PyObject) -> PyResult<u32> {
             Ok(ver as u32)
         } else {
             let any = version_obj.as_ref(py);
-            Err(pyo3::exceptions::PyTypeError::new_err(format!(
+            Err(PyTypeError::new_err(format!(
                 "'{}' cannot be converted to 'VersionSpecification'",
                 any.get_type()
             )))

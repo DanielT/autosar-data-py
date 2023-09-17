@@ -400,6 +400,13 @@ class CharacterDataTypeUnsignedInt:
     def __repr__(self) -> str: ...
     def __str__(self) -> str: ...
 
+def check_file(filename: str):
+    """Check if the file contains arxml data. Returns true if an arxml file header is found and does not parse anything after it."""
+    ...
+
+def check_buffer(filename: bytes):
+    """Check if the buffer contains arxml data. Returns true if an arxml file header is found and does not parse anything after it."""
+    ...
 
 __version__: str
 """

@@ -296,6 +296,17 @@ def test_character_data_5() -> None:
         el_ar_packages.remove_character_content_item(0)
 
 
+def test_character_data_6() -> None:
+    # reading and writing character data on an element with content_type == Mixed
+    # this should work as long as there are 0 or 1 content items in the mixed content
+    model = AutosarModel()
+    model.create_file("file")
+    el_l2 = model.root_element.create_sub_element("AR-PACKAGES") \
+        .create_named_sub_element("AR-PACKAGE", "Pkg1") \
+        .create_sub_element("DESC") \
+        .create_sub_element("L-2")
+    el_l2.character_data = "text"
+    assert el_l2.character_data == "text"
 
 def test_element_creation() -> None:
     model = AutosarModel()

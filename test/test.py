@@ -1,5 +1,6 @@
 from autosar_data import *
 import pytest
+import os
 
 def test_others() -> None:
     model = AutosarModel()
@@ -41,3 +42,18 @@ def test_others() -> None:
     
     with pytest.raises(AutosarDataError):
         model.root_element.set_attribute("bla", 0)
+
+
+def test_check_arxml(tmp_path: str) -> None:
+    model = AutosarModel()
+    filename1 = os.path.join(tmp_path, "test.arxml")
+    file = model.create_file(filename1)
+    model.write()
+    assert check_file(filename1) == True
+    assert check_file("no_such_file") == False
+
+    text = file.serialize()
+    assert check_buffer(text.encode('utf-8')) == True
+    assert check_buffer(b'abcdef') == False
+    with pytest.raises(TypeError):
+        check_buffer(file)
