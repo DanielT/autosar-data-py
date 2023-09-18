@@ -17,6 +17,10 @@ This crate implements Python bindings for autosar-data using [PyO3](https://pyo3
 - support for Autosar paths and cross references
 - supports Autosar version 4.0.1 and up.
 
+## API documentation
+
+API documentation is located here: [https://danielt.github.io/autosar-data-py/](https://danielt.github.io/autosar-data-py/)
+
 ## Example
 
 ### Load data from a file
