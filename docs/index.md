@@ -284,6 +284,22 @@ def get_sub_element_at(self, position: int) -> Element
 
 get an element by its position among the content of this element
 
+#### get_named_sub_element
+
+```python
+def get_named_sub_element(self, item_name: str) -> Element:
+```
+
+Get the sub element with the given item name, if any
+
+#### get_bsw_sub_element
+
+```python
+def get_bsw_sub_element(self, definition_ref: str) -> Element:
+```
+
+get the sub element with the given definition ref. It is possible to specify either the full definition ref, or only the last part after the final '/'
+
 #### serialize
 
 ```python

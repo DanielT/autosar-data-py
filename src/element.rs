@@ -103,7 +103,7 @@ impl Element {
         }
     }
 
-    fn create_sub_element(&self, name_str: String, position: Option<usize>) -> PyResult<Element> {
+    fn create_sub_element(&self, name_str: &str, position: Option<usize>) -> PyResult<Element> {
         let element_name = get_element_name(name_str)?;
         if let Some(position) = position {
             match self.0.create_sub_element_at(element_name, position) {
@@ -120,7 +120,7 @@ impl Element {
 
     fn create_named_sub_element(
         &self,
-        name_str: String,
+        name_str: &str,
         item_name: &str,
         position: Option<usize>,
     ) -> PyResult<Element> {
@@ -198,13 +198,37 @@ impl Element {
         }
     }
 
-    fn get_sub_element(&self, name_str: String) -> PyResult<Option<Element>> {
+    fn get_sub_element(&self, name_str: &str) -> PyResult<Option<Element>> {
         let element_name = get_element_name(name_str)?;
         Ok(self.0.get_sub_element(element_name).map(Element))
     }
 
     fn get_sub_element_at(&self, position: usize) -> Option<Element> {
         self.0.get_sub_element_at(position).map(Element)
+    }
+
+    fn get_named_sub_element(&self, item_name: String) -> Option<Element> {
+        let item_name = Some(item_name);
+        self.0
+            .sub_elements()
+            .find(|se| se.item_name() == item_name)
+            .map(Element)
+    }
+
+    fn get_bsw_sub_element(&self, definition_ref: String) -> Option<Element> {
+        self.0
+            .sub_elements()
+            .find(|se| {
+                se.get_sub_element(autosar_data_rs::ElementName::DefinitionRef)
+                    .and_then(|defref| defref.character_data())
+                    .and_then(|cdata| cdata.string_value())
+                    .map(|strval| {
+                        strval == definition_ref
+                            || strval.split('/').last().unwrap_or("") == definition_ref
+                    })
+                    .unwrap_or(false)
+            })
+            .map(Element)
     }
 
     #[getter]

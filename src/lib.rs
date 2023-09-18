@@ -535,8 +535,8 @@ fn character_data_to_object(cdata: &autosar_data_rs::CharacterData) -> PyObject 
     })
 }
 
-fn get_element_name(name_str: String) -> PyResult<autosar_data_rs::ElementName> {
-    autosar_data_rs::ElementName::from_str(&name_str).or_else(|_| {
+fn get_element_name(name_str: &str) -> PyResult<autosar_data_rs::ElementName> {
+    autosar_data_rs::ElementName::from_str(name_str).or_else(|_| {
         PyResult::Err(AutosarDataError::new_err(format!(
             "Cannot convert \"{name_str}\" to ElementName"
         )))

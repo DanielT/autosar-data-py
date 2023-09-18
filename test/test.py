@@ -53,6 +53,7 @@ def test_check_arxml(tmp_path: str) -> None:
     assert check_file("no_such_file") == False
 
     text = file.serialize()
+    assert check_buffer(text) == True
     assert check_buffer(text.encode('utf-8')) == True
     assert check_buffer(b'abcdef') == False
     with pytest.raises(TypeError):

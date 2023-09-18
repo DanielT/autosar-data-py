@@ -411,6 +411,27 @@ def test_element_creation() -> None:
     assert element_info[12][1].element_name == "SHORT-NAME"
     assert len(element_info) == 13
 
+def test_get_sub_element_additional() -> None:
+    model = AutosarModel()
+    model.create_file("file")
+    el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
+    el_ar_package = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg")
+    el_elements = el_ar_package.create_sub_element("ELEMENTS")
+    el_elements.create_named_sub_element("ECUC-MODULE-CONFIGURATION-VALUES", "BswConfig") \
+        .create_sub_element("DEFINITION-REF") \
+        .character_data = "/Bsw/Definition/Container"
+
+    el_bsw = el_elements.get_bsw_sub_element("/Bsw/Definition/Container")
+    assert isinstance(el_bsw, Element)
+    assert el_bsw.item_name == "BswConfig"
+
+    el_bsw = el_elements.get_bsw_sub_element("Container")
+    assert isinstance(el_bsw, Element)
+    assert el_bsw.item_name == "BswConfig"
+
+    el_bsw = el_elements.get_named_sub_element("BswConfig")
+    assert isinstance(el_bsw, Element)
+    assert el_bsw.element_name == "ECUC-MODULE-CONFIGURATION-VALUES"
 
 def test_element_action_errors() -> None:
     model = AutosarModel()

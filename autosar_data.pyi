@@ -215,6 +215,12 @@ class Element:
     def get_sub_element_at(self, position: int) -> Element:
         """get an element by its position among the content of this element"""
         ...
+    def get_named_sub_element(self, item_name: str) -> Element:
+        """get the sub element with the given item name, if any"""
+        ...
+    def get_bsw_sub_element(self, definition_ref: str) -> Element:
+        """get the sub element with the given definition ref. It is possible to specify either the full definition ref, or only the last part after the final '/'"""
+        ...
     position: int
     """the position of this element in the content of its parent"""
     sub_elements: ElementsIterator

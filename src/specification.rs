@@ -42,7 +42,7 @@ impl ElementType {
 
     fn find_sub_element(
         &self,
-        target_name: String,
+        target_name: &str,
         version_obj: PyObject,
     ) -> PyResult<Option<ElementType>> {
         let version = version_mask_from_any(version_obj)?;
