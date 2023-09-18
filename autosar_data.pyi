@@ -168,7 +168,9 @@ class Element:
     """
     def __repr__(self) -> str: ...
     def __str__(self) -> str: ...
-    def serialize(self) -> str: ...
+    def serialize(self) -> str:
+        """serialize this element and its sub elements int oa string. This string is valid xml, but it is not a vaild arxml file"""
+        ...
     parent: Element
     """reference to the parent of this element"""
     element_name: ElementName
@@ -218,7 +220,7 @@ class Element:
     sub_elements: ElementsIterator
     """an iterator over all sub elements in the content of this element. It skips character data content items"""
     elements_dfs: ElementsDfsIterator
-    """dpeth first search iterator for this element and all of its sub elements"""
+    """depth first search iterator for this element and all of its sub elements"""
     character_data: CharacterData
     """character content of this element, if any. For elements with ContentType=Element, or empty elements this is None"""
     def remove_character_data(self) -> None:

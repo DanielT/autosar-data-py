@@ -138,5 +138,5 @@ for (depth, element) in model.elements_dfs:
 - maturin must be installed: `pip install maturin` if it isn't
 - create a venv in the cloned source: `python -m venv .venv`
 - build the wheel and directly install it in the venv: `maturin develop`
-- activate the venv in a shell: `.venv/Scripts/activate` or `.venv\Scripts\Activate.ps1`
+- activate the venv in a shell: `source .venv/bin/activate` or `.venv\Scripts\Activate.ps1`
 - run python in the shell with the venv

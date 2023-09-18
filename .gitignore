@@ -72,3 +72,6 @@ docs/_build/
 
 # Pyenv
 .python-version
+
+# mkdocs output
+/site/

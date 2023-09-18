@@ -22,6 +22,7 @@ readme = "README.md"
 [project.urls]
 Source = "https://github.com/DanielT/autosar-data-py"
 Tracker = "https://github.com/DanielT/autosar-data-py/issues"
+Documentation = "https://danielt.github.io/autosar-data-py/"
 
 [tool.maturin]
 features = ["pyo3/extension-module"]
