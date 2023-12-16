@@ -656,6 +656,15 @@ splittable: List[AutosarVersion]
 
 A list of AutosarVersions in which this element is splittable
 
+#### std_restriction
+
+```python
+std_restriction: str
+```
+
+Indicates if the element type is restricted to a particular version.
+std_restriction contains a string, one of 'NotRestricted', 'ClassicPlatform' or 'AdaptivePlatform'.
+
 #### chardata_spec
 
 ```python

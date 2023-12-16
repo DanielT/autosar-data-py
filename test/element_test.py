@@ -66,6 +66,7 @@ def test_element_basic_2() -> None:
     assert el_root.is_reference == el_root.element_type.is_ref
     assert not el_root.element_type.is_ordered
     assert el_root.element_type.splittable != 0
+    assert not el_root.element_type.std_restriction is None
 
     # Element has __str__ and __repr__
     el_ar_packages_repr = el_root.__repr__()

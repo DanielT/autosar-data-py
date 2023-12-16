@@ -152,6 +152,7 @@ class AutosarVersion:
     Autosar_00049: AutosarVersion
     Autosar_00050: AutosarVersion
     Autosar_00051: AutosarVersion
+    Autosar_00052: AutosarVersion
 
 class ContentType:
     """
@@ -291,6 +292,8 @@ class ElementType:
     """ordered elements may not be sorted, since the sub element order is semantically meaningful"""
     splittable: List[AutosarVersion]
     """a list of AutosarVersions in which this element is splittable"""
+    std_restriction: str
+    """a string indication if the element is restricted to ClassicPlatform, AdaptivePlatform or NotRestricted"""
     def splittable_in(self, version: AutosarVersion) -> bool:
         """is this element splittable in a particular AutosarVersion"""
         ...

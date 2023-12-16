@@ -30,6 +30,11 @@ impl ElementType {
             .collect()
     }
 
+    #[getter]
+    fn std_restriction(&self) -> String {
+        format!("{:?}", self.0.std_restriction())
+    }
+
     fn splittable_in(&self, version: AutosarVersion) -> bool {
         self.0.splittable_in(version.into())
     }
