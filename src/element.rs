@@ -360,9 +360,9 @@ impl Element {
                             .map(|raw| Py::new(py, ArxmlFile(raw)).unwrap().into_py(py))
                     })
                     .collect();
-                let frozenset: &PyFrozenSet = PyFrozenSet::new(py, file_set.iter()).unwrap();
-                let pytuple: &PyTuple =
-                    PyTuple::new(py, [local.to_object(py), frozenset.to_object(py)].iter());
+                let frozenset = PyFrozenSet::new_bound(py, file_set.iter()).unwrap();
+                let pytuple =
+                    PyTuple::new_bound(py, [local.to_object(py), frozenset.to_object(py)].iter());
                 Ok(pytuple.to_object(py))
             }
             Err(error) => Err(AutosarDataError::new_err(error.to_string())),

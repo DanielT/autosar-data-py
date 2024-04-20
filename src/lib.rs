@@ -269,7 +269,7 @@ impl ElementsDfsIterator {
     fn __next__(&mut self) -> Option<PyObject> {
         Python::with_gil(|py| {
             self.0.next().map(|(depth, elem)| {
-                PyTuple::new(
+                PyTuple::new_bound(
                     py,
                     [
                         depth.to_object(py),
@@ -292,7 +292,7 @@ impl ArxmlFileElementsDfsIterator {
     fn __next__(&mut self) -> Option<PyObject> {
         Python::with_gil(|py| {
             self.0.next().map(|(depth, elem)| {
-                PyTuple::new(
+                PyTuple::new_bound(
                     py,
                     [
                         depth.to_object(py),
@@ -385,7 +385,7 @@ fn check_buffer(object: PyObject) -> PyResult<bool> {
         } else if let Ok(stringbuffer) = object.extract::<&str>(py) {
             Ok(autosar_data_rs::check_buffer(stringbuffer.as_bytes()))
         } else {
-            let any = object.as_ref(py);
+            let any = object.bind(py);
             Err(PyTypeError::new_err(format!(
                 "'{}' cannot be converted to 'bytes'",
                 any.get_type()
@@ -415,7 +415,7 @@ fn check_buffer(object: PyObject) -> PyResult<bool> {
 ///
 /// - __version__
 #[pymodule]
-fn autosar_data(py: Python, m: &PyModule) -> PyResult<()> {
+fn autosar_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<ElementType>()?;
     m.add_class::<AutosarVersion>()?;
     m.add_class::<AutosarModel>()?;
@@ -440,7 +440,7 @@ fn autosar_data(py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<CharacterDataTypeUnsignedInt>()?;
     m.add_function(wrap_pyfunction!(check_file, m)?)?;
     m.add_function(wrap_pyfunction!(check_buffer, m)?)?;
-    m.add("AutosarDataError", py.get_type::<AutosarDataError>())?;
+    m.add("AutosarDataError", py.get_type_bound::<AutosarDataError>())?;
     m.add("__version__", intern!(m.py(), env!("CARGO_PKG_VERSION")))?;
     Ok(())
 }
@@ -450,7 +450,7 @@ fn extract_character_data(
     object: PyObject,
 ) -> PyResult<autosar_data_rs::CharacterData> {
     Python::with_gil(|py| {
-        let any: &PyAny = object.as_ref(py);
+        let any = object.bind(py);
         match spec {
             CharacterDataSpec::Enum { .. } => {
                 if let Ok(strval) = any.extract::<String>() {
@@ -527,9 +527,9 @@ fn extract_character_data(
 fn character_data_to_object(cdata: &autosar_data_rs::CharacterData) -> PyObject {
     Python::with_gil(|py| match cdata {
         autosar_data_rs::CharacterData::Enum(enumitem) => {
-            PyString::new(py, enumitem.to_str()).into_py(py)
+            PyString::new_bound(py, enumitem.to_str()).into_py(py)
         }
-        autosar_data_rs::CharacterData::String(s) => PyString::new(py, s).into_py(py),
+        autosar_data_rs::CharacterData::String(s) => PyString::new_bound(py, s).into_py(py),
         autosar_data_rs::CharacterData::UnsignedInteger(val) => val.to_object(py),
         autosar_data_rs::CharacterData::Double(val) => val.to_object(py),
     })
@@ -559,14 +559,12 @@ fn version_mask_from_any(version_obj: PyObject) -> PyResult<u32> {
                 let ver: autosar_data_rs::AutosarVersion = item.extract::<AutosarVersion>()?.into();
                 mask |= ver as u32;
             }
-            println!("mask from list of {} versions: {:x}", list.len(), mask);
             Ok(mask)
         } else if let Ok(version_py) = version_obj.extract::<AutosarVersion>(py) {
             let ver: autosar_data_rs::AutosarVersion = version_py.into();
-            println!("mask from single version: {:x}", ver as u32);
             Ok(ver as u32)
         } else {
-            let any = version_obj.as_ref(py);
+            let any = version_obj.bind(py);
             Err(PyTypeError::new_err(format!(
                 "'{}' cannot be converted to 'VersionSpecification'",
                 any.get_type()
