@@ -16,7 +16,7 @@ mod model;
 mod specification;
 mod version;
 
-use version::*;
+use version::AutosarVersion;
 
 create_exception!(module, AutosarDataError, pyo3::exceptions::PyException);
 
@@ -35,6 +35,9 @@ struct Element(autosar_data_rs::Element);
 
 #[pyclass]
 struct ElementsDfsIterator(autosar_data_rs::ElementsDfsIterator);
+
+#[pyclass]
+struct IdentifiablesIterator(autosar_data_rs::IdentifiablesIterator);
 
 #[pyclass]
 struct ArxmlFileElementsDfsIterator(autosar_data_rs::ArxmlFileElementsDfsIterator);
@@ -184,17 +187,17 @@ struct CharacterDataTypeFloat(());
 #[pymethods]
 impl IncompatibleAttributeError {
     fn __repr__(&self) -> String {
-        format!("{:#?}", self)
+        format!("{self:#?}")
     }
 
     fn __str__(&self) -> String {
         let ver_first: autosar_data_rs::AutosarVersion = self.allowed_versions[0].into();
         let ver_last: autosar_data_rs::AutosarVersion =
             self.allowed_versions[self.allowed_versions.len() - 1].into();
-        let allowed_versions_str = if ver_first != ver_last {
-            format!("{:?} - {:?}", ver_first, ver_last)
+        let allowed_versions_str = if ver_first == ver_last {
+            format!("{ver_first:?}")
         } else {
-            format!("{:?}", ver_first)
+            format!("{ver_first:?} - {ver_last:?}")
         };
         format!(
             "Attribute {} in <{}> is incompatible with version {:?}. It is allowed in {allowed_versions_str}",
@@ -208,17 +211,17 @@ impl IncompatibleAttributeError {
 #[pymethods]
 impl IncompatibleAttributeValueError {
     fn __repr__(&self) -> String {
-        format!("{:#?}", self)
+        format!("{self:#?}")
     }
 
     fn __str__(&self) -> String {
         let ver_first: autosar_data_rs::AutosarVersion = self.allowed_versions[0].into();
         let ver_last: autosar_data_rs::AutosarVersion =
             self.allowed_versions[self.allowed_versions.len() - 1].into();
-        let allowed_versions_str = if ver_first != ver_last {
-            format!("{:?} - {:?}", ver_first, ver_last)
+        let allowed_versions_str = if ver_first == ver_last {
+            format!("{ver_first:?}")
         } else {
-            format!("{:?}", ver_first)
+            format!("{ver_first:?} - {ver_last:?}")
         };
         format!(
             "Attribute value {} in attribue {} of element <{}> is incompatible with version {:?}. It is allowed in {allowed_versions_str}",
@@ -233,17 +236,17 @@ impl IncompatibleAttributeValueError {
 #[pymethods]
 impl IncompatibleElementError {
     fn __repr__(&self) -> String {
-        format!("{:#?}", self)
+        format!("{self:#?}")
     }
 
     fn __str__(&self) -> String {
         let ver_first: autosar_data_rs::AutosarVersion = self.allowed_versions[0].into();
         let ver_last: autosar_data_rs::AutosarVersion =
             self.allowed_versions[self.allowed_versions.len() - 1].into();
-        let allowed_versions_str = if ver_first != ver_last {
-            format!("{:?} - {:?}", ver_first, ver_last)
+        let allowed_versions_str = if ver_first == ver_last {
+            format!("{ver_first:?}")
         } else {
-            format!("{:?}", ver_first)
+            format!("{ver_first:?} - {ver_last:?}")
         };
         format!(
             "Element <{}> is incompatible with version {:?}. It is allowed in {allowed_versions_str}",
@@ -256,7 +259,7 @@ impl IncompatibleElementError {
 #[pymethods]
 impl ContentType {
     fn __repr__(&self) -> String {
-        format!("{:#?}", self)
+        format!("{self:#?}")
     }
 }
 
@@ -279,6 +282,35 @@ impl ElementsDfsIterator {
                 )
                 .to_object(py)
             })
+        })
+    }
+}
+
+#[pymethods]
+impl IdentifiablesIterator {
+    fn __iter__(slf: PyRef<'_, Self>) -> PyRef<'_, Self> {
+        slf
+    }
+
+    fn __next__(&mut self) -> Option<PyObject> {
+        Python::with_gil(|py| {
+            for (path, weak) in &mut self.0 {
+                if let Some(elem) = weak.upgrade() {
+                    return Some(
+                        PyTuple::new_bound(
+                            py,
+                            [
+                                path.to_object(py),
+                                Py::new(py, Element(elem)).unwrap().into_py(py),
+                            ]
+                            .iter(),
+                        )
+                        .to_object(py),
+                    );
+                }
+            }
+
+            None
         })
     }
 }
@@ -368,7 +400,7 @@ impl Attribute {
 #[pymethods]
 impl ValidSubElementInfo {
     fn __repr__(&self) -> String {
-        format!("{:#?}", self)
+        format!("{self:#?}")
     }
 }
 
@@ -429,6 +461,7 @@ fn autosar_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<ArxmlFileElementsDfsIterator>()?;
     m.add_class::<ElementContentIterator>()?;
     m.add_class::<ElementsIterator>()?;
+    m.add_class::<IdentifiablesIterator>()?;
     m.add_class::<AttributeIterator>()?;
     m.add_class::<Attribute>()?;
     m.add_class::<AttributeSpec>()?;
@@ -447,7 +480,7 @@ fn autosar_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
 
 fn extract_character_data(
     spec: &CharacterDataSpec,
-    object: PyObject,
+    object: &PyObject,
 ) -> PyResult<autosar_data_rs::CharacterData> {
     Python::with_gil(|py| {
         let any = object.bind(py);
@@ -529,7 +562,13 @@ fn character_data_to_object(cdata: &autosar_data_rs::CharacterData) -> PyObject 
         autosar_data_rs::CharacterData::Enum(enumitem) => {
             PyString::new_bound(py, enumitem.to_str()).into_py(py)
         }
-        autosar_data_rs::CharacterData::String(s) => PyString::new_bound(py, s).into_py(py),
+        autosar_data_rs::CharacterData::String(s) => {
+            if let Some(val) = cdata.decode_integer::<i64>() {
+                val.to_object(py)
+            } else {
+                PyString::new_bound(py, s).into_py(py)
+            }
+        }
         autosar_data_rs::CharacterData::UnsignedInteger(val) => val.to_object(py),
         autosar_data_rs::CharacterData::Double(val) => val.to_object(py),
     })
@@ -543,15 +582,15 @@ fn get_element_name(name_str: &str) -> PyResult<autosar_data_rs::ElementName> {
     })
 }
 
-fn get_attribute_name(name_str: String) -> PyResult<autosar_data_rs::AttributeName> {
-    autosar_data_rs::AttributeName::from_str(&name_str).or_else(|_| {
+fn get_attribute_name(name_str: &str) -> PyResult<autosar_data_rs::AttributeName> {
+    autosar_data_rs::AttributeName::from_str(name_str).or_else(|_| {
         PyResult::Err(AutosarDataError::new_err(format!(
             "Cannot convert \"{name_str}\" to AttributeName"
         )))
     })
 }
 
-fn version_mask_from_any(version_obj: PyObject) -> PyResult<u32> {
+fn version_mask_from_any(version_obj: &PyObject) -> PyResult<u32> {
     Python::with_gil(|py| {
         if let Ok(list) = version_obj.extract::<&PyList>(py) {
             let mut mask = 0;

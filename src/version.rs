@@ -52,9 +52,9 @@ pub(crate) enum AutosarVersion {
 #[pymethods]
 impl AutosarVersion {
     #[new]
-    fn new(input: String) -> PyResult<AutosarVersion> {
+    fn new(input: &str) -> PyResult<AutosarVersion> {
         let spec_ver =
-            autosar_data_specification::AutosarVersion::from_str(&input).or_else(|_| {
+            autosar_data_specification::AutosarVersion::from_str(input).or_else(|_| {
                 PyResult::Err(AutosarDataError::new_err(format!(
                     "Cannot convert \"{input}\" to AutosarVersion"
                 )))

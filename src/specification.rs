@@ -50,7 +50,7 @@ impl ElementType {
         target_name: &str,
         version_obj: PyObject,
     ) -> PyResult<Option<ElementType>> {
-        let version = version_mask_from_any(version_obj)?;
+        let version = version_mask_from_any(&version_obj)?;
         let elem_name = get_element_name(target_name)?;
         Ok(self
             .0
@@ -75,9 +75,9 @@ impl ElementType {
             .collect()
     }
 
-    fn find_attribute_spec(&self, attrname_str: String) -> PyResult<AttributeSpec> {
+    fn find_attribute_spec(&self, attrname_str: &str) -> PyResult<AttributeSpec> {
         let attrname =
-            autosar_data_specification::AttributeName::from_str(&attrname_str).map_err(|_| {
+            autosar_data_specification::AttributeName::from_str(attrname_str).map_err(|_| {
                 pyo3::exceptions::PyTypeError::new_err(format!(
                     "'{attrname_str}' cannot be converted to 'AttributeName'"
                 ))
@@ -100,7 +100,7 @@ impl ElementType {
 #[pymethods]
 impl AttributeSpec {
     fn __repr__(&self) -> String {
-        format!("{:#?}", self)
+        format!("{self:?}")
     }
 
     #[getter]
@@ -112,7 +112,7 @@ impl AttributeSpec {
 #[pymethods]
 impl CharacterDataTypeEnum {
     fn __repr__(&self) -> String {
-        format!("{:?}", self)
+        format!("{self:?}")
     }
 
     fn __str__(&self) -> String {
@@ -123,7 +123,7 @@ impl CharacterDataTypeEnum {
 #[pymethods]
 impl CharacterDataTypeFloat {
     fn __repr__(&self) -> String {
-        format!("{:?}", self)
+        format!("{self:?}")
     }
 
     fn __str__(&self) -> String {
@@ -134,7 +134,7 @@ impl CharacterDataTypeFloat {
 #[pymethods]
 impl CharacterDataTypeRestrictedString {
     fn __repr__(&self) -> String {
-        format!("{:?}", self)
+        format!("{self:?}")
     }
 
     fn __str__(&self) -> String {
@@ -145,7 +145,7 @@ impl CharacterDataTypeRestrictedString {
 #[pymethods]
 impl CharacterDataTypeString {
     fn __repr__(&self) -> String {
-        format!("{:?}", self)
+        format!("{self:?}")
     }
 
     fn __str__(&self) -> String {
@@ -156,7 +156,7 @@ impl CharacterDataTypeString {
 #[pymethods]
 impl CharacterDataTypeUnsignedInt {
     fn __repr__(&self) -> String {
-        format!("{:?}", self)
+        format!("{self:?}")
     }
 
     fn __str__(&self) -> String {

@@ -118,13 +118,16 @@ class AutosarModel:
     def sort(self) -> None:
         """sort the entire model in place. Takes all ordering constraints into account."""
         ...
-    identifiable_elements: List[str]
-    """List of all paths of identifiable elements in the model"""
+    identifiable_elements: IdentifiablesIterator
+    """iterator over all identifiable elements in the model"""
     def get_references_to(self, target_path: str) -> List[Element]:
         """get all reference elements which refer to the given Autosar path"""
         ...
     def check_references(self) -> List[Element]:
         """check all references in the model and return a list of elements containing invalid references"""
+        ...
+    def duplicate(self) -> AutosarModel:
+        """create a fully independent copy of the model"""
         ...
 
 class AutosarVersion:
@@ -174,6 +177,8 @@ class Element:
         ...
     parent: Element
     """reference to the parent of this element"""
+    named_parent: Element
+    """reference to the next named (grand-)parent of this element"""
     element_name: ElementName
     """ElementName of this element, e.g. AUTOSAR or AR-PACKAGE"""
     element_type: ElementType
@@ -193,6 +198,8 @@ class Element:
     """reference to the model containing this element"""
     content_type: ContentType
     """content type of the element: character data (<X>some text</X>), elements (<X><Y></Y></X>), or Mixed"""
+    comment: str
+    """XML comment attached to this element"""
     def create_sub_element(self, element_name: ElementName, position: int = None) -> Element:
         """create a sub element under this element with the given ElementName (optionally at a specific position)"""
         ...
@@ -221,6 +228,12 @@ class Element:
         ...
     def get_bsw_sub_element(self, definition_ref: str) -> Element:
         """get the sub element with the given definition ref. It is possible to specify either the full definition ref, or only the last part after the final '/'"""
+        ...
+    def get_or_create_sub_element(self, name_str: str) -> Element:
+        """get an existing sub element or create it if it does not exist"""
+        ...
+    def get_or_create_named_sub_element(self, name_str: str) -> Element:
+        """get an existing named sub element or create it if it does not exist"""
         ...
     position: int
     """the position of this element in the content of its parent"""
@@ -270,6 +283,8 @@ class Element:
         ...
     xml_path: str
     """a path listing all xml elements from the root of the model to the element. This is intended for display. e.g. in error messages"""
+    min_version: AutosarVersion
+    """the autosar version of the file containing the element. If multiple files in a merged model contain the element, then this is the minimum of the file versions."""
 
 class ElementContentIterator:
     """
@@ -324,6 +339,13 @@ class ElementsIterator:
     """
     def __iter__(self) -> ElementsIterator: ...
     def __next__(self) -> Element: ...
+
+class IdentifiablesIterator:
+    """
+    Iterator of all identifiable elements in the model. It provides the tuple (path, Element) for each entry.
+    """
+    def __iter__(self) -> IdentifiablesIterator: ...
+    def __next__(self) -> Tuple[str, Element]: ...
 
 class IncompatibleAttributeError:
     """

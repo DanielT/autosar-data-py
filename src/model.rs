@@ -123,13 +123,13 @@ impl AutosarModel {
 
     ///sort the entire model in place. Takes all ordering constraints into account.
     fn sort(&self) {
-        self.0.sort()
+        self.0.sort();
     }
 
     #[getter]
     /// List of all paths of identifiable elements in the model
-    fn identifiable_elements(&self) -> Vec<String> {
-        self.0.identifiable_elements()
+    fn identifiable_elements(&self) -> IdentifiablesIterator {
+        IdentifiablesIterator(self.0.identifiable_elements())
     }
 
     /// get all reference elements which refer to the given Autosar path
@@ -148,5 +148,13 @@ impl AutosarModel {
             .iter()
             .filter_map(|weak| weak.upgrade().map(Element))
             .collect()
+    }
+
+    /// duplicate the model, creating a new independent copy
+    fn duplicate(&self) -> PyResult<AutosarModel> {
+        match self.0.duplicate() {
+            Ok(model) => Ok(AutosarModel(model)),
+            Err(error) => PyResult::Err(AutosarDataError::new_err(error.to_string())),
+        }
     }
 }

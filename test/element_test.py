@@ -110,6 +110,25 @@ def test_element_basic_3() -> None:
     assert el_ar_package.xml_path == "/<AUTOSAR>/<AR-PACKAGES>/Pkg1"
 
 
+def test_element_parent() -> None:
+    model = AutosarModel()
+    model.create_file("file")
+    el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
+    el_ar_package = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg1")
+    el_elements = el_ar_package.create_sub_element("ELEMENTS")
+    el_system = el_elements.create_named_sub_element("SYSTEM", "System")
+    
+    assert el_system.parent == el_elements
+    assert el_elements.parent == el_ar_package
+    assert el_ar_package.parent == el_ar_packages
+    assert el_ar_packages.parent == model.root_element
+    assert model.root_element.parent is None
+
+    assert el_system.named_parent == el_ar_package
+    assert el_elements.named_parent == el_ar_package
+    assert el_ar_package.named_parent is None
+
+
 def test_element_content() -> None:
     model = AutosarModel()
     model.create_file("file")
@@ -316,8 +335,16 @@ def test_element_creation() -> None:
     # create an unnamed element
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
 
+    # get or create
+    el_ar_packages_cpy = model.root_element.get_or_create_sub_element("AR-PACKAGES")
+    assert el_ar_packages == el_ar_packages_cpy
+
     # create a named element
     el_pkg1 = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg1")
+
+    # get or create named
+    el_pkg1_cpy = el_ar_packages.get_or_create_named_sub_element("AR-PACKAGE", "Pkg1")
+    assert el_pkg1 == el_pkg1_cpy
 
     # create an element at a given position
     # not every position is allowed
@@ -552,6 +579,16 @@ def test_file_membership() -> None:
         el_elements.remove_from_file(file2)
 
 
+def test_element_version() -> None:
+    model = AutosarModel()
+    file1 = model.create_file("file1", AutosarVersion.AUTOSAR_00050)
+    file2 = model.create_file("file2", AutosarVersion.AUTOSAR_00051)
+    el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
+    # el_ar_packages is present in both files
+    assert len(el_ar_packages.file_membership) == 2
+    assert el_ar_packages.min_version == AutosarVersion.AUTOSAR_00050
+
+
 def test_element_misc() -> None:
     model = AutosarModel()
     element = model.root_element
@@ -567,3 +604,10 @@ def test_element_misc() -> None:
         element <= element
     with pytest.raises(TypeError):
         element >= element
+
+def test_element_coment() -> None:
+    model = AutosarModel()
+    model.create_file("test")
+    assert model.root_element.comment is None
+    model.root_element.comment = "text"
+    assert model.root_element.comment == "text"

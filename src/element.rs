@@ -46,6 +46,15 @@ impl Element {
     }
 
     #[getter]
+    fn named_parent(&self) -> PyResult<Option<Element>> {
+        match self.0.named_parent() {
+            Ok(Some(parent)) => Ok(Some(Element(parent))),
+            Ok(None) => Ok(None),
+            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+        }
+    }
+
+    #[getter]
     fn element_name(&self) -> String {
         self.0.element_name().to_string()
     }
@@ -138,6 +147,29 @@ impl Element {
                 Ok(element) => Ok(Element(element)),
                 Err(error) => Err(AutosarDataError::new_err(error.to_string())),
             }
+        }
+    }
+
+    fn get_or_create_sub_element(&self, name_str: &str) -> PyResult<Element> {
+        let element_name = get_element_name(name_str)?;
+        match self.0.get_or_create_sub_element(element_name) {
+            Ok(element) => Ok(Element(element)),
+            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+        }
+    }
+
+    fn get_or_create_named_sub_element(
+        &self,
+        name_str: &str,
+        item_name: &str,
+    ) -> PyResult<Element> {
+        let element_name = get_element_name(name_str)?;
+        match self
+            .0
+            .get_or_create_named_sub_element(element_name, item_name)
+        {
+            Ok(element) => Ok(Element(element)),
+            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
         }
     }
 
@@ -255,7 +287,7 @@ impl Element {
             .ok_or(AutosarDataError::new_err(
                 autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
             ))?;
-        let cdata = extract_character_data(spec, chardata)?;
+        let cdata = extract_character_data(spec, &chardata)?;
         self.0
             .set_character_data(cdata)
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
@@ -301,7 +333,7 @@ impl Element {
         AttributeIterator(self.0.attributes())
     }
 
-    pub(crate) fn attribute_value(&self, attrname_str: String) -> PyResult<Option<PyObject>> {
+    pub(crate) fn attribute_value(&self, attrname_str: &str) -> PyResult<Option<PyObject>> {
         let attrname = get_attribute_name(attrname_str)?;
         Ok(self
             .0
@@ -309,20 +341,20 @@ impl Element {
             .map(|cdata| character_data_to_object(&cdata)))
     }
 
-    pub(crate) fn set_attribute(&self, attrname_str: String, value: PyObject) -> PyResult<()> {
+    pub(crate) fn set_attribute(&self, attrname_str: &str, value: PyObject) -> PyResult<()> {
         let attrname = get_attribute_name(attrname_str)?;
         let attrspec = self.0.element_type().find_attribute_spec(attrname).ok_or(
             AutosarDataError::new_err(
                 autosar_data_rs::AutosarDataError::InvalidAttribute.to_string(),
             ),
         )?;
-        let cdata = extract_character_data(attrspec.spec, value)?;
+        let cdata = extract_character_data(attrspec.spec, &value)?;
         self.0
             .set_attribute(attrname, cdata)
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
-    fn remove_attribute(&self, attrname_str: String) -> PyResult<bool> {
+    fn remove_attribute(&self, attrname_str: &str) -> PyResult<bool> {
         let attrname = get_attribute_name(attrname_str)?;
         Ok(self.0.remove_attribute(attrname))
     }
@@ -384,5 +416,23 @@ impl Element {
     #[getter]
     fn xml_path(&self) -> String {
         self.0.xml_path()
+    }
+
+    #[getter]
+    fn min_version(&self) -> PyResult<AutosarVersion> {
+        match self.0.min_version() {
+            Ok(ver) => Ok(ver.into()),
+            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
+        }
+    }
+
+    #[getter]
+    fn comment(&self) -> Option<String> {
+        self.0.comment()
+    }
+
+    #[setter]
+    fn set_comment(&self, opt_comment: Option<String>) {
+        self.0.set_comment(opt_comment);
     }
 }

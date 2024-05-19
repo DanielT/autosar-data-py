@@ -9,7 +9,8 @@ def test_model_basic() -> None:
     assert isinstance(model.root_element, Element)
     assert model.root_element.element_name == "AUTOSAR"
     assert len(model.files) == 0
-    assert len(model.identifiable_elements) == 0
+    identifiables = [i for i in model.identifiable_elements]
+    assert len(identifiables) == 0
 
 
 def test_model_files(tmp_path: str) -> None:
@@ -138,8 +139,9 @@ def test_model_identifiables() -> None:
     assert el_fibex_element_ref.reference_target == el_can_cluster
 
     # check that all the expected identifiable elements exist in the model
-    assert len(model.identifiable_elements) == 4
-    idents = set(model.identifiable_elements)
+    identifiable_elements = [p for (p, _) in model.identifiable_elements]
+    assert len(identifiable_elements) == 4
+    idents = set(identifiable_elements)
     assert "/Pkg" in idents
     assert "/Pkg2" in idents
     assert "/Pkg/System" in idents
@@ -151,6 +153,46 @@ def test_model_identifiables() -> None:
     assert len(el_can_cluster_referrers) == 1
     assert el_can_cluster_referrers[0] == el_fibex_element_ref
 
+
+def test_model_duplicate() -> None:
+    model = AutosarModel()
+    file1 = model.create_file("file1")
+    file2 = model.create_file("file2")
+    # create some elements
+    el_elements = model.root_element \
+        .create_sub_element("AR-PACKAGES") \
+        .create_named_sub_element("AR-PACKAGE", "Pkg") \
+        .create_sub_element("ELEMENTS")
+    el_elements \
+        .create_named_sub_element("SYSTEM", "System") \
+        .create_sub_element("FIBEX-ELEMENTS") \
+        .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL") \
+        .create_sub_element("FIBEX-ELEMENT-REF")
+    model.root_element \
+        .get_sub_element("AR-PACKAGES") \
+        .create_named_sub_element("AR-PACKAGE", "Pkg2") \
+        .create_sub_element("ELEMENTS") \
+        .create_named_sub_element("CAN-CLUSTER", "CanCluster")
+    # make the scenario a bit mor complicated by setting file membershhip for some elements
+    pkg1 = model.get_element_by_path("/Pkg")
+    pkg2 = model.get_element_by_path("/Pkg2")
+    pkg1.remove_from_file(file2)
+    pkg2.remove_from_file(file1)
+
+    # duplicate the model
+    model2 = model.duplicate()
+
+    # the two models are not the same object
+    assert model != model2
+    # the properties of the two models are identical
+    assert len(model2.files) == 2
+    m2_file1 = model2.files[0]
+    m2_file2 = model2.files[1]
+    assert file1.serialize() == m2_file1.serialize()
+    assert file2.serialize() == m2_file2.serialize()
+
+    m2_pkg1 = model2.get_element_by_path("/Pkg")
+    assert pkg1 != m2_pkg1
 
 def test_model_misc() -> None:
     model = AutosarModel()
