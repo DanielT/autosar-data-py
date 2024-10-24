@@ -2,8 +2,8 @@ use crate::*;
 use std::str::FromStr;
 
 #[allow(non_camel_case_types)]
-#[pyclass(frozen)]
-#[derive(Debug, Clone, Copy)]
+#[pyclass(eq, eq_int, ord)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum AutosarVersion {
     #[pyo3(name = "AUTOSAR_4_0_1")]
     Autosar_4_0_1,
@@ -65,19 +65,6 @@ impl AutosarVersion {
     fn __str__(&self) -> String {
         let ver: autosar_data_specification::AutosarVersion = (*self).into();
         ver.to_string()
-    }
-
-    fn __richcmp__(&self, other: AutosarVersion, op: pyo3::basic::CompareOp) -> bool {
-        let ver1: autosar_data_specification::AutosarVersion = (*self).into();
-        let ver2: autosar_data_specification::AutosarVersion = other.into();
-        match op {
-            pyo3::pyclass::CompareOp::Eq => ver1 == ver2,
-            pyo3::pyclass::CompareOp::Ne => ver1 != ver2,
-            pyo3::pyclass::CompareOp::Lt => (ver1 as u32) < (ver2 as u32),
-            pyo3::pyclass::CompareOp::Le => (ver1 as u32) <= (ver2 as u32),
-            pyo3::pyclass::CompareOp::Gt => (ver1 as u32) > (ver2 as u32),
-            pyo3::pyclass::CompareOp::Ge => (ver1 as u32) >= (ver2 as u32),
-        }
     }
 }
 

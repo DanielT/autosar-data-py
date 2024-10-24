@@ -203,6 +203,6 @@ fn character_data_spec_to_object(spec: &CharacterDataSpec) -> PyObject {
         CharacterDataSpec::UnsignedInteger => Py::new(py, CharacterDataTypeUnsignedInt(()))
             .unwrap()
             .into_py(py),
-        CharacterDataSpec::Double => Py::new(py, CharacterDataTypeFloat(())).unwrap().into_py(py),
+        CharacterDataSpec::Float => Py::new(py, CharacterDataTypeFloat(())).unwrap().into_py(py),
     })
 }

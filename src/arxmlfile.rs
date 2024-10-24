@@ -139,6 +139,10 @@ impl ArxmlFile {
         ArxmlFileElementsDfsIterator(self.0.elements_dfs())
     }
 
+    fn elements_dfs_with_max_depth(&self, max_depth: usize) -> ArxmlFileElementsDfsIterator {
+        ArxmlFileElementsDfsIterator(self.0.elements_dfs_with_max_depth(max_depth))
+    }
+
     fn serialize(&self) -> PyResult<String> {
         match self.0.serialize() {
             Ok(text) => Ok(text),

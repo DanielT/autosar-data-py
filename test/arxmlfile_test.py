@@ -125,3 +125,18 @@ def test_file_misc() -> None:
         file1 <= file2
     with pytest.raises(TypeError):
         file1 >= file2
+
+
+def test_arxmlfile_elements_dfs_iterator() -> None:
+    model = AutosarModel()
+    arxmlfile = model.create_file("file")
+    model.root_element.create_sub_element("AR-PACKAGES") \
+        .create_named_sub_element("AR-PACKAGE", "Pkg1") \
+        .create_sub_element("DESC")
+    
+    element_info = [x for x in arxmlfile.elements_dfs]
+    # note: 4 elements are created explicitly, and a SHORT-NAME is created implicitly for AR-PACKAGE
+    assert len(element_info) == 5
+
+    element_info = [x for x in arxmlfile.elements_dfs_with_max_depth(2)]
+    assert len(element_info) == 3

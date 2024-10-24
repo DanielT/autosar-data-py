@@ -50,6 +50,9 @@ class ArxmlFile:
     """the autosar data model which this file is part of"""
     elements_dfs: ArxmlFileElementsDfsIterator
     """dfs iterator over all elements in this file"""
+    def elements_dfs_with_max_depth(self, max_depth: int) -> ArxmlFileElementsDfsIterator:
+        """dfs iterator over all elements in this file, with a maximum depth"""
+        ...
     def serialize(self) -> str:
         """serialize the the file to a string. This string can be loaded as valid arxml if is written to disk."""
         ...
@@ -241,6 +244,9 @@ class Element:
     """an iterator over all sub elements in the content of this element. It skips character data content items"""
     elements_dfs: ElementsDfsIterator
     """depth first search iterator for this element and all of its sub elements"""
+    def elements_dfs_with_max_depth(self, max_depth: int) -> ElementsDfsIterator:
+        """depth first search iterator for this element and all of its sub elements, with a maximum depth"""
+        ...
     character_data: CharacterData
     """character content of this element, if any. For elements with ContentType=Element, or empty elements this is None"""
     def remove_character_data(self) -> None:

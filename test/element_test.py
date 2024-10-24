@@ -439,6 +439,14 @@ def test_element_creation() -> None:
     assert element_info[12][1].element_name == "SHORT-NAME"
     assert len(element_info) == 13
 
+    element_info_max_depth = [x for x in model.root_element.elements_dfs_with_max_depth(2)]
+    assert element_info[0][1].element_name == "AUTOSAR"
+    assert element_info[1][1].element_name == "AR-PACKAGES"
+    assert element_info[2][1].element_name == "AR-PACKAGE"
+    assert element_info[2][1].item_name == "Pkg1"
+    assert len(element_info_max_depth) == 3
+   
+
 def test_get_sub_element_additional() -> None:
     model = AutosarModel()
     model.create_file("file")

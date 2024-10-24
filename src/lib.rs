@@ -115,8 +115,8 @@ struct ValidSubElementInfo {
     is_allowed: bool,
 }
 
-#[pyclass(frozen)]
-#[derive(Debug)]
+#[pyclass(eq, eq_int)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// The content type of an element
 enum ContentType {
     /// The element only contains other elements
@@ -533,19 +533,19 @@ fn extract_character_data(
                     )))
                 }
             }
-            CharacterDataSpec::Double => {
+            CharacterDataSpec::Float => {
                 if let Ok(strval) = any.extract::<String>() {
                     if let Ok(floatval) = strval.parse() {
-                        Ok(CharacterData::Double(floatval))
+                        Ok(CharacterData::Float(floatval))
                     } else {
                         Err(PyValueError::new_err(format!(
                             "invalid literal '{strval}' for conversion to float"
                         )))
                     }
                 } else if let Ok(intval) = any.extract::<u64>() {
-                    Ok(CharacterData::Double(intval as f64))
+                    Ok(CharacterData::Float(intval as f64))
                 } else if let Ok(floatval) = any.extract::<f64>() {
-                    Ok(CharacterData::Double(floatval))
+                    Ok(CharacterData::Float(floatval))
                 } else {
                     Err(PyTypeError::new_err(format!(
                         "'{}' cannot be converted to 'float'",
@@ -563,14 +563,14 @@ fn character_data_to_object(cdata: &autosar_data_rs::CharacterData) -> PyObject 
             PyString::new_bound(py, enumitem.to_str()).into_py(py)
         }
         autosar_data_rs::CharacterData::String(s) => {
-            if let Some(val) = cdata.decode_integer::<i64>() {
+            if let Some(val) = cdata.parse_integer::<i64>() {
                 val.to_object(py)
             } else {
                 PyString::new_bound(py, s).into_py(py)
             }
         }
         autosar_data_rs::CharacterData::UnsignedInteger(val) => val.to_object(py),
-        autosar_data_rs::CharacterData::Double(val) => val.to_object(py),
+        autosar_data_rs::CharacterData::Float(val) => val.to_object(py),
     })
 }
 
@@ -592,7 +592,7 @@ fn get_attribute_name(name_str: &str) -> PyResult<autosar_data_rs::AttributeName
 
 fn version_mask_from_any(version_obj: &PyObject) -> PyResult<u32> {
     Python::with_gil(|py| {
-        if let Ok(list) = version_obj.extract::<&PyList>(py) {
+        if let Ok(list) = version_obj.extract::<Bound<PyList>>(py) {
             let mut mask = 0;
             for item in list {
                 let ver: autosar_data_rs::AutosarVersion = item.extract::<AutosarVersion>()?.into();

@@ -112,6 +112,7 @@ impl Element {
         }
     }
 
+    #[pyo3(signature=(name_str, position = None))]
     fn create_sub_element(&self, name_str: &str, position: Option<usize>) -> PyResult<Element> {
         let element_name = get_element_name(name_str)?;
         if let Some(position) = position {
@@ -127,6 +128,7 @@ impl Element {
         }
     }
 
+    #[pyo3(signature=(name_str, item_name, position = None))]
     fn create_named_sub_element(
         &self,
         name_str: &str,
@@ -173,6 +175,7 @@ impl Element {
         }
     }
 
+    #[pyo3(signature=(other, position = None))]
     fn create_copied_sub_element(
         &self,
         other: &Element,
@@ -191,6 +194,7 @@ impl Element {
         }
     }
 
+    #[pyo3(signature=(move_element, position = None))]
     fn move_element_here(
         &self,
         move_element: &Element,
@@ -278,15 +282,20 @@ impl Element {
         ElementsDfsIterator(self.0.elements_dfs())
     }
 
+    fn elements_dfs_with_max_depth(&self, max_depth: usize) -> ElementsDfsIterator {
+        ElementsDfsIterator(self.0.elements_dfs_with_max_depth(max_depth))
+    }
+
     #[setter]
     fn set_character_data(&self, chardata: PyObject) -> PyResult<()> {
-        let spec = self
-            .0
-            .element_type()
-            .chardata_spec()
-            .ok_or(AutosarDataError::new_err(
-                autosar_data_rs::AutosarDataError::IncorrectContentType.to_string(),
-            ))?;
+        let Some(spec) = self.0.element_type().chardata_spec() else {
+            return Err(AutosarDataError::new_err(
+                autosar_data_rs::AutosarDataError::IncorrectContentType {
+                    element: self.0.element_name(),
+                }
+                .to_string(),
+            ));
+        };
         let cdata = extract_character_data(spec, &chardata)?;
         self.0
             .set_character_data(cdata)
