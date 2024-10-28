@@ -10,9 +10,9 @@ checksum = "ace50bade8e6234aa140d9a2f552bbee1db4d353f69b8217bc503490fc1a9f26"
 
 [[package]]
 name = "autosar-data"
-version = "0.15.0"
+version = "0.15.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9a1daa73a92e282842a780659680b21d697e6ff785d19668d2b825ab6314441e"
+checksum = "f416ce66a7c9b5df8174a9c3890e4a1febe258775c5c9b100750813129f842e5"
 dependencies = [
  "autosar-data-specification",
  "fxhash",
@@ -185,7 +185,7 @@ dependencies = [
 
 [[package]]
 name = "py-autosar-data"
-version = "0.9.0"
+version = "0.9.1"
 dependencies = [
  "autosar-data",
  "autosar-data-specification",
