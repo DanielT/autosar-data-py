@@ -270,10 +270,11 @@ impl ElementsDfsIterator {
         slf
     }
 
-    fn __next__(&mut self) -> Option<PyObject> {
-        self.0.next().map(|(depth, elem)| {
-            Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).unwrap())
-        })
+    fn __next__(&mut self) -> PyResult<Option<PyObject>> {
+        self.0
+            .next()
+            .map(|(depth, elem)| Python::with_gil(|py| (depth, Element(elem)).into_py_any(py)))
+            .transpose()
     }
 }
 
@@ -283,16 +284,15 @@ impl IdentifiablesIterator {
         slf
     }
 
-    fn __next__(&mut self) -> Option<PyObject> {
+    fn __next__(&mut self) -> PyResult<Option<PyObject>> {
         for (path, weak) in &mut self.0 {
             if let Some(elem) = weak.upgrade() {
-                return Some(Python::with_gil(|py| {
-                    (path, Element(elem)).into_py_any(py).unwrap()
-                }));
+                let pyobj = Python::with_gil(|py| (path, Element(elem)).into_py_any(py))?;
+                return Ok(Some(pyobj));
             }
         }
 
-        None
+        Ok(None)
     }
 }
 
@@ -302,10 +302,11 @@ impl ArxmlFileElementsDfsIterator {
         slf
     }
 
-    fn __next__(&mut self) -> Option<PyObject> {
-        self.0.next().map(|(depth, elem)| {
-            Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).unwrap())
-        })
+    fn __next__(&mut self) -> PyResult<Option<PyObject>> {
+        self.0
+            .next()
+            .map(|(depth, elem)| Python::with_gil(|py| (depth, Element(elem)).into_py_any(py)))
+            .transpose()
     }
 }
 
@@ -315,15 +316,17 @@ impl ElementContentIterator {
         slf
     }
 
-    fn __next__(&mut self) -> Option<PyObject> {
-        let ec = self.0.next()?;
+    fn __next__(&mut self) -> PyResult<Option<PyObject>> {
+        let ec = self.0.next();
         match ec {
-            autosar_data_rs::ElementContent::Element(elem) => Some(Python::with_gil(|py| {
-                Element(elem).into_py_any(py).unwrap()
-            })),
-            autosar_data_rs::ElementContent::CharacterData(cdata) => {
-                Some(character_data_to_object(&cdata))
+            Some(autosar_data_rs::ElementContent::Element(elem)) => {
+                let pyobj = Python::with_gil(|py| Element(elem).into_py_any(py))?;
+                Ok(Some(pyobj))
             }
+            Some(autosar_data_rs::ElementContent::CharacterData(cdata)) => {
+                Some(character_data_to_object(&cdata)).transpose()
+            }
+            None => Ok(None),
         }
     }
 }
@@ -345,12 +348,14 @@ impl AttributeIterator {
         slf
     }
 
-    fn __next__(&mut self) -> Option<Attribute> {
-        let autosar_data_rs::Attribute { attrname, content } = self.0.next()?;
-        Some(Attribute {
+    fn __next__(&mut self) -> PyResult<Option<Attribute>> {
+        let Some(autosar_data_rs::Attribute { attrname, content }) = self.0.next() else {
+            return Ok(None);
+        };
+        Ok(Some(Attribute {
             attrname: attrname.to_string(),
-            content: character_data_to_object(&content),
-        })
+            content: character_data_to_object(&content)?,
+        }))
     }
 }
 
@@ -528,21 +533,18 @@ fn extract_character_data(
     })
 }
 
-fn character_data_to_object(cdata: &autosar_data_rs::CharacterData) -> PyObject {
-    Python::with_gil(|py| {
-        match cdata {
-            autosar_data_rs::CharacterData::Enum(enumitem) => enumitem.to_str().into_py_any(py),
-            autosar_data_rs::CharacterData::String(s) => {
-                if let Some(val) = cdata.parse_integer::<i64>() {
-                    val.into_py_any(py)
-                } else {
-                    s.into_py_any(py)
-                }
+fn character_data_to_object(cdata: &autosar_data_rs::CharacterData) -> PyResult<PyObject> {
+    Python::with_gil(|py| match cdata {
+        autosar_data_rs::CharacterData::Enum(enumitem) => enumitem.to_str().into_py_any(py),
+        autosar_data_rs::CharacterData::String(s) => {
+            if let Some(val) = cdata.parse_integer::<i64>() {
+                val.into_py_any(py)
+            } else {
+                s.into_py_any(py)
             }
-            autosar_data_rs::CharacterData::UnsignedInteger(val) => val.into_py_any(py),
-            autosar_data_rs::CharacterData::Float(val) => val.into_py_any(py),
         }
-        .unwrap()
+        autosar_data_rs::CharacterData::UnsignedInteger(val) => val.into_py_any(py),
+        autosar_data_rs::CharacterData::Float(val) => val.into_py_any(py),
     })
 }
 

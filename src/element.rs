@@ -309,10 +309,11 @@ impl Element {
     }
 
     #[getter]
-    fn character_data(&self) -> Option<PyObject> {
+    fn character_data(&self) -> PyResult<Option<PyObject>> {
         self.0
             .character_data()
             .map(|cdata| character_data_to_object(&cdata))
+            .transpose()
     }
 
     fn insert_character_content_item(&self, chardata: &str, position: usize) -> PyResult<()> {
@@ -344,10 +345,10 @@ impl Element {
 
     pub(crate) fn attribute_value(&self, attrname_str: &str) -> PyResult<Option<PyObject>> {
         let attrname = get_attribute_name(attrname_str)?;
-        Ok(self
-            .0
+        self.0
             .attribute_value(attrname)
-            .map(|cdata| character_data_to_object(&cdata)))
+            .map(|cdata| character_data_to_object(&cdata))
+            .transpose()
     }
 
     pub(crate) fn set_attribute(&self, attrname_str: &str, value: PyObject) -> PyResult<()> {
@@ -397,11 +398,10 @@ impl Element {
                 let file_set_iter = weak_file_set
                     .iter()
                     .filter_map(|weak| weak.upgrade().map(ArxmlFile));
-                let pytuple = Python::with_gil(|py| {
-                    let frozenset = PyFrozenSet::new(py, file_set_iter).unwrap();
-                    (local, frozenset).into_py_any(py).unwrap()
-                });
-                Ok(pytuple)
+                Python::with_gil(|py| {
+                    let frozenset = PyFrozenSet::new(py, file_set_iter)?;
+                    (local, frozenset).into_py_any(py)
+                })
             }
             Err(error) => Err(AutosarDataError::new_err(error.to_string())),
         }

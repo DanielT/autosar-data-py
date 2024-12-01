@@ -59,8 +59,11 @@ impl ElementType {
     }
 
     #[getter]
-    fn chardata_spec(&self) -> Option<PyObject> {
-        self.0.chardata_spec().map(character_data_spec_to_object)
+    fn chardata_spec(&self) -> PyResult<Option<PyObject>> {
+        self.0
+            .chardata_spec()
+            .map(character_data_spec_to_object)
+            .transpose()
     }
 
     #[getter]
@@ -104,7 +107,7 @@ impl AttributeSpec {
     }
 
     #[getter]
-    fn value_spec(&self) -> PyObject {
+    fn value_spec(&self) -> PyResult<PyObject> {
         character_data_spec_to_object(self.value_spec)
     }
 }
@@ -164,7 +167,7 @@ impl CharacterDataTypeUnsignedInt {
     }
 }
 
-fn character_data_spec_to_object(spec: &CharacterDataSpec) -> PyObject {
+fn character_data_spec_to_object(spec: &CharacterDataSpec) -> PyResult<PyObject> {
     Python::with_gil(|py| match spec {
         CharacterDataSpec::Enum { items } => {
             //
@@ -172,7 +175,6 @@ fn character_data_spec_to_object(spec: &CharacterDataSpec) -> PyObject {
                 values: items.iter().map(|(item, _)| item.to_string()).collect(),
             }
             .into_py_any(py)
-            .unwrap()
         }
         CharacterDataSpec::Pattern {
             regex, max_length, ..
@@ -183,7 +185,6 @@ fn character_data_spec_to_object(spec: &CharacterDataSpec) -> PyObject {
                 max_length: *max_length,
             }
             .into_py_any(py)
-            .unwrap()
         }
         CharacterDataSpec::String {
             preserve_whitespace,
@@ -195,11 +196,8 @@ fn character_data_spec_to_object(spec: &CharacterDataSpec) -> PyObject {
                 max_length: *max_length,
             }
             .into_py_any(py)
-            .unwrap()
         }
-        CharacterDataSpec::UnsignedInteger => {
-            CharacterDataTypeUnsignedInt(()).into_py_any(py).unwrap()
-        }
-        CharacterDataSpec::Float => CharacterDataTypeFloat(()).into_py_any(py).unwrap(),
+        CharacterDataSpec::UnsignedInteger => CharacterDataTypeUnsignedInt(()).into_py_any(py),
+        CharacterDataSpec::Float => CharacterDataTypeFloat(()).into_py_any(py),
     })
 }

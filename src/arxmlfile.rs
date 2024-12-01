@@ -59,64 +59,66 @@ impl ArxmlFile {
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
-    fn check_version_compatibility(&self, target_version: AutosarVersion) -> Vec<PyObject> {
+    fn check_version_compatibility(
+        &self,
+        target_version: AutosarVersion,
+    ) -> PyResult<Vec<PyObject>> {
         let (error_list, _) = self.0.check_version_compatibility(target_version.into());
-        error_list
-            .iter()
-            .map(|cerr| {
-                match cerr {
-                    CompatibilityError::IncompatibleAttribute {
-                        element,
-                        attribute,
-                        version_mask,
-                    } => {
-                        let errobj = IncompatibleAttributeError {
-                            element: Element(element.to_owned()),
-                            attribute: attribute.to_string(),
-                            allowed_versions: expand_version_mask(*version_mask)
-                                .iter()
-                                .map(|&v| v.into())
-                                .collect(),
-                            target_version,
-                        };
-                        Python::with_gil(|py| errobj.into_py_any(py))
-                    }
-                    CompatibilityError::IncompatibleAttributeValue {
-                        element,
-                        attribute,
-                        attribute_value,
-                        version_mask,
-                    } => {
-                        let errobj = IncompatibleAttributeValueError {
-                            element: Element(element.to_owned()),
-                            attribute: attribute.to_string(),
-                            attribute_value: attribute_value.to_owned(),
-                            allowed_versions: expand_version_mask(*version_mask)
-                                .iter()
-                                .map(|&v| v.into())
-                                .collect(),
-                            target_version,
-                        };
-                        Python::with_gil(|py| errobj.into_py_any(py))
-                    }
-                    CompatibilityError::IncompatibleElement {
-                        element,
-                        version_mask,
-                    } => {
-                        let errobj = IncompatibleElementError {
-                            element: Element(element.to_owned()),
-                            allowed_versions: expand_version_mask(*version_mask)
-                                .iter()
-                                .map(|&v| v.into())
-                                .collect(),
-                            target_version,
-                        };
-                        Python::with_gil(|py| errobj.into_py_any(py))
-                    }
+        let mut out_list = Vec::with_capacity(error_list.len());
+        for compat_err in error_list {
+            let pyobj = match compat_err {
+                CompatibilityError::IncompatibleAttribute {
+                    element,
+                    attribute,
+                    version_mask,
+                } => {
+                    let errobj = IncompatibleAttributeError {
+                        element: Element(element.to_owned()),
+                        attribute: attribute.to_string(),
+                        allowed_versions: expand_version_mask(version_mask)
+                            .iter()
+                            .map(|&v| v.into())
+                            .collect(),
+                        target_version,
+                    };
+                    Python::with_gil(|py| errobj.into_py_any(py))?
                 }
-                .unwrap()
-            })
-            .collect::<Vec<_>>()
+                CompatibilityError::IncompatibleAttributeValue {
+                    element,
+                    attribute,
+                    attribute_value,
+                    version_mask,
+                } => {
+                    let errobj = IncompatibleAttributeValueError {
+                        element: Element(element.to_owned()),
+                        attribute: attribute.to_string(),
+                        attribute_value: attribute_value.to_owned(),
+                        allowed_versions: expand_version_mask(version_mask)
+                            .iter()
+                            .map(|&v| v.into())
+                            .collect(),
+                        target_version,
+                    };
+                    Python::with_gil(|py| errobj.into_py_any(py))?
+                }
+                CompatibilityError::IncompatibleElement {
+                    element,
+                    version_mask,
+                } => {
+                    let errobj = IncompatibleElementError {
+                        element: Element(element.to_owned()),
+                        allowed_versions: expand_version_mask(version_mask)
+                            .iter()
+                            .map(|&v| v.into())
+                            .collect(),
+                        target_version,
+                    };
+                    Python::with_gil(|py| errobj.into_py_any(py))?
+                }
+            };
+            out_list.push(pyobj);
+        }
+        Ok(out_list)
     }
 
     #[getter]
