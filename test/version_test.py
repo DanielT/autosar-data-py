@@ -100,6 +100,16 @@ def test_version() -> None:
     arxmlfile = model.create_file("AUTOSAR_00051.arxml", ver)
     assert arxmlfile.version == ver
 
+    ver = AutosarVersion("AUTOSAR_00052.xsd")
+    assert ver == AutosarVersion.AUTOSAR_00052
+    arxmlfile = model.create_file("AUTOSAR_00052.arxml", ver)
+    assert arxmlfile.version == ver
+
+    ver = AutosarVersion("AUTOSAR_00053.xsd")
+    assert ver == AutosarVersion.AUTOSAR_00053
+    arxmlfile = model.create_file("AUTOSAR_00053.arxml", ver)
+    assert arxmlfile.version == ver
+
     with pytest.raises(AutosarDataError):
         ver = AutosarVersion("bad.xsd")
     
