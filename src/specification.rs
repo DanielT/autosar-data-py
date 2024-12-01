@@ -167,42 +167,39 @@ impl CharacterDataTypeUnsignedInt {
 fn character_data_spec_to_object(spec: &CharacterDataSpec) -> PyObject {
     Python::with_gil(|py| match spec {
         CharacterDataSpec::Enum { items } => {
-            let pytype = Py::new(
-                py,
-                CharacterDataTypeEnum {
-                    values: items.iter().map(|(item, _)| item.to_string()).collect(),
-                },
-            );
-            pytype.unwrap().into_py(py)
+            //
+            CharacterDataTypeEnum {
+                values: items.iter().map(|(item, _)| item.to_string()).collect(),
+            }
+            .into_py_any(py)
+            .unwrap()
         }
         CharacterDataSpec::Pattern {
             regex, max_length, ..
         } => {
-            let pytype = Py::new(
-                py,
-                CharacterDataTypeRestrictedString {
-                    regex: regex.to_string(),
-                    max_length: *max_length,
-                },
-            );
-            pytype.unwrap().into_py(py)
+            //
+            CharacterDataTypeRestrictedString {
+                regex: regex.to_string(),
+                max_length: *max_length,
+            }
+            .into_py_any(py)
+            .unwrap()
         }
         CharacterDataSpec::String {
             preserve_whitespace,
             max_length,
         } => {
-            let pytype = Py::new(
-                py,
-                CharacterDataTypeString {
-                    preserve_whitespace: *preserve_whitespace,
-                    max_length: *max_length,
-                },
-            );
-            pytype.unwrap().into_py(py)
-        }
-        CharacterDataSpec::UnsignedInteger => Py::new(py, CharacterDataTypeUnsignedInt(()))
+            //
+            CharacterDataTypeString {
+                preserve_whitespace: *preserve_whitespace,
+                max_length: *max_length,
+            }
+            .into_py_any(py)
             .unwrap()
-            .into_py(py),
-        CharacterDataSpec::Float => Py::new(py, CharacterDataTypeFloat(())).unwrap().into_py(py),
+        }
+        CharacterDataSpec::UnsignedInteger => {
+            CharacterDataTypeUnsignedInt(()).into_py_any(py).unwrap()
+        }
+        CharacterDataSpec::Float => CharacterDataTypeFloat(()).into_py_any(py).unwrap(),
     })
 }

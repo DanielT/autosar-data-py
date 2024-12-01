@@ -392,22 +392,19 @@ impl Element {
 
     #[getter]
     fn file_membership(&self) -> PyResult<PyObject> {
-        Python::with_gil(|py| match self.0.file_membership() {
+        match self.0.file_membership() {
             Ok((local, weak_file_set)) => {
-                let file_set: Vec<PyObject> = weak_file_set
+                let file_set_iter = weak_file_set
                     .iter()
-                    .filter_map(|weak| {
-                        weak.upgrade()
-                            .map(|raw| Py::new(py, ArxmlFile(raw)).unwrap().into_py(py))
-                    })
-                    .collect();
-                let frozenset = PyFrozenSet::new_bound(py, file_set.iter()).unwrap();
-                let pytuple =
-                    PyTuple::new_bound(py, [local.to_object(py), frozenset.to_object(py)].iter());
-                Ok(pytuple.to_object(py))
+                    .filter_map(|weak| weak.upgrade().map(ArxmlFile));
+                let pytuple = Python::with_gil(|py| {
+                    let frozenset = PyFrozenSet::new(py, file_set_iter).unwrap();
+                    (local, frozenset).into_py_any(py).unwrap()
+                });
+                Ok(pytuple)
             }
             Err(error) => Err(AutosarDataError::new_err(error.to_string())),
-        })
+        }
     }
 
     fn add_to_file(&self, file: &ArxmlFile) -> PyResult<()> {

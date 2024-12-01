@@ -14,4 +14,4 @@ crate-type = ["cdylib"]
 [dependencies]
 autosar-data = {version = "0.15"}
 autosar-data-specification = {version = "0.15"}
-pyo3 = "0.22.5"
+pyo3 = "0.23.2"

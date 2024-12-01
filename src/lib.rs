@@ -16,6 +16,7 @@ mod model;
 mod specification;
 mod version;
 
+use pyo3::IntoPyObjectExt;
 use version::AutosarVersion;
 
 create_exception!(module, AutosarDataError, pyo3::exceptions::PyException);
@@ -270,18 +271,8 @@ impl ElementsDfsIterator {
     }
 
     fn __next__(&mut self) -> Option<PyObject> {
-        Python::with_gil(|py| {
-            self.0.next().map(|(depth, elem)| {
-                PyTuple::new_bound(
-                    py,
-                    [
-                        depth.to_object(py),
-                        Py::new(py, Element(elem)).unwrap().into_py(py),
-                    ]
-                    .iter(),
-                )
-                .to_object(py)
-            })
+        self.0.next().map(|(depth, elem)| {
+            Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).unwrap())
         })
     }
 }
@@ -293,25 +284,15 @@ impl IdentifiablesIterator {
     }
 
     fn __next__(&mut self) -> Option<PyObject> {
-        Python::with_gil(|py| {
-            for (path, weak) in &mut self.0 {
-                if let Some(elem) = weak.upgrade() {
-                    return Some(
-                        PyTuple::new_bound(
-                            py,
-                            [
-                                path.to_object(py),
-                                Py::new(py, Element(elem)).unwrap().into_py(py),
-                            ]
-                            .iter(),
-                        )
-                        .to_object(py),
-                    );
-                }
+        for (path, weak) in &mut self.0 {
+            if let Some(elem) = weak.upgrade() {
+                return Some(Python::with_gil(|py| {
+                    (path, Element(elem)).into_py_any(py).unwrap()
+                }));
             }
+        }
 
-            None
-        })
+        None
     }
 }
 
@@ -322,18 +303,8 @@ impl ArxmlFileElementsDfsIterator {
     }
 
     fn __next__(&mut self) -> Option<PyObject> {
-        Python::with_gil(|py| {
-            self.0.next().map(|(depth, elem)| {
-                PyTuple::new_bound(
-                    py,
-                    [
-                        depth.to_object(py),
-                        Py::new(py, Element(elem)).unwrap().into_py(py),
-                    ]
-                    .iter(),
-                )
-                .to_object(py)
-            })
+        self.0.next().map(|(depth, elem)| {
+            Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).unwrap())
         })
     }
 }
@@ -346,14 +317,14 @@ impl ElementContentIterator {
 
     fn __next__(&mut self) -> Option<PyObject> {
         let ec = self.0.next()?;
-        Python::with_gil(|py| match ec {
-            autosar_data_rs::ElementContent::Element(elem) => {
-                Some(Py::new(py, Element(elem)).unwrap().into_py(py))
-            }
+        match ec {
+            autosar_data_rs::ElementContent::Element(elem) => Some(Python::with_gil(|py| {
+                Element(elem).into_py_any(py).unwrap()
+            })),
             autosar_data_rs::ElementContent::CharacterData(cdata) => {
                 Some(character_data_to_object(&cdata))
             }
-        })
+        }
     }
 }
 
@@ -473,7 +444,7 @@ fn autosar_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<CharacterDataTypeUnsignedInt>()?;
     m.add_function(wrap_pyfunction!(check_file, m)?)?;
     m.add_function(wrap_pyfunction!(check_buffer, m)?)?;
-    m.add("AutosarDataError", py.get_type_bound::<AutosarDataError>())?;
+    m.add("AutosarDataError", py.get_type::<AutosarDataError>())?;
     m.add("__version__", intern!(m.py(), env!("CARGO_PKG_VERSION")))?;
     Ok(())
 }
@@ -558,19 +529,20 @@ fn extract_character_data(
 }
 
 fn character_data_to_object(cdata: &autosar_data_rs::CharacterData) -> PyObject {
-    Python::with_gil(|py| match cdata {
-        autosar_data_rs::CharacterData::Enum(enumitem) => {
-            PyString::new_bound(py, enumitem.to_str()).into_py(py)
-        }
-        autosar_data_rs::CharacterData::String(s) => {
-            if let Some(val) = cdata.parse_integer::<i64>() {
-                val.to_object(py)
-            } else {
-                PyString::new_bound(py, s).into_py(py)
+    Python::with_gil(|py| {
+        match cdata {
+            autosar_data_rs::CharacterData::Enum(enumitem) => enumitem.to_str().into_py_any(py),
+            autosar_data_rs::CharacterData::String(s) => {
+                if let Some(val) = cdata.parse_integer::<i64>() {
+                    val.into_py_any(py)
+                } else {
+                    s.into_py_any(py)
+                }
             }
+            autosar_data_rs::CharacterData::UnsignedInteger(val) => val.into_py_any(py),
+            autosar_data_rs::CharacterData::Float(val) => val.into_py_any(py),
         }
-        autosar_data_rs::CharacterData::UnsignedInteger(val) => val.to_object(py),
-        autosar_data_rs::CharacterData::Float(val) => val.to_object(py),
+        .unwrap()
     })
 }
 

@@ -6,6 +6,7 @@ use crate::*;
 use ::autosar_data as autosar_data_rs;
 use autosar_data_rs::CompatibilityError;
 use autosar_data_specification::expand_version_mask;
+use pyo3::IntoPyObjectExt;
 
 #[pymethods]
 impl ArxmlFile {
@@ -59,71 +60,63 @@ impl ArxmlFile {
     }
 
     fn check_version_compatibility(&self, target_version: AutosarVersion) -> Vec<PyObject> {
-        Python::with_gil(|py| {
-            self.0
-                .check_version_compatibility(target_version.into())
-                .0
-                .iter()
-                .map(|cerr| -> PyObject {
-                    match cerr {
-                        CompatibilityError::IncompatibleAttribute {
-                            element,
-                            attribute,
-                            version_mask,
-                        } => Py::new(
-                            py,
-                            IncompatibleAttributeError {
-                                element: Element(element.to_owned()),
-                                attribute: attribute.to_string(),
-                                allowed_versions: expand_version_mask(*version_mask)
-                                    .iter()
-                                    .map(|&v| v.into())
-                                    .collect(),
-                                target_version,
-                            },
-                        )
-                        .unwrap()
-                        .into_py(py),
-                        CompatibilityError::IncompatibleAttributeValue {
-                            element,
-                            attribute,
-                            attribute_value,
-                            version_mask,
-                        } => Py::new(
-                            py,
-                            IncompatibleAttributeValueError {
-                                element: Element(element.to_owned()),
-                                attribute: attribute.to_string(),
-                                attribute_value: attribute_value.to_owned(),
-                                allowed_versions: expand_version_mask(*version_mask)
-                                    .iter()
-                                    .map(|&v| v.into())
-                                    .collect(),
-                                target_version,
-                            },
-                        )
-                        .unwrap()
-                        .into_py(py),
-                        CompatibilityError::IncompatibleElement {
-                            element,
-                            version_mask,
-                        } => Py::new(
-                            py,
-                            IncompatibleElementError {
-                                element: Element(element.to_owned()),
-                                allowed_versions: expand_version_mask(*version_mask)
-                                    .iter()
-                                    .map(|&v| v.into())
-                                    .collect(),
-                                target_version,
-                            },
-                        )
-                        .unwrap()
-                        .into_py(py),
+        let (error_list, _) = self.0.check_version_compatibility(target_version.into());
+        error_list
+            .iter()
+            .map(|cerr| {
+                match cerr {
+                    CompatibilityError::IncompatibleAttribute {
+                        element,
+                        attribute,
+                        version_mask,
+                    } => {
+                        let errobj = IncompatibleAttributeError {
+                            element: Element(element.to_owned()),
+                            attribute: attribute.to_string(),
+                            allowed_versions: expand_version_mask(*version_mask)
+                                .iter()
+                                .map(|&v| v.into())
+                                .collect(),
+                            target_version,
+                        };
+                        Python::with_gil(|py| errobj.into_py_any(py))
                     }
-                })
-                .collect()
-        })
+                    CompatibilityError::IncompatibleAttributeValue {
+                        element,
+                        attribute,
+                        attribute_value,
+                        version_mask,
+                    } => {
+                        let errobj = IncompatibleAttributeValueError {
+                            element: Element(element.to_owned()),
+                            attribute: attribute.to_string(),
+                            attribute_value: attribute_value.to_owned(),
+                            allowed_versions: expand_version_mask(*version_mask)
+                                .iter()
+                                .map(|&v| v.into())
+                                .collect(),
+                            target_version,
+                        };
+                        Python::with_gil(|py| errobj.into_py_any(py))
+                    }
+                    CompatibilityError::IncompatibleElement {
+                        element,
+                        version_mask,
+                    } => {
+                        let errobj = IncompatibleElementError {
+                            element: Element(element.to_owned()),
+                            allowed_versions: expand_version_mask(*version_mask)
+                                .iter()
+                                .map(|&v| v.into())
+                                .collect(),
+                            target_version,
+                        };
+                        Python::with_gil(|py| errobj.into_py_any(py))
+                    }
+                }
+                .unwrap()
+            })
+            .collect::<Vec<_>>()
     }
 
     #[getter]
