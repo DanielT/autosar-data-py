@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" /><link rel="canonical" href="https://danielt.github.io/autosar-data-py/" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>API Documentation</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "autosar-data API Documentation";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = "/autosar-data-py/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> API Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">autosar-data API Documentation</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#autosarmodel">AutosarModel</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#constructor">Constructor</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#create_file">create_file</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#load_buffer">load_buffer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#load_file">load_file</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#remove_file">remove_file</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#serialize_files">serialize_files</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#write">write</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#get_element_by_path">get_element_by_path</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#sort">sort</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#get_references_to">get_references_to</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#check_references">check_references</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#class-members">Class members</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#files">files</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#root_element">root_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#elements_dfs">elements_dfs</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#identifiable_elements">identifiable_elements</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#arxmlfile">ArxmlFile</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#functions_1">Functions</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#serialize">serialize</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#check_version_compatibility">check_version_compatibility</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#class-members_1">Class members</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#filename">filename</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#version">version</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#model">model</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#elements_dfs_1">elements_dfs</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#xml_standalone">xml_standalone</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#element">Element</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#functions_2">Functions</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#create_sub_element">create_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#create_named_sub_element">create_named_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#create_copied_sub_element">create_copied_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#move_element_here">move_element_here</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#remove_sub_element">remove_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#get_sub_element">get_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#get_sub_element_at">get_sub_element_at</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#get_named_sub_element">get_named_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#get_bsw_sub_element">get_bsw_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#serialize_1">serialize</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#remove_character_data">remove_character_data</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#insert_character_content_item">insert_character_content_item</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#remove_character_content_item">remove_character_content_item</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#attribute_value">attribute_value</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#set_attribute">set_attribute</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#remove_attribute">remove_attribute</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#sort_1">sort</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#list_valid_sub_elements">list_valid_sub_elements</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#add_to_file">add_to_file</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#remove_from_file">remove_from_file</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#class-members_2">Class members</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#parent">parent</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#element_name">element_name</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#element_type">element_type</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#item_name">item_name</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#is_identifiable">is_identifiable</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#is_reference">is_reference</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#path">path</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#model_1">model</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#content_type">content_type</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#reference_target">reference_target</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#position">position</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#sub_elements">sub_elements</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#elements_dfs_2">elements_dfs</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#character_data">character_data</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#content_item_count">content_item_count</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#content">content</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#attributes">attributes</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#file_membership">file_membership</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#xml_path">xml_path</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#autosarversion">AutosarVersion</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#characterdata">CharacterData</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#elementtype">ElementType</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#functions_3">Functions</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#splittable_in">splittable_in</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#reference_dest_value">reference_dest_value</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#find_sub_element">find_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#find_attribute_spec">find_attribute_spec</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#class-members_3">Class members</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#is_named">is_named</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#is_ref">is_ref</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#is_ordered">is_ordered</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#splittable">splittable</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#std_restriction">std_restriction</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#chardata_spec">chardata_spec</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#attributes_spec">attributes_spec</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#incompatibleitemerror">IncompatibleItemError</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#incompatibleattributeerror">IncompatibleAttributeError</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#class-members_4">Class members</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#element_1">element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#attribute">attribute</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#allowed_versions">allowed_versions</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#incompatibleattributevalueerror">IncompatibleAttributeValueError</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#class-members_5">Class members</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#element_2">element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#attribute_1">attribute</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#attribute_value_1">attribute_value</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#allowed_versions_1">allowed_versions</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#incompatibleelementerror">IncompatibleElementError</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#class-members_6">Class members</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#element_3">element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#allowed_versions_2">allowed_versions</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#validsubelementinfo">ValidSubElementInfo</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#class-members_7">Class members</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#element_name_1">element_name</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#is_named_1">is_named</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#is_allowed">is_allowed</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#attributespec">AttributeSpec</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#class-members_8">Class members</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#attribute_name">attribute_name</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#value_spec">value_spec</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#required">required</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#globals">Globals</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#functions_4">Functions</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#check_file">check_file</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#check_buffer">check_buffer</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#constants">Constants</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#__version__">__version__</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">API Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">autosar-data API Documentation</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="autosar-data-api-documentation">autosar-data API Documentation</h1>
+<p>API documenation for the autosar-data Python library</p>
+<h2 id="autosarmodel">AutosarModel</h2>
+<p>The class AutosarModel represents the Autosar data model. It contains all files and elements.</p>
+<h3 id="constructor">Constructor</h3>
+<pre><code class="language-python">AutosarModel()
+</code></pre>
+<p>Create a new AutosarModel</p>
+<h3 id="functions">Functions</h3>
+<h4 id="create_file">create_file</h4>
+<pre><code class="language-python">def create_file(
+    self,
+    filename: str,
+    version: AutosarVersion = AutosarVersion.LATEST
+) -&gt; ArxmlFile
+</code></pre>
+<p>Create a new file in the model</p>
+<h4 id="load_buffer">load_buffer</h4>
+<pre><code class="language-python">def load_buffer(
+    self,
+    buffer: str,
+    filename: str,
+    strict: bool = False
+) -&gt; Tuple[ArxmlFile, List[str]]
+</code></pre>
+<p>Load a buffer (string) as arxml</p>
+<h4 id="load_file">load_file</h4>
+<pre><code class="language-python">def load_file(self, filename: str, strict: bool = False) -&gt; Tuple[ArxmlFile, List[str]]
+</code></pre>
+<p>Load an arxml file</p>
+<h4 id="remove_file">remove_file</h4>
+<pre><code class="language-python">def remove_file(self, arxmlfile: ArxmlFile) -&gt; None
+</code></pre>
+<p>Remove a file from the model. Any elements belonging exclusively to that file will also be removed.</p>
+<h4 id="serialize_files">serialize_files</h4>
+<pre><code class="language-python">def serialize_files(self) -&gt; Dict[str, str]
+</code></pre>
+<p>Serialize all files individually, to generate a dict(filename, serialized content),</p>
+<h4 id="write">write</h4>
+<pre><code class="language-python">def write(self) -&gt; None
+</code></pre>
+<p>Write all files in the model to disk</p>
+<h4 id="get_element_by_path">get_element_by_path</h4>
+<pre><code class="language-python">def get_element_by_path(self, autosar_path: str) -&gt; Element
+</code></pre>
+<p>Get an identifiable element in the model by its Autosar path</p>
+<h4 id="sort">sort</h4>
+<pre><code class="language-python">def sort(self) -&gt; None
+</code></pre>
+<p>Sort the entire model in place. Takes all ordering constraints into account.</p>
+<h4 id="get_references_to">get_references_to</h4>
+<pre><code class="language-python">def get_references_to(self, target_path: str) -&gt; List[Element]
+</code></pre>
+<p>Get all reference elements which refer to the given Autosar path</p>
+<h4 id="check_references">check_references</h4>
+<pre><code class="language-python">def check_references(self) -&gt; List[Element]
+</code></pre>
+<p>Check all references in the model and return a list of elements containing invalid references</p>
+<h3 id="class-members">Class members</h3>
+<h4 id="files">files</h4>
+<pre><code class="language-python">files: List[ArxmlFile]
+</code></pre>
+<p>A list of ArxmlFile objects containing all files in the model</p>
+<h4 id="root_element">root_element</h4>
+<pre><code class="language-python">root_element: Element
+</code></pre>
+<p>The root element of the model, <code>&lt;AUTOSAR&gt;</code></p>
+<h4 id="elements_dfs">elements_dfs</h4>
+<pre><code class="language-python">elements_dfs: ElementsDfsIterator
+</code></pre>
+<p>Depth first dearch iterator over all elements in the model, regardless of their association with a file</p>
+<h4 id="identifiable_elements">identifiable_elements</h4>
+<pre><code class="language-python">identifiable_elements: List[str]
+</code></pre>
+<p>List of all paths of identifiable elements in the model</p>
+<h2 id="arxmlfile">ArxmlFile</h2>
+<p>Represents a file that is part of an AutosarModel</p>
+<h3 id="functions_1">Functions</h3>
+<h4 id="serialize">serialize</h4>
+<pre><code class="language-python">def serialize(self) -&gt; str
+</code></pre>
+<p>Serialize the the file to a string. This string can be loaded as valid arxml if is written to disk.</p>
+<h4 id="check_version_compatibility">check_version_compatibility</h4>
+<pre><code class="language-python">def check_version_compatibility(self, version: AutosarVersion) -&gt; List[IncompatibleItemError]
+</code></pre>
+<p>check if the elements in the file would be compatible with the given target version.</p>
+<p>Returns a list of compatibility errors, each of which is an IncompatibleElementError, IncompatibleAttributeError or IncompatibleAttributeValueError</p>
+<h3 id="class-members_1">Class members</h3>
+<h4 id="filename">filename</h4>
+<pre><code class="language-python">filename: str
+</code></pre>
+<p>filename of the arxml file. Must be unique within the model.</p>
+<h4 id="version">version</h4>
+<pre><code class="language-python">version: AutosarVersion
+</code></pre>
+<p>Autosar version of the file</p>
+<h4 id="model">model</h4>
+<pre><code class="language-python">model: AutosarModel
+</code></pre>
+<p>the autosar data model which this file is part of</p>
+<h4 id="elements_dfs_1">elements_dfs</h4>
+<pre><code class="language-python">elements_dfs: ArxmlFileElementsDfsIterator
+</code></pre>
+<p>dfs iterator over all elements in this file</p>
+<h4 id="xml_standalone">xml_standalone</h4>
+<pre><code class="language-python">xml_standalone: bool
+</code></pre>
+<p>contains the xml standalone attribute (if any) in the xml file header</p>
+<h2 id="element">Element</h2>
+<p>An element in the Autosar data model</p>
+<h3 id="functions_2">Functions</h3>
+<h4 id="create_sub_element">create_sub_element</h4>
+<pre><code class="language-python">def create_sub_element(
+    self,
+    element_name: ElementName,
+    position: int = None
+) -&gt; Element
+</code></pre>
+<p>create a sub element under this element with the given ElementName (optionally at a specific position)</p>
+<h4 id="create_named_sub_element">create_named_sub_element</h4>
+<pre><code class="language-python">def create_named_sub_element(
+    self,
+    element_name: ElementName,
+    item_name: str,
+    position: int = None
+) -&gt; Element
+</code></pre>
+<p>create a named sub element under this element with the given ElementName (optionally at a specific position)</p>
+<h4 id="create_copied_sub_element">create_copied_sub_element</h4>
+<pre><code class="language-python">def create_copied_sub_element(
+    self,
+    other: Element,
+    position: int = None
+) -&gt; Element
+</code></pre>
+<p>create a copy of some other element (with all of its children) as a child of this element (optionally at a specific position)</p>
+<h4 id="move_element_here">move_element_here</h4>
+<pre><code class="language-python">def move_element_here(
+    self,
+    move_element: Element,
+    position: int = None
+) -&gt; Element
+</code></pre>
+<p>move an element from somewhere else in this model or from another model to become a child element (optionally at a specific position)</p>
+<h4 id="remove_sub_element">remove_sub_element</h4>
+<pre><code class="language-python">def remove_sub_element(self, element: Element) -&gt; None
+</code></pre>
+<p>remove a sub element and all of its content</p>
+<h4 id="get_sub_element">get_sub_element</h4>
+<pre><code class="language-python">def get_sub_element(self, name_str: str) -&gt; Element
+</code></pre>
+<p>get a sub element by its element name. If there are several then this returns the first of them</p>
+<h4 id="get_sub_element_at">get_sub_element_at</h4>
+<pre><code class="language-python">def get_sub_element_at(self, position: int) -&gt; Element
+</code></pre>
+<p>get an element by its position among the content of this element</p>
+<h4 id="get_named_sub_element">get_named_sub_element</h4>
+<pre><code class="language-python">def get_named_sub_element(self, item_name: str) -&gt; Element:
+</code></pre>
+<p>Get the sub element with the given item name, if any</p>
+<h4 id="get_bsw_sub_element">get_bsw_sub_element</h4>
+<pre><code class="language-python">def get_bsw_sub_element(self, definition_ref: str) -&gt; Element:
+</code></pre>
+<p>get the sub element with the given definition ref. It is possible to specify either the full definition ref, or only the last part after the final '/'</p>
+<h4 id="serialize_1">serialize</h4>
+<pre><code class="language-python">def serialize(self) -&gt; str
+</code></pre>
+<p>serialize this element and its sub elements int oa string. This string is valid xml, but it is not a vaild arxml file</p>
+<h4 id="remove_character_data">remove_character_data</h4>
+<pre><code class="language-python">def remove_character_data(self) -&gt; None
+</code></pre>
+<p>remove the character data</p>
+<h4 id="insert_character_content_item">insert_character_content_item</h4>
+<pre><code class="language-python">def insert_character_content_item(self, chardata: str, position: int) -&gt; None
+</code></pre>
+<p>for elements with ElementType mixed, this allows character data to be inserted at any point in the content of this element</p>
+<h4 id="remove_character_content_item">remove_character_content_item</h4>
+<pre><code class="language-python">def remove_character_content_item(self, position: int) -&gt; None
+</code></pre>
+<p>remove one character content item from the given position</p>
+<h4 id="attribute_value">attribute_value</h4>
+<pre><code class="language-python">def attribute_value(self, attrname: AttributeName) -&gt; CharacterData
+</code></pre>
+<p>get the attribute value of a specific attribute. Returns None if that attribute is not set</p>
+<h4 id="set_attribute">set_attribute</h4>
+<pre><code class="language-python">def set_attribute(self, attrname: AttributeName, chardata: CharacterData) -&gt; None
+</code></pre>
+<p>set the given attribute to the provided value. If the attribute is valid for this element it will be created or modified as needed.</p>
+<h4 id="remove_attribute">remove_attribute</h4>
+<pre><code class="language-python">def remove_attribute(self, attrname: AttributeName) -&gt; None
+</code></pre>
+<p>remove an attribute from the element</p>
+<h4 id="sort_1">sort</h4>
+<pre><code class="language-python">def sort(self) -&gt; None
+</code></pre>
+<p>sort this element and all of its sub elements</p>
+<h4 id="list_valid_sub_elements">list_valid_sub_elements</h4>
+<pre><code class="language-python">def list_valid_sub_elements(self) -&gt; List[ValidSubElementInfo]
+</code></pre>
+<p>provide information about valid sub elements as a list of ValidSubElementInfo</p>
+<h4 id="add_to_file">add_to_file</h4>
+<pre><code class="language-python">def add_to_file(self, file: ArxmlFile) -&gt; None
+</code></pre>
+<p>add the element to a file. if necessary all parent elements of this element also become part of the file</p>
+<h4 id="remove_from_file">remove_from_file</h4>
+<pre><code class="language-python">def remove_from_file(self, file: ArxmlFile) -&gt; None
+</code></pre>
+<p>remove this element from a file. Does not affect parent elements. When an element is no longer part of any file it is deleted.</p>
+<h3 id="class-members_2">Class members</h3>
+<h4 id="parent">parent</h4>
+<pre><code class="language-python">parent: Element
+</code></pre>
+<p>reference to the parent of this element</p>
+<h4 id="element_name">element_name</h4>
+<pre><code class="language-python">element_name: ElementName
+</code></pre>
+<p>ElementName of this element, e.g. AUTOSAR or AR-PACKAGE</p>
+<h4 id="element_type">element_type</h4>
+<pre><code class="language-python">element_type: ElementType
+</code></pre>
+<p>Reference to the element type of the element in the specification</p>
+<h4 id="item_name">item_name</h4>
+<pre><code class="language-python">item_name: str
+</code></pre>
+<p>item name of an identifiable element, or None for elements which are not identifiable.</p>
+<p>Setting this value renames the element and updates all references to it.</p>
+<h4 id="is_identifiable">is_identifiable</h4>
+<pre><code class="language-python">is_identifiable: bool
+</code></pre>
+<p>true if the element is identifiable, false otherwise</p>
+<h4 id="is_reference">is_reference</h4>
+<pre><code class="language-python">is_reference: bool
+</code></pre>
+<p>true if the element can contain a reference to another element</p>
+<h4 id="path">path</h4>
+<pre><code class="language-python">path: str
+</code></pre>
+<p>the full autosar path of an identifiable element</p>
+<h4 id="model_1">model</h4>
+<pre><code class="language-python">model: AutosarModel
+</code></pre>
+<p>reference to the model containing this element</p>
+<h4 id="content_type">content_type</h4>
+<pre><code class="language-python">content_type: ContentType
+</code></pre>
+<p>content type of the element: character data (<code>&lt;X&gt;some text&lt;/X&gt;</code>), elements (<code>&lt;X&gt;&lt;Y&gt;&lt;/Y&gt;&lt;/X&gt;</code>), or mixed</p>
+<h4 id="reference_target">reference_target</h4>
+<pre><code class="language-python">reference_target: Element
+</code></pre>
+<p>returns the target of the reference, if the element contains a reference</p>
+<h4 id="position">position</h4>
+<pre><code class="language-python">position: int
+</code></pre>
+<p>the position of this element in the content of its parent</p>
+<h4 id="sub_elements">sub_elements</h4>
+<pre><code class="language-python">sub_elements: ElementsIterator
+</code></pre>
+<p>an iterator over all sub elements in the content of this element. It skips character data content items</p>
+<h4 id="elements_dfs_2">elements_dfs</h4>
+<pre><code class="language-python">elements_dfs: ElementsDfsIterator
+</code></pre>
+<p>depth first search iterator for this element and all of its sub elements</p>
+<h4 id="character_data">character_data</h4>
+<pre><code class="language-python">character_data: CharacterData
+</code></pre>
+<p>character content of this element, if any. For elements with ContentType=Element, or empty elements this is None</p>
+<h4 id="content_item_count">content_item_count</h4>
+<pre><code class="language-python">content_item_count: int
+</code></pre>
+<p>number of content items (character data and/or sub elements)</p>
+<h4 id="content">content</h4>
+<pre><code class="language-python">content: ElementContentIterator
+</code></pre>
+<p>iterator over all content of this element</p>
+<h4 id="attributes">attributes</h4>
+<pre><code class="language-python">attributes: AttributeIterator
+</code></pre>
+<p>iterator over all attributes of this element</p>
+<h4 id="file_membership">file_membership</h4>
+<pre><code class="language-python">file_membership: Tuple[bool, FrozenSet[ArxmlFile]]
+</code></pre>
+<p>file membership information: the tuple (is_local, set(ArxmlFile)) tells if there is a restriction to file membership attached to this element, and which files the element is part of</p>
+<h4 id="xml_path">xml_path</h4>
+<pre><code class="language-python">xml_path: str
+</code></pre>
+<p>a path listing all xml elements from the root of the model to the element. This is intended for display. e.g. in error messages</p>
+<h2 id="autosarversion">AutosarVersion</h2>
+<p>A version of the Autosar standard</p>
+<ul>
+<li>Autosar_4_0_1</li>
+<li>Autosar_4_0_2</li>
+<li>Autosar_4_0_3</li>
+<li>Autosar_4_1_1</li>
+<li>Autosar_4_1_2</li>
+<li>Autosar_4_1_3</li>
+<li>Autosar_4_2_1</li>
+<li>Autosar_4_2_2</li>
+<li>Autosar_4_3_0</li>
+<li>Autosar_00042</li>
+<li>Autosar_00043</li>
+<li>Autosar_00044</li>
+<li>Autosar_00045</li>
+<li>Autosar_00046</li>
+<li>Autosar_00047</li>
+<li>Autosar_00048</li>
+<li>Autosar_00049</li>
+<li>Autosar_00050</li>
+<li>Autosar_00051</li>
+</ul>
+<pre><code class="language-python">LATEST
+</code></pre>
+<p>Alias for the latest version of the standard</p>
+<h2 id="characterdata">CharacterData</h2>
+<pre><code class="language-python">CharacterData: TypeAlias = Union[EnumItem, str, int, float]
+</code></pre>
+<h2 id="elementtype">ElementType</h2>
+<h3 id="functions_3">Functions</h3>
+<p>Type of an Element in the specification</p>
+<h4 id="splittable_in">splittable_in</h4>
+<pre><code class="language-python">def splittable_in(self, version: AutosarVersion) -&gt; bool
+</code></pre>
+<p>is this element splittable in a particular AutosarVersion</p>
+<h4 id="reference_dest_value">reference_dest_value</h4>
+<pre><code class="language-python">def reference_dest_value(self, target: ElementType) -&gt; EnumItem
+</code></pre>
+<p>helper to determine the correct value for the <code>DEST</code> attribute when setting a reference</p>
+<h4 id="find_sub_element">find_sub_element</h4>
+<pre><code class="language-python">def find_sub_element(
+    self,
+    target_name: ElementName,
+    version: VersionSpecification
+) -&gt; ElementType
+</code></pre>
+<p>Find the ElementType of the named sub element in the specification of this ElementType</p>
+<h4 id="find_attribute_spec">find_attribute_spec</h4>
+<pre><code class="language-python">def find_attribute_spec(self, attribute_name: AttributeName) -&gt; AttributeSpec
+</code></pre>
+<p>Find the specification for the given attribute name</p>
+<h3 id="class-members_3">Class members</h3>
+<h4 id="is_named">is_named</h4>
+<pre><code class="language-python">is_named: bool
+</code></pre>
+<p>Elements of this type must have a <code>SHORT-NAME</code></p>
+<h4 id="is_ref">is_ref</h4>
+<pre><code class="language-python">is_ref: bool
+</code></pre>
+<p>Elements of this type must contain an autosar path in their character data, and have a <code>DEST</code> attribute</p>
+<h4 id="is_ordered">is_ordered</h4>
+<pre><code class="language-python">is_ordered: bool
+</code></pre>
+<p>Ordered elements may not be sorted, since the sub element order is semantically meaningful</p>
+<h4 id="splittable">splittable</h4>
+<pre><code class="language-python">splittable: List[AutosarVersion]
+</code></pre>
+<p>A list of AutosarVersions in which this element is splittable</p>
+<h4 id="std_restriction">std_restriction</h4>
+<pre><code class="language-python">std_restriction: str
+</code></pre>
+<p>Indicates if the element type is restricted to a particular version.
+std_restriction contains a string, one of 'NotRestricted', 'ClassicPlatform' or 'AdaptivePlatform'.</p>
+<h4 id="chardata_spec">chardata_spec</h4>
+<pre><code class="language-python">chardata_spec: CharacterDataType
+</code></pre>
+<p>The specification of the character data content of elements of this type</p>
+<h4 id="attributes_spec">attributes_spec</h4>
+<pre><code class="language-python">attributes_spec: List[AttributeSpec]
+</code></pre>
+<p>A list of the specifications of all attributes allowed on elements of this type</p>
+<h2 id="incompatibleitemerror">IncompatibleItemError</h2>
+<pre><code class="language-python">IncompatibleItemError: TypeAlias = Union[
+    IncompatibleAttributeError,
+    IncompatibleAttributeValueError,
+    IncompatibleElementError
+]
+</code></pre>
+<h2 id="incompatibleattributeerror">IncompatibleAttributeError</h2>
+<p>Information about an attribute that is incompatible with a given target version</p>
+<h3 id="class-members_4">Class members</h3>
+<h4 id="element_1">element</h4>
+<pre><code class="language-python">element: Element
+</code></pre>
+<p>Element which contains the incompatible attribute</p>
+<h4 id="attribute">attribute</h4>
+<pre><code class="language-python">attribute: AttributeName
+</code></pre>
+<p>Incompatible attribute</p>
+<h4 id="allowed_versions">allowed_versions</h4>
+<pre><code class="language-python">allowed_versions: List[AutosarVersion]
+</code></pre>
+<p>list of versions in which the attribute is permitted on this element</p>
+<h2 id="incompatibleattributevalueerror">IncompatibleAttributeValueError</h2>
+<p>Information about an attribute value that is incompatible with a given target version</p>
+<h3 id="class-members_5">Class members</h3>
+<h4 id="element_2">element</h4>
+<pre><code class="language-python">element: Element
+</code></pre>
+<p>Element which contains the incompatible attribute value</p>
+<h4 id="attribute_1">attribute</h4>
+<pre><code class="language-python">attribute: AttributeName
+</code></pre>
+<p>Attribute which contains the invalid value</p>
+<h4 id="attribute_value_1">attribute_value</h4>
+<pre><code class="language-python">attribute_value: str
+</code></pre>
+<p>The incompatible attribute value</p>
+<h4 id="allowed_versions_1">allowed_versions</h4>
+<pre><code class="language-python">allowed_versions: List[AutosarVersion]
+</code></pre>
+<p>list of versions in which the attribute value is permitted on this attribute</p>
+<h2 id="incompatibleelementerror">IncompatibleElementError</h2>
+<p>Information about an element that is incompatible with a given target version</p>
+<h3 id="class-members_6">Class members</h3>
+<h4 id="element_3">element</h4>
+<pre><code class="language-python">element: Element
+</code></pre>
+<p>incompatible element</p>
+<h4 id="allowed_versions_2">allowed_versions</h4>
+<pre><code class="language-python">allowed_versions: List[AutosarVersion]
+</code></pre>
+<p>list of versions in which this element is compatible</p>
+<h2 id="validsubelementinfo">ValidSubElementInfo</h2>
+<p>Details about a particular sub element</p>
+<h3 id="class-members_7">Class members</h3>
+<h4 id="element_name_1">element_name</h4>
+<pre><code class="language-python">element_name: str
+</code></pre>
+<p>name of the potential sub element</p>
+<h4 id="is_named_1">is_named</h4>
+<pre><code class="language-python">is_named: bool
+</code></pre>
+<p>is the sub element named, i.e. does it need to be created with create_named_sub_element</p>
+<h4 id="is_allowed">is_allowed</h4>
+<pre><code class="language-python">is_allowed: bool
+</code></pre>
+<p>is the sub element currently allowed, given the existing content of the element. Note that some sub elements are mutually exclusive</p>
+<h2 id="attributespec">AttributeSpec</h2>
+<p>The specification of an attribute</p>
+<h3 id="class-members_8">Class members</h3>
+<h4 id="attribute_name">attribute_name</h4>
+<pre><code class="language-python">attribute_name: str
+</code></pre>
+<p>name of the attribute</p>
+<h4 id="value_spec">value_spec</h4>
+<pre><code class="language-python">value_spec: CharacterDataType
+</code></pre>
+<p>specification of the attribute value</p>
+<h4 id="required">required</h4>
+<pre><code class="language-python">required: bool
+</code></pre>
+<p>is the attribute required or optional</p>
+<h2 id="globals">Globals</h2>
+<h3 id="functions_4">Functions</h3>
+<h4 id="check_file">check_file</h4>
+<pre><code class="language-python">def check_file(filename: str)
+</code></pre>
+<p>Check if the file contains arxml data. Returns true if an arxml file header is found and does not parse anything after it.</p>
+<h4 id="check_buffer">check_buffer</h4>
+<pre><code class="language-python">def check_buffer(filename: bytes)
+</code></pre>
+<p>Check if the buffer contains arxml data. Returns true if an arxml file header is found and does not parse anything after it.</p>
+<h3 id="constants">Constants</h3>
+<h4 id="__version__">__version__</h4>
+<pre><code class="language-python">__version__: str
+</code></pre>
+<p>Version of the running autosar_data module.
+It contains a semver string of the form 'x.y.z'</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2024-12-28 19:23:27.845084+00:00
+-->
