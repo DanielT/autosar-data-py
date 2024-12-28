@@ -57,6 +57,24 @@ impl ElementType {
             .map(|enumitem| enumitem.to_string())
     }
 
+    #[getter]
+    fn sub_elements_spec(&self) -> Vec<SubElementSpec> {
+        self.0
+            .sub_element_spec_iter()
+            .map(|(element_name, element_type, version_mask, _)| {
+                let versions = expand_version_mask(version_mask)
+                    .iter()
+                    .map(|&ver| AutosarVersion::from(ver))
+                    .collect();
+                SubElementSpec {
+                    element_name: element_name.to_string(),
+                    element_type: ElementType(element_type),
+                    allowed_versions: versions,
+                }
+            })
+            .collect()
+    }
+
     fn find_sub_element(
         &self,
         target_name: &str,
@@ -128,6 +146,13 @@ impl AttributeSpec {
 impl ContentMode {
     fn __repr__(&self) -> String {
         format!("{self:#?}")
+    }
+}
+
+#[pymethods]
+impl SubElementSpec {
+    fn __repr__(&self) -> String {
+        format!("{self:?}")
     }
 }
 

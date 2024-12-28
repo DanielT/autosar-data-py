@@ -333,6 +333,8 @@ class ElementType:
     def reference_dest_value(self, target: ElementType) -> EnumItem:
         """helper to determine the correct value for the DEST attribute when setting a reference"""
         ...
+    sub_elements_spec: List[SubElementSpec]
+    """a list of the specifications of all sub elements allowed on elements of this type"""
     def find_sub_element(self, target_name: ElementName, version: VersionSpecification) -> ElementType:
         """find the ElementType of the named sub element in the specification of this ElementType"""
         ...
@@ -423,6 +425,15 @@ class AttributeSpec:
     """specification of the attribute value"""
     required: bool
     """is the attribute required or optional"""
+
+class SubElementSpec:
+    """The specification of a sub element"""
+    element_name: str
+    """name of the sub element"""
+    element_type: ElementType
+    """element type of the sub element"""
+    allowed_versions: List[AutosarVersion]
+    """list of versions in which this sub element is compatible"""
 
 class CharacterDataTypeEnum:
     """Character data type: enum"""

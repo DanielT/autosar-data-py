@@ -117,3 +117,13 @@ def test_specification_uint() -> None:
     assert not cse_spec.__repr__() is None
 
 
+def test_specification_sub_elements_spec() -> None:
+    model = AutosarModel()
+    model.create_file("file")
+    el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
+    el_pkg = el_ar_packages.create_named_sub_element("AR-PACKAGE", "pkg")
+    sub_element_spec = el_ar_packages.element_type.sub_elements_spec[0]
+
+    assert sub_element_spec.element_name == "AR-PACKAGE"
+    assert sub_element_spec.element_type == el_pkg.element_type
+    assert AutosarVersion.AUTOSAR_00050 in sub_element_spec.allowed_versions

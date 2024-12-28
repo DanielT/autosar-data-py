@@ -91,7 +91,8 @@ struct IncompatibleAttributeValueError {
     target_version: AutosarVersion,
 }
 
-#[pyclass(frozen)]
+#[pyclass(eq, frozen)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 /// Type of an Element in the specification
 struct ElementType(autosar_data_specification::ElementType);
 
@@ -140,6 +141,21 @@ struct AttributeSpec {
     #[pyo3(get)]
     /// is the attribute required or optional
     required: bool,
+}
+
+#[pyclass(frozen)]
+#[derive(Debug)]
+/// Specification of a sub element
+struct SubElementSpec {
+    #[pyo3(get)]
+    /// name of the sub element
+    element_name: String,
+    #[pyo3(get)]
+    /// element type of the sub element
+    element_type: ElementType,
+    #[pyo3(get)]
+    /// list of versions in which this sub element is compatible
+    allowed_versions: Vec<AutosarVersion>,
 }
 
 #[pyclass(eq, eq_int)]
@@ -457,6 +473,7 @@ fn autosar_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<AttributeIterator>()?;
     m.add_class::<Attribute>()?;
     m.add_class::<AttributeSpec>()?;
+    m.add_class::<SubElementSpec>()?;
     m.add_class::<ContentMode>()?;
     m.add_class::<ValidSubElementInfo>()?;
     m.add_class::<CharacterDataTypeEnum>()?;
