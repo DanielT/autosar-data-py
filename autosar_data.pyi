@@ -169,6 +169,16 @@ class ContentType:
     CharacterData: ContentType
     Mixed: ContentType
 
+class ContentMode:
+    """
+    The content mode of an element type
+    """
+    Sequence: ContentMode
+    Choice: ContentMode
+    Bag: ContentMode
+    Characters: ContentMode
+    Mixed: ContentMode
+
 class Element:
     """
     An element in the Autosar data model
@@ -311,6 +321,8 @@ class ElementType:
     """elements of this type must contain an autosar path in their character data, and have a DEST attribute"""
     is_ordered: bool
     """ordered elements may not be sorted, since the sub element order is semantically meaningful"""
+    content_mode: ContentMode
+    """content mode of the element type: Sequence, Choice, Bag, Characters, Mixed"""
     splittable: List[AutosarVersion]
     """a list of AutosarVersions in which this element is splittable"""
     std_restriction: str

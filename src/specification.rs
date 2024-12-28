@@ -1,4 +1,5 @@
 use crate::*;
+use ::autosar_data_specification;
 
 #[pymethods]
 impl ElementType {
@@ -19,6 +20,17 @@ impl ElementType {
     #[getter]
     fn is_ordered(&self) -> bool {
         self.0.is_ordered()
+    }
+
+    #[getter]
+    fn content_mode(&self) -> ContentMode {
+        match self.0.content_mode() {
+            autosar_data_specification::ContentMode::Sequence => ContentMode::Sequence,
+            autosar_data_specification::ContentMode::Choice => ContentMode::Choice,
+            autosar_data_specification::ContentMode::Bag => ContentMode::Bag,
+            autosar_data_specification::ContentMode::Characters => ContentMode::Characters,
+            autosar_data_specification::ContentMode::Mixed => ContentMode::Mixed,
+        }
     }
 
     #[getter]
@@ -109,6 +121,13 @@ impl AttributeSpec {
     #[getter]
     fn value_spec(&self) -> PyResult<PyObject> {
         character_data_spec_to_object(self.value_spec)
+    }
+}
+
+#[pymethods]
+impl ContentMode {
+    fn __repr__(&self) -> String {
+        format!("{self:#?}")
     }
 }
 

@@ -5,6 +5,7 @@ def test_specification_basic() -> None:
     model = AutosarModel()
     model.create_file("file")
     assert model.root_element.element_type.chardata_spec is None
+    assert model.root_element.element_type.content_mode == ContentMode.Sequence
 
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
     el_ar_package = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg1")
