@@ -142,6 +142,22 @@ struct AttributeSpec {
     required: bool,
 }
 
+#[pyclass(eq, eq_int)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// The content mode of an element type
+enum ContentMode {
+    /// Elements of this type contain an ordered sequence of elements
+    Sequence,
+    /// Elements of this type contain elements of a single element type chosen from multiple options
+    Choice,
+    /// Elements of this type contain a variable amount of unordered elements with different element types chosen from multiple options
+    Bag,
+    /// Elements of this type only contain character data
+    Characters,
+    /// Elements of this type contain both character data and sub elements
+    Mixed,
+}
+
 #[pyclass]
 #[derive(Debug)]
 /// The character data in an element or attribute is an enum value
@@ -441,6 +457,7 @@ fn autosar_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<AttributeIterator>()?;
     m.add_class::<Attribute>()?;
     m.add_class::<AttributeSpec>()?;
+    m.add_class::<ContentMode>()?;
     m.add_class::<ValidSubElementInfo>()?;
     m.add_class::<CharacterDataTypeEnum>()?;
     m.add_class::<CharacterDataTypeFloat>()?;
