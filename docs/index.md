@@ -548,25 +548,27 @@ a path listing all xml elements from the root of the model to the element. This 
 
 A version of the Autosar standard
 
-- Autosar_4_0_1
-- Autosar_4_0_2
-- Autosar_4_0_3
-- Autosar_4_1_1
-- Autosar_4_1_2
-- Autosar_4_1_3
-- Autosar_4_2_1
-- Autosar_4_2_2
-- Autosar_4_3_0
-- Autosar_00042
-- Autosar_00043
-- Autosar_00044
-- Autosar_00045
-- Autosar_00046
-- Autosar_00047
-- Autosar_00048
-- Autosar_00049
-- Autosar_00050
-- Autosar_00051
+- AUTOSAR_4_0_1
+- AUTOSAR_4_0_2
+- AUTOSAR_4_0_3
+- AUTOSAR_4_1_1
+- AUTOSAR_4_1_2
+- AUTOSAR_4_1_3
+- AUTOSAR_4_2_1
+- AUTOSAR_4_2_2
+- AUTOSAR_4_3_0
+- AUTOSAR_00042
+- AUTOSAR_00043
+- AUTOSAR_00044
+- AUTOSAR_00045
+- AUTOSAR_00046
+- AUTOSAR_00047
+- AUTOSAR_00048
+- AUTOSAR_00049
+- AUTOSAR_00050
+- AUTOSAR_00051
+- AUTOSAR_00052
+- AUTOSAR_00053
 
 ```python
 LATEST

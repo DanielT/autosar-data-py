@@ -53,9 +53,9 @@ from autosar_data import *
 model = AutosarModel()
 
 # create a file in the model
-file1 = model.create_file("filename.arxml", AutosarVersion.Autosar_4_3_0)
+file1 = model.create_file("filename.arxml", AutosarVersion.AUTOSAR_4_3_0)
 # a model can consist of multiple files - elements appear in all of them by default, unless restrictions are set
-file2 = model.create_file("filename2.arxml", AutosarVersion.Autosar_00051)
+file2 = model.create_file("filename2.arxml", AutosarVersion.AUTOSAR_00051)
 
 # initially the model only has its root element, <AUTOSAR>. Create some elements
 el_elements = model.root_element \
