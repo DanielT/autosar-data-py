@@ -139,26 +139,28 @@ class AutosarVersion:
     """
     def __new__(cls, verstring: str) -> AutosarVersion: ...
     # this is the stupid result of method used by PyO3 to translate Rust enums
-    Autosar_4_0_1: AutosarVersion
-    Autosar_4_0_2: AutosarVersion
-    Autosar_4_0_3: AutosarVersion
-    Autosar_4_1_1: AutosarVersion
-    Autosar_4_1_2: AutosarVersion
-    Autosar_4_1_3: AutosarVersion
-    Autosar_4_2_1: AutosarVersion
-    Autosar_4_2_2: AutosarVersion
-    Autosar_4_3_0: AutosarVersion
-    Autosar_00042: AutosarVersion
-    Autosar_00043: AutosarVersion
-    Autosar_00044: AutosarVersion
-    Autosar_00045: AutosarVersion
-    Autosar_00046: AutosarVersion
-    Autosar_00047: AutosarVersion
-    Autosar_00048: AutosarVersion
-    Autosar_00049: AutosarVersion
-    Autosar_00050: AutosarVersion
-    Autosar_00051: AutosarVersion
-    Autosar_00052: AutosarVersion
+    AUTOSAR_4_0_1: AutosarVersion
+    AUTOSAR_4_0_2: AutosarVersion
+    AUTOSAR_4_0_3: AutosarVersion
+    AUTOSAR_4_1_1: AutosarVersion
+    AUTOSAR_4_1_2: AutosarVersion
+    AUTOSAR_4_1_3: AutosarVersion
+    AUTOSAR_4_2_1: AutosarVersion
+    AUTOSAR_4_2_2: AutosarVersion
+    AUTOSAR_4_3_0: AutosarVersion
+    AUTOSAR_00042: AutosarVersion
+    AUTOSAR_00043: AutosarVersion
+    AUTOSAR_00044: AutosarVersion
+    AUTOSAR_00045: AutosarVersion
+    AUTOSAR_00046: AutosarVersion
+    AUTOSAR_00047: AutosarVersion
+    AUTOSAR_00048: AutosarVersion
+    AUTOSAR_00049: AutosarVersion
+    AUTOSAR_00050: AutosarVersion
+    AUTOSAR_00051: AutosarVersion
+    AUTOSAR_00052: AutosarVersion
+    AUTOSAR_00053: AutosarVersion
+    LATEST: AutosarVersion
 
 class ContentType:
     """
