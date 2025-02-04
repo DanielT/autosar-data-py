@@ -10,9 +10,9 @@ checksum = "ace50bade8e6234aa140d9a2f552bbee1db4d353f69b8217bc503490fc1a9f26"
 
 [[package]]
 name = "autosar-data"
-version = "0.16.0"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "113bad0a6d415129757348e476a9e9142acb2a4430b8d419026cbc6e83b4621e"
+checksum = "d4c8586083f2eebb81b01acabb7cdd5f9eda30d3a3a20cf97db0150a27bfa6a6"
 dependencies = [
  "autosar-data-specification",
  "fxhash",
@@ -25,11 +25,10 @@ dependencies = [
 
 [[package]]
 name = "autosar-data-specification"
-version = "0.16.0"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "381dc3a23da99fb376330e31fc0377fcc9be6f17366af038c4c2f8dc099b0d45"
+checksum = "f9a11381b83f676924b211aaaac90194473220b2d170949afd355d080d8cddeb"
 dependencies = [
- "num-derive",
  "num-traits",
 ]
 
@@ -117,17 +116,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "488016bfae457b036d996092f6cb448677611ce4449e970ceaf42695203f218a"
 dependencies = [
  "autocfg",
-]
-
-[[package]]
-name = "num-derive"
-version = "0.4.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed3955f1a9c7c0c15e092f9c887db08b1fc683305fdf6eb6684f22555355e202"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]

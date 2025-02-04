@@ -219,6 +219,13 @@ impl Element {
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
+    fn remove_sub_element_kind(&self, name_str: &str) -> PyResult<()> {
+        let element_name = get_element_name(name_str)?;
+        self.0
+            .remove_sub_element_kind(element_name)
+            .map_err(|error| AutosarDataError::new_err(error.to_string()))
+    }
+
     #[setter]
     fn set_reference_target(&self, target: Element) -> PyResult<()> {
         self.0

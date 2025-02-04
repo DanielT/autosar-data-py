@@ -416,6 +416,11 @@ def test_element_creation() -> None:
         invalid = el_pkg3.path
     with pytest.raises(AutosarDataError):
         invalid2 = el_pkg3.model
+    
+    # create an ADMIN-DATA element in the root, and remove it again
+    el_admin_data = model.root_element.create_sub_element("ADMIN-DATA")
+    assert el_admin_data in model.root_element.sub_elements
+    model.root_element.remove_sub_element_kind("ADMIN-DATA")
 
     # validate the resulting model
     element_info = [x for x in model.root_element.elements_dfs]

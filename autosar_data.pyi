@@ -230,6 +230,9 @@ class Element:
     def remove_sub_element(self, element: Element) -> None:
         """remove a sub element and all of its content"""
         ...
+    def remove_sub_element_kind(self, element_name: ElementName) -> None:
+        """remove a sub element with the given name, together with all of its content"""
+        ...
     reference_target: Element
     """returns the target of the reference, if the element contains a reference"""
     def get_sub_element(self, name_str: str) -> Element:
