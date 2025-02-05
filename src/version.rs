@@ -3,7 +3,7 @@ use std::str::FromStr;
 
 #[allow(non_camel_case_types)]
 #[pyclass(eq, eq_int, ord)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum AutosarVersion {
     #[pyo3(name = "AUTOSAR_4_0_1")]
     Autosar_4_0_1,
@@ -126,5 +126,11 @@ impl From<autosar_data_specification::AutosarVersion> for AutosarVersion {
 
             _ => Self::Autosar_00052,
         }
+    }
+}
+
+impl std::fmt::Debug for AutosarVersion {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(&self.__pyo3__repr__())
     }
 }

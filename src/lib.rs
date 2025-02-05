@@ -92,7 +92,7 @@ struct IncompatibleAttributeValueError {
 }
 
 #[pyclass(eq, frozen)]
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 /// Type of an Element in the specification
 struct ElementType(autosar_data_specification::ElementType);
 

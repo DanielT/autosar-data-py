@@ -149,10 +149,16 @@ impl ContentMode {
     }
 }
 
+impl std::fmt::Debug for ElementType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
 #[pymethods]
 impl SubElementSpec {
     fn __repr__(&self) -> String {
-        format!("{self:?}")
+        format!("{self:#?}")
     }
 }
 
