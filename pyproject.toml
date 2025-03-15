@@ -26,6 +26,7 @@ Documentation = "https://danielt.github.io/autosar-data-py/"
 
 [tool.maturin]
 features = ["pyo3/extension-module"]
+python-source = "python"
 
 [tool.pytest.ini_options]
 python_files = ["test.py", "test_*.py", "*_test.py"]

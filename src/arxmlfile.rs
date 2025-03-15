@@ -59,6 +59,9 @@ impl ArxmlFile {
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
+    /// Check if the data in the ARXML file is compatible with the given target version
+    #[pyo3(signature = (target_version, /))]
+    #[pyo3(text_signature = "(self, target_version: AutosarVersion, /)")]
     fn check_version_compatibility(
         &self,
         target_version: AutosarVersion,
@@ -73,7 +76,7 @@ impl ArxmlFile {
                     version_mask,
                 } => {
                     let errobj = IncompatibleAttributeError {
-                        element: Element(element.to_owned()),
+                        element: Element(element.clone()),
                         attribute: attribute.to_string(),
                         allowed_versions: expand_version_mask(version_mask)
                             .iter()
@@ -90,9 +93,9 @@ impl ArxmlFile {
                     version_mask,
                 } => {
                     let errobj = IncompatibleAttributeValueError {
-                        element: Element(element.to_owned()),
+                        element: Element(element.clone()),
                         attribute: attribute.to_string(),
-                        attribute_value: attribute_value.to_owned(),
+                        attribute_value: attribute_value.clone(),
                         allowed_versions: expand_version_mask(version_mask)
                             .iter()
                             .map(|&v| v.into())
@@ -106,7 +109,7 @@ impl ArxmlFile {
                     version_mask,
                 } => {
                     let errobj = IncompatibleElementError {
-                        element: Element(element.to_owned()),
+                        element: Element(element.clone()),
                         allowed_versions: expand_version_mask(version_mask)
                             .iter()
                             .map(|&v| v.into())
@@ -121,6 +124,7 @@ impl ArxmlFile {
         Ok(out_list)
     }
 
+    /// Get the autosar model that is built from the ARXML files
     #[getter]
     fn model(&self) -> PyResult<AutosarModel> {
         match self.0.model() {
@@ -138,6 +142,7 @@ impl ArxmlFile {
         ArxmlFileElementsDfsIterator(self.0.elements_dfs_with_max_depth(max_depth))
     }
 
+    /// Serialize the ARXML file to a string
     fn serialize(&self) -> PyResult<String> {
         match self.0.serialize() {
             Ok(text) => Ok(text),
@@ -145,6 +150,7 @@ impl ArxmlFile {
         }
     }
 
+    /// get the "xml_standalone" attribute from the header of the ARXML file
     #[getter]
     fn xml_standalone(&self) -> Option<bool> {
         self.0.xml_standalone()

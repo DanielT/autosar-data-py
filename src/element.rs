@@ -32,6 +32,7 @@ impl Element {
         hasher.finish() as isize
     }
 
+    /// Serialize the element to a string in XML format
     fn serialize(&self) -> String {
         self.0.serialize()
     }
@@ -112,7 +113,9 @@ impl Element {
         }
     }
 
-    #[pyo3(signature=(name_str, position = None))]
+    /// Create a new sub-element with the given element name
+    #[pyo3(signature = (name_str, /, position = None))]
+    #[pyo3(text_signature = "(self, name: str, /, position: Optional[int] = None)")]
     fn create_sub_element(&self, name_str: &str, position: Option<usize>) -> PyResult<Element> {
         let element_name = get_element_name(name_str)?;
         if let Some(position) = position {
@@ -128,7 +131,9 @@ impl Element {
         }
     }
 
-    #[pyo3(signature=(name_str, item_name, position = None))]
+    /// Create a new sub-element with the given element name and item name
+    #[pyo3(signature = (name_str, item_name, /, position = None))]
+    #[pyo3(text_signature = "(self, name: str, item_name: str, /, position: Optional[int] = None)")]
     fn create_named_sub_element(
         &self,
         name_str: &str,
@@ -152,6 +157,11 @@ impl Element {
         }
     }
 
+    /// Get or create a sub-element with the given element name
+    ///
+    /// This is used to ensure that a sub-element with the given name exists.
+    #[pyo3(signature = (name_str, /))]
+    #[pyo3(text_signature = "(self, name: str, /)")]
     fn get_or_create_sub_element(&self, name_str: &str) -> PyResult<Element> {
         let element_name = get_element_name(name_str)?;
         match self.0.get_or_create_sub_element(element_name) {
@@ -160,6 +170,9 @@ impl Element {
         }
     }
 
+    /// Get or create a sub-element with the given element name and item name
+    #[pyo3(signature = (name_str, item_name, /))]
+    #[pyo3(text_signature = "(self, name: str, item_name: str, /)")]
     fn get_or_create_named_sub_element(
         &self,
         name_str: &str,
@@ -175,7 +188,11 @@ impl Element {
         }
     }
 
-    #[pyo3(signature=(other, position = None))]
+    /// Create a new sub-element by copying the given element and all its children
+    ///
+    /// This creates a fully-independen copy. The function can copy elements between different models.
+    #[pyo3(signature = (other, /, position = None))]
+    #[pyo3(text_signature = "(self, other: Element, /, position: Optional[int] = None)")]
     fn create_copied_sub_element(
         &self,
         other: &Element,
@@ -194,7 +211,9 @@ impl Element {
         }
     }
 
-    #[pyo3(signature=(move_element, position = None))]
+    /// Move the given element to become a sub-element of this element
+    #[pyo3(signature = (move_element, /, position = None))]
+    #[pyo3(text_signature = "(self, move_element: Element, /, position: Optional[int] = None)")]
     fn move_element_here(
         &self,
         move_element: &Element,
@@ -213,12 +232,22 @@ impl Element {
         }
     }
 
+    /// Remove the given sub-element from this element
+    ///
+    /// Removing the element invalidates it, and causes all of the removed elements children to be removed as well.
+    #[pyo3(signature = (sub_element, /))]
+    #[pyo3(text_signature = "(self, sub_element: Element, /)")]
     fn remove_sub_element(&self, sub_element: Element) -> PyResult<()> {
         self.0
             .remove_sub_element(sub_element.0)
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
+    /// Remove a sub-element with the given element name
+    ///
+    /// If multiple sub-elements with the same name exist, only the first one is removed.
+    #[pyo3(signature = (name_str, /))]
+    #[pyo3(text_signature = "(self, name: str, /)")]
     fn remove_sub_element_kind(&self, name_str: &str) -> PyResult<()> {
         let element_name = get_element_name(name_str)?;
         self.0
@@ -226,6 +255,9 @@ impl Element {
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
+    /// Set the reference target of a reference element
+    ///
+    /// This is only valid for elements with a reference content type.
     #[setter]
     fn set_reference_target(&self, target: Element) -> PyResult<()> {
         self.0
@@ -233,6 +265,9 @@ impl Element {
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
+    /// Get the reference target of a reference element
+    ///
+    /// The element must have a reference content type, and the destination must exist.
     #[getter]
     fn get_reference_target(&self) -> PyResult<Element> {
         match self.0.get_reference_target() {
@@ -241,15 +276,28 @@ impl Element {
         }
     }
 
+    /// Get a sub-element with the given element name
+    ///
+    /// If multiple sub-elements with the same name exist, only the first one is returned.
+    #[pyo3(signature = (name_str, /))]
+    #[pyo3(text_signature = "(self, name: str, /)")]
     fn get_sub_element(&self, name_str: &str) -> PyResult<Option<Element>> {
         let element_name = get_element_name(name_str)?;
         Ok(self.0.get_sub_element(element_name).map(Element))
     }
 
+    /// Get a sub-element at the given position
+    ///
+    /// The position is 0-based, and must be less than the number of sub-elements.
+    #[pyo3(signature = (position, /))]
+    #[pyo3(text_signature = "(self, position: int, /)")]
     fn get_sub_element_at(&self, position: usize) -> Option<Element> {
         self.0.get_sub_element_at(position).map(Element)
     }
 
+    /// Get the sub-element with the given item name, if it exists
+    #[pyo3(signature = (item_name, /))]
+    #[pyo3(text_signature = "(self, item_name: str, /)")]
     fn get_named_sub_element(&self, item_name: String) -> Option<Element> {
         let item_name = Some(item_name);
         self.0
@@ -258,6 +306,8 @@ impl Element {
             .map(Element)
     }
 
+    #[pyo3(signature = (definition_ref, /))]
+    #[pyo3(text_signature = "(self, definition_ref: str, /)")]
     fn get_bsw_sub_element(&self, definition_ref: String) -> Option<Element> {
         self.0
             .sub_elements()
@@ -265,11 +315,10 @@ impl Element {
                 se.get_sub_element(autosar_data_rs::ElementName::DefinitionRef)
                     .and_then(|defref| defref.character_data())
                     .and_then(|cdata| cdata.string_value())
-                    .map(|strval| {
+                    .is_some_and(|strval| {
                         strval == definition_ref
                             || strval.split('/').last().unwrap_or("") == definition_ref
                     })
-                    .unwrap_or(false)
             })
             .map(Element)
     }
@@ -289,6 +338,7 @@ impl Element {
         ElementsDfsIterator(self.0.elements_dfs())
     }
 
+    #[pyo3(signature = (max_depth, /))]
     fn elements_dfs_with_max_depth(&self, max_depth: usize) -> ElementsDfsIterator {
         ElementsDfsIterator(self.0.elements_dfs_with_max_depth(max_depth))
     }
@@ -309,6 +359,7 @@ impl Element {
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
+    /// Remove the character data from the element
     fn remove_character_data(&self) -> PyResult<()> {
         self.0
             .remove_character_data()
@@ -323,12 +374,16 @@ impl Element {
             .transpose()
     }
 
+    #[pyo3(signature = (chardata, position, /))]
+    #[pyo3(text_signature = "(self, chardata: str, position: int, /)")]
     fn insert_character_content_item(&self, chardata: &str, position: usize) -> PyResult<()> {
         self.0
             .insert_character_content_item(chardata, position)
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
+    #[pyo3(signature = (position, /))]
+    #[pyo3(text_signature = "(self, position: int, /)")]
     fn remove_character_content_item(&self, position: usize) -> PyResult<()> {
         self.0
             .remove_character_content_item(position)
@@ -371,13 +426,15 @@ impl Element {
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
+    #[pyo3(signature = (attrname_str, /))]
+    #[pyo3(text_signature = "(self, attrname: str, /)")]
     fn remove_attribute(&self, attrname_str: &str) -> PyResult<bool> {
         let attrname = get_attribute_name(attrname_str)?;
         Ok(self.0.remove_attribute(attrname))
     }
 
     fn sort(&self) {
-        self.0.sort()
+        self.0.sort();
     }
 
     fn list_valid_sub_elements(&self) -> Vec<ValidSubElementInfo> {

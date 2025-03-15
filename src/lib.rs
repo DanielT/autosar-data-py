@@ -10,6 +10,10 @@ use pyo3::intern;
 use pyo3::prelude::*;
 use pyo3::types::*;
 
+// abstraction appears in the api
+mod abstraction;
+
+// These modules are not part of the api
 mod arxmlfile;
 mod element;
 mod model;
@@ -21,38 +25,38 @@ use version::AutosarVersion;
 
 create_exception!(module, AutosarDataError, pyo3::exceptions::PyException);
 
-#[pyclass(frozen)]
+#[pyclass(frozen, module = "autosar_data.autosar_data")]
 /// Autosar data model. It contains all elements.
 struct AutosarModel(autosar_data_rs::AutosarModel);
 
-#[pyclass(frozen)]
+#[pyclass(frozen, module = "autosar_data.autosar_data")]
 /// Represents a file that is part of an AutosarModel
 struct ArxmlFile(autosar_data_rs::ArxmlFile);
 
-#[pyclass(frozen)]
+#[pyclass(frozen, module = "autosar_data.autosar_data")]
 #[derive(Debug, Clone)]
 /// An element in the Autosar data model
 struct Element(autosar_data_rs::Element);
 
-#[pyclass]
+#[pyclass(module = "autosar_data.autosar_data")]
 struct ElementsDfsIterator(autosar_data_rs::ElementsDfsIterator);
 
-#[pyclass]
+#[pyclass(module = "autosar_data.autosar_data")]
 struct IdentifiablesIterator(autosar_data_rs::IdentifiablesIterator);
 
-#[pyclass]
+#[pyclass(module = "autosar_data.autosar_data")]
 struct ArxmlFileElementsDfsIterator(autosar_data_rs::ArxmlFileElementsDfsIterator);
 
-#[pyclass]
+#[pyclass(module = "autosar_data.autosar_data")]
 struct ElementContentIterator(autosar_data_rs::ElementContentIterator);
 
-#[pyclass]
+#[pyclass(module = "autosar_data.autosar_data")]
 struct ElementsIterator(autosar_data_rs::ElementsIterator);
 
-#[pyclass]
+#[pyclass(module = "autosar_data.autosar_data")]
 struct AttributeIterator(autosar_data_rs::AttributeIterator);
 
-#[pyclass(frozen)]
+#[pyclass(frozen, module = "autosar_data.autosar_data")]
 #[derive(Debug)]
 /// Information about an element that is incompatible with a given target version
 struct IncompatibleElementError {
@@ -63,7 +67,7 @@ struct IncompatibleElementError {
     target_version: AutosarVersion,
 }
 
-#[pyclass(frozen)]
+#[pyclass(frozen, module = "autosar_data.autosar_data")]
 #[derive(Debug)]
 /// Information about an attribute that is incompatible with a given target version
 struct IncompatibleAttributeError {
@@ -76,7 +80,7 @@ struct IncompatibleAttributeError {
     target_version: AutosarVersion,
 }
 
-#[pyclass(frozen)]
+#[pyclass(frozen, module = "autosar_data.autosar_data")]
 #[derive(Debug)]
 /// Information about an attribute value that is incompatible with a given target version
 struct IncompatibleAttributeValueError {
@@ -91,12 +95,12 @@ struct IncompatibleAttributeValueError {
     target_version: AutosarVersion,
 }
 
-#[pyclass(eq, frozen)]
+#[pyclass(eq, frozen, module = "autosar_data.autosar_data")]
 #[derive(Clone, PartialEq, Eq)]
 /// Type of an Element in the specification
 struct ElementType(autosar_data_specification::ElementType);
 
-#[pyclass(frozen)]
+#[pyclass(frozen, module = "autosar_data.autosar_data")]
 /// An attribute on an element
 struct Attribute {
     #[pyo3(get)]
@@ -105,7 +109,7 @@ struct Attribute {
     pub content: PyObject,
 }
 
-#[pyclass(frozen)]
+#[pyclass(frozen, module = "autosar_data.autosar_data")]
 #[derive(Debug)]
 /// Details about a particular sub element
 struct ValidSubElementInfo {
@@ -117,7 +121,7 @@ struct ValidSubElementInfo {
     is_allowed: bool,
 }
 
-#[pyclass(eq, eq_int)]
+#[pyclass(eq, eq_int, module = "autosar_data.autosar_data")]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// The content type of an element
 enum ContentType {
@@ -129,7 +133,7 @@ enum ContentType {
     Mixed,
 }
 
-#[pyclass]
+#[pyclass(module = "autosar_data.autosar_data")]
 #[derive(Debug)]
 /// Specification of an attribute
 struct AttributeSpec {
@@ -143,7 +147,7 @@ struct AttributeSpec {
     required: bool,
 }
 
-#[pyclass(frozen)]
+#[pyclass(frozen, module = "autosar_data.autosar_data")]
 #[derive(Debug)]
 /// Specification of a sub element
 struct SubElementSpec {
@@ -158,7 +162,7 @@ struct SubElementSpec {
     allowed_versions: Vec<AutosarVersion>,
 }
 
-#[pyclass(eq, eq_int)]
+#[pyclass(eq, eq_int, module = "autosar_data.autosar_data")]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// The content mode of an element type
 enum ContentMode {
@@ -174,7 +178,7 @@ enum ContentMode {
     Mixed,
 }
 
-#[pyclass]
+#[pyclass(module = "autosar_data.autosar_data")]
 #[derive(Debug)]
 /// The character data in an element or attribute is an enum value
 struct CharacterDataTypeEnum {
@@ -183,7 +187,7 @@ struct CharacterDataTypeEnum {
     values: Vec<String>,
 }
 
-#[pyclass]
+#[pyclass(module = "autosar_data.autosar_data")]
 #[derive(Debug)]
 /// The character data in an element or attribute is a string that must match a regex
 struct CharacterDataTypeRestrictedString {
@@ -195,7 +199,7 @@ struct CharacterDataTypeRestrictedString {
     max_length: Option<usize>,
 }
 
-#[pyclass]
+#[pyclass(module = "autosar_data.autosar_data")]
 #[derive(Debug)]
 /// The character data in an element or attribute is a string
 struct CharacterDataTypeString {
@@ -207,12 +211,12 @@ struct CharacterDataTypeString {
     max_length: Option<usize>,
 }
 
-#[pyclass]
+#[pyclass(module = "autosar_data.autosar_data")]
 #[derive(Debug)]
 /// The character data in an element or attribute is an unsigned integer
 struct CharacterDataTypeUnsignedInt(());
 
-#[pyclass]
+#[pyclass(module = "autosar_data.autosar_data")]
 #[derive(Debug)]
 /// The character data in an element or attribute is a float
 struct CharacterDataTypeFloat(());
@@ -417,15 +421,21 @@ fn check_file(filename: &str) -> bool {
     autosar_data_rs::check_file(filename)
 }
 
+/// Check if the given buffer contains valid Autosar data
+///
+/// The function returns true if the buffer starts with a valid arxml header (after
+/// skipping whitespace and comments). This function does not check anything after the header.
 #[pyfunction]
-fn check_buffer(object: PyObject) -> PyResult<bool> {
+#[pyo3(signature = (input, /))]
+#[pyo3(text_signature = "(input: Union[bytes, str], /)")]
+fn check_buffer(input: PyObject) -> PyResult<bool> {
     Python::with_gil(|py| {
-        if let Ok(bytebuffer) = object.extract::<&[u8]>(py) {
+        if let Ok(bytebuffer) = input.extract::<&[u8]>(py) {
             Ok(autosar_data_rs::check_buffer(bytebuffer))
-        } else if let Ok(stringbuffer) = object.extract::<&str>(py) {
+        } else if let Ok(stringbuffer) = input.extract::<&str>(py) {
             Ok(autosar_data_rs::check_buffer(stringbuffer.as_bytes()))
         } else {
-            let any = object.bind(py);
+            let any = input.bind(py);
             Err(PyTypeError::new_err(format!(
                 "'{}' cannot be converted to 'bytes'",
                 any.get_type()
@@ -437,19 +447,26 @@ fn check_buffer(object: PyObject) -> PyResult<bool> {
 /// Provides functionality to read, modify and write Autosar arxml files,
 /// both separately and in projects consisting of multiple files.
 ///
+/// Submodules:
+///
+/// - abstraction
+///
 /// Classes:
 ///
+/// - Attribute
 /// - ArxmlFile
 /// - AutosarModel
 /// - AutosarVersion
+/// - ContentMode
 /// - Element
 /// - ElementType
+/// - SubElementSpec
 /// - ValidSubElementInfo
 ///
 /// Functions:
 ///
 /// - check_file
-/// - check_buffwe
+/// - check_buffer
 ///
 /// Variables:
 ///
@@ -485,6 +502,9 @@ fn autosar_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(check_buffer, m)?)?;
     m.add("AutosarDataError", py.get_type::<AutosarDataError>())?;
     m.add("__version__", intern!(m.py(), env!("CARGO_PKG_VERSION")))?;
+
+    abstraction::add_submodules(py, m)?;
+
     Ok(())
 }
 
@@ -600,7 +620,7 @@ fn get_attribute_name(name_str: &str) -> PyResult<autosar_data_rs::AttributeName
 
 fn version_mask_from_any(version_obj: &PyObject) -> PyResult<u32> {
     Python::with_gil(|py| {
-        if let Ok(list) = version_obj.extract::<Bound<PyList>>(py) {
+        if let Ok(list) = version_obj.downcast_bound::<PyList>(py) {
             let mut mask = 0;
             for item in list {
                 let ver: autosar_data_rs::AutosarVersion = item.extract::<AutosarVersion>()?.into();
