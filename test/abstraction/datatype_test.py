@@ -74,28 +74,28 @@ def test_application_array_size() -> None:
     )
 
     # ApplicationArraySize
-    size = ApplicationArraySize.Fixed(10)
-    application_array_data_type.set_size(size)
-    assert application_array_data_type.size() == size
+    size_fixed = ApplicationArraySize.Fixed(10)
+    application_array_data_type.set_size(size_fixed)
+    assert application_array_data_type.size() == size_fixed
 
-    size = ApplicationArraySize.VariableLinear(20)
-    application_array_data_type.set_size(size)
-    assert application_array_data_type.size() == size
+    size_var_linear = ApplicationArraySize.VariableLinear(20)
+    application_array_data_type.set_size(size_var_linear)
+    assert application_array_data_type.size() == size_var_linear
 
     # create an array of array data types for the following tests
-    size = ApplicationArraySize.VariableSquare()
+    size_var_square = ApplicationArraySize.VariableSquare()
     application_array_data_type2 = package.create_application_array_data_type(
-        "ApplicationArrayDataType2", application_array_data_type, size
+        "ApplicationArrayDataType2", application_array_data_type, size_var_square
     )
-    assert application_array_data_type2.size() == size
+    assert application_array_data_type2.size() == size_var_square
 
-    size = ApplicationArraySize.VariableRectangular(30)
-    application_array_data_type2.set_size(size)
-    assert application_array_data_type2.size() == size
+    size_var_rect = ApplicationArraySize.VariableRectangular(30)
+    application_array_data_type2.set_size(size_var_rect)
+    assert application_array_data_type2.size() == size_var_rect
 
-    size = ApplicationArraySize.VariableFullyFlexible(40)
-    application_array_data_type2.set_size(size)
-    assert application_array_data_type2.size() == size
+    size_var_flex = ApplicationArraySize.VariableFullyFlexible(40)
+    application_array_data_type2.set_size(size_var_flex)
+    assert application_array_data_type2.size() == size_var_flex
 
 
 def test_application_array_element() -> None:

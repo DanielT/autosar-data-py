@@ -349,11 +349,16 @@ def test_container_ipdu() -> None:
     assert pdu.contained_ipdu_props == contained_props
 
     contained_props.collection_semantics = ContainedIPduCollectionSemantics.LastIsBest
-    assert contained_props.collection_semantics == ContainedIPduCollectionSemantics.LastIsBest
+    assert (
+        contained_props.collection_semantics
+        == ContainedIPduCollectionSemantics.LastIsBest
+    )
     pdu.contained_ipdu_props = contained_props
     assert pdu.contained_ipdu_props == contained_props
     contained_props.collection_semantics = ContainedIPduCollectionSemantics.Queued
-    assert contained_props.collection_semantics == ContainedIPduCollectionSemantics.Queued
+    assert (
+        contained_props.collection_semantics == ContainedIPduCollectionSemantics.Queued
+    )
     pdu.contained_ipdu_props = contained_props
     assert pdu.contained_ipdu_props == contained_props
 

@@ -1,6 +1,7 @@
 from autosar_data import *
 import pytest
 
+
 def test_version() -> None:
     model = AutosarModel()
 
@@ -112,7 +113,7 @@ def test_version() -> None:
 
     with pytest.raises(AutosarDataError):
         ver = AutosarVersion("bad.xsd")
-    
+
     # test (in)equalities
     assert AutosarVersion.AUTOSAR_00051 == AutosarVersion.AUTOSAR_00051
     assert AutosarVersion.AUTOSAR_4_0_1 != AutosarVersion.AUTOSAR_00051

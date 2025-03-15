@@ -33,7 +33,10 @@ CommunicationController: TypeAlias = Union[
 ]
 Frame: TypeAlias = Union[CanFrame, FlexrayFrame]
 TransformationTechnologyConfig: TypeAlias = Union[
-    ComTransformationTechnologyConfig, E2ETransformationTechnologyConfig
+    ComTransformationTechnologyConfig,
+    E2ETransformationTechnologyConfig,
+    SomeIpTransformationTechnologyConfig,
+    GenericTransformationTechnologyConfig,
 ]
 PhysicalChannel: TypeAlias = Union[
     CanPhysicalChannel, FlexrayPhysicalChannel, EthernetPhysicalChannel
@@ -475,7 +478,11 @@ class CanTpConfig:
         ...
 
     def create_can_tp_ecu(
-        self, ecu_instance: EcuInstance, /, *, cycle_time_main_function: Optional[float]
+        self,
+        ecu_instance: EcuInstance,
+        /,
+        *,
+        cycle_time_main_function: Optional[float] = None,
     ) -> CanTpEcu:
         """create a `CanTp` ECU in the configuration"""
         ...
@@ -657,7 +664,7 @@ class ConsumedEventGroupV1:
     def routing_groups(self, /) -> Iterator[SoAdRoutingGroup]:
         """get the routing groups referenced by this `ConsumedEventGroup`"""
         ...
-    sd_client_config: Optional[SomeipSdServerEventGroupTimingConfig]
+    sd_client_config: Optional[SdEventConfig]
     """get or set the SD client configuration for this `ConsumedEventGroup`"""
 
 @final
@@ -1036,7 +1043,7 @@ class E2ETransformationTechnologyConfig:
     def __init__(
         self,
         *,
-        profile: int,
+        profile: E2EProfile,
         zero_header_length: bool,
         transform_in_place: bool,
         offset: int,
@@ -1751,19 +1758,19 @@ class FlexrayCommunicationCycle:
     The timing settings of a Flexray frame
     """
 
-    @staticmethod
-    def Counter(cycle_counter: int) -> FlexrayCommunicationCycle_Counter: ...
-    @staticmethod
-    def Repetition(
-        base_cycle: int, cycle_repetition: CycleRepetition
-    ) -> FlexrayCommunicationCycle_Repetition: ...
+    Counter: Type[FlexrayCommunicationCycle_Counter]
+    Repetition: Type[FlexrayCommunicationCycle_Repetition]
 
 @final
 class FlexrayCommunicationCycle_Counter(FlexrayCommunicationCycle):
+    def __init__(self, cycle_counter: int) -> FlexrayCommunicationCycle_Counter: ...
     cycle_counter: int
 
 @final
 class FlexrayCommunicationCycle_Repetition(FlexrayCommunicationCycle):
+    def __init__(
+        self, base_cycle: int, cycle_repetition: CycleRepetition
+    ) -> FlexrayCommunicationCycle_Repetition: ...
     base_cycle: int
     cycle_repetition: CycleRepetition
 
@@ -1898,6 +1905,7 @@ class FlexrayNmClusterCoupling:
     A `FlexrayNmClusterCoupling` `couples multiple `FlexrayNmCluster`s.
     """
 
+    def __init__(self, element: Element) -> FlexrayNmClusterCoupling: ...
     def add_coupled_cluster(self, cluster: FlexrayNmCluster, /) -> None:
         """add a reference to a coupled `NmCluster`"""
         ...
@@ -2626,17 +2634,17 @@ class LocalUnicastAddress:
     A `LocalUnicastAddress` is a local address (TCP or UDP) that can be used for a `ProvidedServiceInstance` or `ConsumedServiceInstance`
     """
 
-    @staticmethod
-    def Tcp(address: SocketAddress) -> LocalUnicastAddress_Tcp: ...
-    @staticmethod
-    def Udp(address: SocketAddress) -> LocalUnicastAddres_Udp: ...
+    Tcp: Type[LocalUnicastAddress_Tcp]
+    Udp: Type[LocalUnicastAddress_Udp]
 
 @final
 class LocalUnicastAddress_Tcp(LocalUnicastAddress):
+    def __init__(self, address: SocketAddress) -> LocalUnicastAddress_Tcp: ...
     address: SocketAddress
 
 @final
-class LocalUnicastAddres_Udp(LocalUnicastAddress):
+class LocalUnicastAddress_Udp(LocalUnicastAddress):
+    def __init__(self, address: SocketAddress) -> LocalUnicastAddress_Udp: ...
     address: SocketAddress
 
 @final
@@ -2714,24 +2722,19 @@ class NetworkEndpointAddress:
     address information for a network endpoint
     """
 
-    @staticmethod
-    def IPv4(
+    IPv4: Type[NetworkEndpointAddress_IPv4]
+    IPv6: Type[NetworkEndpointAddress_IPv6]
+
+@final
+class NetworkEndpointAddress_IPv4(NetworkEndpointAddress):
+    def __init__(
+        self,
         *,
         address: Optional[str] = None,
         address_source: Optional[IPv4AddressSource] = None,
         default_gateway: Optional[str] = None,
         network_mask: Optional[str] = None,
     ) -> NetworkEndpointAddress_IPv4: ...
-    @staticmethod
-    def IPv6(
-        *,
-        address: Optional[str] = None,
-        address_source: Optional[IPv6AddressSource] = None,
-        default_router: Optional[str] = None,
-    ) -> NetworkEndpointAddress_IPv6: ...
-
-@final
-class NetworkEndpointAddress_IPv4(NetworkEndpointAddress):
     address: Optional[str]
     address_source: Optional[IPv4AddressSource]
     default_gateway: Optional[str]
@@ -2739,6 +2742,13 @@ class NetworkEndpointAddress_IPv4(NetworkEndpointAddress):
 
 @final
 class NetworkEndpointAddress_IPv6(NetworkEndpointAddress):
+    def __init__(
+        self,
+        *,
+        address: Optional[str] = None,
+        address_source: Optional[IPv6AddressSource] = None,
+        default_router: Optional[str] = None,
+    ) -> NetworkEndpointAddress_IPv6: ...
     address: Optional[str]
     address_source: Optional[IPv6AddressSource]
     default_router: Optional[str]
@@ -2857,6 +2867,7 @@ class PduActivationRoutingGroup:
     It is used by `EventHandler`s in `ProvidedServiceInstance`s and `ConsumedServiceInstance`s.
     """
 
+    def __init__(self, element: Element) -> PduActivationRoutingGroup: ...
     def add_ipdu_identifier_tcp(self, ipdu_identifier: SoConIPduIdentifier, /) -> None:
         """add a reference to a `SoConIPduIdentifier` for TCP communication to this `PduActivationRoutingGroup`"""
         ...
@@ -3320,17 +3331,21 @@ class SocketAddressType:
     Describes if a [`SocketAddress`] is used for unicast or multicast
     """
 
-    @staticmethod
-    def Unicast(ecu: Optional[EcuInstance] = None, /) -> SocketAddressType_Unicast: ...
-    @staticmethod
-    def Multicast(ecus: List[EcuInstance] = [], /) -> SocketAddressType_Multicast: ...
+    Unicast: Type[SocketAddressType_Unicast]
+    Multicast: Type[SocketAddressType_Multicast]
 
 @final
 class SocketAddressType_Unicast(SocketAddressType):
+    def __init__(
+        self, ecu: Optional[EcuInstance] = None, /
+    ) -> SocketAddressType_Unicast: ...
     ecu: Optional[EcuInstance]
 
 @final
 class SocketAddressType_Multicast(SocketAddressType):
+    def __init__(
+        self, ecus: List[EcuInstance] = [], /
+    ) -> SocketAddressType_Multicast: ...
     ecus: List[EcuInstance]
 
 @final
@@ -3479,6 +3494,7 @@ class SomeIpTransformationISignalProps:
     Properties for the SOMEIP transformation of an ISignal(Group)
     """
 
+    def __init__(self, element: Element) -> SomeIpTransformationISignalProps: ...
     dynamic_length: Optional[bool]
     """get or set the dynamic length property"""
     element: Element
@@ -3760,7 +3776,7 @@ class SystemSignalGroup:
     """
 
     def __init__(self, element: Element) -> SystemSignalGroup: ...
-    def add_signal(self, signal: ISignal, /) -> None:
+    def add_signal(self, signal: SystemSignal, /) -> None:
         """Add a signal to the signal group"""
         ...
     element: Element

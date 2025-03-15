@@ -218,6 +218,12 @@ class AutosarModel:
     Autosar data model. It contains all elements.
     """
 
+    def __lt__(self, other: AutosarModel) -> bool: ...
+    def __le__(self, other: AutosarModel) -> bool: ...
+    def __eq__(self, other: AutosarModel) -> bool: ...
+    def __ne__(self, other: AutosarModel) -> bool: ...
+    def __gt__(self, other: AutosarModel) -> bool: ...
+    def __ge__(self, other: AutosarModel) -> bool: ...
     def __repr__(self) -> str: ...
     def __str__(self) -> str: ...
     def create_file(
@@ -256,7 +262,7 @@ class AutosarModel:
     def get_element_by_path(self, autosar_path: str) -> Element:
         """get an identifiable element in the model by its Autosar path"""
         ...
-    elements_dfs: ElementsDfsIterator
+    elements_dfs: Iterator[(int, Element)]
     """depth first dearch iterator over all elements in the model, regardless of their association with a file"""
     def sort(self) -> None:
         """sort the entire model in place. Takes all ordering constraints into account."""
@@ -282,7 +288,13 @@ class AutosarVersion:
     """
 
     def __init__(self, verstring: str) -> AutosarVersion: ...
-    # this is the stupid result of method used by PyO3 to translate Rust enums
+    def __lt__(self, other: AutosarVersion) -> bool: ...
+    def __le__(self, other: AutosarVersion) -> bool: ...
+    def __eq__(self, other: AutosarVersion) -> bool: ...
+    def __ne__(self, other: AutosarVersion) -> bool: ...
+    def __gt__(self, other: AutosarVersion) -> bool: ...
+    def __ge__(self, other: AutosarVersion) -> bool: ...
+
     AUTOSAR_4_0_1: AutosarVersion
     AUTOSAR_4_0_2: AutosarVersion
     AUTOSAR_4_0_3: AutosarVersion
@@ -416,16 +428,18 @@ class Element:
         """get an existing sub element or create it if it does not exist"""
         ...
 
-    def get_or_create_named_sub_element(self, name_str: str) -> Element:
+    def get_or_create_named_sub_element(self, name_str: str, item_name: str) -> Element:
         """get an existing named sub element or create it if it does not exist"""
         ...
     position: int
     """the position of this element in the content of its parent"""
     sub_elements: ElementsIterator
     """an iterator over all sub elements in the content of this element. It skips character data content items"""
-    elements_dfs: ElementsDfsIterator
+    elements_dfs: Iterator[Tuple[int, Element]]
     """depth first search iterator for this element and all of its sub elements"""
-    def elements_dfs_with_max_depth(self, max_depth: int) -> ElementsDfsIterator:
+    def elements_dfs_with_max_depth(
+        self, max_depth: int
+    ) -> Iterator[Tuple[int, Element]]:
         """depth first search iterator for this element and all of its sub elements, with a maximum depth"""
         ...
     character_data: CharacterData
@@ -530,15 +544,6 @@ class ElementType:
     def find_attribute_spec(self, attribute_name: AttributeName) -> AttributeSpec:
         """find the specification for the given attribute name"""
         ...
-
-@final
-class ElementsDfsIterator:
-    """
-    Dpeth first search iterator starting at the element which created the iterator
-    """
-
-    def __iter__(self) -> ElementsDfsIterator: ...
-    def __next__(self) -> Tuple[int, Element]: ...
 
 @final
 class ElementsIterator:

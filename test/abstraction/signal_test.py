@@ -607,7 +607,9 @@ def test_someip_transformation_isignal_props() -> None:
     )
 
     # SomeIpTransformationISignalProps
-    someip_props = isignal.create_someip_transformation_isignal_props(someip_transformer)
+    someip_props = isignal.create_someip_transformation_isignal_props(
+        someip_transformer
+    )
     assert isinstance(someip_props, SomeIpTransformationISignalProps)
     # attributes
     assert someip_props.transformer == someip_transformer

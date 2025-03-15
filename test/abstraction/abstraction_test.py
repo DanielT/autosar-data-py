@@ -375,7 +375,9 @@ def test_system() -> None:
     nm_pdu = system.create_nm_pdu("nm_pdu", package, 8)
     assert isinstance(nm_pdu, NmPdu)
 
-    secured_ipdu = system.create_secured_ipdu("secured_ipdu", package, 8, SecureCommunicationProps())
+    secured_ipdu = system.create_secured_ipdu(
+        "secured_ipdu", package, 8, SecureCommunicationProps()
+    )
     assert isinstance(secured_ipdu, SecuredIPdu)
 
     service_instance_collection_set = system.create_service_instance_collection_set(
@@ -408,7 +410,9 @@ def test_system() -> None:
     composition_sw_component_type = package.create_composition_sw_component_type(
         "Composition"
     )
+    assert system.root_sw_composition is None
     system.set_root_sw_composition("root_sw_composition", composition_sw_component_type)
+    assert isinstance(system.root_sw_composition, RootSwCompositionPrototype)
     assert system.root_sw_composition.composition == composition_sw_component_type
 
     # manually create an ISignalIPdu, and link it to the System

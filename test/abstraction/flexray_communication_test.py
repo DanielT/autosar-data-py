@@ -272,65 +272,65 @@ def test_flexray_communication_cycle() -> None:
         "FlexRayPhysicalChannel", FlexrayChannelName.A
     )
     frame = system.create_flexray_frame("FlexRayFrame", package, 40)
-    timing = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C1)
-    assert isinstance(timing, FlexrayCommunicationCycle.Repetition)
-    assert timing.base_cycle == 1
-    assert timing.cycle_repetition == CycleRepetition.C1
+    timing_counter = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C1)
+    assert isinstance(timing_counter, FlexrayCommunicationCycle.Repetition)
+    assert timing_counter.base_cycle == 1
+    assert timing_counter.cycle_repetition == CycleRepetition.C1
 
     # check the __repr__ method
     assert "__repr__" in FlexrayCommunicationCycle.__dict__
-    assert len(str(timing)) > 0
+    assert len(str(timing_counter)) > 0
 
-    ft = channel.trigger_frame(frame, 1, timing)
-    assert ft.timing() == timing
+    ft = channel.trigger_frame(frame, 1, timing_counter)
+    assert ft.timing() == timing_counter
 
-    timing = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C2)
-    ft = channel.trigger_frame(frame, 2, timing)
-    assert ft.timing() == timing
+    timing_counter = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C2)
+    ft = channel.trigger_frame(frame, 2, timing_counter)
+    assert ft.timing() == timing_counter
 
-    timing = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C4)
-    ft = channel.trigger_frame(frame, 3, timing)
-    assert ft.timing() == timing
+    timing_counter = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C4)
+    ft = channel.trigger_frame(frame, 3, timing_counter)
+    assert ft.timing() == timing_counter
 
-    timing = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C5)
-    ft = channel.trigger_frame(frame, 4, timing)
-    assert ft.timing() == timing
+    timing_counter = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C5)
+    ft = channel.trigger_frame(frame, 4, timing_counter)
+    assert ft.timing() == timing_counter
 
-    timing = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C8)
-    ft = channel.trigger_frame(frame, 5, timing)
-    assert ft.timing() == timing
+    timing_counter = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C8)
+    ft = channel.trigger_frame(frame, 5, timing_counter)
+    assert ft.timing() == timing_counter
 
-    timing = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C10)
-    ft = channel.trigger_frame(frame, 6, timing)
-    assert ft.timing() == timing
+    timing_counter = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C10)
+    ft = channel.trigger_frame(frame, 6, timing_counter)
+    assert ft.timing() == timing_counter
 
-    timing = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C16)
-    ft = channel.trigger_frame(frame, 7, timing)
-    assert ft.timing() == timing
+    timing_counter = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C16)
+    ft = channel.trigger_frame(frame, 7, timing_counter)
+    assert ft.timing() == timing_counter
 
-    timing = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C20)
-    ft = channel.trigger_frame(frame, 8, timing)
-    assert ft.timing() == timing
+    timing_counter = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C20)
+    ft = channel.trigger_frame(frame, 8, timing_counter)
+    assert ft.timing() == timing_counter
 
-    timing = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C32)
-    ft = channel.trigger_frame(frame, 9, timing)
-    assert ft.timing() == timing
+    timing_counter = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C32)
+    ft = channel.trigger_frame(frame, 9, timing_counter)
+    assert ft.timing() == timing_counter
 
-    timing = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C40)
-    ft = channel.trigger_frame(frame, 10, timing)
-    assert ft.timing() == timing
+    timing_counter = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C40)
+    ft = channel.trigger_frame(frame, 10, timing_counter)
+    assert ft.timing() == timing_counter
 
-    timing = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C50)
-    ft = channel.trigger_frame(frame, 10, timing)
-    assert ft.timing() == timing
+    timing_counter = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C50)
+    ft = channel.trigger_frame(frame, 10, timing_counter)
+    assert ft.timing() == timing_counter
 
-    timing = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C64)
-    ft = channel.trigger_frame(frame, 11, timing)
-    assert ft.timing() == timing
+    timing_counter = FlexrayCommunicationCycle.Repetition(1, CycleRepetition.C64)
+    ft = channel.trigger_frame(frame, 11, timing_counter)
+    assert ft.timing() == timing_counter
 
-    timing = FlexrayCommunicationCycle.Counter(1)
-    assert isinstance(timing, FlexrayCommunicationCycle.Counter)
-    assert timing.cycle_counter == 1
+    timing_repetition = FlexrayCommunicationCycle.Counter(1)
+    assert isinstance(timing_repetition, FlexrayCommunicationCycle.Counter)
+    assert timing_repetition.cycle_counter == 1
 
-    ft = channel.trigger_frame(frame, 12, timing)
-    assert ft.timing() == timing
+    ft = channel.trigger_frame(frame, 12, timing_repetition)
+    assert ft.timing() == timing_repetition

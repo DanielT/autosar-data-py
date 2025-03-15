@@ -236,7 +236,9 @@ def test_ecuc_numerical_param_value() -> None:
     assert ecuc_numerical_param_value.value_bool is None
     ecuc_numerical_param_value.definition = ecuc_integer_param_def
     assert ecuc_numerical_param_value.definition == ecuc_integer_param_def
-    assert ecuc_numerical_param_value.definition_ref == ecuc_integer_param_def.element.path
+    assert (
+        ecuc_numerical_param_value.definition_ref == ecuc_integer_param_def.element.path
+    )
     ecuc_numerical_param_value.index = 3
     assert ecuc_numerical_param_value.index == 3
     ecuc_numerical_param_value.is_auto_value = True
@@ -352,7 +354,9 @@ def test_ecuc_reference_value() -> None:
     ecuc_container_def = ecuc_module_def.create_param_conf_container_def(
         "EcucContainerDef"
     )
-    ecuc_reference_def = ecuc_container_def.create_reference_def("EcucReferenceDef", "Vendor")
+    ecuc_reference_def = ecuc_container_def.create_reference_def(
+        "EcucReferenceDef", "Vendor"
+    )
     ecuc_configuration_values = package.create_ecuc_module_configuration_values(
         "EcucConfigurationValues", ecuc_module_def
     )

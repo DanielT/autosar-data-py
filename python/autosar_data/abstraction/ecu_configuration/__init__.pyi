@@ -13,14 +13,15 @@ EcucAnyReferenceDef: TypeAlias = Union[
     EcucChoiceReferenceDef,
 ]
 EcucParameterDef: TypeAlias = Union[
+    EcucAddInfoParamDef,
     EcucBooleanParamDef,
     EcucIntegerParamDef,
-    EcucFloatParamDef,
     EcucEnumerationParamDef,
+    EcucFloatParamDef,
     EcucFunctionNameDef,
     EcucLinkerSymbolDef,
-    EcucAddInfoParamDef,
-    EcucAddInfoParamValue,
+    EcucMultilineStringParamDef,
+    EcucStringParamDef,
 ]
 EcucParameterValue: TypeAlias = Union[
     EcucNumericalParamValue, EcucTextualParamValue, EcucAddInfoParamValue
@@ -1190,9 +1191,8 @@ class EcucReferenceDef:
     """
 
     def __init__(self, element: Element, /) -> EcucReferenceDef: ...
-    def destination(self, /) -> EcucContainerDef:
-        """get the destination container of the reference"""
-        ...
+    destination: Optional[EcucContainerDef]
+    """destination container of the reference"""
     element: Element
     lower_multiplicity: Optional[int]
     """get or set the lower multiplicity attribute"""

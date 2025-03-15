@@ -39,7 +39,9 @@ def test_implementation_data_type_value() -> None:
     other_settings = ImplementationDataTypeSettings.Array(
         "ImplArray",
         length=10,
-        element_type=ImplementationDataTypeSettings.Value("ImplValue", base_type=sw_base_type)
+        element_type=ImplementationDataTypeSettings.Value(
+            "ImplValue", base_type=sw_base_type
+        ),
     )
     implementation_data_type.apply_settings(other_settings)
     assert implementation_data_type.settings() == other_settings

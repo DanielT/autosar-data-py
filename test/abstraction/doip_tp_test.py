@@ -42,6 +42,7 @@ def test_doip_tp_config() -> None:
     assert list(doip_tp_config.doip_logic_addresses()) == [doip_logic_address]
 
     tp_sdu_triggering = so_con_ipdu_identifier.pdu_triggering
+    assert isinstance(tp_sdu_triggering, PduTriggering)
     doip_tp_connection = doip_tp_config.create_doip_tp_connection(
         "DoIpTpConnection", doip_logic_address, doip_logic_address, tp_sdu_triggering
     )
@@ -117,6 +118,7 @@ def test_doip_tp_connection() -> None:
     )
 
     tp_sdu_triggering = so_con_ipdu_identifier.pdu_triggering
+    assert isinstance(tp_sdu_triggering, PduTriggering)
     doip_tp_connection = doip_tp_config.create_doip_tp_connection(
         "DoIpTpConnection", doip_logic_address, doip_logic_address, tp_sdu_triggering
     )

@@ -130,10 +130,10 @@ def test_ecuc_destination_uri_def() -> None:
     package = model.get_or_create_package("/package")
 
     # Create an EcuC destination URI definition
-    ecuc_destination_uri_def = package.create_ecuc_destination_uri_def_set(
+    ecuc_destination_uri_def_set = package.create_ecuc_destination_uri_def_set(
         "EcuCDestinationUriDefSet"
     )
-    ecuc_destination_uri_def = ecuc_destination_uri_def.create_destination_uri_def(
+    ecuc_destination_uri_def = ecuc_destination_uri_def_set.create_destination_uri_def(
         "EcuCDestinationUriDef", EcucDestinationUriNestingContract.LeafOfTargetContainer
     )
     assert isinstance(ecuc_destination_uri_def, EcucDestinationUriDef)

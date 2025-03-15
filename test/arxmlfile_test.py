@@ -1,6 +1,7 @@
 from autosar_data import *
 import pytest
 
+
 def test_arxlfile_basic() -> None:
     model = AutosarModel()
 
@@ -25,7 +26,7 @@ def test_arxlfile_basic() -> None:
     # can't have two files with the same name in one model
     with pytest.raises(AutosarDataError):
         file1.filename = file2.filename
-    
+
     # each file has a version
     assert file1.version == AutosarVersion.AUTOSAR_00051
     file1.version = AutosarVersion.AUTOSAR_4_3_0
@@ -63,22 +64,28 @@ def test_check_version_compatibility() -> None:
     model = AutosarModel()
 
     file1 = model.create_file("filename", AutosarVersion.AUTOSAR_00050)
-    el_elements = model.root_element \
-        .create_sub_element("AR-PACKAGES") \
-        .create_named_sub_element("AR-PACKAGE", "Pkg") \
+    el_elements = (
+        model.root_element.create_sub_element("AR-PACKAGES")
+        .create_named_sub_element("AR-PACKAGE", "Pkg")
         .create_sub_element("ELEMENTS")
-    el_acl_object_set = el_elements.create_named_sub_element("ACL-OBJECT-SET", "AclObjectSet")
+    )
+    el_acl_object_set = el_elements.create_named_sub_element(
+        "ACL-OBJECT-SET", "AclObjectSet"
+    )
     el_short_name = el_acl_object_set.get_sub_element("SHORT-NAME")
     el_short_name.set_attribute("BLUEPRINT-VALUE", "xyz")
-    el_blueprint_ref = el_acl_object_set \
-        .create_sub_element("DERIVED-FROM-BLUEPRINT-REFS") \
-        .create_sub_element("DERIVED-FROM-BLUEPRINT-REF")
+    el_blueprint_ref = el_acl_object_set.create_sub_element(
+        "DERIVED-FROM-BLUEPRINT-REFS"
+    ).create_sub_element("DERIVED-FROM-BLUEPRINT-REF")
     el_blueprint_ref.set_attribute("DEST", "ABSTRACT-IMPLEMENTATION-DATA-TYPE")
-    el_adaptive_sw_component_type = el_elements \
-        .create_named_sub_element("ADAPTIVE-APPLICATION-SW-COMPONENT-TYPE", "AdaptiveApplicationSwComponentType")
-    
+    el_adaptive_sw_component_type = el_elements.create_named_sub_element(
+        "ADAPTIVE-APPLICATION-SW-COMPONENT-TYPE", "AdaptiveApplicationSwComponentType"
+    )
+
     with pytest.raises(AutosarDataError):
-        file1.version = AutosarVersion.AUTOSAR_4_3_0 # fails because there are compatibility problems
+        file1.version = (
+            AutosarVersion.AUTOSAR_4_3_0
+        )  # fails because there are compatibility problems
 
     compat_problems = file1.check_version_compatibility(AutosarVersion.AUTOSAR_4_3_0)
     assert len(compat_problems) == 3
@@ -118,22 +125,22 @@ def test_file_misc() -> None:
     file2 = model.create_file("filename2.arxml", AutosarVersion.AUTOSAR_00051)
 
     with pytest.raises(TypeError):
-        file1 < file2
+        file1 < file2  # type: ignore [operator]
     with pytest.raises(TypeError):
-        file1 > file2
+        file1 > file2  # type: ignore [operator]
     with pytest.raises(TypeError):
-        file1 <= file2
+        file1 <= file2  # type: ignore [operator]
     with pytest.raises(TypeError):
-        file1 >= file2
+        file1 >= file2  # type: ignore [operator]
 
 
 def test_arxmlfile_elements_dfs_iterator() -> None:
     model = AutosarModel()
     arxmlfile = model.create_file("file")
-    model.root_element.create_sub_element("AR-PACKAGES") \
-        .create_named_sub_element("AR-PACKAGE", "Pkg1") \
-        .create_sub_element("DESC")
-    
+    model.root_element.create_sub_element("AR-PACKAGES").create_named_sub_element(
+        "AR-PACKAGE", "Pkg1"
+    ).create_sub_element("DESC")
+
     element_info = [x for x in arxmlfile.elements_dfs]
     # note: 4 elements are created explicitly, and a SHORT-NAME is created implicitly for AR-PACKAGE
     assert len(element_info) == 5

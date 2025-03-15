@@ -201,6 +201,7 @@ def test_socon_ipdu_identifier() -> None:
     so_con_ipdu_identifier.collection_trigger = PduCollectionTrigger.Never
     assert so_con_ipdu_identifier.collection_trigger == PduCollectionTrigger.Never
     pt = so_con_ipdu_identifier.pdu_triggering
+    assert isinstance(pt, PduTriggering)
     assert pt.pdu == pdu
 
     # when the pdu triggering is created, a signal triggering for the mapped signal is also created
@@ -211,6 +212,7 @@ def test_socon_ipdu_identifier() -> None:
 
     so_con_ipdu_identifier.set_pdu(pdu2, channel)
     pt2 = so_con_ipdu_identifier.pdu_triggering
+    assert isinstance(pt2, PduTriggering)
     assert pt2.pdu == pdu2
     # check if the socon ipdu identifier can be constructed from an element and is equal to the original socon ipdu identifier
     element = so_con_ipdu_identifier.element

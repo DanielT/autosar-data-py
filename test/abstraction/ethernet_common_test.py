@@ -398,6 +398,9 @@ def test_socket_address_type() -> None:
         TpConfig.UdpTp(port_number=1234),
         multicast,
     )
+    assert isinstance(
+        socket_address_multicast.socket_address_type, SocketAddressType.Multicast
+    )
     assert socket_address_multicast.socket_address_type == SocketAddressType.Multicast(
         [ecu_instance]
     )
@@ -441,6 +444,7 @@ def test_someip_tp_config() -> None:
         channel,
     )
     pt = scii.pdu_triggering
+    assert isinstance(pt, PduTriggering)
     somip_tp_connection = someip_tp_config.create_someip_tp_connection(
         tp_sdu, pt, tp_channel=someip_tp_channel
     )
@@ -478,6 +482,7 @@ def test_someip_tp_connection() -> None:
         channel,
     )
     pt = scii.pdu_triggering
+    assert isinstance(pt, PduTriggering)
 
     # SomeipTpConnection
     someip_tp_connection = someip_tp_config.create_someip_tp_connection(tp_sdu, pt)

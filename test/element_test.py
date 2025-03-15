@@ -1,6 +1,7 @@
 from autosar_data import *
 import pytest
 
+
 def test_element_basic_1() -> None:
     model = AutosarModel()
     arxmlfile = model.create_file("file")
@@ -43,7 +44,7 @@ def test_element_basic_1() -> None:
     assert el_ar_packages.item_name is None
     with pytest.raises(AutosarDataError):
         print(el_ar_packages.path)
-    
+
     # a removed element still exists until there are no more references to it, but it can no longer be used
     el_ar_packages.remove_sub_element(el_ar_package)
     with pytest.raises(AutosarDataError):
@@ -59,7 +60,9 @@ def test_element_basic_1() -> None:
 def test_element_basic_2() -> None:
     model = AutosarModel()
     model.create_file("file")
-    el_ar_package = model.root_element.create_sub_element("AR-PACKAGES").create_named_sub_element("AR-PACKAGE", "Pkg1")
+    el_ar_package = model.root_element.create_sub_element(
+        "AR-PACKAGES"
+    ).create_named_sub_element("AR-PACKAGE", "Pkg1")
     el_root = model.root_element
     # the behavior of the element is determined by its element_type
     assert el_root.is_identifiable == el_root.element_type.is_named
@@ -117,7 +120,7 @@ def test_element_parent() -> None:
     el_ar_package = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg1")
     el_elements = el_ar_package.create_sub_element("ELEMENTS")
     el_system = el_elements.create_named_sub_element("SYSTEM", "System")
-    
+
     assert el_system.parent == el_elements
     assert el_elements.parent == el_ar_package
     assert el_ar_package.parent == el_ar_packages
@@ -135,9 +138,7 @@ def test_element_content() -> None:
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
     el_pkg1 = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg1")
     el_short_name = el_pkg1.get_sub_element("SHORT-NAME")
-    el_l2 = el_pkg1 \
-        .create_sub_element("DESC") \
-        .create_sub_element("L-2")
+    el_l2 = el_pkg1.create_sub_element("DESC").create_sub_element("L-2")
 
     # different elements have different content types
     assert el_pkg1.content_type == ContentType.Elements
@@ -170,19 +171,21 @@ def test_element_references() -> None:
     model = AutosarModel()
     model.create_file("file")
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
-    el_elements = el_ar_packages \
-        .create_named_sub_element("AR-PACKAGE", "SysPkg") \
-        .create_sub_element("ELEMENTS")
-    el_fibex_element_ref = el_elements \
-        .create_named_sub_element("SYSTEM", "System") \
-        .create_sub_element("FIBEX-ELEMENTS") \
-        .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL") \
+    el_elements = el_ar_packages.create_named_sub_element(
+        "AR-PACKAGE", "SysPkg"
+    ).create_sub_element("ELEMENTS")
+    el_fibex_element_ref = (
+        el_elements.create_named_sub_element("SYSTEM", "System")
+        .create_sub_element("FIBEX-ELEMENTS")
+        .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL")
         .create_sub_element("FIBEX-ELEMENT-REF")
-    el_can_cluster = model.root_element \
-        .get_sub_element("AR-PACKAGES") \
-        .create_named_sub_element("AR-PACKAGE", "CanPkg") \
-        .create_sub_element("ELEMENTS") \
+    )
+    el_can_cluster = (
+        model.root_element.get_sub_element("AR-PACKAGES")
+        .create_named_sub_element("AR-PACKAGE", "CanPkg")
+        .create_sub_element("ELEMENTS")
         .create_named_sub_element("CAN-CLUSTER", "CanCluster")
+    )
 
     # various character data elements have constraints, e.g the reference element can only contain an autosar path
     # integers, or strings that do not look like paths cause an exception
@@ -191,7 +194,7 @@ def test_element_references() -> None:
     with pytest.raises(AutosarDataError):
         el_fibex_element_ref.character_data = "? what ?"
     with pytest.raises(TypeError):
-        el_fibex_element_ref.character_data = AutosarVersion.AUTOSAR_00042 # wrong datatype
+        el_fibex_element_ref.character_data = AutosarVersion.AUTOSAR_00042  # type: ignore [assignment]
     # "looks like" an autosar path
     el_fibex_element_ref.character_data = "/something/else"
 
@@ -203,7 +206,9 @@ def test_element_references() -> None:
 
     # in cases where the element name of the target is NOT a valid value in the "DEST" attribute
     # the function reference_dest_value() can be used instead
-    destval = el_fibex_element_ref.element_type.reference_dest_value(el_can_cluster.element_type)
+    destval = el_fibex_element_ref.element_type.reference_dest_value(
+        el_can_cluster.element_type
+    )
     el_fibex_element_ref.set_attribute("DEST", destval)
 
     # there is special handling for references
@@ -226,20 +231,21 @@ def test_element_character_data_1() -> None:
     # some elements have the data type double / f64 for their character content
     model = AutosarModel()
     model.create_file("file")
-    el_macrotick = model.root_element \
-        .create_sub_element("AR-PACKAGES") \
-        .create_named_sub_element("AR-PACKAGE", "pkg") \
-        .create_sub_element("ELEMENTS") \
-        .create_named_sub_element("FLEXRAY-CLUSTER", "fc") \
-        .create_sub_element("FLEXRAY-CLUSTER-VARIANTS") \
-        .create_sub_element("FLEXRAY-CLUSTER-CONDITIONAL") \
+    el_macrotick = (
+        model.root_element.create_sub_element("AR-PACKAGES")
+        .create_named_sub_element("AR-PACKAGE", "pkg")
+        .create_sub_element("ELEMENTS")
+        .create_named_sub_element("FLEXRAY-CLUSTER", "fc")
+        .create_sub_element("FLEXRAY-CLUSTER-VARIANTS")
+        .create_sub_element("FLEXRAY-CLUSTER-CONDITIONAL")
         .create_sub_element("MACROTICK-DURATION")
+    )
     el_macrotick.character_data = 2.71828
-    el_macrotick.character_data = 3 # automatic conversion to double
-    el_macrotick.character_data = "3.1415" # automatic conversion to double
+    el_macrotick.character_data = 3  # automatic conversion to double
+    el_macrotick.character_data = "3.1415"  # automatic conversion to double
     assert el_macrotick.character_data == 3.1415
     with pytest.raises(TypeError):
-        el_macrotick.character_data = model
+        el_macrotick.character_data = model  # type: ignore [assignment]
     with pytest.raises(ValueError):
         el_macrotick.character_data = "not numeric"
 
@@ -248,36 +254,41 @@ def test_element_character_data_2() -> None:
     # it seems there is only one element with datatype unsigned integer, and only in Autosar 4.0.1
     model = AutosarModel()
     model.create_file("file")
-    el_cse_code = model.root_element \
-        .create_sub_element("AR-PACKAGES") \
-        .create_named_sub_element("AR-PACKAGE", "pkg") \
-        .create_sub_element("ELEMENTS") \
-        .create_named_sub_element("BSW-MODULE-TIMING", "bmt") \
-        .create_sub_element("TIMING-GUARANTEES") \
-        .create_named_sub_element("SYNCHRONIZATION-TIMING-CONSTRAINT", "stc") \
-        .create_sub_element("TOLERANCE") \
+    el_cse_code = (
+        model.root_element.create_sub_element("AR-PACKAGES")
+        .create_named_sub_element("AR-PACKAGE", "pkg")
+        .create_sub_element("ELEMENTS")
+        .create_named_sub_element("BSW-MODULE-TIMING", "bmt")
+        .create_sub_element("TIMING-GUARANTEES")
+        .create_named_sub_element("SYNCHRONIZATION-TIMING-CONSTRAINT", "stc")
+        .create_sub_element("TOLERANCE")
         .create_sub_element("CSE-CODE")
+    )
     el_cse_code.character_data = 42
-    el_cse_code.character_data = "123" # automatic conversion
+    el_cse_code.character_data = "123"  # automatic conversion
     assert el_cse_code.character_data == 123
     with pytest.raises(TypeError):
-        el_cse_code.character_data = model
+        el_cse_code.character_data = model  # type: ignore [assignment]
     with pytest.raises(ValueError):
         el_cse_code.character_data = "text"
     with pytest.raises(TypeError):
-        el_cse_code.character_data = 3.1 # no automatic conversion from float, truncation should be explicit
+        el_cse_code.character_data = (
+            3.1  # no automatic conversion from float, truncation should be explicit
+        )
 
 
 def test_element_character_data_3() -> None:
     model = AutosarModel()
     model.create_file("file")
-    el_fibex_element_ref = model.root_element.create_sub_element("AR-PACKAGES") \
-        .create_named_sub_element("AR-PACKAGE", "Pkg") \
-        .create_sub_element("ELEMENTS") \
-        .create_named_sub_element("SYSTEM", "System") \
-        .create_sub_element("FIBEX-ELEMENTS") \
-        .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL") \
+    el_fibex_element_ref = (
+        model.root_element.create_sub_element("AR-PACKAGES")
+        .create_named_sub_element("AR-PACKAGE", "Pkg")
+        .create_sub_element("ELEMENTS")
+        .create_named_sub_element("SYSTEM", "System")
+        .create_sub_element("FIBEX-ELEMENTS")
+        .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL")
         .create_sub_element("FIBEX-ELEMENT-REF")
+    )
     el_fibex_element_ref.set_attribute("DEST", "I-SIGNAL")
     assert el_fibex_element_ref.attribute_value("DEST") == "I-SIGNAL"
     with pytest.raises(ValueError):
@@ -285,7 +296,7 @@ def test_element_character_data_3() -> None:
     with pytest.raises(TypeError):
         el_fibex_element_ref.set_attribute("DEST", 42)
     with pytest.raises(TypeError):
-        el_fibex_element_ref.set_attribute("DEST", model)
+        el_fibex_element_ref.set_attribute("DEST", model)  # type: ignore [arg-type]
 
 
 def test_element_character_data_4() -> None:
@@ -296,7 +307,7 @@ def test_element_character_data_4() -> None:
     model.root_element.set_attribute("S", 3.1415)
     assert model.root_element.attribute_value("S") == "3.1415"
     with pytest.raises(TypeError):
-        model.root_element.set_attribute("S", model)
+        model.root_element.set_attribute("S", model)  # type: ignore [arg-type]
 
 
 def test_character_data_5() -> None:
@@ -321,12 +332,15 @@ def test_character_data_6() -> None:
     # this should work as long as there are 0 or 1 content items in the mixed content
     model = AutosarModel()
     model.create_file("file")
-    el_l2 = model.root_element.create_sub_element("AR-PACKAGES") \
-        .create_named_sub_element("AR-PACKAGE", "Pkg1") \
-        .create_sub_element("DESC") \
+    el_l2 = (
+        model.root_element.create_sub_element("AR-PACKAGES")
+        .create_named_sub_element("AR-PACKAGE", "Pkg1")
+        .create_sub_element("DESC")
         .create_sub_element("L-2")
+    )
     el_l2.character_data = "text"
     assert el_l2.character_data == "text"
+
 
 def test_element_creation() -> None:
     model = AutosarModel()
@@ -399,14 +413,16 @@ def test_element_creation() -> None:
         el_pkg1.create_sub_element("SHORT-NAME")
     # the element Autosar is not a valid sub element of ArPackage
     with pytest.raises(AutosarDataError):
-         el_pkg1.create_sub_element("AUTOSAR", 1)
+        el_pkg1.create_sub_element("AUTOSAR", 1)
 
     # it is possible to check which sub elements would be valid
     # returns a list of tuples: (ElementName, is_named, currently_allowed)
     vsi_list = el_pkg1.list_valid_sub_elements()
     vsi_dbg = vsi_list[0].__repr__()
     assert not vsi_dbg is None
-    allowed_elements = [vsi.element_name if vsi.is_allowed else None for vsi in vsi_list]
+    allowed_elements = [
+        vsi.element_name if vsi.is_allowed else None for vsi in vsi_list
+    ]
     assert not "AUTOSAR" in allowed_elements
     assert "CATEGORY" in allowed_elements
 
@@ -416,7 +432,7 @@ def test_element_creation() -> None:
         invalid = el_pkg3.path
     with pytest.raises(AutosarDataError):
         invalid2 = el_pkg3.model
-    
+
     # create an ADMIN-DATA element in the root, and remove it again
     el_admin_data = model.root_element.create_sub_element("ADMIN-DATA")
     assert el_admin_data in model.root_element.sub_elements
@@ -444,13 +460,15 @@ def test_element_creation() -> None:
     assert element_info[12][1].element_name == "SHORT-NAME"
     assert len(element_info) == 13
 
-    element_info_max_depth = [x for x in model.root_element.elements_dfs_with_max_depth(2)]
+    element_info_max_depth = [
+        x for x in model.root_element.elements_dfs_with_max_depth(2)
+    ]
     assert element_info[0][1].element_name == "AUTOSAR"
     assert element_info[1][1].element_name == "AR-PACKAGES"
     assert element_info[2][1].element_name == "AR-PACKAGE"
     assert element_info[2][1].item_name == "Pkg1"
     assert len(element_info_max_depth) == 3
-   
+
 
 def test_get_sub_element_additional() -> None:
     model = AutosarModel()
@@ -458,9 +476,9 @@ def test_get_sub_element_additional() -> None:
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
     el_ar_package = el_ar_packages.create_named_sub_element("AR-PACKAGE", "Pkg")
     el_elements = el_ar_package.create_sub_element("ELEMENTS")
-    el_elements.create_named_sub_element("ECUC-MODULE-CONFIGURATION-VALUES", "BswConfig") \
-        .create_sub_element("DEFINITION-REF") \
-        .character_data = "/Bsw/Definition/Container"
+    el_elements.create_named_sub_element(
+        "ECUC-MODULE-CONFIGURATION-VALUES", "BswConfig"
+    ).create_sub_element("DEFINITION-REF").character_data = "/Bsw/Definition/Container"
 
     el_bsw = el_elements.get_bsw_sub_element("/Bsw/Definition/Container")
     assert isinstance(el_bsw, Element)
@@ -473,6 +491,7 @@ def test_get_sub_element_additional() -> None:
     el_bsw = el_elements.get_named_sub_element("BswConfig")
     assert isinstance(el_bsw, Element)
     assert el_bsw.element_name == "ECUC-MODULE-CONFIGURATION-VALUES"
+
 
 def test_element_action_errors() -> None:
     model = AutosarModel()
@@ -511,11 +530,10 @@ def test_element_action_errors() -> None:
         el_ar_package.move_element_here(el_ar_package2)
     with pytest.raises(AutosarDataError):
         el_ar_package.move_element_here(el_ar_package2, 0)
-    
+
     # can't remove an element that is not a sub element
     with pytest.raises(AutosarDataError):
         el_ar_package.remove_sub_element(el_ar_package2)
-
 
 
 def test_element_attributes() -> None:
@@ -545,9 +563,9 @@ def test_element_attributes() -> None:
     assert el_autosar.attribute_value("T") == "2023-04-05T12:34:56Z"
 
     with pytest.raises(AutosarDataError):
-        el_autosar.set_attribute("not an attribute", "some text")
+        el_autosar.set_attribute("not an attribute", "some text")  # type: ignore
     with pytest.raises(AutosarDataError):
-        el_autosar.attribute_value("not an attribute")
+        el_autosar.attribute_value("not an attribute")  # type: ignore
     with pytest.raises(AutosarDataError):
         el_autosar.set_attribute("DEST", 0)
 
@@ -555,7 +573,7 @@ def test_element_attributes() -> None:
     el_autosar.remove_attribute("T")
     assert len([attr for attr in el_autosar.attributes]) == 4
     with pytest.raises(AutosarDataError):
-        el_autosar.remove_attribute("xyz")
+        el_autosar.remove_attribute("xyz")  # type: ignore
 
 
 def test_file_membership() -> None:
@@ -610,13 +628,14 @@ def test_element_misc() -> None:
     assert not element != element
 
     with pytest.raises(TypeError):
-        element < element
+        element < element  # type: ignore [operator]
     with pytest.raises(TypeError):
-        element > element
+        element > element  # type: ignore [operator]
     with pytest.raises(TypeError):
-        element <= element
+        element <= element  # type: ignore [operator]
     with pytest.raises(TypeError):
-        element >= element
+        element >= element  # type: ignore [operator]
+
 
 def test_element_coment() -> None:
     model = AutosarModel()

@@ -27,7 +27,7 @@ class ApplicationArrayDataType:
         """set the size specification of the array"""
         ...
 
-    def size() -> ApplicationArraySize:
+    def size(self, /) -> ApplicationArraySize:
         """get the size specification of the array: Variable, Fixed, etc."""
         ...
 
@@ -49,39 +49,40 @@ class ApplicationArraySize:
     definition of the size type of an application array data type
     """
 
-    @staticmethod
-    def Fixed(length: int) -> ApplicationArraySize_Fixed: ...
-    @staticmethod
-    def VariableFullyFlexible(
-        max_length: int,
-    ) -> ApplicationArraySize_VariableFullyFlexible: ...
-    @staticmethod
-    def VariableLinear(max_length: int) -> ApplicationArraySize_VariableLinear: ...
-    @staticmethod
-    def VariableRectangular(
-        max_length: int,
-    ) -> ApplicationArraySize_VariableRectangular: ...
-    @staticmethod
-    def VariableSquare() -> ApplicationArraySize_VariableSquare: ...
+    Fixed: Type[ApplicationArraySize_Fixed]
+    VariableFullyFlexible: Type[ApplicationArraySize_VariableFullyFlexible]
+    VariableLinear: Type[ApplicationArraySize_VariableLinear]
+    VariableRectangular: Type[ApplicationArraySize_VariableRectangular]
+    VariableSquare: Type[ApplicationArraySize_VariableSquare]
 
 @final
 class ApplicationArraySize_Fixed(ApplicationArraySize):
+    def __init__(self, length: int, /) -> ApplicationArraySize_Fixed: ...
     length: int
 
 @final
 class ApplicationArraySize_VariableFullyFlexible(ApplicationArraySize):
+    def __init__(
+        self, max_size: int, /
+    ) -> ApplicationArraySize_VariableFullyFlexible: ...
     max_size: int
 
 @final
 class ApplicationArraySize_VariableLinear(ApplicationArraySize):
+    def __init__(self, max_size: int, /) -> ApplicationArraySize_VariableLinear: ...
     max_size: int
 
 @final
 class ApplicationArraySize_VariableRectangular(ApplicationArraySize):
+    def __init__(
+        self, max_size: int, /
+    ) -> ApplicationArraySize_VariableRectangular: ...
     max_size: int
 
 @final
-class ApplicationArraySize_VariableSquare(ApplicationArraySize): ...
+class ApplicationArraySize_VariableSquare(ApplicationArraySize):
+    def __init__(self) -> ApplicationArraySize_VariableSquare: ...
+    ...
 
 @final
 class ApplicationPrimitiveCategory:
@@ -201,7 +202,7 @@ class CompuMethod:
     def __init__(self, element: Element, /) -> CompuMethod: ...
     category: CompuMethodCategory
     """category of the `CompuMethod`"""
-    def content() -> Optional[CompuMethodContent]:
+    def content(self, /) -> Optional[CompuMethodContent]:
         """get the CompuMethodContent of the CompuMethod"""
         ...
 
@@ -272,60 +273,40 @@ class CompuMethodContent:
     Content of a `CompuMethod`
     """
 
-    @staticmethod
-    def BitfieldTextTable(*, entries: List[TextTableEntry]): ...
-    @staticmethod
-    def Identical() -> CompuMethodContent_Identical: ...
-    @staticmethod
-    def Linear(
-        *,
-        direction: CompuScaleDirection,
-        offset: float,
-        factor: float,
-        divisor: float,
-        lower_limit: Optional[float] = None,
-        upper_limit: Optional[float] = None,
-    ) -> CompuMethodContent_Linear: ...
-    @staticmethod
-    def Rational(
-        *,
-        direction: CompuScaleDirection,
-        denominator: List[float],
-        numerator: List[float],
-        lower_limit: float,
-        upper_limit: float,
-    ) -> CompuMethodContent_Rational: ...
-    @staticmethod
-    def ScaleLinear(
-        *,
-        scales: List[LinearConversionParameters],
-    ) -> CompuMethodContent_ScaleLinear: ...
-    @staticmethod
-    def ScaleLinearAndTextTable(
-        *, scales: List[LinearConversionParameters], texts: List[TextTableEntry]
-    ) -> CompuMethodContent_ScaleLinearAndTextTable: ...
-    @staticmethod
-    def ScaleRational(
-        *,
-        scales: List[RationalConversionParameters],
-    ) -> CompuMethodContent_ScaleRational: ...
-    @staticmethod
-    def ScaleRationalAndTextTable(
-        *, scales: List[RationalConversionParameters], texts: List[TextTableEntry]
-    ) -> CompuMethodContent_ScaleRationalAndTextTable: ...
-    @staticmethod
-    def TabNoInterpretation(
-        *,
-        entries: List[TabNoIntpEntry],
-    ) -> CompuMethodContent_TabNoInterpretation: ...
-    @staticmethod
-    def TextTable(*, texts: List[TextTableEntry]) -> CompuMethodContent_TextTable: ...
+    BitfieldTextTable: Type[CompuMethodContent_BitfieldTextTable]
+    Identical: Type[CompuMethodContent_Identical]
+    Linear: Type[CompuMethodContent_Linear]
+    Rational: Type[CompuMethodContent_Rational]
+    ScaleLinear: Type[CompuMethodContent_ScaleLinear]
+    ScaleRational: Type[CompuMethodContent_ScaleRational]
+    ScaleLinearAndTextTable: Type[CompuMethodContent_ScaleLinearAndTextTable]
+    ScaleRationalAndTextTable: Type[CompuMethodContent_ScaleRationalAndTextTable]
+    TabNoInterpretation: Type[CompuMethodContent_TabNoInterpretation]
+    TextTable: Type[CompuMethodContent_TextTable]
 
 @final
-class CompuMethodContent_Identical(CompuMethodContent): ...
+class CompuMethodContent_BitfieldTextTable(CompuMethodContent):
+    def __init__(
+        self, entries: List[BitfieldEntry]
+    ) -> CompuMethodContent_BitfieldTextTable: ...
+    entries: List[BitfieldEntry]
+
+@final
+class CompuMethodContent_Identical(CompuMethodContent):
+    def __init__(self) -> CompuMethodContent_Identical: ...
 
 @final
 class CompuMethodContent_Linear(CompuMethodContent):
+    def __init__(
+        self,
+        *,
+        direction: CompuScaleDirection,
+        divisor: float,
+        factor: float,
+        offset: float,
+        lower_limit: Optional[float] = None,
+        upper_limit: Optional[float] = None,
+    ) -> CompuMethodContent_Linear: ...
     direction: CompuScaleDirection
     divisor: float
     factor: float
@@ -335,6 +316,15 @@ class CompuMethodContent_Linear(CompuMethodContent):
 
 @final
 class CompuMethodContent_Rational(CompuMethodContent):
+    def __init__(
+        self,
+        *,
+        direction: CompuScaleDirection,
+        denominator: List[float],
+        numerator: List[float],
+        lower_limit: float,
+        upper_limit: float,
+    ) -> CompuMethodContent_Rational: ...
     denominator: List[float]
     direction: CompuScaleDirection
     lower_limit: float
@@ -343,28 +333,46 @@ class CompuMethodContent_Rational(CompuMethodContent):
 
 @final
 class CompuMethodContent_ScaleLinear(CompuMethodContent):
+    def __init__(
+        self, *, scales: List[LinearConversionParameters]
+    ) -> CompuMethodContent_ScaleLinear: ...
     scales: List[LinearConversionParameters]
 
 @final
 class CompuMethodContent_ScaleRational(CompuMethodContent):
+    def __init__(
+        self, *, scales: List[RationalConversionParameters]
+    ) -> CompuMethodContent_ScaleRational: ...
     scales: List[RationalConversionParameters]
 
 @final
 class CompuMethodContent_ScaleLinearAndTextTable(CompuMethodContent):
+    def __init__(
+        self, *, scales: List[LinearConversionParameters], texts: List[TextTableEntry]
+    ) -> CompuMethodContent_ScaleLinearAndTextTable: ...
     scales: List[LinearConversionParameters]
     texts: List[TextTableEntry]
 
 @final
 class CompuMethodContent_ScaleRationalAndTextTable(CompuMethodContent):
+    def __init__(
+        self, *, scales: List[RationalConversionParameters], texts: List[TextTableEntry]
+    ) -> CompuMethodContent_ScaleRationalAndTextTable: ...
     scales: List[RationalConversionParameters]
     texts: List[TextTableEntry]
 
 @final
 class CompuMethodContent_TabNoInterpretation(CompuMethodContent):
+    def __init__(
+        self, *, entries: List[TabNoIntpEntry]
+    ) -> CompuMethodContent_TabNoInterpretation: ...
     entries: List[TabNoIntpEntry]
 
 @final
 class CompuMethodContent_TextTable(CompuMethodContent):
+    def __init__(
+        self, *, texts: List[TextTableEntry]
+    ) -> CompuMethodContent_TextTable: ...
     texts: List[TextTableEntry]
 
 @final
@@ -576,8 +584,10 @@ class ImplementationDataTypeElement:
     name: str
     referenced_type: Optional[ImplementationDataType]
     """get the referenced implementation data type [category: `TYPE_REFERENCE`]"""
-    settings: ImplementationDataTypeSettings
-    """get the settings of this implementation data type"""
+    def settings(self) -> ImplementationDataTypeSettings:
+        """get the settings of this implementation data type"""
+        ...
+
     def sub_elements(self, /) -> Iterator[ImplementationDataTypeElement]:
         """create an iterator over the sub-elements of this implementation data type"""
         ...
