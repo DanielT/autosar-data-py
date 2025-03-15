@@ -1,4 +1,5 @@
 from autosar_data import *
+from autosar_data import __version__
 import pytest
 import os
 

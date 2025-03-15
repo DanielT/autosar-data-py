@@ -231,7 +231,7 @@ fn character_data_spec_to_object(spec: &CharacterDataSpec) -> PyResult<PyObject>
         } => {
             //
             CharacterDataTypeRestrictedString {
-                regex: regex.to_string(),
+                regex: (*regex).to_string(),
                 max_length: *max_length,
             }
             .into_py_any(py)

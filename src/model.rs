@@ -39,7 +39,7 @@ impl AutosarModel {
     }
 
     /// create a new file in the model
-    #[pyo3(signature = (filename, version=AutosarVersion::Latest))]
+    #[pyo3(signature = (filename, /, version=AutosarVersion::Latest))]
     fn create_file(&self, filename: &str, version: AutosarVersion) -> PyResult<ArxmlFile> {
         match self.0.create_file(filename, version.into()) {
             Ok(file) => Ok(ArxmlFile(file)),
@@ -48,7 +48,7 @@ impl AutosarModel {
     }
 
     /// load a buffer (string) as arxml
-    #[pyo3(signature = (buffer, filename, strict=false))]
+    #[pyo3(signature = (buffer, filename, /, strict=false))]
     fn load_buffer(
         &self,
         buffer: &str,
@@ -57,7 +57,8 @@ impl AutosarModel {
     ) -> PyResult<(ArxmlFile, Vec<String>)> {
         match self.0.load_buffer(buffer.as_bytes(), filename, strict) {
             Ok((file, warn)) => {
-                let warnstrings: Vec<String> = warn.iter().map(|w| w.to_string()).collect();
+                let warnstrings: Vec<String> =
+                    warn.iter().map(std::string::ToString::to_string).collect();
                 Ok((ArxmlFile(file), warnstrings))
             }
             Err(error) => PyResult::Err(AutosarDataError::new_err(error.to_string())),
@@ -65,11 +66,12 @@ impl AutosarModel {
     }
 
     /// load a file as arxml
-    #[pyo3(signature = (filename, strict=false))]
+    #[pyo3(signature = (filename, /, strict=false))]
     fn load_file(&self, filename: &str, strict: bool) -> PyResult<(ArxmlFile, Vec<String>)> {
         match self.0.load_file(filename, strict) {
             Ok((file, warn)) => {
-                let warnstrings: Vec<String> = warn.iter().map(|w| w.to_string()).collect();
+                let warnstrings: Vec<String> =
+                    warn.iter().map(std::string::ToString::to_string).collect();
                 Ok((ArxmlFile(file), warnstrings))
             }
             Err(error) => PyResult::Err(AutosarDataError::new_err(error.to_string())),
@@ -154,7 +156,7 @@ impl AutosarModel {
     fn duplicate(&self) -> PyResult<AutosarModel> {
         match self.0.duplicate() {
             Ok(model) => Ok(AutosarModel(model)),
-            Err(error) => PyResult::Err(AutosarDataError::new_err(error.to_string())),
+            Err(error) => Err(AutosarDataError::new_err(error.to_string())),
         }
     }
 }

@@ -1,4 +1,5 @@
-use crate::*;
+use crate::AutosarDataError;
+use pyo3::prelude::*;
 use std::str::FromStr;
 
 #[allow(non_camel_case_types)]
@@ -124,13 +125,13 @@ impl From<autosar_data_specification::AutosarVersion> for AutosarVersion {
             autosar_data_specification::AutosarVersion::Autosar_00052 => Self::Autosar_00052,
             autosar_data_specification::AutosarVersion::Autosar_00053 => Self::Autosar_00053,
 
-            _ => Self::Autosar_00052,
+            _ => Self::Autosar_00053,
         }
     }
 }
 
 impl std::fmt::Debug for AutosarVersion {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str(&self.__pyo3__repr__())
+        f.write_str(self.__pyo3__repr__())
     }
 }

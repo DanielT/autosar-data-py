@@ -1,6 +1,7 @@
 from autosar_data import *
 import pytest
 
+
 def test_specification_basic() -> None:
     model = AutosarModel()
     model.create_file("file")
@@ -13,7 +14,9 @@ def test_specification_basic() -> None:
     # get a character data specification
     el_short_name = el_ar_package.get_sub_element("SHORT-NAME")
     # SHORT-NAME contains a restricted string
-    assert isinstance(el_short_name.element_type.chardata_spec, CharacterDataTypeRestrictedString)
+    assert isinstance(
+        el_short_name.element_type.chardata_spec, CharacterDataTypeRestrictedString
+    )
 
     attribute_spec = model.root_element.element_type.attributes_spec
     assert len(attribute_spec) > 3
@@ -25,19 +28,23 @@ def test_specification_basic() -> None:
     with pytest.raises(TypeError):
         model.root_element.element_type.find_attribute_spec("xyz")
 
+    assert "__repr__" in ContentMode.__dict__
+    assert len(str(ContentMode.Mixed)) > 0
+
 
 def test_specification_enum() -> None:
     model = AutosarModel()
     model.create_file("file")
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
-    el_elements = el_ar_packages \
-        .create_named_sub_element("AR-PACKAGE", "SysPkg") \
-        .create_sub_element("ELEMENTS")
-    el_fibex_element_ref = el_elements \
-        .create_named_sub_element("SYSTEM", "System") \
-        .create_sub_element("FIBEX-ELEMENTS") \
-        .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL") \
+    el_elements = el_ar_packages.create_named_sub_element(
+        "AR-PACKAGE", "SysPkg"
+    ).create_sub_element("ELEMENTS")
+    el_fibex_element_ref = (
+        el_elements.create_named_sub_element("SYSTEM", "System")
+        .create_sub_element("FIBEX-ELEMENTS")
+        .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL")
         .create_sub_element("FIBEX-ELEMENT-REF")
+    )
     dest_attr_spec = el_fibex_element_ref.element_type.find_attribute_spec("DEST")
     print(dest_attr_spec.__repr__())
     assert dest_attr_spec.attribute_name == "DEST"
@@ -53,14 +60,15 @@ def test_specification_enum() -> None:
 def test_specification_float() -> None:
     model = AutosarModel()
     model.create_file("file")
-    el_macrotick = model.root_element \
-        .create_sub_element("AR-PACKAGES") \
-        .create_named_sub_element("AR-PACKAGE", "pkg") \
-        .create_sub_element("ELEMENTS") \
-        .create_named_sub_element("FLEXRAY-CLUSTER", "fc") \
-        .create_sub_element("FLEXRAY-CLUSTER-VARIANTS") \
-        .create_sub_element("FLEXRAY-CLUSTER-CONDITIONAL") \
+    el_macrotick = (
+        model.root_element.create_sub_element("AR-PACKAGES")
+        .create_named_sub_element("AR-PACKAGE", "pkg")
+        .create_sub_element("ELEMENTS")
+        .create_named_sub_element("FLEXRAY-CLUSTER", "fc")
+        .create_sub_element("FLEXRAY-CLUSTER-VARIANTS")
+        .create_sub_element("FLEXRAY-CLUSTER-CONDITIONAL")
         .create_sub_element("MACROTICK-DURATION")
+    )
     mtd_spec = el_macrotick.element_type.chardata_spec
     assert isinstance(mtd_spec, CharacterDataTypeFloat)
     assert not mtd_spec.__str__() is None
@@ -71,14 +79,15 @@ def test_specification_restricted_string() -> None:
     model = AutosarModel()
     model.create_file("file")
     el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
-    el_elements = el_ar_packages \
-        .create_named_sub_element("AR-PACKAGE", "SysPkg") \
-        .create_sub_element("ELEMENTS")
-    el_fibex_element_ref = el_elements \
-        .create_named_sub_element("SYSTEM", "System") \
-        .create_sub_element("FIBEX-ELEMENTS") \
-        .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL") \
+    el_elements = el_ar_packages.create_named_sub_element(
+        "AR-PACKAGE", "SysPkg"
+    ).create_sub_element("ELEMENTS")
+    el_fibex_element_ref = (
+        el_elements.create_named_sub_element("SYSTEM", "System")
+        .create_sub_element("FIBEX-ELEMENTS")
+        .create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL")
         .create_sub_element("FIBEX-ELEMENT-REF")
+    )
     fibex_el_ref_spec = el_fibex_element_ref.element_type.chardata_spec
     assert isinstance(fibex_el_ref_spec, CharacterDataTypeRestrictedString)
     assert not fibex_el_ref_spec.regex is None
@@ -102,15 +111,16 @@ def test_specification_string() -> None:
 def test_specification_uint() -> None:
     model = AutosarModel()
     model.create_file("file")
-    el_cse_code = model.root_element \
-        .create_sub_element("AR-PACKAGES") \
-        .create_named_sub_element("AR-PACKAGE", "pkg") \
-        .create_sub_element("ELEMENTS") \
-        .create_named_sub_element("BSW-MODULE-TIMING", "bmt") \
-        .create_sub_element("TIMING-GUARANTEES") \
-        .create_named_sub_element("SYNCHRONIZATION-TIMING-CONSTRAINT", "stc") \
-        .create_sub_element("TOLERANCE") \
+    el_cse_code = (
+        model.root_element.create_sub_element("AR-PACKAGES")
+        .create_named_sub_element("AR-PACKAGE", "pkg")
+        .create_sub_element("ELEMENTS")
+        .create_named_sub_element("BSW-MODULE-TIMING", "bmt")
+        .create_sub_element("TIMING-GUARANTEES")
+        .create_named_sub_element("SYNCHRONIZATION-TIMING-CONSTRAINT", "stc")
+        .create_sub_element("TOLERANCE")
         .create_sub_element("CSE-CODE")
+    )
     cse_spec = el_cse_code.element_type.chardata_spec
     assert isinstance(cse_spec, CharacterDataTypeUnsignedInt)
     assert not cse_spec.__str__() is None
@@ -127,3 +137,5 @@ def test_specification_sub_elements_spec() -> None:
     assert sub_element_spec.element_name == "AR-PACKAGE"
     assert sub_element_spec.element_type == el_pkg.element_type
     assert AutosarVersion.AUTOSAR_00050 in sub_element_spec.allowed_versions
+    assert "__repr__" in SubElementSpec.__dict__
+    assert len(str(sub_element_spec)) > 0
