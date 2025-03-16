@@ -23,7 +23,7 @@ mod version;
 use pyo3::IntoPyObjectExt;
 use version::AutosarVersion;
 
-create_exception!(module, AutosarDataError, pyo3::exceptions::PyException);
+create_exception!(autosar_data.autosar_data, AutosarDataError, pyo3::exceptions::PyException);
 
 #[pyclass(frozen, module = "autosar_data.autosar_data")]
 /// Autosar data model. It contains all elements.

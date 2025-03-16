@@ -3,7 +3,7 @@ use pyo3::prelude::*;
 use std::str::FromStr;
 
 #[allow(non_camel_case_types)]
-#[pyclass(eq, eq_int, ord)]
+#[pyclass(eq, eq_int, ord, module = "autosar_data.autosar_data")]
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum AutosarVersion {
     #[pyo3(name = "AUTOSAR_4_0_1")]
