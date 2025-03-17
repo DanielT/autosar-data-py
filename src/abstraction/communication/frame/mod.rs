@@ -1,5 +1,5 @@
-use crate::abstraction::communication::{pdu_to_pyany, CommunicationDirection};
 use crate::abstraction::AutosarAbstractionError;
+use crate::abstraction::communication::{CommunicationDirection, pdu_to_pyany};
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 
@@ -15,7 +15,7 @@ pub(crate) use flexray::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct PduToFrameMapping(
@@ -131,7 +131,7 @@ iterator_wrapper!(PduToFrameMappingIterator, PduToFrameMapping);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FramePort(pub(crate) autosar_data_abstraction::communication::FramePort);

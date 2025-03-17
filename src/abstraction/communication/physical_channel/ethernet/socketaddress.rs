@@ -1,14 +1,14 @@
 use crate::{
+    Element,
     abstraction::{
-        abstraction_err_to_pyerr,
+        AutosarAbstractionError, EcuInstance, abstraction_err_to_pyerr,
         communication::{
             ConsumedServiceInstanceV1, ConsumedServiceInstanceV1Iterator, EthernetPhysicalChannel,
             NetworkEndpoint, ProvidedServiceInstanceV1, ProvidedServiceInstanceV1Iterator,
             StaticSocketConnection, StaticSocketConnectionIterator, TcpRole,
         },
-        iterator_wrapper, AutosarAbstractionError, EcuInstance,
+        iterator_wrapper,
     },
-    Element,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;
@@ -18,7 +18,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct SocketAddress(pub(crate) autosar_data_abstraction::communication::SocketAddress);
@@ -207,7 +207,7 @@ iterator_wrapper!(SocketAddressIterator, SocketAddress);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) enum TpConfig {
@@ -299,7 +299,7 @@ impl TpConfig {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) enum SocketAddressType {

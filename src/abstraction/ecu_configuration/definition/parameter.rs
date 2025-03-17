@@ -1,17 +1,16 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        ecu_configuration::{EcucConfigurationClass, EcucConfigurationVariant},
-        iterator_wrapper, AutosarAbstractionError,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, abstraction_err_to_pyerr,
+        ecu_configuration::{EcucConfigurationClass, EcucConfigurationVariant},
+        iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{
-    self,
+    self, AbstractionElement, IdentifiableAbstractionElement,
     ecu_configuration::{EcucAbstractStringParamDef, EcucCommonAttributes, EcucDefinitionElement},
-    AbstractionElement, IdentifiableAbstractionElement,
 };
-use pyo3::{prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, prelude::*};
 
 //##################################################################
 
@@ -19,7 +18,7 @@ use pyo3::{prelude::*, IntoPyObjectExt};
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucAddInfoParamDef(
@@ -276,7 +275,7 @@ impl EcucAddInfoParamDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucBooleanParamDef(
@@ -547,7 +546,7 @@ impl EcucBooleanParamDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucEnumerationParamDef(
@@ -835,7 +834,7 @@ impl EcucEnumerationParamDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucEnumerationLiteralDef(
@@ -884,7 +883,7 @@ iterator_wrapper!(EcucEnumerationLiteralDefIterator, EcucEnumerationLiteralDef);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucFloatParamDef(
@@ -1179,7 +1178,7 @@ impl EcucFloatParamDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucIntegerParamDef(
@@ -1474,7 +1473,7 @@ impl EcucIntegerParamDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucFunctionNameDef(
@@ -1791,7 +1790,7 @@ impl EcucFunctionNameDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucLinkerSymbolDef(
@@ -2108,7 +2107,7 @@ impl EcucLinkerSymbolDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucMultilineStringParamDef(
@@ -2425,7 +2424,7 @@ impl EcucMultilineStringParamDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucStringParamDef(

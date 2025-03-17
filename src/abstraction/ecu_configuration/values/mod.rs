@@ -1,14 +1,14 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        ecu_configuration::{
-            ecuc_container_def_from_pyobject, ecuc_container_def_to_pyobject,
-            pyobject_to_ecuc_parameter_def, pyobject_to_ecuc_reference_def, EcucAddInfoParamDef,
-            EcucInstanceReferenceDef, EcucModuleDef,
-        },
-        iterator_wrapper, AutosarAbstractionError, System,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, System, abstraction_err_to_pyerr,
+        ecu_configuration::{
+            EcucAddInfoParamDef, EcucInstanceReferenceDef, EcucModuleDef,
+            ecuc_container_def_from_pyobject, ecuc_container_def_to_pyobject,
+            pyobject_to_ecuc_parameter_def, pyobject_to_ecuc_reference_def,
+        },
+        iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;
@@ -25,7 +25,7 @@ pub(crate) use reference::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucValueCollection(
@@ -105,7 +105,7 @@ impl EcucValueCollection {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 
@@ -204,7 +204,7 @@ iterator_wrapper!(
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucContainerValue(

@@ -1,8 +1,8 @@
 use crate::{
     abstraction::{
         ecu_configuration::{
-            ecuc_reference_def_to_pyobject, pyobject_to_ecuc_reference_def,
-            EcucInstanceReferenceDef,
+            EcucInstanceReferenceDef, ecuc_reference_def_to_pyobject,
+            pyobject_to_ecuc_reference_def,
         },
         *,
     },
@@ -16,7 +16,7 @@ use autosar_data_abstraction::{self, AbstractionElement};
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucInstanceReferenceValue(
@@ -141,7 +141,7 @@ impl EcucInstanceReferenceValue {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucReferenceValue(

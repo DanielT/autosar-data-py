@@ -1,13 +1,13 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        communication::{
-            pyany_to_pdu, EthernetPhysicalChannel, EventGroupControlType, PduCollectionTrigger,
-            PduTriggering, PduTriggeringIterator, SocketAddress,
-        },
-        iterator_wrapper, AutosarAbstractionError,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, abstraction_err_to_pyerr,
+        communication::{
+            EthernetPhysicalChannel, EventGroupControlType, PduCollectionTrigger, PduTriggering,
+            PduTriggeringIterator, SocketAddress, pyany_to_pdu,
+        },
+        iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;
@@ -17,7 +17,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SocketConnectionBundle(
@@ -104,7 +104,7 @@ iterator_wrapper!(SocketConnectionBundleIterator, SocketConnectionBundle);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SocketConnection(
@@ -273,7 +273,7 @@ iterator_wrapper!(SocketConnectionIterator, SocketConnection);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct SocketConnectionIpduIdentifier(
@@ -399,7 +399,7 @@ iterator_wrapper!(
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SoAdRoutingGroup(

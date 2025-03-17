@@ -13,7 +13,7 @@ use autosar_data_abstraction::{self, AbstractionElement};
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucAddInfoParamValue(
@@ -51,7 +51,7 @@ impl EcucAddInfoParamValue {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucNumericalParamValue(
@@ -181,7 +181,7 @@ impl EcucNumericalParamValue {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucTextualParamValue(

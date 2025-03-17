@@ -1,23 +1,23 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        ecu_configuration::{
-            ecuc_parameter_def_to_pyobject, ecuc_reference_def_to_pyobject, EcucAddInfoParamDef,
-            EcucAnyReferenceDefIterator, EcucBooleanParamDef, EcucChoiceReferenceDef,
-            EcucEnumerationParamDef, EcucFloatParamDef, EcucForeignReferenceDef,
-            EcucFunctionNameDef, EcucInstanceReferenceDef, EcucIntegerParamDef,
-            EcucLinkerSymbolDef, EcucMultilineStringParamDef, EcucParameterDefIterator,
-            EcucReferenceDef, EcucStringParamDef, EcucUriReferenceDef,
-        },
-        iterator_wrapper, AutosarAbstractionError,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, abstraction_err_to_pyerr,
+        ecu_configuration::{
+            EcucAddInfoParamDef, EcucAnyReferenceDefIterator, EcucBooleanParamDef,
+            EcucChoiceReferenceDef, EcucEnumerationParamDef, EcucFloatParamDef,
+            EcucForeignReferenceDef, EcucFunctionNameDef, EcucInstanceReferenceDef,
+            EcucIntegerParamDef, EcucLinkerSymbolDef, EcucMultilineStringParamDef,
+            EcucParameterDefIterator, EcucReferenceDef, EcucStringParamDef, EcucUriReferenceDef,
+            ecuc_parameter_def_to_pyobject, ecuc_reference_def_to_pyobject,
+        },
+        iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{
-    self, ecu_configuration::EcucDefinitionElement, AbstractionElement,
-    IdentifiableAbstractionElement,
+    self, AbstractionElement, IdentifiableAbstractionElement,
+    ecu_configuration::EcucDefinitionElement,
 };
-use pyo3::{prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, prelude::*};
 
 //##################################################################
 
@@ -27,7 +27,7 @@ use pyo3::{prelude::*, IntoPyObjectExt};
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucChoiceContainerDef(
@@ -135,7 +135,7 @@ impl EcucChoiceContainerDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucParamConfContainerDef(

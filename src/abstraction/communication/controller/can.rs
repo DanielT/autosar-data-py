@@ -1,14 +1,13 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr, communication::CanPhysicalChannel, iterator_wrapper,
-        AutosarAbstractionError, EcuInstance,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, EcuInstance, abstraction_err_to_pyerr,
+        communication::CanPhysicalChannel, iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{
-    self,
+    self, AbstractionElement, IdentifiableAbstractionElement,
     communication::{AbstractCommunicationConnector, AbstractCommunicationController},
-    AbstractionElement, IdentifiableAbstractionElement,
 };
 use pyo3::prelude::*;
 
@@ -18,7 +17,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanCommunicationController(
@@ -104,7 +103,7 @@ iterator_wrapper!(CanCCPhysicalChannelIterator, CanPhysicalChannel);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanCommunicationConnector(

@@ -1,14 +1,13 @@
 use crate::{
+    Element,
     abstraction::{
-        abstraction_err_to_pyerr,
+        AutosarAbstractionError, EcuInstance, System, abstraction_err_to_pyerr,
         communication::SystemSignal,
         software_component::{
-            pyobject_to_port_prototype, RootSwCompositionPrototype, SwComponentPrototype,
-            VariableDataPrototype,
+            RootSwCompositionPrototype, SwComponentPrototype, VariableDataPrototype,
+            pyobject_to_port_prototype,
         },
-        AutosarAbstractionError, EcuInstance, System,
     },
-    Element,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;
@@ -18,7 +17,7 @@ use pyo3::prelude::*;
 /// A `SystemMapping` contains mappings in the `System`
 ///
 /// it contains mappings between SWCs and ECUs, as well as between ports and signals
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction")]
+#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SystemMapping(pub(crate) autosar_data_abstraction::SystemMapping);
 
@@ -119,7 +118,7 @@ impl SystemMapping {
 //##################################################################
 
 /// A `SwcToEcuMapping` contains a mapping between a `SwComponentPrototype` and an `EcuInstance`
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction")]
+#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SwcToEcuMapping(pub(crate) autosar_data_abstraction::SwcToEcuMapping);
 

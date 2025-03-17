@@ -1,11 +1,11 @@
 use crate::abstraction::{
-    datatype::{CompuMethod, DataConstr, SwBaseType},
     AutosarAbstractionError,
+    datatype::{CompuMethod, DataConstr, SwBaseType},
 };
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::{
-    self, datatype::AbstractImplementationDataType, AbstractionElement,
-    IdentifiableAbstractionElement,
+    self, AbstractionElement, IdentifiableAbstractionElement,
+    datatype::AbstractImplementationDataType,
 };
 use std::ops::Deref;
 
@@ -14,7 +14,11 @@ use std::ops::Deref;
 /// An implementation data type; specifics are determined by the category
 ///
 /// Use [`ArPackage::create_implementation_data_type`] to create a new implementation data type
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct ImplementationDataType(
     pub(crate) autosar_data_abstraction::datatype::ImplementationDataType,
@@ -133,7 +137,11 @@ impl ImplementationDataType {
 //##################################################################
 
 /// An element of an implementation data type
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct ImplementationDataTypeElement(
     pub(crate) autosar_data_abstraction::datatype::ImplementationDataTypeElement,
@@ -263,7 +271,7 @@ iterator_wrapper!(
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.datatype"
+    module = "autosar_data._autosar_data._abstraction._datatype"
 )]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ImplementationDataCategory {
@@ -313,7 +321,7 @@ impl From<autosar_data_abstraction::datatype::ImplementationDataCategory>
 ///
 /// This structure is used to create new implementation data types
 #[pyclass(
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all,
     eq,
@@ -409,7 +417,7 @@ impl PartialEq for ImplementationDataTypeSettingsInternal<'_> {
 /// A simple value
 #[allow(non_camel_case_types)]
 #[pyclass(
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all,
     eq,
@@ -477,7 +485,7 @@ impl From<&ImplementationDataTypeSettings_Value>
 /// An array of elements
 #[allow(non_camel_case_types)]
 #[pyclass(
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all,
     eq,
@@ -556,7 +564,7 @@ impl TryFrom<&ImplementationDataTypeSettings_Array>
 /// A structure of elements
 #[allow(non_camel_case_types)]
 #[pyclass(
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all,
     eq,
@@ -627,7 +635,7 @@ impl TryFrom<&ImplementationDataTypeSettings_Structure>
 /// A union of elements
 #[allow(non_camel_case_types)]
 #[pyclass(
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all,
     eq,
@@ -698,7 +706,7 @@ impl TryFrom<&ImplementationDataTypeSettings_Union>
 /// A pointer to data
 #[allow(non_camel_case_types)]
 #[pyclass(
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all,
     eq,
@@ -796,7 +804,7 @@ fn pyany_to_data_pointer_target(
 /// A pointer to a function
 #[allow(non_camel_case_types)]
 #[pyclass(
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all,
     eq,
@@ -846,7 +854,7 @@ impl From<&ImplementationDataTypeSettings_FunctionReference>
 /// A reference to another implementation data type
 #[allow(non_camel_case_types)]
 #[pyclass(
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all,
     eq,

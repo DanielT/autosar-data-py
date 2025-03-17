@@ -1,12 +1,12 @@
+use crate::Element;
 use crate::abstraction::communication::{
     CanCluster, EthernetCluster, EventGroupControlType, FlexrayCluster, ISignalIPdu, PduTriggering,
     SoConIPduIdentifier, SoConIPduIdentifierIterator, SocketAddress, SocketAddressIterator,
 };
-use crate::abstraction::{abstraction_err_to_pyerr, iterator_wrapper, AutosarAbstractionError};
-use crate::Element;
+use crate::abstraction::{AutosarAbstractionError, abstraction_err_to_pyerr, iterator_wrapper};
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::exceptions::PyTypeError;
-use pyo3::{prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, prelude::*};
 
 //##################################################################
 
@@ -14,7 +14,7 @@ use pyo3::{prelude::*, IntoPyObjectExt};
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ServiceInstanceCollectionSet(
@@ -127,7 +127,7 @@ iterator_wrapper!(ServiceInstanceIterator, PyObject);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ProvidedServiceInstance(
@@ -287,7 +287,7 @@ impl ProvidedServiceInstance {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EventHandler(pub(crate) autosar_data_abstraction::communication::EventHandler);
@@ -393,7 +393,7 @@ iterator_wrapper!(EventHandlerIterator, EventHandler);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ConsumedServiceInstance(
@@ -572,7 +572,7 @@ impl ConsumedServiceInstance {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ConsumedEventGroup(
@@ -696,7 +696,7 @@ iterator_wrapper!(ConsumedEventGroupIterator, ConsumedEventGroup);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication",
+    module = "autosar_data._autosar_data._abstraction._communication",
     get_all
 )]
 #[derive(Clone, PartialEq)]
@@ -751,7 +751,7 @@ iterator_wrapper!(LocalUnicastAddressIterator, LocalUnicastAddress);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct PduActivationRoutingGroup(
@@ -848,7 +848,7 @@ iterator_wrapper!(PduActivationRoutingGroupIterator, PduActivationRoutingGroup);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SomeipSdServerServiceInstanceConfig(
@@ -973,7 +973,7 @@ impl SomeipSdServerServiceInstanceConfig {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SomeipSdServerEventGroupTimingConfig(
@@ -1037,7 +1037,7 @@ impl SomeipSdServerEventGroupTimingConfig {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SomeipSdClientServiceInstanceConfig(
@@ -1121,7 +1121,7 @@ impl SomeipSdClientServiceInstanceConfig {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SomeipSdClientEventGroupTimingConfig(
@@ -1226,7 +1226,7 @@ impl SomeipSdClientEventGroupTimingConfig {
 //##################################################################
 
 /// A `RequestResponseDelay` contains the minimum and maximum delay for a request-response communication
-#[pyclass(eq, module = "autosar_data.autosar_data.abstraction.communication")]
+#[pyclass(eq, module = "autosar_data._autosar_data._abstraction._communication")]
 #[derive(Clone, PartialEq)]
 pub(crate) struct RequestResponseDelay(
     pub(crate) autosar_data_abstraction::communication::RequestResponseDelay,
@@ -1281,7 +1281,7 @@ impl RequestResponseDelay {
     eq,
     get_all,
     set_all,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub struct InitialSdDelayConfig {
@@ -1349,7 +1349,7 @@ impl From<autosar_data_abstraction::communication::InitialSdDelayConfig> for Ini
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SomeipTpConfig(
@@ -1453,7 +1453,7 @@ impl SomeipTpConfig {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SomeipTpConnection(
@@ -1548,7 +1548,7 @@ iterator_wrapper!(SomeipTpConnectionIterator, SomeipTpConnection);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SomeipTpChannel(

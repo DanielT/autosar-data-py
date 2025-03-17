@@ -19,10 +19,18 @@ impl Element {
         match op {
             pyo3::pyclass::CompareOp::Eq => Ok(self.0 == other.0),
             pyo3::pyclass::CompareOp::Ne => Ok(self.0 != other.0),
-            pyo3::pyclass::CompareOp::Lt => Err(pyo3::exceptions::PyTypeError::new_err("'<' is not supported between instances of 'builtins.Element' and 'builtins.Element'")),
-            pyo3::pyclass::CompareOp::Le => Err(pyo3::exceptions::PyTypeError::new_err("'<=' is not supported between instances of 'builtins.Element' and 'builtins.Element'")),
-            pyo3::pyclass::CompareOp::Gt => Err(pyo3::exceptions::PyTypeError::new_err("'>' is not supported between instances of 'builtins.Element' and 'builtins.Element'")),
-            pyo3::pyclass::CompareOp::Ge => Err(pyo3::exceptions::PyTypeError::new_err("'>=' is not supported between instances of 'builtins.Element' and 'builtins.Element'")),
+            pyo3::pyclass::CompareOp::Lt => Err(pyo3::exceptions::PyTypeError::new_err(
+                "'<' is not supported between instances of 'builtins.Element' and 'builtins.Element'",
+            )),
+            pyo3::pyclass::CompareOp::Le => Err(pyo3::exceptions::PyTypeError::new_err(
+                "'<=' is not supported between instances of 'builtins.Element' and 'builtins.Element'",
+            )),
+            pyo3::pyclass::CompareOp::Gt => Err(pyo3::exceptions::PyTypeError::new_err(
+                "'>' is not supported between instances of 'builtins.Element' and 'builtins.Element'",
+            )),
+            pyo3::pyclass::CompareOp::Ge => Err(pyo3::exceptions::PyTypeError::new_err(
+                "'>=' is not supported between instances of 'builtins.Element' and 'builtins.Element'",
+            )),
         }
     }
 

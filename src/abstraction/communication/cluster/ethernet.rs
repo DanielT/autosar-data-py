@@ -1,5 +1,5 @@
-use crate::abstraction::communication::{EthernetPhysicalChannel, EthernetVlanInfo};
 use crate::abstraction::AutosarAbstractionError;
+use crate::abstraction::communication::{EthernetPhysicalChannel, EthernetVlanInfo};
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::communication::AbstractCluster;
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
@@ -11,7 +11,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EthernetCluster(

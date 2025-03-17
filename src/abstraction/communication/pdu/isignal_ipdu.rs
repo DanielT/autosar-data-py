@@ -1,17 +1,16 @@
 use crate::{
+    Element,
     abstraction::{
-        abstraction_err_to_pyerr,
+        AutosarAbstractionError, ByteOrder, abstraction_err_to_pyerr,
         communication::{
             ContainedIPduProps, ISignal, ISignalGroup, PduTriggering, TransferProperty,
         },
-        iterator_wrapper, AutosarAbstractionError, ByteOrder,
+        iterator_wrapper,
     },
-    Element,
 };
 use autosar_data_abstraction::{
-    self,
+    self, AbstractionElement, IdentifiableAbstractionElement,
     communication::{AbstractIpdu, AbstractPdu},
-    AbstractionElement, IdentifiableAbstractionElement,
 };
 use pyo3::prelude::*;
 
@@ -21,7 +20,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ISignalIPdu(pub(crate) autosar_data_abstraction::communication::ISignalIPdu);
@@ -160,7 +159,7 @@ impl ISignalIPdu {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ISignalToIPduMapping(
@@ -264,7 +263,7 @@ iterator_wrapper!(ISignalToIPduMappingIterator, ISignalToIPduMapping);
 /// Timing specification for an IPDU
 #[pyclass(
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication",
+    module = "autosar_data._autosar_data._abstraction._communication",
     get_all,
     set_all
 )]
@@ -385,7 +384,7 @@ impl PartialEq for IpduTiming {
 /// Cyclic and event controlled timing parameters for an IPDU
 #[pyclass(
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication",
+    module = "autosar_data._autosar_data._abstraction._communication",
     get_all,
     set_all
 )]
@@ -496,7 +495,7 @@ impl PartialEq for TransmissionModeTiming {
 /// Cyclic timing parameters for an IPDU
 #[pyclass(
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication",
+    module = "autosar_data._autosar_data._abstraction._communication",
     get_all,
     set_all
 )]
@@ -566,7 +565,7 @@ impl std::fmt::Debug for CyclicTiming {
 /// Event controlled timing parameters for an IPDU
 #[pyclass(
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication",
+    module = "autosar_data._autosar_data._abstraction._communication",
     get_all,
     set_all
 )]

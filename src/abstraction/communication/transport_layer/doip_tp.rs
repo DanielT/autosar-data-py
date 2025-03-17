@@ -1,10 +1,10 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        communication::{EthernetCluster, PduTriggering},
-        iterator_wrapper, AutosarAbstractionError,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, abstraction_err_to_pyerr,
+        communication::{EthernetCluster, PduTriggering},
+        iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;
@@ -13,7 +13,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DoIpTpConfig(pub(crate) autosar_data_abstraction::communication::DoIpTpConfig);
@@ -109,7 +109,7 @@ impl DoIpTpConfig {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DoIpLogicAddress(
@@ -171,7 +171,7 @@ iterator_wrapper!(DoIpLogicAddressIterator, DoIpLogicAddress);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DoIpTpConnection(

@@ -1,8 +1,9 @@
-use crate::abstraction::communication::{
-    pyany_to_pdu, CommunicationDirection, FlexrayPhysicalChannel, FramePort, FramePortIterator,
-    PduToFrameMapping, PduToFrameMappingIterator, PduTriggering, PduTriggeringIterator,
-};
 use crate::abstraction::AutosarAbstractionError;
+use crate::abstraction::communication::{
+    CommunicationDirection, FlexrayPhysicalChannel, FramePort, FramePortIterator,
+    PduToFrameMapping, PduToFrameMappingIterator, PduTriggering, PduTriggeringIterator,
+    pyany_to_pdu,
+};
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::communication::{AbstractFrame, AbstractFrameTriggering};
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
@@ -13,7 +14,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayFrame(pub(crate) autosar_data_abstraction::communication::FlexrayFrame);
@@ -105,7 +106,7 @@ impl FlexrayFrame {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayFrameTriggering(
@@ -221,7 +222,7 @@ impl FlexrayFrameTriggering {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication",
+    module = "autosar_data._autosar_data._abstraction._communication",
     get_all,
     set_all
 )]
@@ -288,9 +289,7 @@ impl FlexrayCommunicationCycle {
     fn __repr__(&self) -> String {
         match self {
             FlexrayCommunicationCycle::Counter { cycle_counter } => {
-                format!(
-                    "FlexrayCommunicationCycle.Counter( cycle_counter: {cycle_counter} )"
-                )
+                format!("FlexrayCommunicationCycle.Counter( cycle_counter: {cycle_counter} )")
             }
             FlexrayCommunicationCycle::Repetition {
                 base_cycle,
@@ -309,7 +308,7 @@ impl FlexrayCommunicationCycle {
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CycleRepetition {

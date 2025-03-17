@@ -1,7 +1,7 @@
 use crate::{ArxmlFile, AutosarModel, AutosarVersion, Element};
+use pyo3::PyTypeInfo;
 use pyo3::create_exception;
 use pyo3::prelude::*;
-use pyo3::PyTypeInfo;
 
 mod communication;
 mod datatype;
@@ -29,7 +29,7 @@ create_exception!(
 // they can all be wrapped using the same method.
 macro_rules! iterator_wrapper {
     ($iter_name:ident, $item_name:ident) => {
-        #[pyclass(module = "autosar_data.autosar_data.abstraction")]
+        #[pyclass(module = "autosar_data._autosar_data._abstraction")]
         pub(crate) struct $iter_name {
             iter: Box<dyn Iterator<Item = $item_name> + Sync + Send + 'static>,
         }
@@ -65,7 +65,7 @@ pub(crate) use iterator_wrapper;
 
 //##################################################################
 
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction")]
+#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
 #[derive(Clone, PartialEq)]
 pub(crate) struct AutosarModelAbstraction(
     pub(crate) autosar_data_abstraction::AutosarModelAbstraction,
@@ -177,7 +177,7 @@ iterator_wrapper!(ModelFilesIterator, ArxmlFile);
 //##################################################################
 
 /// The `ByteOrder` is used to define the order of bytes in a multi-byte value
-#[pyclass(frozen, eq, eq_int, module = "autosar_data.autosar_data.abstraction")]
+#[pyclass(frozen, eq, eq_int, module = "autosar_data._autosar_data._abstraction")]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ByteOrder {
     /// Most significant byte at the lowest address = big endian
@@ -219,7 +219,7 @@ impl From<ByteOrder> for autosar_data_abstraction::ByteOrder {
 //##################################################################
 
 pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> PyResult<()> {
-    let abstraction = PyModule::new(py, "abstraction")?;
+    let abstraction = PyModule::new(py, "_abstraction")?;
     parent.add_submodule(&abstraction)?;
     abstraction.add_class::<AutosarModelAbstraction>()?;
     abstraction.add_class::<ByteOrder>()?;
@@ -230,7 +230,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     abstraction.add_class::<system::SystemCategory>()?;
     abstraction.add_class::<system::SystemMapping>()?;
 
-    let communication = PyModule::new(py, "communication")?;
+    let communication = PyModule::new(py, "_communication")?;
     abstraction.add_submodule(&communication)?;
     communication.add_class::<communication::CanAddressingMode>()?;
     communication.add_class::<communication::CanCluster>()?;
@@ -383,7 +383,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     communication.add_class::<communication::UdpNmClusterSettings>()?;
     communication.add_class::<communication::UdpNmNode>()?;
 
-    let datatype = PyModule::new(py, "datatype")?;
+    let datatype = PyModule::new(py, "_datatype")?;
     abstraction.add_submodule(&datatype)?;
     datatype.add_class::<datatype::ApplicationArrayDataType>()?;
     datatype.add_class::<datatype::ApplicationArrayElement>()?;
@@ -506,7 +506,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
         datatype::ImplementationDataTypeSettings_Value::type_object(py),
     )?;
 
-    let ecu_configuration = PyModule::new(py, "ecu_configuration")?;
+    let ecu_configuration = PyModule::new(py, "_ecu_configuration")?;
     abstraction.add_submodule(&ecu_configuration)?;
     ecu_configuration.add_class::<ecu_configuration::EcucAddInfoParamDef>()?;
     ecu_configuration.add_class::<ecu_configuration::EcucAddInfoParamValue>()?;
@@ -542,7 +542,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     ecu_configuration.add_class::<ecu_configuration::EcucUriReferenceDef>()?;
     ecu_configuration.add_class::<ecu_configuration::EcucValueCollection>()?;
 
-    let software_component = PyModule::new(py, "software_component")?;
+    let software_component = PyModule::new(py, "_software_component")?;
     abstraction.add_submodule(&software_component)?;
     software_component.add_class::<software_component::ApplicationError>()?;
     software_component.add_class::<software_component::ApplicationSwComponentType>()?;
@@ -593,36 +593,63 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     // See also https://github.com/PyO3/pyo3/issues/1517#issuecomment-808664021
     let sys_modules = py.import("sys")?.getattr("modules")?;
 
-    sys_modules.set_item("autosar_data.abstraction", &abstraction)?;
-    sys_modules.set_item("autosar_data.abstraction.communication", &communication)?;
-    sys_modules.set_item("autosar_data.abstraction.datatype", &datatype)?;
+    sys_modules.set_item("autosar_data._autosar_data._abstraction", &abstraction)?;
     sys_modules.set_item(
-        "autosar_data.abstraction.ecu_configuration",
+        "autosar_data._autosar_data._abstraction._communication",
+        &communication,
+    )?;
+    sys_modules.set_item(
+        "autosar_data._autosar_data._abstraction._datatype",
+        &datatype,
+    )?;
+    sys_modules.set_item(
+        "autosar_data._autosar_data._abstraction._ecu_configuration",
         &ecu_configuration,
     )?;
     sys_modules.set_item(
-        "autosar_data.abstraction.software_component",
+        "autosar_data._autosar_data._abstraction._software_component",
         &software_component,
     )?;
 
     // Workaround proposed by amorenoz in Pyo3 issue #4870
     // This allows griffe to find the submodules; griffe is used by mkdocs
-    abstraction.setattr("__module__", "autosar_data.autosar_data.abstraction")?;
+    abstraction.setattr("__module__", "autosar_data._autosar_data._abstraction")?;
+    abstraction.setattr("__name__", "autosar_data._autosar_data._abstraction")?;
+
     communication.setattr(
         "__module__",
-        "autosar_data.autosar_data.abstraction.communication",
+        "autosar_data._autosar_data._abstraction._communication",
     )?;
+    communication.setattr(
+        "__name__",
+        "autosar_data._autosar_data._abstraction._communication",
+    )?;
+
     datatype.setattr(
         "__module__",
-        "autosar_data.autosar_data.abstraction.datatype",
+        "autosar_data._autosar_data._abstraction._datatype",
     )?;
+    datatype.setattr(
+        "__name__",
+        "autosar_data._autosar_data._abstraction._datatype",
+    )?;
+
     ecu_configuration.setattr(
         "__module__",
-        "autosar_data.autosar_data.abstraction.ecu_configuration",
+        "autosar_data._autosar_data._abstraction._ecu_configuration",
     )?;
+    ecu_configuration.setattr(
+        "__name__",
+        "autosar_data._autosar_data._abstraction._ecu_configuration",
+    )?;
+
     software_component.setattr(
         "__module__",
-        "autosar_data.autosar_data.abstraction.software_component",
+        "autosar_data._autosar_data._abstraction._software_component",
+    )?;
+    software_component.setattr(
+        "__name__",
+        "autosar_data._autosar_data._abstraction._software_component",
     )?;
 
     Ok(())

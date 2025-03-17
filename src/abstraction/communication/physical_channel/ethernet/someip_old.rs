@@ -1,10 +1,10 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        communication::{SoAdRoutingGroup, SoAdRoutingGroupIterator, SocketAddress},
-        iterator_wrapper, AutosarAbstractionError,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, abstraction_err_to_pyerr,
+        communication::{SoAdRoutingGroup, SoAdRoutingGroupIterator, SocketAddress},
+        iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;
@@ -15,7 +15,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ProvidedServiceInstanceV1(
@@ -123,7 +123,7 @@ iterator_wrapper!(ProvidedServiceInstanceV1Iterator, ProvidedServiceInstanceV1);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EventHandlerV1(
@@ -217,7 +217,7 @@ iterator_wrapper!(EventHandlerV1Iterator, EventHandlerV1);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ConsumedServiceInstanceV1(
@@ -315,7 +315,7 @@ iterator_wrapper!(ConsumedServiceInstanceV1Iterator, ConsumedServiceInstanceV1);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ConsumedEventGroupV1(
@@ -435,7 +435,7 @@ iterator_wrapper!(ConsumedEventGroupV1Iterator, ConsumedEventGroupV1);
     eq,
     get_all,
     set_all,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct SdConfig {
@@ -539,7 +539,7 @@ impl SdConfig {
     eq,
     get_all,
     set_all,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub struct SdEventConfig {

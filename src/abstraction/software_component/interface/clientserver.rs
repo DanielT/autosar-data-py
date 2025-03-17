@@ -12,7 +12,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ClientServerInterface(
@@ -87,7 +87,7 @@ impl ClientServerInterface {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ApplicationError(
@@ -150,7 +150,7 @@ iterator_wrapper!(ApplicationErrorIterator, ApplicationError);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ClientServerOperation(
@@ -241,7 +241,7 @@ iterator_wrapper!(ClientServerOperationIterator, ClientServerOperation);
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ArgumentDirection {
@@ -279,7 +279,7 @@ impl From<ArgumentDirection> for autosar_data_abstraction::software_component::A
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ArgumentDataPrototype(

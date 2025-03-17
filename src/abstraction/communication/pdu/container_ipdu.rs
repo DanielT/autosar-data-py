@@ -1,18 +1,16 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        communication::{
-            pyany_to_ipdu, pyany_to_physical_channel, PduCollectionTrigger, PduTriggering,
-            PduTriggeringIterator,
-        },
-        AutosarAbstractionError,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, abstraction_err_to_pyerr,
+        communication::{
+            PduCollectionTrigger, PduTriggering, PduTriggeringIterator, pyany_to_ipdu,
+            pyany_to_physical_channel,
+        },
+    },
 };
 use autosar_data_abstraction::{
-    self,
+    self, AbstractionElement, IdentifiableAbstractionElement,
     communication::{AbstractIpdu, AbstractPdu},
-    AbstractionElement, IdentifiableAbstractionElement,
 };
 use pyo3::prelude::*;
 
@@ -22,7 +20,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ContainerIPdu(pub(crate) autosar_data_abstraction::communication::ContainerIPdu);
@@ -182,7 +180,7 @@ impl ContainerIPdu {
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum ContainerIPduHeaderType {
@@ -237,7 +235,7 @@ impl From<ContainerIPduHeaderType>
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum RxAcceptContainedIPdu {
@@ -286,7 +284,7 @@ impl From<RxAcceptContainedIPdu>
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum ContainedIPduCollectionSemantics {
@@ -336,7 +334,7 @@ impl From<ContainedIPduCollectionSemantics>
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 pub enum ContainerIPduTrigger {
     /// transmission of the ContainerIPdu shall be requested when the default trigger conditions apply
@@ -379,7 +377,7 @@ impl From<ContainerIPduTrigger> for autosar_data_abstraction::communication::Con
     get_all,
     set_all,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub struct ContainedIPduProps {

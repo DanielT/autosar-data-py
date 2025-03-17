@@ -1,17 +1,15 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        communication::{
-            pyany_to_ipdu, pyany_to_physical_channel, ContainedIPduProps, PduTriggering,
-        },
-        AutosarAbstractionError,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, abstraction_err_to_pyerr,
+        communication::{
+            ContainedIPduProps, PduTriggering, pyany_to_ipdu, pyany_to_physical_channel,
+        },
+    },
 };
 use autosar_data_abstraction::{
-    self,
+    self, AbstractionElement, IdentifiableAbstractionElement,
     communication::{AbstractIpdu, AbstractPdu},
-    AbstractionElement, IdentifiableAbstractionElement,
 };
 use pyo3::prelude::*;
 
@@ -21,7 +19,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SecuredIPdu(pub(crate) autosar_data_abstraction::communication::SecuredIPdu);
@@ -171,7 +169,7 @@ impl SecuredIPdu {
     get_all,
     set_all,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Default)]
 pub struct SecureCommunicationProps {

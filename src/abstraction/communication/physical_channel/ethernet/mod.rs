@@ -1,8 +1,8 @@
-use crate::abstraction::communication::{
-    pyany_to_pdu, EthernetCluster, GeneralPurposePdu, ISignalTriggering, PduCollectionTrigger,
-    PduTriggering, PduTriggeringIterator, SignalTriggeringsIterator,
-};
 use crate::abstraction::AutosarAbstractionError;
+use crate::abstraction::communication::{
+    EthernetCluster, GeneralPurposePdu, ISignalTriggering, PduCollectionTrigger, PduTriggering,
+    PduTriggeringIterator, SignalTriggeringsIterator, pyany_to_pdu,
+};
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::communication::AbstractPhysicalChannel;
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
@@ -22,7 +22,7 @@ pub(crate) use someip_old::*;
 //##################################################################
 
 /// Provides information about the VLAN of an [`EthernetPhysicalChannel`]
-#[pyclass(eq, module = "autosar_data.autosar_data.abstraction.communication")]
+#[pyclass(eq, module = "autosar_data._autosar_data._abstraction._communication")]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EthernetVlanInfo(
     pub(crate) autosar_data_abstraction::communication::EthernetVlanInfo,
@@ -71,7 +71,7 @@ impl EthernetVlanInfo {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub struct EthernetPhysicalChannel(
@@ -333,7 +333,7 @@ impl EthernetPhysicalChannel {
     eq,
     set_all,
     get_all,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct CommonServiceDiscoveryConfig {
@@ -405,7 +405,7 @@ impl CommonServiceDiscoveryConfig {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct StaticSocketConnection(
@@ -519,7 +519,7 @@ iterator_wrapper!(StaticSocketConnectionIterator, StaticSocketConnection);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct SocketConnectionIpduIdentifierSet(
@@ -597,7 +597,7 @@ impl SocketConnectionIpduIdentifierSet {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct SoConIPduIdentifier(
@@ -705,7 +705,7 @@ iterator_wrapper!(SoConIPduIdentifierIterator, SoConIPduIdentifier);
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TcpRole {
@@ -740,7 +740,7 @@ impl From<TcpRole> for autosar_data_abstraction::communication::TcpRole {
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EventGroupControlType {

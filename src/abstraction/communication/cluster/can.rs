@@ -1,12 +1,12 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr, communication::CanPhysicalChannel, AutosarAbstractionError,
-        System,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, System, abstraction_err_to_pyerr,
+        communication::CanPhysicalChannel,
+    },
 };
 use autosar_data_abstraction::{
-    self, communication::AbstractCluster, AbstractionElement, IdentifiableAbstractionElement,
+    self, AbstractionElement, IdentifiableAbstractionElement, communication::AbstractCluster,
 };
 use pyo3::prelude::*;
 
@@ -17,7 +17,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanCluster(pub(crate) autosar_data_abstraction::communication::CanCluster);

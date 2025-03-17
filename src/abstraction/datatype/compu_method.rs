@@ -7,7 +7,11 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 /// A `CompuMethod` describes the conversion between physical and internal values
 ///
 /// Use [`ArPackage::create_compu_method`] to create a new `CompuMethod`
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct CompuMethod(pub(crate) autosar_data_abstraction::datatype::CompuMethod);
 
@@ -108,7 +112,7 @@ iterator_wrapper!(PhysToIntCompuScaleIterator, CompuScale);
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.datatype"
+    module = "autosar_data._autosar_data._abstraction._datatype"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum CompuMethodCategory {
@@ -166,7 +170,11 @@ impl From<autosar_data_abstraction::datatype::CompuMethodCategory> for CompuMeth
 //#########################################################
 
 /// A `CompuScale` describes the conversion between physical and internal values, as well as the limits of the scale
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CompuScale(autosar_data_abstraction::datatype::CompuScale);
 
@@ -272,7 +280,7 @@ impl CompuScale {
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.datatype"
+    module = "autosar_data._autosar_data._abstraction._datatype"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum CompuScaleDirection {
@@ -305,7 +313,7 @@ impl From<autosar_data_abstraction::datatype::CompuScaleDirection> for CompuScal
 /// Rational coefficients of a CompuScale
 #[pyclass(
     eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all
 )]
@@ -354,7 +362,7 @@ impl PartialEq for CompuScaleRationalCoefficients {
 /// Content of a `CompuMethod`
 #[pyclass(
     frozen,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     subclass
 )]
 pub(crate) struct CompuMethodContent();
@@ -366,7 +374,7 @@ pub(crate) struct CompuMethodContent();
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     extends = CompuMethodContent
 )]
 #[derive(PartialEq)]
@@ -396,7 +404,7 @@ impl std::fmt::Debug for CompuMethodContent_Identical {
 #[allow(non_camel_case_types)]
 #[pyclass(
     get_all, set_all, eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     extends = CompuMethodContent
 )]
 #[derive(PartialEq)]
@@ -457,7 +465,12 @@ impl std::fmt::Debug for CompuMethodContent_Linear {
         write!(
             f,
             "CompuMethodContent.Linear( direction: {:?}, offset: {}, factor: {}, divisor: {}, lower_limit: {:?}, upper_limit: {:?})",
-            self.direction, self.offset, self.factor, self.divisor, self.lower_limit, self.upper_limit
+            self.direction,
+            self.offset,
+            self.factor,
+            self.divisor,
+            self.lower_limit,
+            self.upper_limit
         )
     }
 }
@@ -468,7 +481,7 @@ impl std::fmt::Debug for CompuMethodContent_Linear {
 #[allow(non_camel_case_types)]
 #[pyclass(
         get_all, set_all, eq,
-        module = "autosar_data.autosar_data.abstraction.datatype",
+        module = "autosar_data._autosar_data._abstraction._datatype",
         extends = CompuMethodContent
     )]
 pub(crate) struct CompuMethodContent_ScaleLinear {
@@ -517,7 +530,7 @@ impl std::fmt::Debug for CompuMethodContent_ScaleLinear {
 #[allow(non_camel_case_types)]
 #[pyclass(
     get_all, set_all, eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     extends = CompuMethodContent
 )]
 #[derive(PartialEq)]
@@ -574,7 +587,7 @@ impl std::fmt::Debug for CompuMethodContent_Rational {
         write!(
             f,
             "CompuMethodContent.Rational( direction: {:?}, denominator: {:?}, numerator: {:?}, lower_limit: {}, upper_limit: {})",
-            self.direction, self.denominator, self.numerator,self.lower_limit, self.upper_limit
+            self.direction, self.denominator, self.numerator, self.lower_limit, self.upper_limit
         )
     }
 }
@@ -585,7 +598,7 @@ impl std::fmt::Debug for CompuMethodContent_Rational {
 #[allow(non_camel_case_types)]
 #[pyclass(
     get_all, set_all, eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     extends = CompuMethodContent
 )]
 pub(crate) struct CompuMethodContent_ScaleRational {
@@ -635,7 +648,7 @@ impl std::fmt::Debug for CompuMethodContent_ScaleRational {
 #[allow(non_camel_case_types)]
 #[pyclass(
     get_all, set_all, eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     extends = CompuMethodContent
 )]
 pub(crate) struct CompuMethodContent_TextTable {
@@ -681,7 +694,7 @@ impl std::fmt::Debug for CompuMethodContent_TextTable {
 #[allow(non_camel_case_types)]
 #[pyclass(
     get_all, set_all, eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     extends = CompuMethodContent
 )]
 pub(crate) struct CompuMethodContent_BitfieldTextTable {
@@ -733,7 +746,7 @@ impl std::fmt::Debug for CompuMethodContent_BitfieldTextTable {
 #[allow(non_camel_case_types)]
 #[pyclass(
     get_all, set_all, eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     extends = CompuMethodContent
 )]
 pub(crate) struct CompuMethodContent_ScaleLinearAndTextTable {
@@ -797,7 +810,7 @@ impl std::fmt::Debug for CompuMethodContent_ScaleLinearAndTextTable {
 #[allow(non_camel_case_types)]
 #[pyclass(
     get_all, set_all, eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     extends = CompuMethodContent
 )]
 pub(crate) struct CompuMethodContent_ScaleRationalAndTextTable {
@@ -861,7 +874,7 @@ impl std::fmt::Debug for CompuMethodContent_ScaleRationalAndTextTable {
 #[allow(non_camel_case_types)]
 #[pyclass(
     get_all, set_all, eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     extends = CompuMethodContent
 )]
 pub(crate) struct CompuMethodContent_TabNoInterpretation {
@@ -1375,7 +1388,7 @@ fn compare_pylist<T: pyo3::PyClass + pyo3::PyTypeInfo + PartialEq>(
 /// Linear conversion parameters for CompuMethodScaleLinearContent and CompuMethodScaleLinearAndTextTable
 #[pyclass(
     eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all
 )]
@@ -1428,7 +1441,7 @@ impl LinearConversionParameters {
 /// Description of the content of a `CompuMethod` whose category is `Rational`
 #[pyclass(
     eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all
 )]
@@ -1496,7 +1509,7 @@ impl PartialEq for RationalConversionParameters {
 /// A single entry of a text table conversion
 #[pyclass(
     eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all
 )]
@@ -1528,7 +1541,7 @@ impl TextTableEntry {
 /// A single entry of a bitfield text table conversion
 #[pyclass(
     eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all
 )]
@@ -1563,7 +1576,7 @@ impl BitfieldEntry {
 /// a single entry of a `CompuMethod` whose category is `TabNoInterpretation`
 #[pyclass(
     eq,
-    module = "autosar_data.autosar_data.abstraction.datatype",
+    module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all
 )]

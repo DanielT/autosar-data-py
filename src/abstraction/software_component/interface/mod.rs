@@ -15,7 +15,7 @@ pub(crate) use senderreceiver::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ModeSwitchInterface(
@@ -62,7 +62,7 @@ impl ModeSwitchInterface {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ParameterInterface(
@@ -109,7 +109,7 @@ impl ParameterInterface {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct NvDataInterface(
@@ -156,7 +156,7 @@ impl NvDataInterface {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct TriggerInterface(

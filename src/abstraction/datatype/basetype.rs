@@ -1,6 +1,6 @@
 use crate::{
-    abstraction::{abstraction_err_to_pyerr, AutosarAbstractionError, ByteOrder},
     Element,
+    abstraction::{AutosarAbstractionError, ByteOrder, abstraction_err_to_pyerr},
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;

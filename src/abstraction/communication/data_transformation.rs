@@ -10,7 +10,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DataTransformationSet(
@@ -106,7 +106,7 @@ impl DataTransformationSet {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DataTransformation(
@@ -170,7 +170,7 @@ iterator_wrapper!(DataTransformationIterator, DataTransformation);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct TransformationTechnology(
@@ -312,7 +312,7 @@ fn transformation_technology_config_to_pyobject(
     get_all,
     set_all,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) struct GenericTransformationTechnologyConfig {
@@ -387,7 +387,7 @@ impl GenericTransformationTechnologyConfig {
     get_all,
     set_all,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) struct ComTransformationTechnologyConfig {
@@ -441,7 +441,7 @@ impl ComTransformationTechnologyConfig {
     get_all,
     set_all,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) struct E2ETransformationTechnologyConfig {
@@ -637,7 +637,7 @@ impl E2ETransformationTechnologyConfig {
     get_all,
     set_all,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) struct SomeIpTransformationTechnologyConfig {
@@ -700,7 +700,7 @@ impl SomeIpTransformationTechnologyConfig {
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum E2EProfile {
@@ -783,7 +783,7 @@ impl From<autosar_data_abstraction::communication::E2EProfile> for E2EProfile {
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum E2EProfileBehavior {
@@ -827,7 +827,7 @@ impl From<autosar_data_abstraction::communication::E2EProfileBehavior> for E2EPr
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum DataIdMode {
@@ -877,7 +877,7 @@ impl From<autosar_data_abstraction::communication::DataIdMode> for DataIdMode {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EndToEndTransformationISignalProps(
@@ -996,7 +996,7 @@ impl EndToEndTransformationISignalProps {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SomeIpTransformationISignalProps(
@@ -1158,7 +1158,7 @@ impl SomeIpTransformationISignalProps {
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SomeIpMessageType {

@@ -1,7 +1,7 @@
+use crate::abstraction::AutosarAbstractionError;
 use crate::abstraction::communication::{
     CanCluster, CanCommunicationController, NmEcu, NmPdu, NmPduIterator,
 };
-use crate::abstraction::AutosarAbstractionError;
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::communication::{
     AbstractNmCluster, AbstractNmClusterCoupling, AbstractNmNode,
@@ -14,7 +14,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanNmCluster(pub(crate) autosar_data_abstraction::communication::CanNmCluster);
@@ -317,7 +317,7 @@ iterator_wrapper!(CanNmClusterIterator, CanNmCluster);
     eq,
     get_all,
     set_all,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct CanNmClusterSettings {
@@ -398,7 +398,7 @@ impl CanNmClusterSettings {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanNmClusterCoupling(
@@ -479,7 +479,7 @@ impl CanNmClusterCoupling {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanNmNode(pub(crate) autosar_data_abstraction::communication::CanNmNode);

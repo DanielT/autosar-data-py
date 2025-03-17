@@ -1,6 +1,6 @@
 # Stub file for ecu_configuration
 
-from typing import *
+from typing import final, Iterator, List, Optional, Tuple, TypeAlias, Union
 from autosar_data import Element
 from autosar_data.abstraction import System
 

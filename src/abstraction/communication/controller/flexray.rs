@@ -1,5 +1,5 @@
-use crate::abstraction::communication::FlexrayPhysicalChannel;
 use crate::abstraction::AutosarAbstractionError;
+use crate::abstraction::communication::FlexrayPhysicalChannel;
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::communication::{
     AbstractCommunicationConnector, AbstractCommunicationController,
@@ -12,7 +12,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayCommunicationController(
@@ -98,7 +98,7 @@ iterator_wrapper!(FlexrayPhysicalChannelIterator, FlexrayPhysicalChannel);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayCommunicationConnector(

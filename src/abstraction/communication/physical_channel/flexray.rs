@@ -1,8 +1,8 @@
+use crate::abstraction::AutosarAbstractionError;
 use crate::abstraction::communication::{
     FlexrayCluster, FlexrayCommunicationCycle, FlexrayFrame, FlexrayFrameTriggering,
     ISignalTriggering, PduTriggering, PduTriggeringIterator, SignalTriggeringsIterator,
 };
-use crate::abstraction::AutosarAbstractionError;
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::communication::AbstractPhysicalChannel;
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
@@ -11,7 +11,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayPhysicalChannel(
@@ -109,7 +109,7 @@ iterator_wrapper!(FlexrayFrameTriggeringsIterator, FlexrayFrameTriggering);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FlexrayChannelName {

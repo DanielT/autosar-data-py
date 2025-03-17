@@ -1,18 +1,18 @@
 use crate::{
+    Element,
     abstraction::{
-        abstraction_err_to_pyerr,
+        AutosarAbstractionError, EcuInstance, abstraction_err_to_pyerr,
         communication::{
             CanPhysicalChannel, CommunicationDirection, DataTransformation,
             EndToEndTransformationISignalProps, EthernetPhysicalChannel, FlexrayPhysicalChannel,
             ISignalToIPduMapping, SomeIpTransformationISignalProps, TransformationTechnology,
         },
         datatype::{CompuMethod, DataConstr, SwBaseType, Unit},
-        iterator_wrapper, AutosarAbstractionError, EcuInstance,
+        iterator_wrapper,
     },
-    Element,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
-use pyo3::{prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, prelude::*};
 
 //##################################################################
 

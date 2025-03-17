@@ -1,8 +1,7 @@
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::{
-    self,
+    self, AbstractionElement, IdentifiableAbstractionElement,
     software_component::{AbstractSwComponentType, AtomicSwComponentType},
-    AbstractionElement, IdentifiableAbstractionElement,
 };
 
 mod connector;
@@ -23,7 +22,7 @@ pub(crate) use port::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CompositionSwComponentType(
@@ -270,7 +269,7 @@ impl CompositionSwComponentType {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ApplicationSwComponentType(
@@ -420,7 +419,7 @@ impl ApplicationSwComponentType {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ComplexDeviceDriverSwComponentType(
@@ -571,7 +570,7 @@ impl ComplexDeviceDriverSwComponentType {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ServiceSwComponentType(
@@ -721,7 +720,7 @@ impl ServiceSwComponentType {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SensorActuatorSwComponentType(
@@ -872,7 +871,7 @@ impl SensorActuatorSwComponentType {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcuAbstractionSwComponentType(
@@ -1073,7 +1072,7 @@ pub(crate) fn sw_component_type_to_pyobject(
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SwComponentPrototype(
@@ -1137,7 +1136,7 @@ pub(crate) fn component_prototype_to_pyobject(
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct RootSwCompositionPrototype(

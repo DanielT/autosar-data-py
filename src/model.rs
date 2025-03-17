@@ -1,5 +1,5 @@
-use std::collections::hash_map::DefaultHasher;
 use std::collections::HashMap;
+use std::collections::hash_map::DefaultHasher;
 use std::hash::Hash;
 use std::hash::Hasher;
 
@@ -25,10 +25,18 @@ impl AutosarModel {
         match op {
             pyo3::pyclass::CompareOp::Eq => Ok(self.0 == other.0),
             pyo3::pyclass::CompareOp::Ne => Ok(self.0 != other.0),
-            pyo3::pyclass::CompareOp::Lt => Err(pyo3::exceptions::PyTypeError::new_err("'<' is not supported between instances of 'builtins.AutosarModel' and 'builtins.AutosarModel'")),
-            pyo3::pyclass::CompareOp::Le => Err(pyo3::exceptions::PyTypeError::new_err("'<=' is not supported between instances of 'builtins.AutosarModel' and 'builtins.AutosarModel'")),
-            pyo3::pyclass::CompareOp::Gt => Err(pyo3::exceptions::PyTypeError::new_err("'>' is not supported between instances of 'builtins.AutosarModel' and 'builtins.AutosarModel'")),
-            pyo3::pyclass::CompareOp::Ge => Err(pyo3::exceptions::PyTypeError::new_err("'>=' is not supported between instances of 'builtins.AutosarModel' and 'builtins.AutosarModel'")),
+            pyo3::pyclass::CompareOp::Lt => Err(pyo3::exceptions::PyTypeError::new_err(
+                "'<' is not supported between instances of 'builtins.AutosarModel' and 'builtins.AutosarModel'",
+            )),
+            pyo3::pyclass::CompareOp::Le => Err(pyo3::exceptions::PyTypeError::new_err(
+                "'<=' is not supported between instances of 'builtins.AutosarModel' and 'builtins.AutosarModel'",
+            )),
+            pyo3::pyclass::CompareOp::Gt => Err(pyo3::exceptions::PyTypeError::new_err(
+                "'>' is not supported between instances of 'builtins.AutosarModel' and 'builtins.AutosarModel'",
+            )),
+            pyo3::pyclass::CompareOp::Ge => Err(pyo3::exceptions::PyTypeError::new_err(
+                "'>=' is not supported between instances of 'builtins.AutosarModel' and 'builtins.AutosarModel'",
+            )),
         }
     }
 

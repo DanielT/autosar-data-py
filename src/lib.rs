@@ -2,8 +2,8 @@ use std::str::FromStr;
 
 use ::autosar_data as autosar_data_rs;
 use autosar_data_rs::CharacterData;
-use autosar_data_specification::expand_version_mask;
 use autosar_data_specification::CharacterDataSpec;
+use autosar_data_specification::expand_version_mask;
 use pyo3::create_exception;
 use pyo3::exceptions::{PyTypeError, PyValueError};
 use pyo3::intern;
@@ -23,7 +23,11 @@ mod version;
 use pyo3::IntoPyObjectExt;
 use version::AutosarVersion;
 
-create_exception!(autosar_data.autosar_data, AutosarDataError, pyo3::exceptions::PyException);
+create_exception!(
+    autosar_data.autosar_data,
+    AutosarDataError,
+    pyo3::exceptions::PyException
+);
 
 #[pyclass(frozen, module = "autosar_data.autosar_data")]
 /// Autosar data model. It contains all elements.
@@ -472,7 +476,7 @@ fn check_buffer(input: PyObject) -> PyResult<bool> {
 ///
 /// - __version__
 #[pymodule]
-fn autosar_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
+fn _autosar_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<ElementType>()?;
     m.add_class::<AutosarVersion>()?;
     m.add_class::<AutosarModel>()?;

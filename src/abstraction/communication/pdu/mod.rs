@@ -1,18 +1,19 @@
 use crate::{
+    Element,
     abstraction::{
-        abstraction_err_to_pyerr,
+        AutosarAbstractionError, EcuInstance, abstraction_err_to_pyerr,
         communication::{
             CanPhysicalChannel, CommunicationDirection, EthernetPhysicalChannel,
             FlexrayPhysicalChannel, ISignalTriggering,
         },
-        iterator_wrapper, AutosarAbstractionError, EcuInstance,
+        iterator_wrapper,
     },
-    Element,
 };
 use autosar_data_abstraction::{
-    self, communication::{AbstractIpdu, AbstractPdu}, AbstractionElement, IdentifiableAbstractionElement,
+    self, AbstractionElement, IdentifiableAbstractionElement,
+    communication::{AbstractIpdu, AbstractPdu},
 };
-use pyo3::{prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, prelude::*};
 
 pub(crate) mod container_ipdu;
 pub(crate) mod isignal_ipdu;
@@ -28,7 +29,7 @@ pub(crate) use secured_ipdu::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct NmPdu(pub(crate) autosar_data_abstraction::communication::NmPdu);
@@ -92,7 +93,7 @@ impl NmPdu {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct NPdu(pub(crate) autosar_data_abstraction::communication::NPdu);
@@ -178,7 +179,7 @@ iterator_wrapper!(NPduIterator, NPdu);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DcmIPdu(pub(crate) autosar_data_abstraction::communication::DcmIPdu);
@@ -260,7 +261,7 @@ impl DcmIPdu {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct GeneralPurposePdu(
@@ -348,7 +349,7 @@ impl GeneralPurposePdu {
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum GeneralPurposePduCategory {
@@ -402,7 +403,7 @@ impl From<GeneralPurposePduCategory>
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct GeneralPurposeIPdu(
@@ -508,7 +509,7 @@ impl GeneralPurposeIPdu {
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum GeneralPurposeIPduCategory {
@@ -550,7 +551,7 @@ impl From<GeneralPurposeIPduCategory>
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct MultiplexedIPdu(
@@ -635,7 +636,7 @@ impl MultiplexedIPdu {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct PduTriggering(pub(crate) autosar_data_abstraction::communication::PduTriggering);
@@ -731,7 +732,7 @@ iterator_wrapper!(SignalTriggeringsIterator, ISignalTriggering);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct IPduPort(pub(crate) autosar_data_abstraction::communication::IPduPort);
@@ -799,7 +800,7 @@ impl IPduPort {
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PduCollectionTrigger {

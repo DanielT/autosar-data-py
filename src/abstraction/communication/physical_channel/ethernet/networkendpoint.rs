@@ -6,7 +6,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct NetworkEndpoint(
@@ -73,7 +73,7 @@ iterator_wrapper!(NetworkEndpointIterator, NetworkEndpoint);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum NetworkEndpointAddress {
@@ -171,7 +171,9 @@ impl NetworkEndpointAddress {
             } => format!(
                 "NetworkEndpointAddress.IPv4(address={}, address_source={:?}, default_gateway={}, network_mask={})",
                 address.as_deref().unwrap_or("None"),
-                address_source.as_ref().map_or("None".to_string(), |v| format!("{v:?}")),
+                address_source
+                    .as_ref()
+                    .map_or("None".to_string(), |v| format!("{v:?}")),
                 default_gateway.as_deref().unwrap_or("None"),
                 network_mask.as_deref().unwrap_or("None")
             ),
@@ -182,7 +184,9 @@ impl NetworkEndpointAddress {
             } => format!(
                 "NetworkEndpointAddress.IPv6(address={}, address_source={:?}, default_router={})",
                 address.as_deref().unwrap_or("None"),
-                address_source.as_ref().map_or("None".to_string(), |v| format!("{v:?}")),
+                address_source
+                    .as_ref()
+                    .map_or("None".to_string(), |v| format!("{v:?}")),
                 default_router.as_deref().unwrap_or("None")
             ),
         }
@@ -199,7 +203,7 @@ iterator_wrapper!(NetworkEndpointAddressIterator, NetworkEndpointAddress);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum IPv4AddressSource {
@@ -243,7 +247,7 @@ impl From<autosar_data_abstraction::communication::IPv4AddressSource> for IPv4Ad
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum IPv6AddressSource {

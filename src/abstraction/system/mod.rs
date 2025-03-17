@@ -1,6 +1,7 @@
 use crate::{
+    Element,
     abstraction::{
-        abstraction_err_to_pyerr,
+        ArPackage, AutosarAbstractionError, EcuInstance, abstraction_err_to_pyerr,
         communication::{
             CanCluster, CanFrame, CanTpConfig, ContainerIPdu, ContainerIPduHeaderType, DcmIPdu,
             DoIpTpConfig, EthernetCluster, EventGroupControlType, FlexrayArTpConfig,
@@ -14,12 +15,10 @@ use crate::{
         datatype::SwBaseType,
         iterator_wrapper,
         software_component::{CompositionSwComponentType, RootSwCompositionPrototype},
-        ArPackage, AutosarAbstractionError, EcuInstance,
     },
-    Element,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
-use pyo3::{exceptions::PyTypeError, prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, exceptions::PyTypeError, prelude::*};
 
 mod mapping;
 
@@ -31,7 +30,7 @@ pub(crate) use mapping::*;
 ///
 /// It defines how ECUs communicate with each other over various networks.
 /// It also contains the mapping of software components to ECUs.
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction")]
+#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
 #[derive(Clone, PartialEq)]
 pub(crate) struct System(pub(crate) autosar_data_abstraction::System);
 
@@ -750,7 +749,7 @@ iterator_wrapper!(SystemPdusIterator, PyObject);
 //#########################################################
 
 /// The category of a System
-#[pyclass(frozen, eq, eq_int, module = "autosar_data.autosar_data.abstraction")]
+#[pyclass(frozen, eq, eq_int, module = "autosar_data._autosar_data._abstraction")]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SystemCategory {
     /// The `System` is used to describe system constraints

@@ -1,19 +1,18 @@
 use crate::{
+    Element,
     abstraction::{
-        abstraction_err_to_pyerr,
+        AutosarAbstractionError, abstraction_err_to_pyerr,
         datatype::{DataTypeMappingSet, DataTypeMappingSetIterator},
         iterator_wrapper,
         software_component::{
-            sw_component_type_to_pyobject, ClientServerOperation, PPortPrototype,
+            ClientServerOperation, PPortPrototype, sw_component_type_to_pyobject,
         },
-        AutosarAbstractionError,
     },
-    Element,
 };
 use autosar_data_abstraction::{
-    self, software_component::AbstractRTEEvent, AbstractionElement, IdentifiableAbstractionElement,
+    self, AbstractionElement, IdentifiableAbstractionElement, software_component::AbstractRTEEvent,
 };
-use pyo3::{prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, prelude::*};
 
 //##################################################################
 
@@ -22,7 +21,7 @@ use pyo3::{prelude::*, IntoPyObjectExt};
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SwcInternalBehavior(
@@ -197,7 +196,7 @@ iterator_wrapper!(SwcInternalBehaviorIterator, SwcInternalBehavior);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct RunnableEntity(
@@ -261,7 +260,7 @@ iterator_wrapper!(RunnableEntityIterator, RunnableEntity);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct TimingEvent(pub(crate) autosar_data_abstraction::software_component::TimingEvent);
@@ -335,7 +334,7 @@ impl TimingEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct AsynchronousServerCallReturnsEvent(
@@ -400,7 +399,7 @@ impl AsynchronousServerCallReturnsEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct BackgroundEvent(
@@ -465,7 +464,7 @@ impl BackgroundEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DataReceivedEvent(
@@ -530,7 +529,7 @@ impl DataReceivedEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DataSendCompletedEvent(
@@ -595,7 +594,7 @@ impl DataSendCompletedEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DataReceiveErrorEvent(
@@ -660,7 +659,7 @@ impl DataReceiveErrorEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DataWriteCompletedEvent(
@@ -725,7 +724,7 @@ impl DataWriteCompletedEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ExternalTriggerOccurredEvent(
@@ -790,7 +789,7 @@ impl ExternalTriggerOccurredEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct InitEvent(pub(crate) autosar_data_abstraction::software_component::InitEvent);
@@ -851,7 +850,7 @@ impl InitEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct InternalTriggerOccurredEvent(
@@ -916,7 +915,7 @@ impl InternalTriggerOccurredEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ModeSwitchedAckEvent(
@@ -981,7 +980,7 @@ impl ModeSwitchedAckEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct OperationInvokedEvent(
@@ -1074,7 +1073,7 @@ impl OperationInvokedEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct OsTaskExecutionEvent(
@@ -1139,7 +1138,7 @@ impl OsTaskExecutionEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SwcModeManagerErrorEvent(
@@ -1204,7 +1203,7 @@ impl SwcModeManagerErrorEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SwcModeSwitchEvent(
@@ -1269,7 +1268,7 @@ impl SwcModeSwitchEvent {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct TransformerHardErrorEvent(

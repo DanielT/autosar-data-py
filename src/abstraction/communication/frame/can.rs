@@ -1,8 +1,8 @@
-use crate::abstraction::communication::{
-    pyany_to_pdu, CanPhysicalChannel, CommunicationDirection, FramePort, FramePortIterator,
-    PduToFrameMapping, PduToFrameMappingIterator, PduTriggering, PduTriggeringIterator,
-};
 use crate::abstraction::AutosarAbstractionError;
+use crate::abstraction::communication::{
+    CanPhysicalChannel, CommunicationDirection, FramePort, FramePortIterator, PduToFrameMapping,
+    PduToFrameMappingIterator, PduTriggering, PduTriggeringIterator, pyany_to_pdu,
+};
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::communication::{AbstractFrame, AbstractFrameTriggering};
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
@@ -13,7 +13,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanFrame(pub(crate) autosar_data_abstraction::communication::CanFrame);
@@ -103,7 +103,7 @@ impl CanFrame {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanFrameTriggering(
@@ -232,7 +232,7 @@ impl CanFrameTriggering {
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CanAddressingMode {
@@ -275,7 +275,7 @@ impl From<autosar_data_abstraction::communication::CanAddressingMode> for CanAdd
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CanFrameType {

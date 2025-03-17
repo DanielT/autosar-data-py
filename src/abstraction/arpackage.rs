@@ -1,15 +1,16 @@
+use crate::Element;
 use crate::abstraction::{
-    abstraction_err_to_pyerr,
+    AutosarAbstractionError, ByteOrder, System, abstraction_err_to_pyerr,
     communication::{
         DataTransformationSet, RequestResponseDelay, SomeipSdClientEventGroupTimingConfig,
         SomeipSdClientServiceInstanceConfig, SomeipSdServerEventGroupTimingConfig,
         SomeipSdServerServiceInstanceConfig, SystemSignal, SystemSignalGroup,
     },
     datatype::{
-        pyany_to_implmentation_settings, pyobject_to_compu_method_content,
         ApplicationArrayDataType, ApplicationArraySize, ApplicationPrimitiveCategory,
         ApplicationPrimitiveDataType, ApplicationRecordDataType, BaseTypeEncoding, CompuMethod,
         DataConstr, DataTypeMappingSet, ImplementationDataType, SwBaseType, Unit,
+        pyany_to_implmentation_settings, pyobject_to_compu_method_content,
     },
     ecu_configuration::{
         EcucDefinitionCollection, EcucDestinationUriDefSet, EcucModuleConfigurationValues,
@@ -23,9 +24,7 @@ use crate::abstraction::{
         SensorActuatorSwComponentType, ServiceSwComponentType, TriggerInterface,
     },
     system::SystemCategory,
-    AutosarAbstractionError, ByteOrder, System,
 };
-use crate::Element;
 use autosar_data_abstraction::AbstractionElement;
 use autosar_data_abstraction::{self, IdentifiableAbstractionElement};
 use pyo3::prelude::*;
@@ -33,7 +32,7 @@ use pyo3::prelude::*;
 //##################################################################
 
 /// An `ArPackage` is an Autosar package, which can contain other packages or elements
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction")]
+#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ArPackage(pub(crate) autosar_data_abstraction::ArPackage);
 

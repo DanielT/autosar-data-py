@@ -18,8 +18,8 @@ Variables:
 """
 
 import autosar_data.abstraction
-from .autosar_data import *
-from typing import *
+# from ._autosar_data import *
+from typing import final, Dict, FrozenSet, Iterator, Literal, List, Tuple, TypeAlias, Union
 
 IncompatibleItemError: TypeAlias = Union[
     IncompatibleAttributeError,

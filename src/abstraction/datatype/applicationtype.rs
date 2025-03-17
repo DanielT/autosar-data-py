@@ -1,20 +1,24 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        datatype::{CompuMethod, DataConstr, Unit},
-        iterator_wrapper, AutosarAbstractionError,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, abstraction_err_to_pyerr,
+        datatype::{CompuMethod, DataConstr, Unit},
+        iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
-use pyo3::{prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, prelude::*};
 
 //##################################################################
 
 /// An application array data type
 ///
 /// Use [`ArPackage::create_application_array_data_type`] to create a new application array data type.
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ApplicationArrayDataType(
     pub(crate) autosar_data_abstraction::datatype::ApplicationArrayDataType,
@@ -75,7 +79,11 @@ impl ApplicationArrayDataType {
 //#########################################################
 
 /// definition of the size type of an application array data type
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) enum ApplicationArraySize {
     /// Fixed size array, with the given size
@@ -146,7 +154,11 @@ impl From<autosar_data_abstraction::datatype::ApplicationArraySize> for Applicat
 //#########################################################
 
 /// An element in an application array data type
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ApplicationArrayElement(
     pub(crate) autosar_data_abstraction::datatype::ApplicationArrayElement,
@@ -206,7 +218,11 @@ impl ApplicationArrayElement {
 /// An application record data type
 ///
 /// Use [`ArPackage::create_application_record_data_type`] to create a new application record data type.
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ApplicationRecordDataType(
     pub(crate) autosar_data_abstraction::datatype::ApplicationRecordDataType,
@@ -269,7 +285,11 @@ impl ApplicationRecordDataType {
 //#########################################################
 
 /// An element in an application record data type
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ApplicationRecordElement(
     pub(crate) autosar_data_abstraction::datatype::ApplicationRecordElement,
@@ -333,7 +353,11 @@ iterator_wrapper!(ApplicationRecordElementIterator, ApplicationRecordElement);
 /// An application primitive data type
 ///
 /// Use [`ArPackage::create_application_primitive_data_type`] to create a new application primitive data type.
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ApplicationPrimitiveDataType(
     pub(crate) autosar_data_abstraction::datatype::ApplicationPrimitiveDataType,
@@ -434,7 +458,7 @@ impl ApplicationPrimitiveDataType {
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.datatype"
+    module = "autosar_data._autosar_data._abstraction._datatype"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ApplicationPrimitiveCategory {

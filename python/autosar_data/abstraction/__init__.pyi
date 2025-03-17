@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import final, Iterator, List, Optional
 from autosar_data.abstraction.communication import *
 from autosar_data.abstraction.datatype import *
 from autosar_data.abstraction.ecu_configuration import *

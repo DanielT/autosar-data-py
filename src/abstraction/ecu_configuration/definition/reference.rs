@@ -1,21 +1,20 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        ecu_configuration::{
-            ecuc_container_def_from_pyobject, ecuc_container_def_to_pyobject,
-            EcucConfigurationClass, EcucConfigurationVariant, EcucContainerDefIterator,
-            EcucDestinationUriDef,
-        },
-        iterator_wrapper, AutosarAbstractionError,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, abstraction_err_to_pyerr,
+        ecu_configuration::{
+            EcucConfigurationClass, EcucConfigurationVariant, EcucContainerDefIterator,
+            EcucDestinationUriDef, ecuc_container_def_from_pyobject,
+            ecuc_container_def_to_pyobject,
+        },
+        iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{
-    self,
+    self, AbstractionElement, IdentifiableAbstractionElement,
     ecu_configuration::{EcucCommonAttributes, EcucDefinitionElement},
-    AbstractionElement, IdentifiableAbstractionElement,
 };
-use pyo3::{prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, prelude::*};
 
 //##################################################################
 
@@ -25,7 +24,7 @@ use pyo3::{prelude::*, IntoPyObjectExt};
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucForeignReferenceDef(
@@ -297,7 +296,7 @@ impl EcucForeignReferenceDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucInstanceReferenceDef(
@@ -589,7 +588,7 @@ impl EcucInstanceReferenceDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucChoiceReferenceDef(
@@ -863,7 +862,7 @@ impl EcucChoiceReferenceDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucReferenceDef(
@@ -1137,7 +1136,7 @@ impl EcucReferenceDef {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucUriReferenceDef(

@@ -1,14 +1,13 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        communication::{
-            ipdu_to_pyany, pyany_to_ipdu, FlexrayCluster, FlexrayCommunicationConnector,
-            FlexrayCommunicationConnectorIterator, NPdu, NPduIterator, TpAddress,
-            TpAddressIterator,
-        },
-        iterator_wrapper, AutosarAbstractionError,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, abstraction_err_to_pyerr,
+        communication::{
+            FlexrayCluster, FlexrayCommunicationConnector, FlexrayCommunicationConnectorIterator,
+            NPdu, NPduIterator, TpAddress, TpAddressIterator, ipdu_to_pyany, pyany_to_ipdu,
+        },
+        iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;
@@ -19,7 +18,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayArTpConfig(
@@ -138,7 +137,7 @@ impl FlexrayArTpConfig {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayArTpChannel(
@@ -299,7 +298,7 @@ iterator_wrapper!(FlexrayArTpChannelIterator, FlexrayArTpChannel);
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum FrArTpAckType {
@@ -346,7 +345,7 @@ impl From<autosar_data_abstraction::communication::FrArTpAckType> for FrArTpAckT
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum MaximumMessageLengthType {
@@ -403,7 +402,7 @@ impl From<autosar_data_abstraction::communication::MaximumMessageLengthType>
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayArTpConnection(
@@ -521,7 +520,7 @@ iterator_wrapper!(FlexrayArTpConnectionIterator, FlexrayArTpConnection);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayArTpNode(

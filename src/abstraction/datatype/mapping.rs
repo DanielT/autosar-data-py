@@ -1,13 +1,13 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        datatype::{
-            application_data_type_to_pyobject, pyobject_to_application_data_type,
-            ImplementationDataType,
-        },
-        iterator_wrapper, AutosarAbstractionError,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, abstraction_err_to_pyerr,
+        datatype::{
+            ImplementationDataType, application_data_type_to_pyobject,
+            pyobject_to_application_data_type,
+        },
+        iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;
@@ -17,7 +17,11 @@ use pyo3::prelude::*;
 /// A [`DataTypeMappingSet`] contains `DataTypeMap`s
 ///
 /// Use [`ArPackage::create_data_type_mapping_set`] to create a new `DataTypeMappingSet`
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DataTypeMappingSet(
     pub(crate) autosar_data_abstraction::datatype::DataTypeMappingSet,
@@ -85,7 +89,11 @@ iterator_wrapper!(DataTypeMappingSetIterator, DataTypeMappingSet);
 //##################################################################
 
 /// A `DataTypeMap` maps an `ImplementationDataType` to an `ApplicationDataType`
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DataTypeMap(pub(crate) autosar_data_abstraction::datatype::DataTypeMap);
 

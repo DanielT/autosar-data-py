@@ -1,10 +1,9 @@
 use crate::abstraction::{
-    abstraction_err_to_pyerr, iterator_wrapper,
+    AutosarAbstractionError, Element, abstraction_err_to_pyerr, iterator_wrapper,
     software_component::{port_interface_to_pyobject, sw_component_type_to_pyobject},
-    AutosarAbstractionError, Element,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
-use pyo3::{prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, prelude::*};
 
 //##################################################################
 
@@ -12,7 +11,7 @@ use pyo3::{prelude::*, IntoPyObjectExt};
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct RPortPrototype(
@@ -75,7 +74,7 @@ impl RPortPrototype {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct PPortPrototype(
@@ -138,7 +137,7 @@ impl PPortPrototype {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct PRPortPrototype(
@@ -234,7 +233,7 @@ pub(crate) fn port_prototype_to_pyobject(
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct PortGroup(pub(crate) autosar_data_abstraction::software_component::PortGroup);

@@ -1,9 +1,9 @@
 use crate::{
-    abstraction::{abstraction_err_to_pyerr, iterator_wrapper, AutosarAbstractionError},
     Element,
+    abstraction::{AutosarAbstractionError, abstraction_err_to_pyerr, iterator_wrapper},
 };
 use autosar_data_abstraction::{AbstractionElement, IdentifiableAbstractionElement};
-use pyo3::{prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, prelude::*};
 
 mod applicationtype;
 mod basetype;
@@ -22,7 +22,11 @@ pub(crate) use mapping::*;
 /// `Unit` represents a unit of measurement.
 ///
 /// Use [`ArPackage::create_unit`] to create a new unit.
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct Unit(pub(crate) autosar_data_abstraction::datatype::Unit);
 
@@ -73,7 +77,11 @@ impl Unit {
 //##################################################################
 
 /// `DataConstr` represents a data constraint.
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct DataConstr(pub(crate) autosar_data_abstraction::datatype::DataConstr);
 
@@ -135,7 +143,11 @@ impl DataConstr {
 //##################################################################
 
 /// `DataConstrRule` represents a data constraint rule.
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction.datatype")]
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DataConstrRule(pub(crate) autosar_data_abstraction::datatype::DataConstrRule);
 
@@ -188,7 +200,7 @@ iterator_wrapper!(DataConstrRuleIterator, DataConstrRule);
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.datatype"
+    module = "autosar_data._autosar_data._abstraction._datatype"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum DataConstrType {

@@ -1,13 +1,12 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr, iterator_wrapper,
-        software_component::{port_prototype_to_pyobject, SwComponentPrototype},
-        AutosarAbstractionError,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, abstraction_err_to_pyerr, iterator_wrapper,
+        software_component::{SwComponentPrototype, port_prototype_to_pyobject},
+    },
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
-use pyo3::{prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, prelude::*};
 
 //##################################################################
 
@@ -15,7 +14,7 @@ use pyo3::{prelude::*, IntoPyObjectExt};
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct DelegationSwConnector(
@@ -82,7 +81,7 @@ impl DelegationSwConnector {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct AssemblySwConnector(
@@ -155,7 +154,7 @@ impl AssemblySwConnector {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.software_component"
+    module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct PassThroughSwConnector(

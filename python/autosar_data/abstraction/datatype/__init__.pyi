@@ -1,6 +1,6 @@
 # Stub file for autosar_data.abastraction.datatype
 
-from typing import *
+from typing import final, Iterator, List, Optional, Union, Type, TypeAlias
 from autosar_data import Element
 from autosar_data.abstraction import ByteOrder
 

@@ -1,6 +1,6 @@
 # Stub file for autosar_data.abstraction.communication
 
-from typing import *
+from typing import List, Optional, Tuple, TypeAlias, Union, Iterator, Type, final
 from autosar_data import Element
 from autosar_data.abstraction import ByteOrder, EcuInstance, System
 from autosar_data.abstraction.datatype import CompuMethod, DataConstr, SwBaseType, Unit

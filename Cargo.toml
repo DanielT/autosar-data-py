@@ -8,7 +8,7 @@ license = "MIT OR Apache-2.0"
 keywords = ["arxml", "automotive", "file-format", "Autosar"]
 
 [lib]
-name = "autosar_data"
+name = "_autosar_data"
 crate-type = ["cdylib"]
 
 [dependencies]

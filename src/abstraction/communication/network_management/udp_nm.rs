@@ -1,8 +1,8 @@
+use crate::abstraction::AutosarAbstractionError;
 use crate::abstraction::communication::{
     EthernetCluster, EthernetCommunicationController, EthernetPhysicalChannel, NmEcu, NmPdu,
     NmPduIterator,
 };
-use crate::abstraction::AutosarAbstractionError;
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::communication::{
     AbstractNmCluster, AbstractNmClusterCoupling, AbstractNmNode,
@@ -15,7 +15,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct UdpNmCluster(pub(crate) autosar_data_abstraction::communication::UdpNmCluster);
@@ -341,7 +341,7 @@ iterator_wrapper!(UdpNmClusterIterator, UdpNmCluster);
     eq,
     get_all,
     set_all,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, PartialEq)]
 pub struct UdpNmClusterSettings {
@@ -411,7 +411,7 @@ impl UdpNmClusterSettings {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct UdpNmClusterCoupling(
@@ -476,7 +476,7 @@ impl UdpNmClusterCoupling {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct UdpNmNode(pub(crate) autosar_data_abstraction::communication::UdpNmNode);

@@ -20,7 +20,7 @@ pub(crate) use flexray_tp::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct TpAddress(pub(crate) autosar_data_abstraction::communication::TpAddress);

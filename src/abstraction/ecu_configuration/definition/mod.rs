@@ -1,7 +1,7 @@
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::{
-    self, ecu_configuration::EcucDefinitionElement, AbstractionElement,
-    IdentifiableAbstractionElement,
+    self, AbstractionElement, IdentifiableAbstractionElement,
+    ecu_configuration::EcucDefinitionElement,
 };
 
 mod container;
@@ -18,7 +18,7 @@ pub(crate) use reference::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucDefinitionCollection(
@@ -77,7 +77,7 @@ impl EcucDefinitionCollection {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucModuleDef(
@@ -296,7 +296,7 @@ iterator_wrapper!(EcucModuleDefIterator, EcucModuleDef);
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EcucConfigurationVariant {
@@ -362,7 +362,7 @@ impl From<autosar_data_abstraction::ecu_configuration::EcucConfigurationVariant>
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EcucConfigurationClass {
@@ -410,7 +410,7 @@ impl From<autosar_data_abstraction::ecu_configuration::EcucConfigurationClass>
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EcucModuleDefCategory {
@@ -455,7 +455,7 @@ impl From<autosar_data_abstraction::ecu_configuration::EcucModuleDefCategory>
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucDestinationUriDefSet(
@@ -519,7 +519,7 @@ impl EcucDestinationUriDefSet {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EcucDestinationUriDef(
@@ -615,7 +615,7 @@ iterator_wrapper!(EcucDestinationUriDefIterator, EcucDestinationUriDef);
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.ecu_configuration"
+    module = "autosar_data._autosar_data._abstraction._ecu_configuration"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EcucDestinationUriNestingContract {

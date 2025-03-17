@@ -1,18 +1,18 @@
+use crate::Element;
 use crate::abstraction::{
-    abstraction_err_to_pyerr,
+    AutosarAbstractionError, abstraction_err_to_pyerr,
     communication::{
         CanCommunicationController, EthernetCommunicationController, FlexrayCommunicationController,
     },
-    iterator_wrapper, AutosarAbstractionError,
+    iterator_wrapper,
 };
-use crate::Element;
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
-use pyo3::{prelude::*, IntoPyObjectExt};
+use pyo3::{IntoPyObjectExt, prelude::*};
 
 //##################################################################
 
 /// The `EcuInstance` represents one ECU in a `System`
-#[pyclass(frozen, eq, module = "autosar_data.autosar_data.abstraction")]
+#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct EcuInstance(pub(crate) autosar_data_abstraction::EcuInstance);
 

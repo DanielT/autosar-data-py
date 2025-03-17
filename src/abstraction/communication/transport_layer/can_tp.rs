@@ -1,12 +1,12 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        communication::{
-            ipdu_to_pyany, pyany_to_ipdu, CanCluster, CanCommunicationConnector, NPdu,
-        },
-        iterator_wrapper, AutosarAbstractionError, EcuInstance,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, EcuInstance, abstraction_err_to_pyerr,
+        communication::{
+            CanCluster, CanCommunicationConnector, NPdu, ipdu_to_pyany, pyany_to_ipdu,
+        },
+        iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;
@@ -19,7 +19,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanTpConfig(pub(crate) autosar_data_abstraction::communication::CanTpConfig);
@@ -182,7 +182,7 @@ impl CanTpConfig {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanTpEcu(pub(crate) autosar_data_abstraction::communication::CanTpEcu);
@@ -245,7 +245,7 @@ iterator_wrapper!(CanTpEcuIterator, CanTpEcu);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanTpAddress(pub(crate) autosar_data_abstraction::communication::CanTpAddress);
@@ -304,7 +304,7 @@ iterator_wrapper!(CanTpAddressIterator, CanTpAddress);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanTpChannel(pub(crate) autosar_data_abstraction::communication::CanTpChannel);
@@ -378,7 +378,7 @@ iterator_wrapper!(CanTpChannelIterator, CanTpChannel);
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CanTpChannelMode {
@@ -421,7 +421,7 @@ impl From<CanTpChannelMode> for autosar_data_abstraction::communication::CanTpCh
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanTpConnection(
@@ -575,7 +575,7 @@ iterator_wrapper!(CanTpConnectionIterator, CanTpConnection);
     frozen,
     eq,
     eq_int,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CanTpAddressingFormat {
@@ -645,7 +645,7 @@ impl From<CanTpAddressingFormat>
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct CanTpNode(pub(crate) autosar_data_abstraction::communication::CanTpNode);

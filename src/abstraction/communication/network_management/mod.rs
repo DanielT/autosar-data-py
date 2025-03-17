@@ -1,5 +1,5 @@
-use crate::abstraction::communication::{CanCluster, EthernetCluster, FlexrayCluster, NmPdu};
 use crate::abstraction::AutosarAbstractionError;
+use crate::abstraction::communication::{CanCluster, EthernetCluster, FlexrayCluster, NmPdu};
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 
@@ -21,7 +21,7 @@ pub(crate) use udp_nm::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct NmConfig(pub(crate) autosar_data_abstraction::communication::NmConfig);
@@ -216,7 +216,7 @@ iterator_wrapper!(NmEcuIterator, NmEcu);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct NmEcu(pub(crate) autosar_data_abstraction::communication::NmEcu);

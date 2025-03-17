@@ -1,13 +1,12 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        communication::{FlexrayChannelName, FlexrayPhysicalChannel},
-        AutosarAbstractionError, System,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, System, abstraction_err_to_pyerr,
+        communication::{FlexrayChannelName, FlexrayPhysicalChannel},
+    },
 };
 use autosar_data_abstraction::{
-    self, communication::AbstractCluster, AbstractionElement, IdentifiableAbstractionElement,
+    self, AbstractionElement, IdentifiableAbstractionElement, communication::AbstractCluster,
 };
 use pyo3::prelude::*;
 
@@ -18,7 +17,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayCluster(
@@ -104,7 +103,7 @@ impl FlexrayCluster {
 //##################################################################
 
 /// Information about the flexray physical channels present inside a cluster
-#[pyclass(eq, module = "autosar_data.autosar_data.abstraction.communication")]
+#[pyclass(eq, module = "autosar_data._autosar_data._abstraction._communication")]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayPhysicalChannelsInfo(
     pub(crate) autosar_data_abstraction::communication::FlexrayPhysicalChannelsInfo,
@@ -131,7 +130,7 @@ impl FlexrayPhysicalChannelsInfo {
 
 //##################################################################
 
-#[pyclass(eq, module = "autosar_data.autosar_data.abstraction.communication")]
+#[pyclass(eq, module = "autosar_data._autosar_data._abstraction._communication")]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayClusterSettings(
     pub(crate) autosar_data_abstraction::communication::FlexrayClusterSettings,

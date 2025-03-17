@@ -1,14 +1,13 @@
 use crate::{
-    abstraction::{
-        abstraction_err_to_pyerr,
-        communication::{
-            ipdu_to_pyany, pyany_to_ipdu, FlexrayCluster, FlexrayCommunicationConnector,
-            FlexrayCommunicationConnectorIterator, NPdu, NPduIterator, TpAddress,
-            TpAddressIterator,
-        },
-        iterator_wrapper, AutosarAbstractionError, EcuInstance,
-    },
     Element,
+    abstraction::{
+        AutosarAbstractionError, EcuInstance, abstraction_err_to_pyerr,
+        communication::{
+            FlexrayCluster, FlexrayCommunicationConnector, FlexrayCommunicationConnectorIterator,
+            NPdu, NPduIterator, TpAddress, TpAddressIterator, ipdu_to_pyany, pyany_to_ipdu,
+        },
+        iterator_wrapper,
+    },
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;
@@ -19,7 +18,7 @@ use pyo3::prelude::*;
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayTpConfig(
@@ -196,7 +195,7 @@ impl FlexrayTpConfig {
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayTpPduPool(
@@ -256,7 +255,7 @@ iterator_wrapper!(FlexrayTpPduPoolIterator, FlexrayTpPduPool);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayTpConnection(
@@ -429,7 +428,7 @@ iterator_wrapper!(FlexrayTpConnectionIterator, FlexrayTpConnection);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayTpConnectionControl(
@@ -537,7 +536,7 @@ iterator_wrapper!(
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayTpEcu(pub(crate) autosar_data_abstraction::communication::FlexrayTpEcu);
@@ -628,7 +627,7 @@ iterator_wrapper!(FlexrayTpEcuIterator, FlexrayTpEcu);
 #[pyclass(
     frozen,
     eq,
-    module = "autosar_data.autosar_data.abstraction.communication"
+    module = "autosar_data._autosar_data._abstraction._communication"
 )]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayTpNode(pub(crate) autosar_data_abstraction::communication::FlexrayTpNode);
