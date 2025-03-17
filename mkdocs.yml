@@ -1,9 +1,29 @@
-site_name: API Documentation
-site_url: https://danielt.github.io/autosar-data-py/
+site_name: Autosar Data for Python
+site_url: "https://danielt.github.io/autosar-data-py"
+repo_url: "https://github.com/danielt/autosar-data-py"
+repo_name: "danielt/autosar-data-py"
+copyright: Copyright &copy; 2025 Daniel Thaler
 theme: readthedocs
+
+nav:
+  - Home: index.md
+  - API documentation:
+    - api.md
+    - Abstraction:
+      - abstraction_api.md
+      - Communication: communication_api.md
+      - Datatype: datatype_api.md
+      - ECU configuration: ecu_configuration_api.md
+      - Software Component: software_component_api.md
+
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
 
 plugins:
   - search
+  - autorefs
   - mkdocstrings:
       handlers:
         python:
@@ -16,6 +36,8 @@ plugins:
             show_signature_annotations: true
             separate_signature: true
             show_if_no_docstring: true
+            filters:
+              - "!__"
 
 markdown_extensions:
   - admonition
