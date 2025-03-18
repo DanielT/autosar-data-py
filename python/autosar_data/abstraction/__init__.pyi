@@ -212,6 +212,9 @@ class ArPackage:
     def elements(self) -> Iterator[Element]:
         """iterate over all elements in the package"""
         ...
+    def sub_packages(self) -> Iterator[ArPackage]:
+        """iterate over all sub-packages in the package"""
+        ...
     name: str
 
 @final

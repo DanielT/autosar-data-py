@@ -71,6 +71,7 @@ def test_package() -> None:
     sub_package = package.create_sub_package("sub_package")
     assert isinstance(sub_package, ArPackage)
     assert sub_package.element.path == "/package/sub_package"
+    assert list(package.sub_packages()) == [sub_package]
 
     package2 = model.get_or_create_package("/package")
     assert package == package2

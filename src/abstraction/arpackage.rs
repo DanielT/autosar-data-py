@@ -501,11 +501,18 @@ impl ArPackage {
         }
     }
 
+    /// iterate over all sub-packages in the package
+    #[pyo3(text_signature = "(self, /)")]
+    fn sub_packages(&self) -> ArPackagesIterator {
+        ArPackagesIterator::new(self.0.sub_packages().map(ArPackage))
+    }
+
     /// iterate over all elements in the package
     #[pyo3(text_signature = "(self)")]
-    fn elements(&self) -> ArPackageElementsIterator {
-        ArPackageElementsIterator::new(self.0.elements().map(Element))
+    fn elements(&self) -> ElementsIterator {
+        ElementsIterator::new(self.0.elements().map(Element))
     }
 }
 
-iterator_wrapper!(ArPackageElementsIterator, Element);
+iterator_wrapper!(ElementsIterator, Element);
+iterator_wrapper!(ArPackagesIterator, ArPackage);
