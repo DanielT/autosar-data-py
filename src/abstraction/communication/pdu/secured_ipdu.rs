@@ -115,9 +115,7 @@ impl SecuredIPdu {
     /// get the payload PduTriggering
     #[getter]
     fn payload_pdu_triggering(&self) -> Option<PduTriggering> {
-        self.0
-            .payload_pdu_triggering()
-            .map(|pdu_triggering| PduTriggering(pdu_triggering))
+        self.0.payload_pdu_triggering().map(PduTriggering)
     }
 
     // --------- AbstractPdu methods ---------
@@ -240,6 +238,7 @@ impl From<autosar_data_abstraction::communication::SecureCommunicationProps>
 #[pymethods]
 impl SecureCommunicationProps {
     /// Create a new `SecureCommunicationProps` with the given properties
+    #[allow(clippy::too_many_arguments)]
     #[pyo3(signature = (*, auth_data_freshness_length=None, auth_data_freshness_start_position=None, authentication_build_attempts=None,
                         authentication_retries=None, data_id=None, freshness_value_id=None, message_link_length=None, message_link_position=None,
                         secondary_freshness_value_id=None, secured_area_length=None, secured_area_offset=None))]

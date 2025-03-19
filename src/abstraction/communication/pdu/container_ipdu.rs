@@ -176,6 +176,7 @@ impl ContainerIPdu {
 //##################################################################
 
 /// The header type of a `ContainerIPdu`
+#[allow(clippy::enum_variant_names)] // item names are taken from the AUTOSAR standard
 #[pyclass(
     frozen,
     eq,
@@ -431,6 +432,7 @@ impl From<&ContainedIPduProps> for autosar_data_abstraction::communication::Cont
 
 #[pymethods]
 impl ContainedIPduProps {
+    #[allow(clippy::too_many_arguments)]
     #[pyo3(signature = (*, collection_semantics=None, header_id_long=None, header_id_short=None, offset=None, priority=None,
                         timeout=None, trigger=None, update_indication_bit_position=None))]
     #[pyo3(text_signature = "(self, *,

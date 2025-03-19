@@ -1,5 +1,4 @@
 use crate::abstraction::AutosarAbstractionError;
-use autosar_data_abstraction;
 use pyo3::prelude::*;
 
 pub(crate) mod can;
