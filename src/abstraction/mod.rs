@@ -141,6 +141,20 @@ impl AutosarModelAbstraction {
         }
     }
 
+    /// Load a file into the model
+    #[pyo3(signature = (filename, /, *, strict=false))]
+    #[pyo3(text_signature = "(filename: str, /, * strict: bool = False)")]
+    fn load_file(&self, filename: &str, strict: bool) -> PyResult<(ArxmlFile, Vec<String>)> {
+        match self.0.load_file(filename, strict) {
+            Ok((file, warn)) => {
+                let warnstrings: Vec<String> =
+                    warn.iter().map(std::string::ToString::to_string).collect();
+                Ok((ArxmlFile(file), warnstrings))
+            }
+            Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
+        }
+    }
+
     /// iterate over all files in the model
     fn files(&self) -> ModelFilesIterator {
         ModelFilesIterator::new(self.0.files().map(crate::ArxmlFile))

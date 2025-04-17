@@ -253,6 +253,11 @@ class AutosarModelAbstraction:
     def get_or_create_package(self, path: str, /) -> ArPackage:
         """Get a package by its path or create it if it does not exist"""
         ...
+    
+    def load_file(self, filename: str, /, *, strict: bool) -> ArxmlFile:
+        """Load a file into the model"""
+        ...
+
     model: AutosarModel
     """Get the underlying `AutosarModel` from the abstraction model"""
     def packages(self, /) -> Iterator[ArPackage]:

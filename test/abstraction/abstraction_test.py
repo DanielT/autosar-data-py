@@ -37,7 +37,7 @@ def test_model_abstraction(tmp_path: str) -> None:
     assert isinstance(base_model, AutosarModel)
     assert model == AutosarModelAbstraction(base_model)
 
-    # create another model, this time with a filena located in the tmp_path
+    # create another model, this time with a filename located in the tmp_path
     filename = os.path.join(tmp_path, "file.arxml")
     model2 = AutosarModelAbstraction.create(filename)
     model2.write()
@@ -48,6 +48,10 @@ def test_model_abstraction(tmp_path: str) -> None:
     assert model3 is not None
     # even though the content is the same, the models are different instances
     assert model2 != model3
+
+    # create an empty model and load the content from the file
+    model4 = AutosarModelAbstraction(AutosarModel())
+    model4.load_file(filename)
 
     # quick check if a custom __repr__ method is implemented and returns a non-empty string
     assert "__repr__" in AutosarModelAbstraction.__dict__
