@@ -55,7 +55,7 @@ macro_rules! iterator_wrapper {
             }
 
             fn __repr__(&self) -> String {
-                format!("Iterator<{}>", stringify!($item_name))
+                format!("Iterator[{}]", stringify!($item_name))
             }
         }
     };
