@@ -18,8 +18,19 @@ Variables:
 """
 
 import autosar_data.abstraction
+
 # from ._autosar_data import *
-from typing import final, Dict, FrozenSet, Iterator, Literal, List, Tuple, TypeAlias, Union
+from typing import (
+    final,
+    Dict,
+    FrozenSet,
+    Iterator,
+    Literal,
+    List,
+    Tuple,
+    TypeAlias,
+    Union,
+)
 
 IncompatibleItemError: TypeAlias = Union[
     IncompatibleAttributeError,
@@ -165,11 +176,11 @@ class ArxmlFile:
         ...
     model: AutosarModel
     """the autosar data model which this file is part of"""
-    elements_dfs: ArxmlFileElementsDfsIterator
+    elements_dfs: Iterator[Tuple[int, Element]]
     """dfs iterator over all elements in this file"""
     def elements_dfs_with_max_depth(
         self, max_depth: int
-    ) -> ArxmlFileElementsDfsIterator:
+    ) -> Iterator[Tuple[int, Element]]:
         """dfs iterator over all elements in this file, with a maximum depth"""
         ...
 
@@ -178,15 +189,6 @@ class ArxmlFile:
         ...
     xml_standalone: bool
     """contains the xml standalone attribute (if any) in the xml file header"""
-
-@final
-class ArxmlFileElementsDfsIterator:
-    """
-    A depth first search iterator over all elements contained in the file that created this iterator
-    """
-
-    def __iter__(self) -> ArxmlFileElementsDfsIterator: ...
-    def __next__(self) -> Tuple[int, Element]: ...
 
 @final
 class Attribute:
@@ -198,15 +200,6 @@ class Attribute:
     """name of this attribute"""
     content: CharacterData
     """content of the attribute - this data can be free-form text, a pre-defined enum value (str), or very rarely a float or int"""
-
-@final
-class AttributeIterator:
-    """
-    Iterates over all attributes on an element
-    """
-
-    def __iter__(self) -> AttributeIterator: ...
-    def __next__(self) -> Attribute: ...
 
 @final
 class AutosarDataError(Exception):
@@ -267,7 +260,7 @@ class AutosarModel:
     def sort(self) -> None:
         """sort the entire model in place. Takes all ordering constraints into account."""
         ...
-    identifiable_elements: IdentifiablesIterator
+    identifiable_elements: Iterator[Tuple[str, Element]]
     """iterator over all identifiable elements in the model"""
     def get_references_to(self, target_path: str) -> List[Element]:
         """get all reference elements which refer to the given Autosar path"""
@@ -433,7 +426,7 @@ class Element:
         ...
     position: int
     """the position of this element in the content of its parent"""
-    sub_elements: ElementsIterator
+    sub_elements: Iterator[Element]
     """an iterator over all sub elements in the content of this element. It skips character data content items"""
     elements_dfs: Iterator[Tuple[int, Element]]
     """depth first search iterator for this element and all of its sub elements"""
@@ -457,9 +450,9 @@ class Element:
         ...
     content_item_count: int
     """number of content items (character data and/or sub elements)"""
-    content: ElementContentIterator
+    content: Iterator[Union[Element, CharacterData]]
     """iterator over all content of this element"""
-    attributes: AttributeIterator
+    attributes: Iterator[Attribute]
     """iterator over all attributes of this element"""
     def attribute_value(self, attrname: AttributeName) -> CharacterData:
         """get the attribute value of a specific attribute. Returns None if that attribute is not set"""
@@ -493,17 +486,6 @@ class Element:
     """a path listing all xml elements from the root of the model to the element. This is intended for display. e.g. in error messages"""
     min_version: AutosarVersion
     """the autosar version of the file containing the element. If multiple files in a merged model contain the element, then this is the minimum of the file versions."""
-
-@final
-class ElementContentIterator:
-    """
-    Iterates over all content in an element
-
-    Content items an be sub elements or character data
-    """
-
-    def __iter__(self) -> ElementContentIterator: ...
-    def __next__(self) -> ElementContent: ...
 
 @final
 class ElementType:
@@ -544,24 +526,6 @@ class ElementType:
     def find_attribute_spec(self, attribute_name: AttributeName) -> AttributeSpec:
         """find the specification for the given attribute name"""
         ...
-
-@final
-class ElementsIterator:
-    """
-    Iterator over all sub elements of an element
-    """
-
-    def __iter__(self) -> ElementsIterator: ...
-    def __next__(self) -> Element: ...
-
-@final
-class IdentifiablesIterator:
-    """
-    Iterator of all identifiable elements in the model. It provides the tuple (path, Element) for each entry.
-    """
-
-    def __iter__(self) -> IdentifiablesIterator: ...
-    def __next__(self) -> Tuple[str, Element]: ...
 
 @final
 class IncompatibleAttributeError:

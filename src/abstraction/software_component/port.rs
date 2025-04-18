@@ -1,6 +1,9 @@
-use crate::abstraction::{
-    AutosarAbstractionError, Element, abstraction_err_to_pyerr, iterator_wrapper,
-    software_component::{port_interface_to_pyobject, sw_component_type_to_pyobject},
+use crate::{
+    abstraction::{
+        AutosarAbstractionError, Element, abstraction_err_to_pyerr,
+        software_component::{port_interface_to_pyobject, sw_component_type_to_pyobject},
+    },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::{IntoPyObjectExt, prelude::*};
@@ -196,7 +199,7 @@ impl PRPortPrototype {
 
 //##################################################################
 
-iterator_wrapper!(PortPrototypeIterator, PyObject);
+iterator_wrapper!(PortPrototypeIterator, PyObject, "PortPrototype");
 
 //##################################################################
 

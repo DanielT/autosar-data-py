@@ -3,8 +3,8 @@ use crate::{
     abstraction::{
         AutosarAbstractionError, abstraction_err_to_pyerr,
         communication::{SoAdRoutingGroup, SoAdRoutingGroupIterator, SocketAddress},
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;

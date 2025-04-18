@@ -6,8 +6,8 @@ use crate::{
             FlexrayCluster, FlexrayCommunicationConnector, FlexrayCommunicationConnectorIterator,
             NPdu, NPduIterator, TpAddress, TpAddressIterator, ipdu_to_pyany, pyany_to_ipdu,
         },
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;

@@ -128,7 +128,9 @@ impl AutosarModel {
     #[getter]
     /// depth first dearch iterator over all elements in the model, regardless of their association with a file
     fn elements_dfs(&self) -> ElementsDfsIterator {
-        ElementsDfsIterator(self.0.elements_dfs())
+        ElementsDfsIterator::new(self.0.elements_dfs().filter_map(|(depth, elem)| {
+            Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).ok())
+        }))
     }
 
     ///sort the entire model in place. Takes all ordering constraints into account.
@@ -137,9 +139,11 @@ impl AutosarModel {
     }
 
     #[getter]
-    /// List of all paths of identifiable elements in the model
+    /// Iterate over pairs of (path, element) for all identifiable elements in the model
     fn identifiable_elements(&self) -> IdentifiablesIterator {
-        IdentifiablesIterator(self.0.identifiable_elements())
+        IdentifiablesIterator::new(self.0.identifiable_elements().filter_map(|(path, weak)| {
+            Python::with_gil(|py| (path, Element(weak.upgrade()?)).into_py_any(py).ok())
+        }))
     }
 
     /// get all reference elements which refer to the given Autosar path

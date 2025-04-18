@@ -2,8 +2,9 @@ use crate::{
     Element,
     abstraction::{
         AutosarAbstractionError, EcuInstance, abstraction_err_to_pyerr,
-        communication::CanPhysicalChannel, iterator_wrapper,
+        communication::CanPhysicalChannel,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{
     self, AbstractionElement, IdentifiableAbstractionElement,

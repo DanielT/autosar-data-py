@@ -1,6 +1,7 @@
 use crate::{
     Element,
-    abstraction::{AutosarAbstractionError, abstraction_err_to_pyerr, iterator_wrapper},
+    abstraction::{AutosarAbstractionError, abstraction_err_to_pyerr},
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::{IntoPyObjectExt, prelude::*};

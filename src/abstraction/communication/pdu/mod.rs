@@ -6,8 +6,8 @@ use crate::{
             CanPhysicalChannel, CommunicationDirection, EthernetPhysicalChannel,
             FlexrayPhysicalChannel, ISignalTriggering,
         },
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{
     self, AbstractionElement, IdentifiableAbstractionElement,

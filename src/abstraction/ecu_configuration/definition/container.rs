@@ -10,8 +10,8 @@ use crate::{
             EcucParameterDefIterator, EcucReferenceDef, EcucStringParamDef, EcucUriReferenceDef,
             ecuc_parameter_def_to_pyobject, ecuc_reference_def_to_pyobject,
         },
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{
     self, AbstractionElement, IdentifiableAbstractionElement,
@@ -440,7 +440,11 @@ impl EcucParamConfContainerDef {
 //##################################################################
 
 iterator_wrapper!(EcucParamConfContainerDefIterator, EcucParamConfContainerDef);
-iterator_wrapper!(EcucContainerDefIterator, PyObject);
+iterator_wrapper!(
+    EcucContainerDefIterator,
+    PyObject,
+    "Union[EcucChoiceContainerDef, EcucParamConfContainerDef]"
+);
 
 //##################################################################
 

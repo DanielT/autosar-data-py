@@ -1,9 +1,9 @@
-use crate::Element;
 use crate::abstraction::communication::{
     CanCluster, EthernetCluster, EventGroupControlType, FlexrayCluster, ISignalIPdu, PduTriggering,
     SoConIPduIdentifier, SoConIPduIdentifierIterator, SocketAddress, SocketAddressIterator,
 };
-use crate::abstraction::{AutosarAbstractionError, abstraction_err_to_pyerr, iterator_wrapper};
+use crate::abstraction::{AutosarAbstractionError, abstraction_err_to_pyerr};
+use crate::{Element, iterator_wrapper};
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::exceptions::PyTypeError;
 use pyo3::{IntoPyObjectExt, prelude::*};
@@ -119,7 +119,11 @@ impl ServiceInstanceCollectionSet {
 
 //##################################################################
 
-iterator_wrapper!(ServiceInstanceIterator, PyObject);
+iterator_wrapper!(
+    ServiceInstanceIterator,
+    PyObject,
+    "Union[ProvidedServiceInstance, ConsumedServiceInstance]"
+);
 
 //##################################################################
 

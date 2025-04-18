@@ -6,8 +6,8 @@ use crate::{
             CanAddressingMode, CanCluster, CanFrame, CanFrameTriggering, CanFrameType,
             ISignalTriggering, PduTriggering, PduTriggeringIterator, SignalTriggeringsIterator,
         },
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{
     self, AbstractionElement, IdentifiableAbstractionElement,

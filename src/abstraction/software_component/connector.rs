@@ -1,9 +1,10 @@
 use crate::{
     Element,
     abstraction::{
-        AutosarAbstractionError, abstraction_err_to_pyerr, iterator_wrapper,
+        AutosarAbstractionError, abstraction_err_to_pyerr,
         software_component::{SwComponentPrototype, port_prototype_to_pyobject},
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::{IntoPyObjectExt, prelude::*};
@@ -211,7 +212,11 @@ impl PassThroughSwConnector {
 
 //##################################################################
 
-iterator_wrapper!(SwConnectorIterator, PyObject);
+iterator_wrapper!(
+    SwConnectorIterator,
+    PyObject,
+    "Union[DelegationSwConnector, AssemblySwConnector, PassThroughSwConnector]"
+);
 
 //##################################################################
 

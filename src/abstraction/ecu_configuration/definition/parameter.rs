@@ -3,8 +3,8 @@ use crate::{
     abstraction::{
         AutosarAbstractionError, abstraction_err_to_pyerr,
         ecu_configuration::{EcucConfigurationClass, EcucConfigurationVariant},
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{
     self, AbstractionElement, IdentifiableAbstractionElement,
@@ -2737,7 +2737,7 @@ impl EcucStringParamDef {
 
 //##################################################################
 
-iterator_wrapper!(EcucParameterDefIterator, PyObject);
+iterator_wrapper!(EcucParameterDefIterator, PyObject, "EcucParameterDef");
 
 //##################################################################
 

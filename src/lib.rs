@@ -29,38 +29,20 @@ create_exception!(
     pyo3::exceptions::PyException
 );
 
-#[pyclass(frozen, module = "autosar_data.autosar_data")]
+#[pyclass(frozen, module = "autosar_data._autosar_data")]
 /// Autosar data model. It contains all elements.
 struct AutosarModel(autosar_data_rs::AutosarModel);
 
-#[pyclass(frozen, module = "autosar_data.autosar_data")]
+#[pyclass(frozen, module = "autosar_data._autosar_data")]
 /// Represents a file that is part of an AutosarModel
 struct ArxmlFile(autosar_data_rs::ArxmlFile);
 
-#[pyclass(frozen, module = "autosar_data.autosar_data")]
+#[pyclass(frozen, module = "autosar_data._autosar_data")]
 #[derive(Debug, Clone)]
 /// An element in the Autosar data model
 struct Element(autosar_data_rs::Element);
 
-#[pyclass(module = "autosar_data.autosar_data")]
-struct ElementsDfsIterator(autosar_data_rs::ElementsDfsIterator);
-
-#[pyclass(module = "autosar_data.autosar_data")]
-struct IdentifiablesIterator(autosar_data_rs::IdentifiablesIterator);
-
-#[pyclass(module = "autosar_data.autosar_data")]
-struct ArxmlFileElementsDfsIterator(autosar_data_rs::ArxmlFileElementsDfsIterator);
-
-#[pyclass(module = "autosar_data.autosar_data")]
-struct ElementContentIterator(autosar_data_rs::ElementContentIterator);
-
-#[pyclass(module = "autosar_data.autosar_data")]
-struct ElementsIterator(autosar_data_rs::ElementsIterator);
-
-#[pyclass(module = "autosar_data.autosar_data")]
-struct AttributeIterator(autosar_data_rs::AttributeIterator);
-
-#[pyclass(frozen, module = "autosar_data.autosar_data")]
+#[pyclass(frozen, module = "autosar_data._autosar_data")]
 #[derive(Debug)]
 /// Information about an element that is incompatible with a given target version
 struct IncompatibleElementError {
@@ -71,7 +53,7 @@ struct IncompatibleElementError {
     target_version: AutosarVersion,
 }
 
-#[pyclass(frozen, module = "autosar_data.autosar_data")]
+#[pyclass(frozen, module = "autosar_data._autosar_data")]
 #[derive(Debug)]
 /// Information about an attribute that is incompatible with a given target version
 struct IncompatibleAttributeError {
@@ -84,7 +66,7 @@ struct IncompatibleAttributeError {
     target_version: AutosarVersion,
 }
 
-#[pyclass(frozen, module = "autosar_data.autosar_data")]
+#[pyclass(frozen, module = "autosar_data._autosar_data")]
 #[derive(Debug)]
 /// Information about an attribute value that is incompatible with a given target version
 struct IncompatibleAttributeValueError {
@@ -99,12 +81,12 @@ struct IncompatibleAttributeValueError {
     target_version: AutosarVersion,
 }
 
-#[pyclass(eq, frozen, module = "autosar_data.autosar_data")]
+#[pyclass(eq, frozen, module = "autosar_data._autosar_data")]
 #[derive(Clone, PartialEq, Eq)]
 /// Type of an Element in the specification
 struct ElementType(autosar_data_specification::ElementType);
 
-#[pyclass(frozen, module = "autosar_data.autosar_data")]
+#[pyclass(frozen, module = "autosar_data._autosar_data")]
 /// An attribute on an element
 struct Attribute {
     #[pyo3(get)]
@@ -113,7 +95,7 @@ struct Attribute {
     pub content: PyObject,
 }
 
-#[pyclass(frozen, module = "autosar_data.autosar_data")]
+#[pyclass(frozen, module = "autosar_data._autosar_data")]
 #[derive(Debug)]
 /// Details about a particular sub element
 struct ValidSubElementInfo {
@@ -125,7 +107,7 @@ struct ValidSubElementInfo {
     is_allowed: bool,
 }
 
-#[pyclass(eq, eq_int, module = "autosar_data.autosar_data")]
+#[pyclass(eq, eq_int, module = "autosar_data._autosar_data")]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// The content type of an element
 enum ContentType {
@@ -137,7 +119,7 @@ enum ContentType {
     Mixed,
 }
 
-#[pyclass(module = "autosar_data.autosar_data")]
+#[pyclass(module = "autosar_data._autosar_data")]
 #[derive(Debug)]
 /// Specification of an attribute
 struct AttributeSpec {
@@ -151,7 +133,7 @@ struct AttributeSpec {
     required: bool,
 }
 
-#[pyclass(frozen, module = "autosar_data.autosar_data")]
+#[pyclass(frozen, module = "autosar_data._autosar_data")]
 #[derive(Debug)]
 /// Specification of a sub element
 struct SubElementSpec {
@@ -166,7 +148,7 @@ struct SubElementSpec {
     allowed_versions: Vec<AutosarVersion>,
 }
 
-#[pyclass(eq, eq_int, module = "autosar_data.autosar_data")]
+#[pyclass(eq, eq_int, module = "autosar_data._autosar_data")]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// The content mode of an element type
 enum ContentMode {
@@ -182,7 +164,7 @@ enum ContentMode {
     Mixed,
 }
 
-#[pyclass(module = "autosar_data.autosar_data")]
+#[pyclass(module = "autosar_data._autosar_data")]
 #[derive(Debug)]
 /// The character data in an element or attribute is an enum value
 struct CharacterDataTypeEnum {
@@ -191,7 +173,7 @@ struct CharacterDataTypeEnum {
     values: Vec<String>,
 }
 
-#[pyclass(module = "autosar_data.autosar_data")]
+#[pyclass(module = "autosar_data._autosar_data")]
 #[derive(Debug)]
 /// The character data in an element or attribute is a string that must match a regex
 struct CharacterDataTypeRestrictedString {
@@ -203,7 +185,7 @@ struct CharacterDataTypeRestrictedString {
     max_length: Option<usize>,
 }
 
-#[pyclass(module = "autosar_data.autosar_data")]
+#[pyclass(module = "autosar_data._autosar_data")]
 #[derive(Debug)]
 /// The character data in an element or attribute is a string
 struct CharacterDataTypeString {
@@ -215,15 +197,73 @@ struct CharacterDataTypeString {
     max_length: Option<usize>,
 }
 
-#[pyclass(module = "autosar_data.autosar_data")]
+#[pyclass(module = "autosar_data._autosar_data")]
 #[derive(Debug)]
 /// The character data in an element or attribute is an unsigned integer
 struct CharacterDataTypeUnsignedInt(());
 
-#[pyclass(module = "autosar_data.autosar_data")]
+#[pyclass(module = "autosar_data._autosar_data")]
 #[derive(Debug)]
 /// The character data in an element or attribute is a float
 struct CharacterDataTypeFloat(());
+
+//##################################################################
+
+// The autosar_data_abstraction crate returns iterators that are not directly usable in Python.
+// Every one of these iterators follows the same pattern, returning "impl Iterator<Item = T>", so
+// they can all be wrapped using the same method.
+macro_rules! iterator_wrapper {
+    ($iter_name:ident, $item_name:ident) => {
+        iterator_wrapper!($iter_name, $item_name, stringify!($item_name));
+    };
+    ($iter_name:ident, $item_name:ident, $desc:expr) => {
+        #[pyclass(module = "autosar_data._autosar_data._iterators")]
+        pub(crate) struct $iter_name {
+            iter: Box<dyn Iterator<Item = $item_name> + Sync + Send + 'static>,
+        }
+
+        impl $iter_name {
+            pub(crate) fn new(
+                iter: impl Iterator<Item = $item_name> + Sync + Send + 'static,
+            ) -> Self {
+                Self {
+                    iter: Box::new(iter),
+                }
+            }
+        }
+
+        #[pymethods]
+        impl $iter_name {
+            fn __iter__(slf: PyRef<'_, Self>) -> PyRef<'_, Self> {
+                slf
+            }
+
+            fn __next__(&mut self) -> Option<$item_name> {
+                self.iter.next()
+            }
+
+            fn __repr__(&self) -> String {
+                concat!("Iterator[", $desc, "]").to_string()
+            }
+        }
+    };
+}
+
+pub(crate) use iterator_wrapper;
+
+//##################################################################
+
+iterator_wrapper!(ElementsDfsIterator, PyObject, "Tuple[int, Element]");
+iterator_wrapper!(IdentifiablesIterator, PyObject, "Tuple[str, Element]");
+iterator_wrapper!(AttributeIterator, Attribute);
+iterator_wrapper!(ElementsIterator, Element);
+iterator_wrapper!(
+    ElementContentIterator,
+    PyObject,
+    "Union[Element, CharacterData]"
+);
+
+//##################################################################
 
 #[pymethods]
 impl IncompatibleAttributeError {
@@ -301,101 +341,6 @@ impl IncompatibleElementError {
 impl ContentType {
     fn __repr__(&self) -> String {
         format!("{self:#?}")
-    }
-}
-
-#[pymethods]
-impl ElementsDfsIterator {
-    fn __iter__(slf: PyRef<'_, Self>) -> PyRef<'_, Self> {
-        slf
-    }
-
-    fn __next__(&mut self) -> PyResult<Option<PyObject>> {
-        self.0
-            .next()
-            .map(|(depth, elem)| Python::with_gil(|py| (depth, Element(elem)).into_py_any(py)))
-            .transpose()
-    }
-}
-
-#[pymethods]
-impl IdentifiablesIterator {
-    fn __iter__(slf: PyRef<'_, Self>) -> PyRef<'_, Self> {
-        slf
-    }
-
-    fn __next__(&mut self) -> PyResult<Option<PyObject>> {
-        for (path, weak) in &mut self.0 {
-            if let Some(elem) = weak.upgrade() {
-                let pyobj = Python::with_gil(|py| (path, Element(elem)).into_py_any(py))?;
-                return Ok(Some(pyobj));
-            }
-        }
-
-        Ok(None)
-    }
-}
-
-#[pymethods]
-impl ArxmlFileElementsDfsIterator {
-    fn __iter__(slf: PyRef<'_, Self>) -> PyRef<'_, Self> {
-        slf
-    }
-
-    fn __next__(&mut self) -> PyResult<Option<PyObject>> {
-        self.0
-            .next()
-            .map(|(depth, elem)| Python::with_gil(|py| (depth, Element(elem)).into_py_any(py)))
-            .transpose()
-    }
-}
-
-#[pymethods]
-impl ElementContentIterator {
-    fn __iter__(slf: PyRef<'_, Self>) -> PyRef<'_, Self> {
-        slf
-    }
-
-    fn __next__(&mut self) -> PyResult<Option<PyObject>> {
-        let ec = self.0.next();
-        match ec {
-            Some(autosar_data_rs::ElementContent::Element(elem)) => {
-                let pyobj = Python::with_gil(|py| Element(elem).into_py_any(py))?;
-                Ok(Some(pyobj))
-            }
-            Some(autosar_data_rs::ElementContent::CharacterData(cdata)) => {
-                Some(character_data_to_object(&cdata)).transpose()
-            }
-            None => Ok(None),
-        }
-    }
-}
-
-#[pymethods]
-impl ElementsIterator {
-    fn __iter__(slf: PyRef<'_, Self>) -> PyRef<'_, Self> {
-        slf
-    }
-
-    fn __next__(&mut self) -> Option<Element> {
-        self.0.next().map(Element)
-    }
-}
-
-#[pymethods]
-impl AttributeIterator {
-    fn __iter__(slf: PyRef<'_, Self>) -> PyRef<'_, Self> {
-        slf
-    }
-
-    fn __next__(&mut self) -> PyResult<Option<Attribute>> {
-        let Some(autosar_data_rs::Attribute { attrname, content }) = self.0.next() else {
-            return Ok(None);
-        };
-        Ok(Some(Attribute {
-            attrname: attrname.to_string(),
-            content: character_data_to_object(&content)?,
-        }))
     }
 }
 
@@ -487,7 +432,6 @@ fn _autosar_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<IncompatibleElementError>()?;
     m.add_class::<ContentType>()?;
     m.add_class::<ElementsDfsIterator>()?;
-    m.add_class::<ArxmlFileElementsDfsIterator>()?;
     m.add_class::<ElementContentIterator>()?;
     m.add_class::<ElementsIterator>()?;
     m.add_class::<IdentifiablesIterator>()?;

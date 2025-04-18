@@ -291,7 +291,7 @@ impl EcucTextualParamValue {
 
 //##################################################################
 
-iterator_wrapper!(EcucParameterValueIterator, PyObject);
+iterator_wrapper!(EcucParameterValueIterator, PyObject, "EcucParameterValue");
 
 //##################################################################
 

@@ -7,8 +7,8 @@ use crate::{
             EcucDestinationUriDef, ecuc_container_def_from_pyobject,
             ecuc_container_def_to_pyobject,
         },
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{
     self, AbstractionElement, IdentifiableAbstractionElement,
@@ -1404,7 +1404,7 @@ impl EcucUriReferenceDef {
 
 //##################################################################
 
-iterator_wrapper!(EcucAnyReferenceDefIterator, PyObject);
+iterator_wrapper!(EcucAnyReferenceDefIterator, PyObject, "EcucAnyReferenceDef");
 
 //##################################################################
 

@@ -250,7 +250,11 @@ impl EcucReferenceValue {
 
 //##################################################################
 
-iterator_wrapper!(EcucAnyReferenceValueIterator, PyObject);
+iterator_wrapper!(
+    EcucAnyReferenceValueIterator,
+    PyObject,
+    "Union[EcucInstanceReferenceValue, EcucReferenceValue]"
+);
 
 //##################################################################
 

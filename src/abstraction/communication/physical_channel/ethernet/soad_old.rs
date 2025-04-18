@@ -6,8 +6,8 @@ use crate::{
             EthernetPhysicalChannel, EventGroupControlType, PduCollectionTrigger, PduTriggering,
             PduTriggeringIterator, SocketAddress, pyany_to_pdu,
         },
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;

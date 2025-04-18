@@ -1,4 +1,3 @@
-use crate::Element;
 use crate::abstraction::{
     AutosarAbstractionError, ByteOrder, System, abstraction_err_to_pyerr,
     communication::{
@@ -16,7 +15,6 @@ use crate::abstraction::{
         EcucDefinitionCollection, EcucDestinationUriDefSet, EcucModuleConfigurationValues,
         EcucModuleDef, EcucValueCollection,
     },
-    iterator_wrapper,
     software_component::{
         ApplicationSwComponentType, ClientServerInterface, ComplexDeviceDriverSwComponentType,
         CompositionSwComponentType, EcuAbstractionSwComponentType, ModeSwitchInterface,
@@ -25,6 +23,7 @@ use crate::abstraction::{
     },
     system::SystemCategory,
 };
+use crate::{Element, iterator_wrapper};
 use autosar_data_abstraction::AbstractionElement;
 use autosar_data_abstraction::{self, IdentifiableAbstractionElement};
 use pyo3::prelude::*;

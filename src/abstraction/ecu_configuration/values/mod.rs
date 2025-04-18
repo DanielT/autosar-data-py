@@ -7,8 +7,8 @@ use crate::{
             ecuc_container_def_from_pyobject, ecuc_container_def_to_pyobject,
             pyobject_to_ecuc_parameter_def, pyobject_to_ecuc_reference_def,
         },
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;

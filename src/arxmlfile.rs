@@ -142,12 +142,16 @@ impl ArxmlFile {
     }
 
     #[getter]
-    fn elements_dfs(&self) -> ArxmlFileElementsDfsIterator {
-        ArxmlFileElementsDfsIterator(self.0.elements_dfs())
+    fn elements_dfs(&self) -> ElementsDfsIterator {
+        ElementsDfsIterator::new(self.0.elements_dfs().filter_map(|(depth, elem)| {
+            Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).ok())
+        }))
     }
 
-    fn elements_dfs_with_max_depth(&self, max_depth: usize) -> ArxmlFileElementsDfsIterator {
-        ArxmlFileElementsDfsIterator(self.0.elements_dfs_with_max_depth(max_depth))
+    fn elements_dfs_with_max_depth(&self, max_depth: usize) -> ElementsDfsIterator {
+        ElementsDfsIterator::new(self.0.elements_dfs_with_max_depth(max_depth).filter_map(
+            |(depth, elem)| Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).ok()),
+        ))
     }
 
     /// Serialize the ARXML file to a string

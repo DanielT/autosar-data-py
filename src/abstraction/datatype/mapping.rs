@@ -6,8 +6,8 @@ use crate::{
             ImplementationDataType, application_data_type_to_pyobject,
             pyobject_to_application_data_type,
         },
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;

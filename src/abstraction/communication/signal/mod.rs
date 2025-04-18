@@ -8,8 +8,8 @@ use crate::{
             ISignalToIPduMapping, SomeIpTransformationISignalProps, TransformationTechnology,
         },
         datatype::{CompuMethod, DataConstr, SwBaseType, Unit},
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::{IntoPyObjectExt, prelude::*};
@@ -658,4 +658,8 @@ impl From<TransferProperty> for autosar_data_abstraction::communication::Transfe
 
 //##################################################################
 
-iterator_wrapper!(TransformationISignalPropsIterator, PyObject);
+iterator_wrapper!(
+    TransformationISignalPropsIterator,
+    PyObject,
+    "Union[EndToEndTransformationISignalProps, SomeIpTransformationISignalProps]"
+);

@@ -13,9 +13,9 @@ use crate::{
             SomeipTpConfig, SystemSignal, SystemSignalGroup,
         },
         datatype::SwBaseType,
-        iterator_wrapper,
         software_component::{CompositionSwComponentType, RootSwCompositionPrototype},
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::{IntoPyObjectExt, exceptions::PyTypeError, prelude::*};
@@ -116,8 +116,8 @@ impl System {
     }
 
     /// get an iterator over all ECU-INSTANCEs in this SYSTEM
-    fn ecu_instances(&self) -> SystemEcuInstanceIterator {
-        SystemEcuInstanceIterator::new(self.0.ecu_instances().map(EcuInstance))
+    fn ecu_instances(&self) -> EcuInstanceIterator {
+        EcuInstanceIterator::new(self.0.ecu_instances().map(EcuInstance))
     }
 
     /// create a new CAN-CLUSTER
@@ -186,8 +186,8 @@ impl System {
     }
 
     /// Create an iterator over all clusters connected to the SYSTEM
-    fn clusters(&self) -> SystemClusterIterator {
-        SystemClusterIterator::new(self.0.clusters().filter_map(|cluster| match cluster {
+    fn clusters(&self) -> ClusterIterator {
+        ClusterIterator::new(self.0.clusters().filter_map(|cluster| match cluster {
             autosar_data_abstraction::communication::Cluster::Can(cluster) => {
                 Python::with_gil(|py| CanCluster(cluster).into_py_any(py).ok())
             }
@@ -236,8 +236,8 @@ impl System {
     }
 
     /// iterate over all Frames in the System
-    fn frames(&self) -> SystemFrameIterator {
-        SystemFrameIterator::new(self.0.frames().filter_map(|frame| match frame {
+    fn frames(&self) -> FrameIterator {
+        FrameIterator::new(self.0.frames().filter_map(|frame| match frame {
             autosar_data_abstraction::communication::Frame::Can(frame) => {
                 Python::with_gil(|py| CanFrame(frame).into_py_any(py).ok())
             }
@@ -276,8 +276,8 @@ impl System {
     /// iterate over all ISignals in the System
     ///
     /// This iterator returns all ISignals that are connected to the System using a FibexElementRef.
-    fn isignals(&self) -> SystemISignalIterator {
-        SystemISignalIterator::new(self.0.isignals().map(ISignal))
+    fn isignals(&self) -> ISignalIterator {
+        ISignalIterator::new(self.0.isignals().map(ISignal))
     }
 
     /// create a new signal group in the [`System`]
@@ -304,8 +304,8 @@ impl System {
     }
 
     /// iterate over all ISignalGroups in the System
-    fn isignal_groups(&self) -> SystemISignalGroupIterator {
-        SystemISignalGroupIterator::new(self.0.isignal_groups().map(ISignalGroup))
+    fn isignal_groups(&self) -> ISignalGroupIterator {
+        ISignalGroupIterator::new(self.0.isignal_groups().map(ISignalGroup))
     }
 
     /// create an [`ISignalIPdu`] in the [`System`]
@@ -459,8 +459,8 @@ impl System {
     /// iterate over all PDUs in the System
     ///
     /// This iterator returns all PDUs that are connected to the System using a FibexElementRef.
-    fn pdus(&self) -> SystemPdusIterator {
-        SystemPdusIterator::new(self.0.pdus().filter_map(|pdu| match pdu {
+    fn pdus(&self) -> PduIterator {
+        PduIterator::new(self.0.pdus().filter_map(|pdu| match pdu {
             autosar_data_abstraction::communication::Pdu::ISignalIPdu(pdu) => {
                 Python::with_gil(|py| ISignalIPdu(pdu).into_py_any(py).ok())
             }
@@ -739,12 +739,16 @@ impl System {
     }
 }
 
-iterator_wrapper!(SystemEcuInstanceIterator, EcuInstance);
-iterator_wrapper!(SystemClusterIterator, PyObject);
-iterator_wrapper!(SystemFrameIterator, PyObject);
-iterator_wrapper!(SystemISignalIterator, ISignal);
-iterator_wrapper!(SystemISignalGroupIterator, ISignalGroup);
-iterator_wrapper!(SystemPdusIterator, PyObject);
+iterator_wrapper!(EcuInstanceIterator, EcuInstance);
+iterator_wrapper!(
+    ClusterIterator,
+    PyObject,
+    "Union[CanCluster, EthernetCluster, FlexrayCluster]"
+);
+iterator_wrapper!(FrameIterator, PyObject, "Union[CanFrame, FlexrayFrame]");
+iterator_wrapper!(ISignalIterator, ISignal);
+iterator_wrapper!(ISignalGroupIterator, ISignalGroup);
+iterator_wrapper!(PduIterator, PyObject, "Pdu");
 
 //#########################################################
 

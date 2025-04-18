@@ -325,7 +325,7 @@ impl Element {
                     .and_then(|cdata| cdata.string_value())
                     .is_some_and(|strval| {
                         strval == definition_ref
-                            || strval.split('/').last().unwrap_or("") == definition_ref
+                            || strval.split('/').next_back().unwrap_or("") == definition_ref
                     })
             })
             .map(Element)
@@ -338,17 +338,21 @@ impl Element {
 
     #[getter]
     fn sub_elements(&self) -> ElementsIterator {
-        ElementsIterator(self.0.sub_elements())
+        ElementsIterator::new(self.0.sub_elements().map(Element))
     }
 
     #[getter]
     fn elements_dfs(&self) -> ElementsDfsIterator {
-        ElementsDfsIterator(self.0.elements_dfs())
+        ElementsDfsIterator::new(self.0.elements_dfs().filter_map(|(depth, elem)| {
+            Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).ok())
+        }))
     }
 
     #[pyo3(signature = (max_depth, /))]
     fn elements_dfs_with_max_depth(&self, max_depth: usize) -> ElementsDfsIterator {
-        ElementsDfsIterator(self.0.elements_dfs_with_max_depth(max_depth))
+        ElementsDfsIterator::new(self.0.elements_dfs_with_max_depth(max_depth).filter_map(
+            |(depth, elem)| Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).ok()),
+        ))
     }
 
     #[setter]
@@ -405,12 +409,24 @@ impl Element {
 
     #[getter]
     fn content(&self) -> ElementContentIterator {
-        ElementContentIterator(self.0.content())
+        ElementContentIterator::new(self.0.content().filter_map(|ec| match ec {
+            autosar_data_rs::ElementContent::Element(elem) => {
+                Python::with_gil(|py| Element(elem).into_py_any(py)).ok()
+            }
+            autosar_data_rs::ElementContent::CharacterData(cdata) => {
+                character_data_to_object(&cdata).ok()
+            }
+        }))
     }
 
     #[getter]
     fn attributes(&self) -> AttributeIterator {
-        AttributeIterator(self.0.attributes())
+        AttributeIterator::new(self.0.attributes().filter_map(|attr| {
+            Some(Attribute {
+                attrname: attr.attrname.to_string(),
+                content: character_data_to_object(&attr.content).ok()?,
+            })
+        }))
     }
 
     pub(crate) fn attribute_value(&self, attrname_str: &str) -> PyResult<Option<PyObject>> {

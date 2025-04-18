@@ -5,8 +5,8 @@ use crate::{
         communication::{
             ContainedIPduProps, ISignal, ISignalGroup, PduTriggering, TransferProperty,
         },
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{
     self, AbstractionElement, IdentifiableAbstractionElement,

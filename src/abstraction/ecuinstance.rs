@@ -1,11 +1,10 @@
-use crate::Element;
 use crate::abstraction::{
     AutosarAbstractionError, abstraction_err_to_pyerr,
     communication::{
         CanCommunicationController, EthernetCommunicationController, FlexrayCommunicationController,
     },
-    iterator_wrapper,
 };
+use crate::{Element, iterator_wrapper};
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::{IntoPyObjectExt, prelude::*};
 
@@ -98,8 +97,8 @@ impl EcuInstance {
     }
 
     /// return an interator over all communication controllers in this `EcuInstance`
-    fn communication_controllers(&self) -> SystemCommunicationControllersIterator {
-        SystemCommunicationControllersIterator::new(self.0.communication_controllers().filter_map(
+    fn communication_controllers(&self) -> CommunicationControllersIterator {
+        CommunicationControllersIterator::new(self.0.communication_controllers().filter_map(
             |comm_controller| match comm_controller {
                 autosar_data_abstraction::communication::CommunicationController::Can(
                     controller,
@@ -126,4 +125,8 @@ impl EcuInstance {
     }
 }
 
-iterator_wrapper!(SystemCommunicationControllersIterator, PyObject);
+iterator_wrapper!(
+    CommunicationControllersIterator,
+    PyObject,
+    "CommunicationController"
+);

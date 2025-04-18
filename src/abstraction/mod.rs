@@ -1,4 +1,4 @@
-use crate::{ArxmlFile, AutosarModel, AutosarVersion, Element};
+use crate::{ArxmlFile, AutosarModel, AutosarVersion, Element, iterator_wrapper};
 use pyo3::PyTypeInfo;
 use pyo3::create_exception;
 use pyo3::prelude::*;
@@ -21,47 +21,6 @@ create_exception!(
     AutosarAbstractionError,
     pyo3::exceptions::PyException
 );
-
-//##################################################################
-
-// The autosar_data_abstraction crate returns iterators that are not directly usable in Python.
-// Every one of these iterators follows the same pattern, returning "impl Iterator<Item = T>", so
-// they can all be wrapped using the same method.
-macro_rules! iterator_wrapper {
-    ($iter_name:ident, $item_name:ident) => {
-        #[pyclass(module = "autosar_data._autosar_data._abstraction")]
-        pub(crate) struct $iter_name {
-            iter: Box<dyn Iterator<Item = $item_name> + Sync + Send + 'static>,
-        }
-
-        impl $iter_name {
-            pub(crate) fn new(
-                iter: impl Iterator<Item = $item_name> + Sync + Send + 'static,
-            ) -> Self {
-                Self {
-                    iter: Box::new(iter),
-                }
-            }
-        }
-
-        #[pymethods]
-        impl $iter_name {
-            fn __iter__(slf: PyRef<'_, Self>) -> PyRef<'_, Self> {
-                slf
-            }
-
-            fn __next__(&mut self) -> Option<$item_name> {
-                self.iter.next()
-            }
-
-            fn __repr__(&self) -> String {
-                format!("Iterator[{}]", stringify!($item_name))
-            }
-        }
-    };
-}
-
-pub(crate) use iterator_wrapper;
 
 //##################################################################
 
@@ -156,8 +115,8 @@ impl AutosarModelAbstraction {
     }
 
     /// iterate over all files in the model
-    fn files(&self) -> ModelFilesIterator {
-        ModelFilesIterator::new(self.0.files().map(crate::ArxmlFile))
+    fn files(&self) -> Vec<ArxmlFile> {
+        self.0.files().map(ArxmlFile).collect()
     }
 
     /// write the model to disk, creating or updating all files in the model
@@ -186,7 +145,6 @@ impl AutosarModelAbstraction {
 //##################################################################
 
 iterator_wrapper!(ArPackageIterator, ArPackage);
-iterator_wrapper!(ModelFilesIterator, ArxmlFile);
 
 //##################################################################
 

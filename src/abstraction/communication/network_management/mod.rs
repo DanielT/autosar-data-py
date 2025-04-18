@@ -206,8 +206,16 @@ impl NmConfig {
 
 //##################################################################
 
-iterator_wrapper!(NmClusterIterator, PyObject);
-iterator_wrapper!(NmClusterCouplingIterator, PyObject);
+iterator_wrapper!(
+    NmClusterIterator,
+    PyObject,
+    "Union[CanNmCluster, FlexrayNmCluster, UdpNmCluster]"
+);
+iterator_wrapper!(
+    NmClusterCouplingIterator,
+    PyObject,
+    "Union[CanNmClusterCoupling, FlexrayNmClusterCoupling, UdpNmClusterCoupling]"
+);
 iterator_wrapper!(NmEcuIterator, NmEcu);
 
 //##################################################################

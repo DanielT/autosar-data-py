@@ -3,11 +3,11 @@ use crate::{
     abstraction::{
         AutosarAbstractionError, abstraction_err_to_pyerr,
         datatype::{DataTypeMappingSet, DataTypeMappingSetIterator},
-        iterator_wrapper,
         software_component::{
             ClientServerOperation, PPortPrototype, sw_component_type_to_pyobject,
         },
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{
     self, AbstractionElement, IdentifiableAbstractionElement, software_component::AbstractRTEEvent,
@@ -1333,7 +1333,7 @@ impl TransformerHardErrorEvent {
 
 //##################################################################
 
-iterator_wrapper!(RteEventIterator, PyObject);
+iterator_wrapper!(RteEventIterator, PyObject, "RTEEvent");
 
 //##################################################################
 

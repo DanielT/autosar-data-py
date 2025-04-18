@@ -7,8 +7,8 @@ use crate::{
             NetworkEndpoint, ProvidedServiceInstanceV1, ProvidedServiceInstanceV1Iterator,
             StaticSocketConnection, StaticSocketConnectionIterator, TcpRole,
         },
-        iterator_wrapper,
     },
+    iterator_wrapper,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 use pyo3::prelude::*;
