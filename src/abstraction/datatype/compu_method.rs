@@ -1201,8 +1201,7 @@ fn pylist_to_linear_scales(
     py: Python<'_>,
     scales: &Py<PyList>,
 ) -> Vec<autosar_data_abstraction::datatype::CompuMethodScaleLinearContent> {
-    let out_scales_vec = if let Ok(scales_iter) = scales.bind_borrowed(py).as_sequence().try_iter()
-    {
+    if let Ok(scales_iter) = scales.bind_borrowed(py).as_sequence().try_iter() {
         let mut out_scales_vec = vec![];
         for params in scales_iter
             .filter_map(Result::ok)
@@ -1227,16 +1226,14 @@ fn pylist_to_linear_scales(
         out_scales_vec
     } else {
         vec![]
-    };
-    out_scales_vec
+    }
 }
 
 fn pylist_to_rational_scales(
     py: Python<'_>,
     scales: &Py<PyList>,
 ) -> Vec<autosar_data_abstraction::datatype::CompuMethodRationalContent> {
-    let out_scales_vec = if let Ok(scales_iter) = scales.bind_borrowed(py).as_sequence().try_iter()
-    {
+    if let Ok(scales_iter) = scales.bind_borrowed(py).as_sequence().try_iter() {
         let mut out_scales_vec = vec![];
         for params in scales_iter
             .filter_map(Result::ok)
@@ -1260,15 +1257,14 @@ fn pylist_to_rational_scales(
         out_scales_vec
     } else {
         vec![]
-    };
-    out_scales_vec
+    }
 }
 
 fn pylist_to_text_table(
     py: Python<'_>,
     texts: &Py<PyList>,
 ) -> Vec<autosar_data_abstraction::datatype::CompuMethodTextTableContent> {
-    let out_texts_vec = if let Ok(texts_iter) = texts.bind_borrowed(py).as_sequence().try_iter() {
+    if let Ok(texts_iter) = texts.bind_borrowed(py).as_sequence().try_iter() {
         let mut out_texts_vec = vec![];
         for ttentry in texts_iter
             .filter_map(Result::ok)
@@ -1285,15 +1281,14 @@ fn pylist_to_text_table(
         out_texts_vec
     } else {
         vec![]
-    };
-    out_texts_vec
+    }
 }
 
 fn pylist_to_bitfield(
     py: Python<'_>,
     texts: &Py<PyList>,
 ) -> Vec<autosar_data_abstraction::datatype::CompuMethodBitfieldTextTableContent> {
-    let out_texts_vec = if let Ok(texts_iter) = texts.bind_borrowed(py).as_sequence().try_iter() {
+    if let Ok(texts_iter) = texts.bind_borrowed(py).as_sequence().try_iter() {
         let mut out_texts_vec = vec![];
         for bfentry in texts_iter
             .filter_map(Result::ok)
@@ -1311,15 +1306,14 @@ fn pylist_to_bitfield(
         out_texts_vec
     } else {
         vec![]
-    };
-    out_texts_vec
+    }
 }
 
 fn pylist_to_tab_no_intp(
     py: Python<'_>,
     texts: &Py<PyList>,
 ) -> Vec<autosar_data_abstraction::datatype::CompuMethodTabNoIntpContent> {
-    let out_texts_vec = if let Ok(texts_iter) = texts.bind_borrowed(py).as_sequence().try_iter() {
+    if let Ok(texts_iter) = texts.bind_borrowed(py).as_sequence().try_iter() {
         let mut out_texts_vec = vec![];
         for tnientry in texts_iter
             .filter_map(Result::ok)
@@ -1336,8 +1330,7 @@ fn pylist_to_tab_no_intp(
         out_texts_vec
     } else {
         vec![]
-    };
-    out_texts_vec
+    }
 }
 
 fn compare_pylist<T: pyo3::PyClass + pyo3::PyTypeInfo + PartialEq>(
