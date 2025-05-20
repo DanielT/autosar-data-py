@@ -10,9 +10,9 @@ checksum = "ace50bade8e6234aa140d9a2f552bbee1db4d353f69b8217bc503490fc1a9f26"
 
 [[package]]
 name = "autosar-data"
-version = "0.19.0"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "408faa3508316d2bbde86ddf7f748b8f73c1077c220f33b9448067a3ae78a74b"
+checksum = "3fd40e34668ac4847c23a2735e70fa95b586bf2a1ad36a496b9f0b20b91f492d"
 dependencies = [
  "autosar-data-specification",
  "fxhash",
@@ -25,9 +25,9 @@ dependencies = [
 
 [[package]]
 name = "autosar-data-abstraction"
-version = "0.4.0"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "80101449865128327de99a904a0330d3a345b4435d0e3a4f41a08c057163a1d5"
+checksum = "01d00b61dd064bd51310ed634a8cc508771e6fa236d184519e9116da48495ae0"
 dependencies = [
  "autosar-data",
  "thiserror",
@@ -35,9 +35,9 @@ dependencies = [
 
 [[package]]
 name = "autosar-data-specification"
-version = "0.19.0"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5b795fb44d56ee1326421e0a3a24596d989545087f6bd18dd1c844f8aa814981"
+checksum = "2192ea77027e719de6860a7fdad187ce425afc794b25d34e137f2c9367367ef3"
 dependencies = [
  "num-traits",
 ]

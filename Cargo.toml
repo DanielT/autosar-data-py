@@ -12,7 +12,7 @@ name = "_autosar_data"
 crate-type = ["cdylib"]
 
 [dependencies]
-autosar-data = {version = "0.19"}
-autosar-data-specification = {version = "0.19"}
-autosar-data-abstraction = {version = "0.4"}
+autosar-data = {version = "0.20"}
+autosar-data-specification = {version = "0.20"}
+autosar-data-abstraction = {version = "0.5"}
 pyo3 = "0.23.3"
