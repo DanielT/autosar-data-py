@@ -1,4 +1,7 @@
-use crate::{abstraction::*, *};
+use crate::{
+    abstraction::{datatype::{pyobject_to_autosar_data_type, pyobject_to_value_specification, value_specification_to_pyobject}, *},
+    *,
+};
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 
 mod clientserver;
@@ -99,7 +102,94 @@ impl ParameterInterface {
     fn __repr__(&self) -> String {
         format!("{:#?}", self.0)
     }
+
+    /// Create a new `ParameterDataPrototype` in this `ParameterInterface`
+    fn create_parameter(
+        &self,
+        name: &str,
+        data_type: &Bound<'_, PyAny>,
+    ) -> PyResult<ParameterDataPrototype> {
+        let data_type = pyobject_to_autosar_data_type(data_type)?;
+        let parameter = self
+            .0
+            .create_parameter(name, &data_type)
+            .map_err(abstraction_err_to_pyerr)?;
+        Ok(ParameterDataPrototype(parameter))
+    }
+
+    /// Iterate over all parameters in this `ParameterInterface`
+    fn parameters(&self) -> ParameterDataPrototypeIterator {
+        ParameterDataPrototypeIterator::new(self.0.parameters().map(ParameterDataPrototype))
+    }
 }
+
+//##################################################################
+
+/// A `ParameterDataPrototype` defines a read-only parameter.
+///
+/// Typically such a parameter can be calibrated, but this is not required.
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._software_component"
+)]
+#[derive(Clone, PartialEq)]
+pub(crate) struct ParameterDataPrototype(
+    pub(crate) autosar_data_abstraction::software_component::ParameterDataPrototype,
+);
+
+#[pymethods]
+impl ParameterDataPrototype {
+    #[new]
+    fn new(element: &Element) -> PyResult<Self> {
+        match autosar_data_abstraction::software_component::ParameterDataPrototype::try_from(
+            element.0.clone(),
+        ) {
+            Ok(value) => Ok(Self(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    #[setter]
+    fn set_name(&self, name: &str) -> PyResult<()> {
+        self.0.set_name(name).map_err(abstraction_err_to_pyerr)
+    }
+
+    #[getter]
+    fn name(&self) -> Option<String> {
+        self.0.name()
+    }
+
+    #[getter]
+    fn element(&self) -> Element {
+        Element(self.0.element().clone())
+    }
+
+    fn __repr__(&self) -> String {
+        format!("{:#?}", self.0)
+    }
+
+    /// set the init value for the data element
+    #[setter]
+    fn set_init_value(&self, init_value: &Bound<'_, PyAny>) -> PyResult<()> {
+        let init_value = pyobject_to_value_specification(init_value)?;
+        self.0
+            .set_init_value(init_value)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// get the init value for the data element
+    #[getter]
+    fn init_value(&self) -> Option<PyObject> {
+        self.0
+            .init_value()
+            .and_then(|value_spec| value_specification_to_pyobject(&value_spec).ok())
+    }
+}
+
+//##################################################################
+
+iterator_wrapper!(ParameterDataPrototypeIterator, ParameterDataPrototype);
 
 //##################################################################
 

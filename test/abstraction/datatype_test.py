@@ -880,3 +880,29 @@ def test_autosar_data_type_conversion() -> None:
 
     sr_elements[0].data_type = application_primitive_data_type
     assert sr_elements[0].data_type == application_primitive_data_type
+
+
+def test_constant_specification() -> None:
+    model = AutosarModelAbstraction.create("test.arxml")
+    package = model.get_or_create_package("/package")
+
+    # ConstantSpecification
+    constant_specification = package.create_constant_specification(
+        "ConstantSpecification", [0, 0, 0]
+    )
+    assert isinstance(constant_specification, ConstantSpecification)
+
+    constant_specification.name = "ConstantSpecification2"
+    assert constant_specification.name == "ConstantSpecification2"
+
+    constant_specification.value_specification = NumericalValueSpecification(0)
+    assert constant_specification.value_specification == NumericalValueSpecification(0)
+
+    # check if the constant  specification can be constructed from a name and is equal to the original
+    element = constant_specification.element
+    constant_specification2 = ConstantSpecification(element)
+    assert constant_specification == constant_specification2
+
+    # quick check if a custom __repr__ method is implemented and returns a non-empty string
+    assert "__repr__" in ConstantSpecification.__dict__
+    assert len(str(constant_specification)) > 0

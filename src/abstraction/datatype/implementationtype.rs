@@ -273,7 +273,7 @@ iterator_wrapper!(
     eq_int,
     module = "autosar_data._autosar_data._abstraction._datatype"
 )]
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ImplementationDataCategory {
     /// A simple value
     Value,

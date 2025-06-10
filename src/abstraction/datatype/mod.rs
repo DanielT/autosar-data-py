@@ -11,12 +11,14 @@ mod basetype;
 mod compu_method;
 mod implementationtype;
 mod mapping;
+mod values;
 
 pub(crate) use applicationtype::*;
 pub(crate) use basetype::*;
 pub(crate) use compu_method::*;
 pub(crate) use implementationtype::*;
 pub(crate) use mapping::*;
+pub(crate) use values::*;
 
 //##################################################################
 

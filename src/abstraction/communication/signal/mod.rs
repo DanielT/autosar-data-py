@@ -7,7 +7,10 @@ use crate::{
             EndToEndTransformationISignalProps, EthernetPhysicalChannel, FlexrayPhysicalChannel,
             ISignalToIPduMapping, SomeIpTransformationISignalProps, TransformationTechnology,
         },
-        datatype::{CompuMethod, DataConstr, SwBaseType, Unit},
+        datatype::{
+            CompuMethod, DataConstr, SwBaseType, Unit, pyobject_to_value_specification,
+            value_specification_to_pyobject,
+        },
     },
     iterator_wrapper,
 };
@@ -76,6 +79,23 @@ impl ISignal {
     #[getter]
     fn length(&self) -> Option<u64> {
         self.0.length()
+    }
+
+    /// set the init value for this signal
+    #[setter]
+    fn set_init_value(&self, init_value: &Bound<'_, PyAny>) -> PyResult<()> {
+        let init_value = pyobject_to_value_specification(init_value)?;
+        self.0
+            .set_init_value(init_value)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// get the init value for this signal
+    #[getter]
+    fn init_value(&self) -> Option<PyObject> {
+        self.0
+            .init_value()
+            .and_then(|value_spec| value_specification_to_pyobject(&value_spec).ok())
     }
 
     /// set the system signal that corresponds to this isignal

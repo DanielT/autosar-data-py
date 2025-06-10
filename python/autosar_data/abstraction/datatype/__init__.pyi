@@ -1,14 +1,50 @@
 # Stub file for autosar_data.abastraction.datatype
 
-from typing import final, Iterator, List, Optional, Union, Type, TypeAlias
+from typing import final, Iterator, List, Optional, Union, Tuple, Type, TypeAlias
 from autosar_data import Element
 from autosar_data.abstraction import ByteOrder
+from autosar_data.abstraction.software_component import (
+    ArgumentDataPrototype,
+    ParameterDataPrototype,
+    VariableDataPrototype,
+)
 
 ApplicationDataType: TypeAlias = Union[
     ApplicationPrimitiveDataType, ApplicationArrayDataType, ApplicationRecordDataType
 ]
 AutosarDataType: TypeAlias = Union[ApplicationDataType, ImplementationDataType]
 DataPointerTarget: TypeAlias = Union[ImplementationDataType, SwBaseType]
+ValueSpecification: TypeAlias = Union[
+    ArrayValueSpecification,
+    RecordValueSpecification,
+    TextValueSpecification,
+    NumericalValueSpecification,
+    ConstantReference,
+    ApplicationValueSpecification,
+    NotAvailableValueSpecification,
+    ReferenceValueSpecification,
+    ApplicationRuleBasedValueSpecification,
+    CompositeRuleBasedValueSpecification,
+    NumericalRuleBasedValueSpecification,
+    List[ValueSpecification],  # = ArrayValueSpecification
+    Tuple[ValueSpecification, ...],  # = RecordValueSpecification
+    str,  # = TextValueSpecification
+    float,  # = NumericalValueSpecification
+]
+CompositeRuleBasedValueArgument: TypeAlias = Union[
+    ApplicationValueSpecification, ApplicationRuleBasedValueSpecification
+]
+CompositeValueSpecification: TypeAlias = Union[
+    ArrayValueSpecification,
+    RecordValueSpecification,
+]
+DataPrototype: TypeAlias = Union[
+    ArgumentDataPrototype,
+    ParameterDataPrototype,
+    VariableDataPrototype,
+    ApplicationArrayElement,
+    ApplicationRecordElement,
+]
 
 @final
 class ApplicationArrayDataType:
@@ -155,6 +191,68 @@ class ApplicationRecordElement:
     name: str
 
 @final
+class ApplicationRuleBasedValueSpecification:
+    """
+    An application rule based value specification
+    """
+
+    def __init__(
+        self,
+        category: ApplicationPrimitiveCategory,
+        sw_axis_cont: List[RuleBasedAxisCont],
+        sw_value_cont: RuleBasedValueCont,
+        /,
+        *,
+        label: Optional[str] = None,
+    ) -> ApplicationRuleBasedValueSpecification: ...
+    category: ApplicationPrimitiveCategory
+    """category of the application rule based value specification"""
+    sw_axis_cont: List[RuleBasedAxisCont]
+    """list of `RuleBasedAxisCont` objects in the application rule based value specification"""
+    sw_value_cont: RuleBasedValueCont
+    """`RuleBasedValueCont` of the application rule based value specification"""
+    label: Optional[str]
+    """label of the application rule based value specification, if any"""
+
+@final
+class ApplicationValueSpecification:
+    """
+    An application value specification
+    """
+
+    def __init__(
+        self,
+        category: ApplicationPrimitiveCategory,
+        sw_axis_conts: List[SwAxisCont],
+        sw_value_cont: SwValueCont,
+        *,
+        label: Optional[str] = None,
+    ) -> ApplicationValueSpecification: ...
+
+    category: ApplicationPrimitiveCategory
+    """category of the application value specification"""
+    sw_axis_conts: List[SwAxisCont]
+    """list of `SwAxisCont` objects in the application value specification"""
+    sw_value_cont: SwValueCont
+    """`SwValueCont` of the application value specification"""
+    label: Optional[str]
+    """label of the application value specification, if any"""
+
+@final
+class ArrayValueSpecification:
+    """
+    An array value specification
+    """
+
+    def __init__(
+        self, values: List[ValueSpecification], /, *, label: Optional[str] = None
+    ) -> ArrayValueSpecification: ...
+    values: List[ValueSpecification]
+    """list of values in the array"""
+    label: Optional[str]
+    """label of the array value specification, if any"""
+
+@final
 class BaseTypeEncoding:
     """
     `BaseTypeEncoding` describes the encoding of a basic data type.
@@ -190,6 +288,33 @@ class BitfieldEntry:
     """text of this entry"""
     value: float
     """numeric value of this entry"""
+
+@final
+class CompositeRuleBasedValueSpecification:
+    """
+    A composite rule based value specification
+    """
+
+    def __init__(
+        self,
+        argument: List[CompositeValueSpecification],
+        compound_primitive_argument: List[CompositeRuleBasedValueArgument],
+        max_size_to_fill: Optional[int],
+        rule: RuleBasedFillUntil,
+        /,
+        *,
+        label: Optional[str] = None,
+    ) -> CompositeRuleBasedValueSpecification: ...
+    argument: List[CompositeValueSpecification]
+    """list of `CompositeValueSpecification` objects in the composite rule based value specification"""
+    compound_primitive_argument: List[CompositeRuleBasedValueArgument]
+    """list of `CompositeRuleBasedValueArgument` objects in the composite rule based value specification"""
+    max_size_to_fill: Optional[int]
+    """maximum size to fill in the composite rule based value specification"""
+    rule: RuleBasedFillUntil
+    """rule for filling the composite rule based value specification"""
+    label: Optional[str]
+    """label of the composite rule based value specification, if any"""
 
 @final
 class CompuMethod:
@@ -414,6 +539,37 @@ class CompuScaleRationalCoefficients:
     """list of denominator coefficients"""
     numerator: List[float]
     """list of numerator coefficients"""
+
+@final
+class ConstantReference:
+    """
+    A `ConstantReference` is a reference to a ConstantSpecification which can be used in a ValueSpecification.
+    """
+
+    def __init__(
+        self,
+        constant: ConstantSpecification,
+        /,
+        *,
+        label: Optional[str] = None,
+    ) -> ConstantReference: ...
+    constant: ConstantSpecification
+    """the constant specification that is referenced"""
+    label: Optional[str]
+    """label of the `ConstantReference`, if any"""
+
+@final
+class ConstantSpecification:
+    """
+    A `ConstantSpecification` is a specification of a constant value.
+
+    Use [`ArPackage::create_constant_specification`] to create a new `ConstantSpecification`.
+    """
+
+    def __init__(self, element: Element, /) -> ConstantSpecification: ...
+    element: Element
+    name: str
+    value_specification: ValueSpecification
 
 @final
 class DataConstr:
@@ -705,6 +861,56 @@ class LinearConversionParameters:
     """upper limit of the scale"""
 
 @final
+class NotAvailableValueSpecification:
+    """
+    A value specification that is not available. It is used for ApplicationRecordElements where the attribute isOptional ist set to the value True.
+    """
+
+    def __init__(
+        self, /, *, default_pattern: Optional[int] = None, label: Optional[str] = None
+    ) -> NotAvailableValueSpecification: ...
+    label: Optional[str]
+    """label of the `NotAvailableValueSpecification`, if any"""
+    default_pattern: Optional[int]
+    """default pattern to fill unused memory, if any"""
+
+@final
+class NumericalRuleBasedValueSpecification:
+    """
+    A numerical rule based value specification
+
+    This is a value specification that contains a rule based value specification for numerical values.
+    """
+
+    def __init__(
+        self,
+        rule_based_values: RuleBasedValueSpecification,
+        /,
+        *,
+        label: Optional[str] = None,
+    ) -> NumericalRuleBasedValueSpecification: ...
+    rule_based_values: RuleBasedValueSpecification
+    """the rule based value specification that contains the numerical values"""
+    label: Optional[str]
+    """label of the numerical rule based value specification, if any"""
+
+@final
+class NumericalValueSpecification:
+    """
+    A numerical value specification
+
+    This is a simple value specification that contains a single float value.
+    """
+
+    def __init__(
+        self, value: float, /, *, label: Optional[str] = None
+    ) -> NumericalValueSpecification: ...
+    value: float
+    """the numerical value"""
+    label: Optional[str]
+    """label of the numerical value specification, if any"""
+
+@final
 class RationalConversionParameters:
     """
     Description of the content of a `CompuMethod` whose category is `Rational`
@@ -732,6 +938,226 @@ class RationalConversionParameters:
     upper_limit: float
     """upper limit of the scale"""
     ...
+
+@final
+class RecordValueSpecification:
+    """
+    A record value specification
+    """
+
+    def __init__(
+        self, values: List[ValueSpecification], /, *, label: Optional[str] = None
+    ) -> RecordValueSpecification: ...
+    values: List[ValueSpecification]
+    """list of values in the record"""
+    label: Optional[str]
+    """label of the record value specification, if any"""
+
+@final
+class ReferenceValueSpecification:
+    """
+    A reference value specification
+
+    This is a value specification that contains a reference to a DataPrototype which defines the target value specification.
+    """
+
+    def __init__(
+        self, reference_value: DataPrototype, /, *, label: Optional[str] = None
+    ) -> ReferenceValueSpecification: ...
+    reference_value: DataPrototype
+    """the target data prototype that is referenced"""
+    label: Optional[str]
+    """label of the `ReferenceValueSpecification`, if any"""
+
+@final
+class RuleArgument:
+    """
+    argument of a rule-based value specification
+    """
+
+    V: Type[RuleArgument_V]
+    """V: argument is a numerical value"""
+    Vf: Type[RuleArgument_Vf]
+    """VF: argument is a numerical value"""
+    Vt: Type[RuleArgument_Vt]
+    """VT: argument is a text value"""
+    VtfNumber: Type[RuleArgument_VtfNumber]
+    """VTF: argument is a numerical value"""
+    VtfText: Type[RuleArgument_VtfText]
+    """VTF: argument is a text value"""
+
+@final
+class RuleArgument_V(RuleArgument):
+    """
+    argument is a numerical value
+    """
+
+    def __init__(self, value: float, /) -> RuleArgument_V: ...
+    value: float
+    """the numerical value of the argument"""
+
+@final
+class RuleArgument_Vf(RuleArgument):
+    """
+    argument is a numerical value
+    """
+
+    def __init__(self, value: float, /) -> RuleArgument_Vf: ...
+    value: float
+    """the numerical value of the argument"""
+
+@final
+class RuleArgument_Vt(RuleArgument):
+    """
+    argument is a text value
+    """
+
+    def __init__(self, value: str, /) -> RuleArgument_Vt: ...
+    value: str
+    """the text value of the argument"""
+
+@final
+class RuleArgument_VtfNumber(RuleArgument):
+    """
+    argument is a numerical value
+    """
+
+    def __init__(self, value: float, /) -> RuleArgument_VtfNumber: ...
+    value: float
+    """the numerical value of the argument"""
+
+@final
+class RuleArgument_VtfText(RuleArgument):
+    """
+    argument is a text value
+    """
+
+    def __init__(self, value: str, /) -> RuleArgument_VtfText: ...
+    value: str
+    """the text value of the argument"""
+
+@final
+class RuleBasedAxisCont:
+    """
+    Specification of the axis values of a compound primitive data type (curve, map) in a rule-based definition
+    """
+
+    def __init__(
+        self,
+        category: SwAxisContCategory,
+        sw_array_size: List[int],
+        sw_axis_index: int,
+        rule_based_values: RuleBasedValueSpecification,
+        unit: Optional[Unit] = None,
+    ) -> RuleBasedAxisCont: ...
+    category: SwAxisContCategory
+    """category of the axis content"""
+    sw_array_size: List[int]
+    """array size of the axis content"""
+    sw_axis_index: int
+    """index of the axis in the compound primitive data type"""
+    rule_based_values: RuleBasedValueSpecification
+    """rule based value specification of the axis content"""
+    unit: Optional[Unit]
+    """unit of the axis content, if any"""
+
+@final
+class RuleBasedFillUntil:
+    """
+    standard fill rules for rule based value specifications
+    """
+
+    End: RuleBasedFillUntil
+    """
+    `FILL_UNTIL_END`: fills the value of the last RuleBasedValueSpecification.arguments
+    until the last element of the array has been filled
+    """
+    MaxSize: RuleBasedFillUntil
+    """
+    `FILL_UNTIL_MAX_SIZE`: fills the value of the last RuleBasedValueSpecification.arguments
+    until maxSizeToFill elements of the array have been filled
+    """
+
+@final
+class RuleBasedValueCont:
+    """
+    Specification of the value content of a compound primitive data type (curve, map) in a rule-based definition
+    """
+
+    def __init__(
+        self,
+        rule_based_values: RuleBasedValueSpecification,
+        sw_array_size: List[int],
+        unit: Optional[Unit] = None,
+    ) -> RuleBasedValueCont: ...
+    rule_based_values: RuleBasedValueSpecification
+    """rule based value specification of the value content"""
+    sw_array_size: List[int]
+    """array size of the value content"""
+    unit: Optional[Unit]
+    """unit of the value content, if any"""
+
+@final
+class RuleBasedValueSpecification:
+    """
+    A rule based value specification
+    """
+
+    def __init__(
+        self,
+        arguments: List[RuleArgument],
+        rule: RuleBasedFillUntil,
+        max_size_to_fill: Optional[int] = None,
+    ) -> RuleBasedValueSpecification: ...
+    arguments: List[RuleArgument]
+    """list of `RuleArgument` objects in the rule based value specification"""
+    rule: RuleBasedFillUntil
+    """rule for filling the rule based value specification"""
+    max_size_to_fill: Optional[int]
+    """maximum size to fill in the rule based value specification, if any"""
+
+@final
+class SwAxisCont:
+    """
+    Specification of the axis values of a compound primitive data type (curve, map)
+    """
+
+    def __init__(
+        self,
+        category: SwAxisContCategory,
+        sw_array_size: List[int],
+        sw_axis_index: int,
+        sw_values_phys: List[SwValue],
+        /,
+        *,
+        unit: Optional[Unit] = None,
+        unit_display_name: Optional[str] = None,
+    ) -> SwAxisCont: ...
+    category: SwAxisContCategory
+    """category of the axis content"""
+    sw_array_size: List[int]
+    """array size of the axis content"""
+    sw_axis_index: int
+    """index of the axis in the compound primitive data type"""
+    sw_values_phys: List[SwValue]
+    """list of `SwValue` objects in the axis content"""
+    unit: Optional[Unit]
+    """unit of the axis content, if any"""
+    unit_display_name: Optional[str]
+    """display name of the unit, if any"""
+
+@final
+class SwAxisContCategory:
+    """
+    Category of a `SwAxisCont`
+    """
+
+    StdAxis: SwAxisContCategory
+    """standard axis"""
+    ComAxis: SwAxisContCategory
+    """commmon axis"""
+    ResAxis: SwAxisContCategory
+    """rescale axis"""
 
 @final
 class SwBaseType:
@@ -763,6 +1189,102 @@ class SwBaseType:
     The native declaration is a string that represents the type in the native programming language."""
 
 @final
+class SwValue:
+    """
+    a single value of a compound primitive data type (curve, map)
+    """
+
+    V: Type[SwValue_V]
+    """V: value is a numerical value"""
+    Vf: Type[SwValue_Vf]
+    """VF: value is a numerical value"""
+    Vt: Type[SwValue_Vt]
+    """VT: value is a text value"""
+    Vg: Type[SwValue_Vg]
+    """VG: value is a group of values"""
+    VtfNumber: Type[SwValue_VtfNumber]
+    """VTF: value is a numerical value"""
+    VtfText: Type[SwValue_VtfText]
+
+@final
+class SwValue_V(SwValue):
+    """
+    value is a numerical value
+    """
+
+    def __init__(self, value: float, /) -> SwValue_V: ...
+    value: float
+    """the numerical value of the value"""
+
+@final
+class SwValue_Vf(SwValue):
+    """
+    value is a numerical value
+    """
+
+    def __init__(self, value: float, /) -> SwValue_Vf: ...
+    value: float
+    """the numerical value of the value"""
+
+@final
+class SwValue_Vt(SwValue):
+    """
+    value is a text value
+    """
+
+    def __init__(self, value: str, /) -> SwValue_Vt: ...
+    value: str
+    """the text value of the value"""
+
+@final
+class SwValue_Vg(SwValue):
+    """
+    value is a group of values
+    """
+
+    def __init__(
+        self, values: List[SwValue], label: Optional[str] = None
+    ) -> SwValue_Vg: ...
+    values: List[SwValue]
+    """list of `SwValue` objects in the group"""
+    label: Optional[str]
+    """label of the group, if any"""
+
+@final
+class SwValue_VtfNumber(SwValue):
+    """
+    value is a numerical value
+    """
+
+    def __init__(self, value: float, /) -> SwValue_VtfNumber: ...
+    value: float
+    """the numerical value of the value"""
+
+@final
+class SwValue_VtfText(SwValue):
+    """
+    value is a text value
+    """
+
+    def __init__(self, value: str, /) -> SwValue_VtfText: ...
+    value: str
+    """the text value of the value"""
+
+@final
+class SwValueCont:
+    """
+    Specification of the values of a compound primitive data type (curve, map)
+    """
+
+    def __init__(
+        self, sw_array_size: List[int], sw_values_phys: List[SwValue]
+    ) -> SwValueCont: ...
+    sw_array_size: List[int]
+    """array size of the value content"""
+    sw_values_phys: List[SwValue]
+    """list of `SwValue` objects in the value content"""
+
+@final
 class TabNoIntpEntry:
     """
     a single entry of a `CompuMethod` whose category is `TabNoInterpretation`
@@ -783,6 +1305,22 @@ class TextTableEntry:
     """value"""
 
 @final
+class TextValueSpecification:
+    """
+    A text value specification
+
+    This is a simple value specification that contains a single string value.
+    """
+
+    def __init__(
+        self, value: str, /, *, label: Optional[str] = None
+    ) -> TextValueSpecification: ...
+    value: str
+    """the text value"""
+    label: Optional[str]
+    """label of the text value specification, if any"""
+
+@final
 class Unit:
     """
     `Unit` represents a unit of measurement.
@@ -795,4 +1333,3 @@ class Unit:
     """display name of the unit"""
     element: Element
     name: str
-    ...

@@ -19,6 +19,7 @@ mod element;
 mod model;
 mod specification;
 mod version;
+mod pyutils;
 
 use pyo3::IntoPyObjectExt;
 use version::AutosarVersion;

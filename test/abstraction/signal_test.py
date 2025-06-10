@@ -28,6 +28,9 @@ def test_isignal() -> None:
     # attributes
     isignal.length = 32
     assert isignal.length == 32
+    assert isignal.init_value is None
+    isignal.init_value = 1
+    assert isignal.init_value == NumericalValueSpecification(1) # 1 is automatically converted to a NumericalValueSpecification
 
     assert isignal.system_signal == system_signal
     system_signal2 = package.create_system_signal("SystemSignal2")

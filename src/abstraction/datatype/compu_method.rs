@@ -1,4 +1,5 @@
 use crate::abstraction::AutosarAbstractionError;
+use crate::pyutils::compare_pylist;
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
 
@@ -510,9 +511,7 @@ impl CompuMethodContent_ScaleLinear {
 
 impl PartialEq for CompuMethodContent_ScaleLinear {
     fn eq(&self, other: &Self) -> bool {
-        Python::with_gil(|py| {
-            compare_pylist::<LinearConversionParameters>(py, &self.scales, &other.scales)
-        })
+        Python::with_gil(|py| compare_pylist(py, &self.scales, &other.scales))
     }
 }
 
@@ -627,9 +626,7 @@ impl CompuMethodContent_ScaleRational {
 
 impl PartialEq for CompuMethodContent_ScaleRational {
     fn eq(&self, other: &Self) -> bool {
-        Python::with_gil(|py| {
-            compare_pylist::<RationalConversionParameters>(py, &self.scales, &other.scales)
-        })
+        Python::with_gil(|py| compare_pylist(py, &self.scales, &other.scales))
     }
 }
 
@@ -675,7 +672,7 @@ impl CompuMethodContent_TextTable {
 
 impl PartialEq for CompuMethodContent_TextTable {
     fn eq(&self, other: &Self) -> bool {
-        Python::with_gil(|py| compare_pylist::<TextTableEntry>(py, &self.texts, &other.texts))
+        Python::with_gil(|py| compare_pylist(py, &self.texts, &other.texts))
     }
 }
 
@@ -724,7 +721,7 @@ impl CompuMethodContent_BitfieldTextTable {
 
 impl PartialEq for CompuMethodContent_BitfieldTextTable {
     fn eq(&self, other: &Self) -> bool {
-        Python::with_gil(|py| compare_pylist::<BitfieldEntry>(py, &self.entries, &other.entries))
+        Python::with_gil(|py| compare_pylist(py, &self.entries, &other.entries))
     }
 }
 
@@ -785,8 +782,8 @@ impl CompuMethodContent_ScaleLinearAndTextTable {
 impl PartialEq for CompuMethodContent_ScaleLinearAndTextTable {
     fn eq(&self, other: &Self) -> bool {
         Python::with_gil(|py| {
-            compare_pylist::<LinearConversionParameters>(py, &self.scales, &other.scales)
-                && compare_pylist::<TextTableEntry>(py, &self.texts, &other.texts)
+            compare_pylist(py, &self.scales, &other.scales)
+                && compare_pylist(py, &self.texts, &other.texts)
         })
     }
 }
@@ -849,8 +846,8 @@ impl CompuMethodContent_ScaleRationalAndTextTable {
 impl PartialEq for CompuMethodContent_ScaleRationalAndTextTable {
     fn eq(&self, other: &Self) -> bool {
         Python::with_gil(|py| {
-            compare_pylist::<RationalConversionParameters>(py, &self.scales, &other.scales)
-                && compare_pylist::<TextTableEntry>(py, &self.texts, &other.texts)
+            compare_pylist(py, &self.scales, &other.scales)
+                && compare_pylist(py, &self.texts, &other.texts)
         })
     }
 }
@@ -907,7 +904,7 @@ impl CompuMethodContent_TabNoInterpretation {
 
 impl PartialEq for CompuMethodContent_TabNoInterpretation {
     fn eq(&self, other: &Self) -> bool {
-        Python::with_gil(|py| compare_pylist::<TabNoIntpEntry>(py, &self.entries, &other.entries))
+        Python::with_gil(|py| compare_pylist(py, &self.entries, &other.entries))
     }
 }
 
@@ -1330,49 +1327,6 @@ fn pylist_to_tab_no_intp(
         out_texts_vec
     } else {
         vec![]
-    }
-}
-
-fn compare_pylist<T: pyo3::PyClass + pyo3::PyTypeInfo + PartialEq>(
-    py: Python,
-    seq1: &Py<PyList>,
-    seq2: &Py<PyList>,
-) -> bool {
-    if let (Ok(seq1_len), Ok(seq2_len)) = (
-        seq1.bind_borrowed(py).as_sequence().len(),
-        seq2.bind_borrowed(py).as_sequence().len(),
-    ) {
-        // first, make sure the lengths are the same, since iter.zip stops when the shorter iterator is exhausted
-        if seq1_len != seq2_len {
-            // lengths are not equal
-            return false;
-        }
-
-        let mut seq1_try_iter = seq1.bind_borrowed(py).as_sequence().try_iter();
-        let mut seq2_try_iter = seq2.bind_borrowed(py).as_sequence().try_iter();
-        if let (Ok(seq1_iter), Ok(seq2_iter)) = (&mut seq1_try_iter, &mut seq2_try_iter) {
-            seq1_iter.zip(seq2_iter).all(|(scale1, scale2)| {
-                // try to get a ref to the PyClass T from the Bound<PyAny> on each side
-                let pyref1 = scale1
-                    .as_ref()
-                    .ok()
-                    .and_then(|seq_item| seq_item.downcast_exact::<T>().ok())
-                    .map(|py_bound| py_bound.borrow());
-                let pyref2 = scale2
-                    .as_ref()
-                    .ok()
-                    .and_then(|seq_item| seq_item.downcast_exact::<T>().ok())
-                    .map(|py_bound| py_bound.borrow());
-
-                pyref1.as_deref() == pyref2.as_deref()
-            })
-        } else {
-            // could not get iterators for the sequences - it's not clear that his case is reachable, since we're able to get lengths
-            false
-        }
-    } else {
-        // could not get lengths for the sequences. At least one of them is not a sequence.
-        false
     }
 }
 

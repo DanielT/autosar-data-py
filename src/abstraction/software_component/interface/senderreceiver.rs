@@ -1,6 +1,6 @@
 use crate::{
     abstraction::{
-        datatype::{autosar_data_type_to_pyobject, pyobject_to_autosar_data_type},
+        datatype::{autosar_data_type_to_pyobject, pyobject_to_autosar_data_type, pyobject_to_value_specification, value_specification_to_pyobject},
         *,
     },
     *,
@@ -142,6 +142,23 @@ impl VariableDataPrototype {
             Ok(value) => Ok(SenderReceiverInterface(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+    
+    /// set the init value for the data element
+    #[setter]
+    fn set_init_value(&self, init_value: &Bound<'_, PyAny>) -> PyResult<()> {
+        let init_value = pyobject_to_value_specification(init_value)?;
+        self.0
+            .set_init_value(init_value)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// get the init value for the data element
+    #[getter]
+    fn init_value(&self) -> Option<PyObject> {
+        self.0
+            .init_value()
+            .and_then(|value_spec| value_specification_to_pyobject(&value_spec).ok())
     }
 }
 

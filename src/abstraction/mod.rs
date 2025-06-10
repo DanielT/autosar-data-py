@@ -364,23 +364,29 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     datatype.add_class::<datatype::ApplicationPrimitiveDataType>()?;
     datatype.add_class::<datatype::ApplicationRecordDataType>()?;
     datatype.add_class::<datatype::ApplicationRecordElement>()?;
+    datatype.add_class::<datatype::ApplicationRuleBasedValueSpecification>()?;
+    datatype.add_class::<datatype::ApplicationValueSpecification>()?;
+    datatype.add_class::<datatype::ArrayValueSpecification>()?;
     datatype.add_class::<datatype::BaseTypeEncoding>()?;
     datatype.add_class::<datatype::BitfieldEntry>()?;
+    datatype.add_class::<datatype::CompositeRuleBasedValueSpecification>()?;
     datatype.add_class::<datatype::CompuMethod>()?;
     datatype.add_class::<datatype::CompuMethodCategory>()?;
     datatype.add_class::<datatype::CompuMethodContent>()?;
-    datatype.add_class::<datatype::CompuMethodContent_Linear>()?;
-    datatype.add_class::<datatype::CompuMethodContent_ScaleLinear>()?;
-    datatype.add_class::<datatype::CompuMethodContent_Rational>()?;
-    datatype.add_class::<datatype::CompuMethodContent_ScaleRational>()?;
-    datatype.add_class::<datatype::CompuMethodContent_TextTable>()?;
-    datatype.add_class::<datatype::CompuMethodContent_ScaleLinearAndTextTable>()?;
-    datatype.add_class::<datatype::CompuMethodContent_ScaleRationalAndTextTable>()?;
     datatype.add_class::<datatype::CompuMethodContent_BitfieldTextTable>()?;
+    datatype.add_class::<datatype::CompuMethodContent_Linear>()?;
+    datatype.add_class::<datatype::CompuMethodContent_Rational>()?;
+    datatype.add_class::<datatype::CompuMethodContent_ScaleLinear>()?;
+    datatype.add_class::<datatype::CompuMethodContent_ScaleLinearAndTextTable>()?;
+    datatype.add_class::<datatype::CompuMethodContent_ScaleRational>()?;
+    datatype.add_class::<datatype::CompuMethodContent_ScaleRationalAndTextTable>()?;
     datatype.add_class::<datatype::CompuMethodContent_TabNoInterpretation>()?;
+    datatype.add_class::<datatype::CompuMethodContent_TextTable>()?;
     datatype.add_class::<datatype::CompuScale>()?;
     datatype.add_class::<datatype::CompuScaleDirection>()?;
     datatype.add_class::<datatype::CompuScaleRationalCoefficients>()?;
+    datatype.add_class::<datatype::ConstantReference>()?;
+    datatype.add_class::<datatype::ConstantSpecification>()?;
     datatype.add_class::<datatype::DataConstr>()?;
     datatype.add_class::<datatype::DataConstrRule>()?;
     datatype.add_class::<datatype::DataConstrType>()?;
@@ -398,11 +404,27 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     datatype.add_class::<datatype::ImplementationDataTypeSettings_Union>()?;
     datatype.add_class::<datatype::ImplementationDataTypeSettings_Value>()?;
     datatype.add_class::<datatype::LinearConversionParameters>()?;
+    datatype.add_class::<datatype::NotAvailableValueSpecification>()?;
+    datatype.add_class::<datatype::NumericalRuleBasedValueSpecification>()?;
+    datatype.add_class::<datatype::NumericalValueSpecification>()?;
     datatype.add_class::<datatype::RationalConversionParameters>()?;
+    datatype.add_class::<datatype::RecordValueSpecification>()?;
+    datatype.add_class::<datatype::ReferenceValueSpecification>()?;
+    datatype.add_class::<datatype::RuleArgument>()?;
+    datatype.add_class::<datatype::RuleBasedAxisCont>()?;
+    datatype.add_class::<datatype::RuleBasedFillUntil>()?;
+    datatype.add_class::<datatype::RuleBasedValueCont>()?;
+    datatype.add_class::<datatype::RuleBasedValueSpecification>()?;
+    datatype.add_class::<datatype::SwAxisCont>()?;
+    datatype.add_class::<datatype::SwAxisContCategory>()?;
     datatype.add_class::<datatype::SwBaseType>()?;
+    datatype.add_class::<datatype::SwValue>()?;
+    datatype.add_class::<datatype::SwValueCont>()?;
     datatype.add_class::<datatype::TabNoIntpEntry>()?;
     datatype.add_class::<datatype::TextTableEntry>()?;
+    datatype.add_class::<datatype::TextValueSpecification>()?;
     datatype.add_class::<datatype::Unit>()?;
+
 
     // workaround - pyo3 complex enums do not support setters
     // The "mechanism" of the pyo3 complex enum is reconstructed here, but with subclasses that have setters
@@ -543,6 +565,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     software_component.add_class::<software_component::OsTaskExecutionEvent>()?;
     software_component.add_class::<software_component::PPortPrototype>()?;
     software_component.add_class::<software_component::PRPortPrototype>()?;
+    software_component.add_class::<software_component::ParameterDataPrototype>()?;
     software_component.add_class::<software_component::ParameterInterface>()?;
     software_component.add_class::<software_component::PassThroughSwConnector>()?;
     software_component.add_class::<software_component::PortGroup>()?;

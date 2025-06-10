@@ -69,6 +69,11 @@ class ArPackage:
     ) -> CompuMethod:
         """create a new `CompuMethod` in the package"""
         ...
+    
+    def create_constant_specification(
+        self, name: str, value: ValueSpecification) -> ConstantSpecification:
+        """create a new `ConstantSpecification` in the package"""
+        ...
 
     def create_data_constr(self, name: str) -> DataConstr:
         """create a new `DataConstr` in the package"""

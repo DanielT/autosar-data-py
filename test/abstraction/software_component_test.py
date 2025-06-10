@@ -713,6 +713,9 @@ def test_variable_data_prototype() -> None:
     variable_data_prototype.data_type = app_data_type
     assert variable_data_prototype.data_type == app_data_type
 
+    variable_data_prototype.init_value = 42
+    assert variable_data_prototype.init_value == NumericalValueSpecification(42)
+
     # check if the variable data prototype can be constructed from an element and is equal to the original one
     element = variable_data_prototype.element
     variable_data_prototype_copy = VariableDataPrototype(element)
@@ -755,6 +758,12 @@ def test_parameter_interface() -> None:
     sw_component_type = package.create_composition_sw_component_type(
         "CompositionSwComponentType"
     )
+    sw_base_type = package.create_sw_base_type(
+        "Unit32", 32, BaseTypeEncoding.TwosComplement
+    )
+    impl_data_type = package.create_implementation_data_type(
+        ImplementationDataTypeSettings.Value("ImplValue", base_type=sw_base_type)
+    )
 
     # ParameterInterface
     parameter_interface = package.create_parameter_interface("ParameterInterface")
@@ -767,6 +776,10 @@ def test_parameter_interface() -> None:
     p_port = sw_component_type.create_p_port("PPort", parameter_interface)
     assert p_port.port_interface == parameter_interface
 
+    pdp = parameter_interface.create_parameter("ParameterData", impl_data_type)
+    assert isinstance(pdp, ParameterDataPrototype)
+    assert list(parameter_interface.parameters()) == [pdp]
+
     # check if the parameter interface can be constructed from an element and is equal to the original one
     element = parameter_interface.element
     parameter_interface_copy = ParameterInterface(element)
@@ -774,6 +787,40 @@ def test_parameter_interface() -> None:
     # quick check if a custom __repr__ method is implemented and returns a non-empty string
     assert "__repr__" in ParameterInterface.__dict__
     assert parameter_interface.__repr__()
+
+
+def test_parameter_data_prototype() -> None:
+    model = AutosarModelAbstraction.create("test.arxml")
+    package = model.get_or_create_package("/package")
+    parameter_interface = package.create_parameter_interface("ParameterInterface")
+    sw_base_type = package.create_sw_base_type(
+        "Unit32", 32, BaseTypeEncoding.TwosComplement
+    )
+    impl_data_type = package.create_implementation_data_type(
+        ImplementationDataTypeSettings.Value("ImplValue", base_type=sw_base_type)
+    )
+
+    # ParameterDataPrototype
+    parameter_data_prototype = parameter_interface.create_parameter(
+        "ParameterData", impl_data_type
+    )
+    assert isinstance(parameter_data_prototype, ParameterDataPrototype)
+    # get and set the name
+    assert parameter_data_prototype.name == "ParameterData"
+    parameter_data_prototype.name = "ParameterData_modified"
+    assert parameter_data_prototype.name == "ParameterData_modified"
+
+    parameter_data_prototype.init_value = 42
+    assert parameter_data_prototype.init_value == NumericalValueSpecification(42)
+    #assert parameter_data_prototype.interface == parameter_interface
+
+    # check if the parameter data prototype can be constructed from an element and is equal to the original one
+    element = parameter_data_prototype.element
+    parameter_data_prototype_copy = ParameterDataPrototype(element)
+    assert parameter_data_prototype == parameter_data_prototype_copy
+    # quick check if a custom __repr__ method is implemented and returns a non-empty string
+    assert "__repr__" in ParameterDataPrototype.__dict__
+    assert parameter_data_prototype.__repr__()
 
 
 def test_nv_data_interface() -> None:

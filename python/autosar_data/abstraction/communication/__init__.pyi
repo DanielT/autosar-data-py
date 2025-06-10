@@ -3,7 +3,7 @@
 from typing import List, Optional, Tuple, TypeAlias, Union, Iterator, Type, final
 from autosar_data import Element
 from autosar_data.abstraction import ByteOrder, EcuInstance, System
-from autosar_data.abstraction.datatype import CompuMethod, DataConstr, SwBaseType, Unit
+from autosar_data.abstraction.datatype import CompuMethod, DataConstr, SwBaseType, Unit, ValueSpecification
 
 Pdu: TypeAlias = Union[
     ContainerIPdu,
@@ -2426,6 +2426,8 @@ class ISignal:
     ]:
         """get all transformation properties that are applied to this signal"""
         ...
+    init_value: Optional[ValueSpecification]
+    """get or set the initial value of the signal"""
 
 @final
 class ISignalGroup:

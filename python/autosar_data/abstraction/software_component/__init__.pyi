@@ -2,7 +2,7 @@
 
 from typing import final, Iterator, List, Optional, Tuple, TypeAlias, Union
 from autosar_data import Element
-from autosar_data.abstraction.datatype import AutosarDataType, DataTypeMappingSet
+from autosar_data.abstraction.datatype import AutosarDataType, DataTypeMappingSet, ValueSpecification
 
 PortInterface: TypeAlias = Union[
     SenderReceiverInterface,
@@ -666,6 +666,19 @@ class PRPortPrototype:
     """port interface of the port prototype"""
 
 @final
+class ParameterDataPrototype:
+    """
+    A `ParameterDataPrototype` represents a parameter in a `ParameterInterface`
+    """
+
+    def __init__(self, element: Element, /) -> ParameterDataPrototype: ...
+    # data_type: Optional[AutosarDataType]
+    # """data type of the parameter"""
+    element: Element
+    name: str
+    init_value: ValueSpecification
+
+@final
 class ParameterInterface:
     """
     A `ParameterInterface` defines a set of parameters that can be accessed
@@ -674,6 +687,12 @@ class ParameterInterface:
     """
 
     def __init__(self, element: Element, /) -> ParameterInterface: ...
+    def create_parameter(self, name: str, data_type: AutosarDataType, /) -> ParameterDataPrototype:
+        """Add a new parameter to the parameter interface"""
+        ...
+    def parameters(self, /) -> Iterator[ParameterDataPrototype]:
+        """iterate over all parameters"""
+        ...
     element: Element
     name: str
 
@@ -1035,3 +1054,7 @@ class VariableDataPrototype:
     """Get the interface containing the data element"""
     name: str
     ...
+    init_value: Optional[ValueSpecification]
+    """
+    initial value of the data element, if any
+    """
