@@ -740,6 +740,16 @@ def test_mode_switch_interface() -> None:
     mode_switch_interface.name = "ModeSwitchInterface_modified"
     assert mode_switch_interface.name == "ModeSwitchInterface_modified"
 
+    # create a mode group
+    mode_declaration_group = package.create_mode_declaration_group(
+        "ModeDeclarationGroup"
+    )
+    mode_group = mode_switch_interface.create_mode_group(
+        "ModeGroup", mode_declaration_group
+    )
+    assert isinstance(mode_group, ModeGroup)
+    assert mode_switch_interface.mode_group == mode_group
+
     p_port = sw_component_type.create_p_port("PPort", mode_switch_interface)
     assert p_port.port_interface == mode_switch_interface
 
@@ -750,6 +760,40 @@ def test_mode_switch_interface() -> None:
     # quick check if a custom __repr__ method is implemented and returns a non-empty string
     assert "__repr__" in ModeSwitchInterface.__dict__
     assert mode_switch_interface.__repr__()
+
+
+def test_mode_group() -> None:
+    model = AutosarModelAbstraction.create("test.arxml")
+    package = model.get_or_create_package("/package")
+    mode_switch_interface = package.create_mode_switch_interface("ModeSwitchInterface")
+
+    # ModeGroup
+    mode_declaration_group = package.create_mode_declaration_group(
+        "ModeDeclarationGroup"
+    )
+    mode_group = mode_switch_interface.create_mode_group(
+        "ModeGroup", mode_declaration_group
+    )
+    assert isinstance(mode_group, ModeGroup)
+    # get and set the name
+    assert mode_group.name == "ModeGroup"
+    mode_group.name = "ModeGroup_modified"
+    assert mode_group.name == "ModeGroup_modified"
+
+    assert mode_group.mode_declaration_group == mode_declaration_group
+    mode_declaration_group2 = package.create_mode_declaration_group(
+        "ModeDeclarationGroup2"
+    )
+    mode_group.mode_declaration_group = mode_declaration_group2
+    assert mode_group.mode_declaration_group == mode_declaration_group2
+
+    # check if the mode group can be constructed from an element and is equal to the original one
+    element = mode_group.element
+    mode_group_copy = ModeGroup(element)
+    assert mode_group == mode_group_copy
+    # quick check if a custom __repr__ method is implemented and returns a non-empty string
+    assert "__repr__" in ModeGroup.__dict__
+    assert mode_group.__repr__()
 
 
 def test_parameter_interface() -> None:
@@ -812,7 +856,7 @@ def test_parameter_data_prototype() -> None:
 
     parameter_data_prototype.init_value = 42
     assert parameter_data_prototype.init_value == NumericalValueSpecification(42)
-    #assert parameter_data_prototype.interface == parameter_interface
+    # assert parameter_data_prototype.interface == parameter_interface
 
     # check if the parameter data prototype can be constructed from an element and is equal to the original one
     element = parameter_data_prototype.element
@@ -983,3 +1027,74 @@ def test_port_group() -> None:
     # quick check if a custom __repr__ method is implemented and returns a non-empty string
     assert "__repr__" in PortGroup.__dict__
     assert port_group.__repr__()
+
+
+def test_mode_declaration_group() -> None:
+    model = AutosarModelAbstraction.create("test.arxml")
+    package = model.get_or_create_package("/package")
+
+    # ModeDeclarationGroup
+    mode_declaration_group = package.create_mode_declaration_group(
+        "ModeDeclarationGroup"
+    )
+    assert isinstance(mode_declaration_group, ModeDeclarationGroup)
+    # get and set the name
+    assert mode_declaration_group.name == "ModeDeclarationGroup"
+    mode_declaration_group.name = "ModeDeclarationGroup_modified"
+    assert mode_declaration_group.name == "ModeDeclarationGroup_modified"
+
+    assert mode_declaration_group.category is None
+    mode_declaration_group.category = ModeDeclarationGroupCategory.AlphabeticOrder
+    assert (
+        mode_declaration_group.category == ModeDeclarationGroupCategory.AlphabeticOrder
+    )
+    mode_declaration_group.category = ModeDeclarationGroupCategory.ExplicitOrder
+    assert mode_declaration_group.category == ModeDeclarationGroupCategory.ExplicitOrder
+
+    mode_declaration = mode_declaration_group.create_mode_declaration("ModeDeclaration")
+    assert isinstance(mode_declaration, ModeDeclaration)
+    list(mode_declaration_group.mode_declarations()) == [mode_declaration]
+
+    assert mode_declaration_group.initial_mode is None
+    mode_declaration_group.initial_mode = mode_declaration
+    assert mode_declaration_group.initial_mode == mode_declaration
+
+    assert mode_declaration_group.on_transition_value is None
+    mode_declaration_group.on_transition_value = 42
+    assert mode_declaration_group.on_transition_value == 42
+
+    # check if the mode declaration group can be constructed from an element and is equal to the original one
+    element = mode_declaration_group.element
+    mode_declaration_group_copy = ModeDeclarationGroup(element)
+    assert mode_declaration_group == mode_declaration_group_copy
+    # quick check if a custom __repr__ method is implemented and returns a non-empty string
+    assert "__repr__" in ModeDeclarationGroup.__dict__
+    assert mode_declaration_group.__repr__()
+
+
+def test_mode_declaration() -> None:
+    model = AutosarModelAbstraction.create("test.arxml")
+    package = model.get_or_create_package("/package")
+    mode_declaration_group = package.create_mode_declaration_group(
+        "ModeDeclarationGroup"
+    )
+
+    # ModeDeclaration
+    mode_declaration = mode_declaration_group.create_mode_declaration("ModeDeclaration")
+    assert isinstance(mode_declaration, ModeDeclaration)
+    # get and set the name
+    assert mode_declaration.name == "ModeDeclaration"
+    mode_declaration.name = "ModeDeclaration_modified"
+    assert mode_declaration.name == "ModeDeclaration_modified"
+
+    assert mode_declaration.value is None
+    mode_declaration.value = 42
+    assert mode_declaration.value == 42
+
+    # check if the mode declaration can be constructed from an element and is equal to the original one
+    element = mode_declaration.element
+    mode_declaration_copy = ModeDeclaration(element)
+    assert mode_declaration == mode_declaration_copy
+    # quick check if a custom __repr__ method is implemented and returns a non-empty string
+    assert "__repr__" in ModeDeclaration.__dict__
+    assert mode_declaration.__repr__()

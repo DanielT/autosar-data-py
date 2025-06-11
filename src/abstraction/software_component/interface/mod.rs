@@ -1,5 +1,12 @@
 use crate::{
-    abstraction::{datatype::{pyobject_to_autosar_data_type, pyobject_to_value_specification, value_specification_to_pyobject}, *},
+    abstraction::{
+        datatype::{
+            pyobject_to_autosar_data_type, pyobject_to_value_specification,
+            value_specification_to_pyobject,
+        },
+        software_component::ModeDeclarationGroup,
+        *,
+    },
     *,
 };
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
@@ -54,6 +61,85 @@ impl ModeSwitchInterface {
 
     fn __repr__(&self) -> String {
         format!("{:#?}", self.0)
+    }
+
+    /// Create a new `ModeGroup` in this `ModeSwitchInterface`
+    ///
+    /// The `ModeSwitchInterface` can only contain one mode group
+    fn create_mode_group(
+        &self,
+        name: &str,
+        mode_declaration_group: &ModeDeclarationGroup,
+    ) -> PyResult<ModeGroup> {
+        let mode_group = self
+            .0
+            .create_mode_group(name, &mode_declaration_group.0)
+            .map_err(abstraction_err_to_pyerr)?;
+        Ok(ModeGroup(mode_group))
+    }
+
+    /// Get the mode group for this `ModeSwitchInterface`
+    #[getter]
+    fn mode_group(&self) -> Option<ModeGroup> {
+        self.0.mode_group().map(ModeGroup)
+    }
+}
+
+//###################################################################
+
+/// A `ModeGroup` represents a mode group in a `ModeSwitchInterface`
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._software_component"
+)]
+#[derive(Clone, PartialEq)]
+pub(crate) struct ModeGroup(pub(crate) autosar_data_abstraction::software_component::ModeGroup);
+
+#[pymethods]
+impl ModeGroup {
+    #[new]
+    fn new(element: &Element) -> PyResult<Self> {
+        match autosar_data_abstraction::software_component::ModeGroup::try_from(element.0.clone()) {
+            Ok(value) => Ok(Self(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    #[setter]
+    fn set_name(&self, name: &str) -> PyResult<()> {
+        self.0.set_name(name).map_err(abstraction_err_to_pyerr)
+    }
+
+    #[getter]
+    fn name(&self) -> Option<String> {
+        self.0.name()
+    }
+
+    #[getter]
+    fn element(&self) -> Element {
+        Element(self.0.element().clone())
+    }
+
+    fn __repr__(&self) -> String {
+        format!("{:#?}", self.0)
+    }
+
+    /// Set the mode declaration group for this `ModeGroup`
+    #[setter]
+    fn set_mode_declaration_group(
+        &self,
+        mode_declaration_group: &ModeDeclarationGroup,
+    ) -> PyResult<()> {
+        self.0
+            .set_mode_declaration_group(&mode_declaration_group.0)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the mode declaration group for this `ModeGroup`
+    #[getter]
+    fn mode_declaration_group(&self) -> Option<ModeDeclarationGroup> {
+        self.0.mode_declaration_group().map(ModeDeclarationGroup)
     }
 }
 

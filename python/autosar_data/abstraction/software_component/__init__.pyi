@@ -2,7 +2,11 @@
 
 from typing import final, Iterator, List, Optional, Tuple, TypeAlias, Union
 from autosar_data import Element
-from autosar_data.abstraction.datatype import AutosarDataType, DataTypeMappingSet, ValueSpecification
+from autosar_data.abstraction.datatype import (
+    AutosarDataType,
+    DataTypeMappingSet,
+    ValueSpecification,
+)
 
 PortInterface: TypeAlias = Union[
     SenderReceiverInterface,
@@ -562,6 +566,72 @@ class InternalTriggerOccurredEvent:
     """Get the `SwcInternalBehavior` that contains the event"""
 
 @final
+class ModeDeclaration:
+    """
+    A `ModeDeclaration` represents a mode declaration in a `ModeDeclarationGroup`
+    """
+
+    def __init__(self, element: Element, /) -> ModeDeclaration: ...
+    element: Element
+    name: str
+    value: Optional[int]
+    """value of the mode declaration, if any."""
+
+@final
+class ModeDeclarationGroup:
+    """
+    A `ModeDeclarationGroup` is a collection of mode declarations.
+    """
+
+    def __init__(self, element: Element, /) -> ModeDeclarationGroup: ...
+    def create_mode_declaration(self, name: str, /) -> ModeDeclaration:
+        """Create a new mode declaration in the group"""
+        ...
+
+    def mode_declarations(self, /) -> Iterator[ModeDeclaration]:
+        """iterate over all mode declarations in the group"""
+        ...
+    element: Element
+    name: str
+    category: Optional[ModeDeclarationGroupCategory]
+    """category of the mode declaration group"""
+    initial_mode: Optional[ModeDeclaration]
+    """initial mode of the mode declaration group, if any"""
+    on_transition_value: Optional[int]
+    """
+    Value to be used when switching to the mode declaration group, if any.
+    This is the onTransitionValue attribute of the mode declaration group.
+    """
+
+@final
+class ModeDeclarationGroupCategory:
+    """
+    Category of mode declaration groupy, which defines the ordering of the modes in the group
+    """
+
+    AlphabeticOrder: ModeDeclarationGroupCategory
+    """
+    Alphabetic order of the modes in the group.
+    """
+    ExplicitOrder: ModeDeclarationGroupCategory
+    """
+    Ordering of modes in the mode declaration group is made explicit by the value, which must be set for each mode.
+    Additonally, the on_transition_value attribute must be set in this case.
+    """
+
+@final
+class ModeGroup:
+    """
+    A `ModeGroup` represents a mode group in a `ModeSwitchInterface`
+    """
+
+    def __init__(self, element: Element, /) -> ModeGroup: ...
+    element: Element
+    name: str
+    mode_declaration_group: ModeDeclarationGroup
+    """Get/Set the mode declaration group of the mode group"""
+
+@final
 class ModeSwitchInterface:
     """
     A `ModeSwitchInterface` defines a set of modes that can be switched
@@ -572,6 +642,15 @@ class ModeSwitchInterface:
     def __init__(self, element: Element, /) -> ModeSwitchInterface: ...
     element: Element
     name: str
+    def create_mode_group(
+        self, name: str, mode_declaration_group: ModeDeclarationGroup, /) -> ModeGroup:
+        """
+        Create a new mode group in the mode switch interface
+        The `ModeSwitchInterface` can only contain one mode group
+        """
+        ...
+    mode_group: Optional[ModeGroup]
+    """Get the mode group of the mode switch interface"""
 
 @final
 class ModeSwitchedAckEvent:
@@ -687,9 +766,12 @@ class ParameterInterface:
     """
 
     def __init__(self, element: Element, /) -> ParameterInterface: ...
-    def create_parameter(self, name: str, data_type: AutosarDataType, /) -> ParameterDataPrototype:
+    def create_parameter(
+        self, name: str, data_type: AutosarDataType, /
+    ) -> ParameterDataPrototype:
         """Add a new parameter to the parameter interface"""
         ...
+
     def parameters(self, /) -> Iterator[ParameterDataPrototype]:
         """iterate over all parameters"""
         ...

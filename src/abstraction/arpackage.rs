@@ -18,9 +18,10 @@ use crate::abstraction::{
     },
     software_component::{
         ApplicationSwComponentType, ClientServerInterface, ComplexDeviceDriverSwComponentType,
-        CompositionSwComponentType, EcuAbstractionSwComponentType, ModeSwitchInterface,
-        NvDataInterface, ParameterInterface, SenderReceiverInterface,
-        SensorActuatorSwComponentType, ServiceSwComponentType, TriggerInterface,
+        CompositionSwComponentType, EcuAbstractionSwComponentType, ModeDeclarationGroup,
+        ModeDeclarationGroupCategory, ModeSwitchInterface, NvDataInterface, ParameterInterface,
+        SenderReceiverInterface, SensorActuatorSwComponentType, ServiceSwComponentType,
+        TriggerInterface,
     },
     system::SystemCategory,
 };
@@ -308,6 +309,25 @@ impl ArPackage {
         let settings = pyany_to_implmentation_settings(settings)?;
         match self.0.create_implementation_data_type(&settings) {
             Ok(value) => Ok(ImplementationDataType(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// create a new `ModeDeclarationGroup` in the package
+    #[pyo3(signature = (name, *, category=None))]
+    #[pyo3(
+        text_signature = "(self, name: str, *, category: Optional[ModeDeclarationGroupCategory] = None)"
+    )]
+    fn create_mode_declaration_group(
+        &self,
+        name: &str,
+        category: Option<ModeDeclarationGroupCategory>,
+    ) -> PyResult<ModeDeclarationGroup> {
+        match self
+            .0
+            .create_mode_declaration_group(name, category.map(Into::into))
+        {
+            Ok(value) => Ok(ModeDeclarationGroup(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
     }

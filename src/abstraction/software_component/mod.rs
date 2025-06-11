@@ -7,11 +7,13 @@ use autosar_data_abstraction::{
 mod connector;
 mod interface;
 mod internal_behavior;
+mod mode;
 mod port;
 
 pub(crate) use connector::*;
 pub(crate) use interface::*;
 pub(crate) use internal_behavior::*;
+pub(crate) use mode::*;
 pub(crate) use port::*;
 
 //##################################################################

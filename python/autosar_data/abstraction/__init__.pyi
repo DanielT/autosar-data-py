@@ -69,9 +69,10 @@ class ArPackage:
     ) -> CompuMethod:
         """create a new `CompuMethod` in the package"""
         ...
-    
+
     def create_constant_specification(
-        self, name: str, value: ValueSpecification) -> ConstantSpecification:
+        self, name: str, value: ValueSpecification
+    ) -> ConstantSpecification:
         """create a new `ConstantSpecification` in the package"""
         ...
 
@@ -121,6 +122,12 @@ class ArPackage:
         self, settings: ImplementationDataTypeSettings
     ) -> ImplementationDataType:
         """create a new `ImplementationDataType` in the package"""
+        ...
+
+    def create_mode_declaration_group(
+        self, name: str, *, category: Optional[ModeDeclarationGroupCategory] = None
+    ) -> ModeDeclarationGroup:
+        """create a new `ModeDeclarationGroup` in the package"""
         ...
 
     def create_mode_switch_interface(self, name: str) -> ModeSwitchInterface:

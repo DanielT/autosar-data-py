@@ -425,7 +425,6 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     datatype.add_class::<datatype::TextValueSpecification>()?;
     datatype.add_class::<datatype::Unit>()?;
 
-
     // workaround - pyo3 complex enums do not support setters
     // The "mechanism" of the pyo3 complex enum is reconstructed here, but with subclasses that have setters
     let compu_method_content_type = datatype::CompuMethodContent::type_object(py);
@@ -558,6 +557,10 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     software_component.add_class::<software_component::ExternalTriggerOccurredEvent>()?;
     software_component.add_class::<software_component::InitEvent>()?;
     software_component.add_class::<software_component::InternalTriggerOccurredEvent>()?;
+    software_component.add_class::<software_component::ModeDeclaration>()?;
+    software_component.add_class::<software_component::ModeDeclarationGroup>()?;
+    software_component.add_class::<software_component::ModeDeclarationGroupCategory>()?;
+    software_component.add_class::<software_component::ModeGroup>()?;
     software_component.add_class::<software_component::ModeSwitchInterface>()?;
     software_component.add_class::<software_component::ModeSwitchedAckEvent>()?;
     software_component.add_class::<software_component::NvDataInterface>()?;
