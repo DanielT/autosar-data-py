@@ -424,6 +424,16 @@ class DataReceivedEvent:
     """`RunnableEntity` that is triggered by the `AsynchronousServerCallCompleted`"""
     swc_internal_behavior: Optional[SwcInternalBehavior]
     """Get the `SwcInternalBehavior` that contains the event"""
+    def set_variable_data_prototype(
+        self,
+        variable_data_prototype: VariableDataPrototype,
+        context_port: PPortPrototype,
+        /,
+    ) -> None:
+        """Set the `VariableDataPrototype` that triggers the `DataReceivedEvent`"""
+        ...
+    variable_data_prototype: Optional[Tuple[VariableDataPrototype, PortPrototype]]
+    """Get the `VariableDataPrototype` that triggers the `DataReceivedEvent`"""
 
 @final
 class DataSendCompletedEvent:
@@ -566,6 +576,25 @@ class InternalTriggerOccurredEvent:
     """`RunnableEntity` that is triggered by the `AsynchronousServerCallCompleted`"""
     swc_internal_behavior: Optional[SwcInternalBehavior]
     """Get the `SwcInternalBehavior` that contains the event"""
+
+@final
+class ModeActivationKind:
+    """
+    Kind of mode switch condition used for activation of an event
+    """
+
+    OnEntry: ModeActivationKind
+    """
+    The mode is activated on entry to the mode.
+    """
+    OnExit: ModeActivationKind
+    """
+    The mode is activated on exit from the mode.
+    """
+    OnTransition: ModeActivationKind
+    """
+    The mode is activated on transition from the first mode to the second mode.
+    """
 
 @final
 class ModeDeclaration:
@@ -1060,6 +1089,29 @@ class SwcInternalBehavior:
         ...
     sw_component_type: Optional[SwComponentType]
     """software component type that contains the `SwcInternalBehavior`"""
+    def create_mode_switch_event(
+        self,
+        name: str,
+        runnable: RunnableEntity,
+        activation: ModeActivationKind,
+        context_port: PortPrototype,
+        mode_declaration: ModeDeclaration,
+        /,
+        second_mode_declaration: Optional[ModeDeclaration] = None,
+    ) -> SwcModeSwitchEvent:
+        """create a mode switch event that triggers a runnable in the `SwcInternalBehavior` when the mode is switched"""
+        ...
+
+    def create_data_received_event(
+        self,
+        name: str,
+        runnable: RunnableEntity,
+        variable_data_prototype: VariableDataPrototype,
+        context_port: PortPrototype,
+        /,
+    ) -> DataReceivedEvent:
+        """Create a new `DataReceivedEvent` in the `SwcInternalBehavior` that triggers a runnable when data is received"""
+        ...
 
 @final
 class SwcModeManagerErrorEvent:
@@ -1088,6 +1140,32 @@ class SwcModeSwitchEvent:
     """`RunnableEntity` that is triggered by the `AsynchronousServerCallCompleted`"""
     swc_internal_behavior: Optional[SwcInternalBehavior]
     """Get the `SwcInternalBehavior` that contains the event"""
+    mode_activation_kind: Optional[ModeActivationKind]
+    """Get/Set the mode activation kind of the `SwcModeSwitchEvent`"""
+    def set_mode_declaration(
+        self,
+        ontext_port: PortPrototype,
+        mode_declaration: ModeDeclaration,
+        /,
+        second_mode_declaration: Optional[ModeDeclaration] = None,
+    ) -> None:
+        """
+        Set the mode declaration within a context port that triggers the `SwcModeSwitchEvent`
+
+        The second mode must be provided if the activation kind `OnTransition` is configured.
+        In that case only transitions between the two modes trigger the event.
+        """
+        ...
+
+    def mode_declarations(self) -> Optional[List[ModeDeclaration]]:
+        """
+        Get the mode declarations that trigger the `SwcModeSwitchEvent`
+
+        The list contains one or two mode declarations, depending on the activation kind.
+        If the activation kind is `OnTransition`, the list contains two mode declarations.
+        Otherwise, it contains one mode declaration.
+        """
+        ...
 
 @final
 class TimingEvent:

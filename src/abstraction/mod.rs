@@ -557,6 +557,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     software_component.add_class::<software_component::ExternalTriggerOccurredEvent>()?;
     software_component.add_class::<software_component::InitEvent>()?;
     software_component.add_class::<software_component::InternalTriggerOccurredEvent>()?;
+    software_component.add_class::<software_component::ModeActivationKind>()?;
     software_component.add_class::<software_component::ModeDeclaration>()?;
     software_component.add_class::<software_component::ModeDeclarationGroup>()?;
     software_component.add_class::<software_component::ModeDeclarationGroupCategory>()?;
