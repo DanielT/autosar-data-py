@@ -211,6 +211,8 @@ class ClientServerInterface:
     def possible_errors(self, /) -> Iterator[ApplicationError]:
         """iterate over all application errors"""
         ...
+    is_service: Optional[bool]
+    """Get/Set if the client server interface is a service interface"""
 
 @final
 class ClientServerOperation:
@@ -643,7 +645,8 @@ class ModeSwitchInterface:
     element: Element
     name: str
     def create_mode_group(
-        self, name: str, mode_declaration_group: ModeDeclarationGroup, /) -> ModeGroup:
+        self, name: str, mode_declaration_group: ModeDeclarationGroup, /
+    ) -> ModeGroup:
         """
         Create a new mode group in the mode switch interface
         The `ModeSwitchInterface` can only contain one mode group
@@ -651,6 +654,8 @@ class ModeSwitchInterface:
         ...
     mode_group: Optional[ModeGroup]
     """Get the mode group of the mode switch interface"""
+    is_service: Optional[bool]
+    """Get/Set if the mode switch interface is a service interface"""
 
 @final
 class ModeSwitchedAckEvent:
@@ -677,6 +682,8 @@ class NvDataInterface:
     def __init__(self, element: Element, /) -> NvDataInterface: ...
     element: Element
     name: str
+    is_service: Optional[bool]
+    """Get/Set if the Nv-data interface is a service interface"""
 
 @final
 class OperationInvokedEvent:
@@ -777,6 +784,8 @@ class ParameterInterface:
         ...
     element: Element
     name: str
+    is_service: Optional[bool]
+    """Get/Set if the parameter interface is a service interface"""
 
 @final
 class PassThroughSwConnector:
@@ -863,6 +872,8 @@ class SenderReceiverInterface:
         ...
     element: Element
     name: str
+    is_service: Optional[bool]
+    """Get/Set if the sender/receiver interface is a service interface"""
 
 @final
 class SensorActuatorSwComponentType:
@@ -1121,6 +1132,8 @@ class TriggerInterface:
     def __init__(self, element: Element, /) -> TriggerInterface: ...
     element: Element
     name: str
+    is_service: Optional[bool]
+    """Get/Set if the trigger interface is a service interface"""
 
 @final
 class VariableDataPrototype:

@@ -517,6 +517,10 @@ def test_client_server_interface() -> None:
     client_server_interface.name = "ClientServerInterface_modified"
     assert client_server_interface.name == "ClientServerInterface_modified"
 
+    assert client_server_interface.is_service is None
+    client_server_interface.is_service = True
+    assert client_server_interface.is_service is True
+
     application_error1 = client_server_interface.create_possible_error("Error1", 403)
     application_error2 = client_server_interface.create_possible_error("Error2", 404)
     assert list(client_server_interface.possible_errors()) == [
@@ -666,6 +670,10 @@ def test_sender_receiver_interface() -> None:
     sr_interface.name = "SRInterface_modified"
     assert sr_interface.name == "SRInterface_modified"
 
+    assert sr_interface.is_service is None
+    sr_interface.is_service = False
+    assert sr_interface.is_service is False
+
     data_element1 = sr_interface.create_data_element("DataElement1", impl_data_type)
     data_element2 = sr_interface.create_data_element("DataElement2", app_data_type)
     assert list(sr_interface.data_elements()) == [data_element1, data_element2]
@@ -739,6 +747,10 @@ def test_mode_switch_interface() -> None:
     assert mode_switch_interface.name == "ModeSwitchInterface"
     mode_switch_interface.name = "ModeSwitchInterface_modified"
     assert mode_switch_interface.name == "ModeSwitchInterface_modified"
+
+    assert mode_switch_interface.is_service is None
+    mode_switch_interface.is_service = False
+    assert mode_switch_interface.is_service is False
 
     # create a mode group
     mode_declaration_group = package.create_mode_declaration_group(
@@ -817,6 +829,10 @@ def test_parameter_interface() -> None:
     parameter_interface.name = "ParameterInterface_modified"
     assert parameter_interface.name == "ParameterInterface_modified"
 
+    assert parameter_interface.is_service is None
+    parameter_interface.is_service = True
+    assert parameter_interface.is_service is True
+
     p_port = sw_component_type.create_p_port("PPort", parameter_interface)
     assert p_port.port_interface == parameter_interface
 
@@ -882,6 +898,10 @@ def test_nv_data_interface() -> None:
     nv_data_interface.name = "NvDataInterface_modified"
     assert nv_data_interface.name == "NvDataInterface_modified"
 
+    assert nv_data_interface.is_service is None
+    nv_data_interface.is_service = False
+    assert nv_data_interface.is_service is False
+
     p_port = sw_component_type.create_p_port("PPort", nv_data_interface)
     assert p_port.port_interface == nv_data_interface
 
@@ -908,6 +928,10 @@ def test_trigger_interface() -> None:
     assert trigger_interface.name == "TriggerInterface"
     trigger_interface.name = "TriggerInterface_modified"
     assert trigger_interface.name == "TriggerInterface_modified"
+
+    assert trigger_interface.is_service is None
+    trigger_interface.is_service = False
+    assert trigger_interface.is_service is False
 
     p_port = sw_component_type.create_p_port("PPort", trigger_interface)
     assert p_port.port_interface == trigger_interface

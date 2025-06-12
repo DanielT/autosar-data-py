@@ -9,7 +9,10 @@ use crate::{
     },
     *,
 };
-use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
+use autosar_data_abstraction::{
+    self, AbstractionElement, IdentifiableAbstractionElement,
+    software_component::AbstractPortInterface,
+};
 
 mod clientserver;
 mod senderreceiver;
@@ -82,6 +85,20 @@ impl ModeSwitchInterface {
     #[getter]
     fn mode_group(&self) -> Option<ModeGroup> {
         self.0.mode_group().map(ModeGroup)
+    }
+
+    /// Set the is_service flag for this `ModeSwitchInterface`
+    #[setter]
+    fn set_is_service(&self, is_service: Option<bool>) -> PyResult<()> {
+        self.0
+            .set_is_service(is_service)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the is_service flag for this `ModeSwitchInterface`
+    #[getter]
+    fn is_service(&self) -> Option<bool> {
+        self.0.is_service()
     }
 }
 
@@ -207,6 +224,20 @@ impl ParameterInterface {
     fn parameters(&self) -> ParameterDataPrototypeIterator {
         ParameterDataPrototypeIterator::new(self.0.parameters().map(ParameterDataPrototype))
     }
+
+    /// Set the is_service flag for this `ParameterInterface`
+    #[setter]
+    fn set_is_service(&self, is_service: Option<bool>) -> PyResult<()> {
+        self.0
+            .set_is_service(is_service)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the is_service flag for this `ParameterInterface`
+    #[getter]
+    fn is_service(&self) -> Option<bool> {
+        self.0.is_service()
+    }
 }
 
 //##################################################################
@@ -322,6 +353,20 @@ impl NvDataInterface {
     fn __repr__(&self) -> String {
         format!("{:#?}", self.0)
     }
+
+    /// Set the is_service flag for this `NvDataInterface`
+    #[setter]
+    fn set_is_service(&self, is_service: Option<bool>) -> PyResult<()> {
+        self.0
+            .set_is_service(is_service)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the is_service flag for this `NvDataInterface`
+    #[getter]
+    fn is_service(&self) -> Option<bool> {
+        self.0.is_service()
+    }
 }
 
 //##################################################################
@@ -368,6 +413,20 @@ impl TriggerInterface {
 
     fn __repr__(&self) -> String {
         format!("{:#?}", self.0)
+    }
+
+    /// Set the is_service flag for this `TriggerInterface`
+    #[setter]
+    fn set_is_service(&self, is_service: Option<bool>) -> PyResult<()> {
+        self.0
+            .set_is_service(is_service)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the is_service flag for this `TriggerInterface`
+    #[getter]
+    fn is_service(&self) -> Option<bool> {
+        self.0.is_service()
     }
 }
 

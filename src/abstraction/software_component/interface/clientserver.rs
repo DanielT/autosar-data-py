@@ -2,7 +2,10 @@ use crate::abstraction::{
     datatype::{autosar_data_type_to_pyobject, pyobject_to_autosar_data_type},
     software_component::*,
 };
-use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
+use autosar_data_abstraction::{
+    self, AbstractionElement, IdentifiableAbstractionElement,
+    software_component::AbstractPortInterface,
+};
 
 //##################################################################
 
@@ -78,6 +81,20 @@ impl ClientServerInterface {
     /// iterate over all operations
     fn operations(&self) -> ClientServerOperationIterator {
         ClientServerOperationIterator::new(self.0.operations().map(ClientServerOperation))
+    }
+
+    /// Set the is_service flag for this `ClientServerInterface`
+    #[setter]
+    fn set_is_service(&self, is_service: Option<bool>) -> PyResult<()> {
+        self.0
+            .set_is_service(is_service)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the is_service flag for this `ClientServerInterface`
+    #[getter]
+    fn is_service(&self) -> Option<bool> {
+        self.0.is_service()
     }
 }
 

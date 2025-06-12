@@ -1,11 +1,17 @@
 use crate::{
     abstraction::{
-        datatype::{autosar_data_type_to_pyobject, pyobject_to_autosar_data_type, pyobject_to_value_specification, value_specification_to_pyobject},
+        datatype::{
+            autosar_data_type_to_pyobject, pyobject_to_autosar_data_type,
+            pyobject_to_value_specification, value_specification_to_pyobject,
+        },
         *,
     },
     *,
 };
-use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
+use autosar_data_abstraction::{
+    self, AbstractionElement, IdentifiableAbstractionElement,
+    software_component::AbstractPortInterface,
+};
 
 //##################################################################
 
@@ -71,6 +77,20 @@ impl SenderReceiverInterface {
     /// iterate over all data elements
     fn data_elements(&self) -> VariableDataPrototypeIterator {
         VariableDataPrototypeIterator::new(self.0.data_elements().map(VariableDataPrototype))
+    }
+
+    /// Set the is_service flag for this `SenderReceiverInterface`
+    #[setter]
+    fn set_is_service(&self, is_service: Option<bool>) -> PyResult<()> {
+        self.0
+            .set_is_service(is_service)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the is_service flag for this `SenderReceiverInterface`
+    #[getter]
+    fn is_service(&self) -> Option<bool> {
+        self.0.is_service()
     }
 }
 
@@ -143,7 +163,7 @@ impl VariableDataPrototype {
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
     }
-    
+
     /// set the init value for the data element
     #[setter]
     fn set_init_value(&self, init_value: &Bound<'_, PyAny>) -> PyResult<()> {
