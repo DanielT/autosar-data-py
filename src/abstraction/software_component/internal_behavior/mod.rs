@@ -4,8 +4,9 @@ use crate::{
         AutosarAbstractionError, abstraction_err_to_pyerr,
         datatype::{DataTypeMappingSet, DataTypeMappingSetIterator},
         software_component::{
-            ClientServerOperation, ModeDeclaration, PPortPrototype, VariableDataPrototype,
-            port_prototype_to_pyobject, pyobject_to_port_prototype, sw_component_type_to_pyobject,
+            ClientServerOperation, ModeDeclaration, PPortPrototype, RPortPrototype,
+            VariableDataPrototype, port_prototype_to_pyobject, pyobject_to_port_prototype,
+            sw_component_type_to_pyobject,
         },
     },
     iterator_wrapper,
@@ -439,6 +440,32 @@ impl RunnableEntity {
     fn data_receive_points_by_value(&self) -> VariableAccessIterator {
         VariableAccessIterator::new(self.0.data_receive_points_by_value().map(VariableAccess))
     }
+
+    /// create a synchronous server call point that allows the runnable to call a server operation
+    fn create_synchronous_server_call_point(
+        &self,
+        name: &str,
+        client_server_operation: &ClientServerOperation,
+        context_r_port: &RPortPrototype,
+    ) -> PyResult<SynchronousServerCallPoint> {
+        match self.0.create_synchronous_server_call_point(
+            name,
+            &client_server_operation.0,
+            &context_r_port.0,
+        ) {
+            Ok(value) => Ok(SynchronousServerCallPoint(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// iterate over all synchronous server call points
+    fn synchronous_server_call_points(&self) -> SynchronousServerCallPointIterator {
+        SynchronousServerCallPointIterator::new(
+            self.0
+                .synchronous_server_call_points()
+                .map(SynchronousServerCallPoint),
+        )
+    }
 }
 
 //##################################################################
@@ -513,8 +540,96 @@ impl VariableAccess {
         let context_port = port_prototype_to_pyobject(context_port).ok()?;
         Some((variable, context_port))
     }
+
+    /// Get the `RunnableEntity` that contains the `VariableAccess`
+    #[getter]
+    fn runnable_entity(&self) -> Option<RunnableEntity> {
+        self.0.runnable_entity().map(RunnableEntity)
+    }
 }
 
 //##################################################################
 
 iterator_wrapper!(VariableAccessIterator, VariableAccess);
+
+//##################################################################
+
+/// A `SynchronousServerCallPoint` allows a `RunnableEntity` to call a server operation synchronously
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._software_component"
+)]
+#[derive(Clone, PartialEq)]
+pub(crate) struct SynchronousServerCallPoint(
+    pub(crate) autosar_data_abstraction::software_component::SynchronousServerCallPoint,
+);
+
+#[pymethods]
+impl SynchronousServerCallPoint {
+    #[new]
+    fn new(element: &Element) -> PyResult<Self> {
+        match autosar_data_abstraction::software_component::SynchronousServerCallPoint::try_from(
+            element.0.clone(),
+        ) {
+            Ok(value) => Ok(Self(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    #[setter]
+    fn set_name(&self, name: &str) -> PyResult<()> {
+        self.0.set_name(name).map_err(abstraction_err_to_pyerr)
+    }
+
+    #[getter]
+    fn name(&self) -> Option<String> {
+        self.0.name()
+    }
+
+    #[getter]
+    fn element(&self) -> Element {
+        Element(self.0.element().clone())
+    }
+
+    fn __repr__(&self) -> String {
+        format!("{:#?}", self.0)
+    }
+
+    /// Set the client server operation
+    #[pyo3(signature = (client_server_operation, context_r_port, /))]
+    #[pyo3(
+        text_signature = "(self, client_server_operation: ClientServerOperation, context_r_port: RPortPrototype, /)"
+    )]
+    fn set_client_server_operation(
+        &self,
+        client_server_operation: &ClientServerOperation,
+        context_r_port: &RPortPrototype,
+    ) -> PyResult<()> {
+        self.0
+            .set_client_server_operation(&client_server_operation.0, &context_r_port.0)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the client server operation
+    #[getter]
+    fn client_server_operation(&self) -> Option<(ClientServerOperation, RPortPrototype)> {
+        let (client_server_operation, context_r_port) = self.0.client_server_operation()?;
+        let client_server_operation = ClientServerOperation(client_server_operation);
+        let context_r_port = RPortPrototype(context_r_port);
+        Some((client_server_operation, context_r_port))
+    }
+
+    /// Get the `RunnableEntity` that contains the `SynchronousServerCallPoint`
+    #[getter]
+    fn runnable_entity(&self) -> Option<RunnableEntity> {
+        self.0.runnable_entity().map(RunnableEntity)
+    }
+}
+
+//##################################################################
+
+iterator_wrapper!(
+    SynchronousServerCallPointIterator,
+    SynchronousServerCallPoint
+);

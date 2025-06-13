@@ -583,6 +583,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     software_component.add_class::<software_component::SwcInternalBehavior>()?;
     software_component.add_class::<software_component::SwcModeManagerErrorEvent>()?;
     software_component.add_class::<software_component::SwcModeSwitchEvent>()?;
+    software_component.add_class::<software_component::SynchronousServerCallPoint>()?;
     software_component.add_class::<software_component::TimingEvent>()?;
     software_component.add_class::<software_component::TransformerHardErrorEvent>()?;
     software_component.add_class::<software_component::TriggerInterface>()?;

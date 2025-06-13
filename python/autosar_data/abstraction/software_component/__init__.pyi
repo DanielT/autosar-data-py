@@ -944,6 +944,18 @@ class RunnableEntity:
         """iterate over all data receive points by value of the runnable entity"""
         ...
 
+    def create_synchronous_server_call_point(
+        self, name: str, operation: ClientServerOperation, port: PPortPrototype, /
+    ) -> SynchronousServerCallPoint:
+        """
+        create a synchronous server call point that allows the runnable to call a server operation
+        """
+        ...
+
+    def synchronous_server_call_points(self, /) -> Iterator[SynchronousServerCallPoint]:
+        """iterate over all synchronous server call points of the runnable entity"""
+        ...
+
 @final
 class SenderReceiverInterface:
     """
@@ -1231,6 +1243,28 @@ class SwcModeSwitchEvent:
         ...
 
 @final
+class SynchronousServerCallPoint:
+    """
+    A `SynchronousServerCallPoint` allows a `RunnableEntity` to call a server operation synchronously
+    """
+
+    def __init__(self, element: Element, /) -> SynchronousServerCallPoint: ...
+    element: Element
+    name: str
+    def set_client_server_operation(
+        self,
+        client_server_operation: ClientServerOperation,
+        context_p_port: PPortPrototype,
+        /,
+    ) -> None:
+        """Set the `ClientServerOperation` that is called by the `SynchronousServerCallPoint`"""
+        ...
+    client_server_operation: Optional[Tuple[ClientServerOperation, PPortPrototype]]
+    """Get the `ClientServerOperation` that is called by the `SynchronousServerCallPoint`"""
+    runnable_entity: Optional[RunnableEntity]
+    """`RunnableEntity` that contains the `SynchronousServerCallPoint`"""
+
+@final
 class TimingEvent:
     """
     A `TimingEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` periodically
@@ -1292,6 +1326,8 @@ class VariableAccess:
         ...
     accessed_variable: Optional[Tuple[VariableDataPrototype, PortPrototype]]
     """Get the variable that is accessed by the `VariableAccess`"""
+    runnable_entity: Optional[RunnableEntity]
+    """`RunnableEntity` that contains the `VariableAccess`"""
 
 @final
 class VariableDataPrototype:

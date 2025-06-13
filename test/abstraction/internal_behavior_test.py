@@ -470,6 +470,8 @@ def test_variable_access() -> None:
     variable_access.name = "DataReadAccess2"
     assert variable_access.name == "DataReadAccess2"
 
+    assert variable_access.runnable_entity == runnable
+
     variable_access.set_accessed_variable(variable, r_port)
     assert variable_access.accessed_variable == (variable, r_port)
 
@@ -480,3 +482,43 @@ def test_variable_access() -> None:
     # quick check if a custom __repr__ method is implemented and returns a non-empty string
     assert "__repr__" in VariableAccess.__dict__
     assert variable_access.__repr__()
+
+
+def test_synchronous_server_call_point() -> None:
+    model = AutosarModelAbstraction.create("test.arxml")
+    package = model.get_or_create_package("/package")
+    app_component_type = package.create_application_sw_component_type(
+        "ApplicationSwComponentType"
+    )
+    client_server_interface = package.create_client_server_interface("ClientServer")
+    r_port = app_component_type.create_r_port("Port", client_server_interface)
+    operation = client_server_interface.create_operation("Operation")
+    internal_behavior = app_component_type.create_swc_internal_behavior(
+        "InternalBehavior"
+    )
+    runnable = internal_behavior.create_runnable_entity("Runnable")
+
+    # SynchronousServerCallPoint
+    sync_call_point = runnable.create_synchronous_server_call_point(
+        "SyncCallPoint", operation, r_port
+    )
+    assert isinstance(sync_call_point, SynchronousServerCallPoint)
+    # get and set the name
+    assert sync_call_point.name == "SyncCallPoint"
+    sync_call_point.name = "SyncCallPoint2"
+    assert sync_call_point.name == "SyncCallPoint2"
+
+    assert sync_call_point.runnable_entity == runnable
+
+    sync_call_point.set_client_server_operation(operation, r_port)
+    assert sync_call_point.client_server_operation == (operation, r_port)
+
+    assert list(runnable.synchronous_server_call_points()) == [sync_call_point]
+
+    # check if the synchronous_server_call_point can be constructed from an element and is equal to the original one
+    element = sync_call_point.element
+    sync_call_point2 = SynchronousServerCallPoint(element)
+    assert sync_call_point == sync_call_point2
+    # quick check if a custom __repr__ method is implemented and returns a non-empty string
+    assert "__repr__" in SynchronousServerCallPoint.__dict__
+    assert sync_call_point.__repr__()
