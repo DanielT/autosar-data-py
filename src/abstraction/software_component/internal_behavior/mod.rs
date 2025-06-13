@@ -5,7 +5,7 @@ use crate::{
         datatype::{DataTypeMappingSet, DataTypeMappingSetIterator},
         software_component::{
             ClientServerOperation, ModeDeclaration, PPortPrototype, VariableDataPrototype,
-            pyobject_to_port_prototype, sw_component_type_to_pyobject,
+            port_prototype_to_pyobject, pyobject_to_port_prototype, sw_component_type_to_pyobject,
         },
     },
     iterator_wrapper,
@@ -303,8 +303,218 @@ impl RunnableEntity {
             .filter_map(|event| rte_event_to_pyobject(event).ok())
             .collect()
     }
+
+    /// add implicit read access to a data element of a sender-receiver `PortPrototype`
+    ///
+    /// this results in `Rte_IRead_<port>_<data_element>` being generated
+    #[pyo3(signature = (name, data_element, context_port, /))]
+    #[pyo3(
+        text_signature = "(self, name: str, data_element: VariableDataPrototype, port: PortPrototype, /)"
+    )]
+    fn create_data_read_access(
+        &self,
+        name: &str,
+        data_element: &VariableDataPrototype,
+        context_port: &Bound<'_, PyAny>,
+    ) -> PyResult<VariableAccess> {
+        let context_port = pyobject_to_port_prototype(context_port)?;
+        match self
+            .0
+            .create_data_read_access(name, &data_element.0, &context_port)
+        {
+            Ok(value) => Ok(VariableAccess(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// iterate over all data read accesses
+    fn data_read_accesses(&self) -> VariableAccessIterator {
+        VariableAccessIterator::new(self.0.data_read_accesses().map(VariableAccess))
+    }
+
+    /// add implicit write access to a data element of a sender-receiver `PortPrototype`
+    ///
+    /// this results in `Rte_IWrite_<port>_<data_element>` being generated
+    #[pyo3(signature = (name, data_element, context_port, /))]
+    #[pyo3(
+        text_signature = "(self, name: str, data_element: VariableDataPrototype, port: PortPrototype, /)"
+    )]
+    fn create_data_write_access(
+        &self,
+        name: &str,
+        data_element: &VariableDataPrototype,
+        context_port: &Bound<'_, PyAny>,
+    ) -> PyResult<VariableAccess> {
+        let context_port = pyobject_to_port_prototype(context_port)?;
+        match self
+            .0
+            .create_data_write_access(name, &data_element.0, &context_port)
+        {
+            Ok(value) => Ok(VariableAccess(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// iterate over all data write accesses
+    fn data_write_accesses(&self) -> VariableAccessIterator {
+        VariableAccessIterator::new(self.0.data_write_accesses().map(VariableAccess))
+    }
+
+    /// add a data send point to a data element of a sender-receiver `PortPrototype`
+    #[pyo3(signature = (name, data_element, context_port, /))]
+    #[pyo3(
+        text_signature = "(self, name: str, data_element: VariableDataPrototype, port: PortPrototype, /)"
+    )]
+    fn create_data_send_point(
+        &self,
+        name: &str,
+        data_element: &VariableDataPrototype,
+        context_port: &Bound<'_, PyAny>,
+    ) -> PyResult<VariableAccess> {
+        let context_port = pyobject_to_port_prototype(context_port)?;
+        match self
+            .0
+            .create_data_send_point(name, &data_element.0, &context_port)
+        {
+            Ok(value) => Ok(VariableAccess(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// iterate over all data send points
+    fn data_send_points(&self) -> VariableAccessIterator {
+        VariableAccessIterator::new(self.0.data_send_points().map(VariableAccess))
+    }
+
+    /// add explicit read access by argument to a data element of a sender-receiver `PortPrototype`
+    ///
+    /// this results in `Rte_Read_<port>_<data_element>(DataType* data)` being generated
+    #[pyo3(signature = (name, data_element, context_port, /))]
+    #[pyo3(
+        text_signature = "(self, name: str, data_element: VariableDataPrototype, port: PortPrototype, /)"
+    )]
+    fn create_data_receive_point_by_argument(
+        &self,
+        name: &str,
+        data_element: &VariableDataPrototype,
+        context_port: &Bound<'_, PyAny>,
+    ) -> PyResult<VariableAccess> {
+        let context_port = pyobject_to_port_prototype(context_port)?;
+        match self
+            .0
+            .create_data_receive_point_by_argument(name, &data_element.0, &context_port)
+        {
+            Ok(value) => Ok(VariableAccess(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// iterate over all data receive points by argument
+    fn data_receive_points_by_argument(&self) -> VariableAccessIterator {
+        VariableAccessIterator::new(self.0.data_receive_points_by_argument().map(VariableAccess))
+    }
+
+    /// add explicit read access by value to a data element of a sender-receiver `PortPrototype`
+    #[pyo3(signature = (name, data_element, context_port, /))]
+    #[pyo3(
+        text_signature = "(self, name: str, data_element: VariableDataPrototype, port: PortPrototype, /)"
+    )]
+    fn create_data_receive_point_by_value(
+        &self,
+        name: &str,
+        data_element: &VariableDataPrototype,
+        context_port: &Bound<'_, PyAny>,
+    ) -> PyResult<VariableAccess> {
+        let context_port = pyobject_to_port_prototype(context_port)?;
+        match self
+            .0
+            .create_data_receive_point_by_value(name, &data_element.0, &context_port)
+        {
+            Ok(value) => Ok(VariableAccess(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// iterate over all data receive points by value
+    fn data_receive_points_by_value(&self) -> VariableAccessIterator {
+        VariableAccessIterator::new(self.0.data_receive_points_by_value().map(VariableAccess))
+    }
 }
 
 //##################################################################
 
 iterator_wrapper!(RunnableEntityIterator, RunnableEntity);
+
+//##################################################################
+
+/// A `VariableAccess` allows a `RunnableEntity` to access a variable in various contexts
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._software_component"
+)]
+#[derive(Clone, PartialEq)]
+pub(crate) struct VariableAccess(
+    pub(crate) autosar_data_abstraction::software_component::VariableAccess,
+);
+
+#[pymethods]
+impl VariableAccess {
+    #[new]
+    fn new(element: &Element) -> PyResult<Self> {
+        match autosar_data_abstraction::software_component::VariableAccess::try_from(
+            element.0.clone(),
+        ) {
+            Ok(value) => Ok(Self(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    #[setter]
+    fn set_name(&self, name: &str) -> PyResult<()> {
+        self.0.set_name(name).map_err(abstraction_err_to_pyerr)
+    }
+
+    #[getter]
+    fn name(&self) -> Option<String> {
+        self.0.name()
+    }
+
+    #[getter]
+    fn element(&self) -> Element {
+        Element(self.0.element().clone())
+    }
+
+    fn __repr__(&self) -> String {
+        format!("{:#?}", self.0)
+    }
+
+    /// Set the accessed variable
+    #[pyo3(signature = (variable, context_port, /))]
+    #[pyo3(
+        text_signature = "(self, variable: VariableDataPrototype, context_port: PortPrototype, /)"
+    )]
+    fn set_accessed_variable(
+        &self,
+        variable: &VariableDataPrototype,
+        context_port: &Bound<'_, PyAny>,
+    ) -> PyResult<()> {
+        let context_port = pyobject_to_port_prototype(context_port)?;
+        self.0
+            .set_accessed_variable(&variable.0, &context_port)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the accessed variable
+    #[getter]
+    fn accessed_variable(&self) -> Option<(VariableDataPrototype, PyObject)> {
+        let (variable_data_prototype, context_port) = self.0.accessed_variable()?;
+        let variable = VariableDataPrototype(variable_data_prototype);
+        let context_port = port_prototype_to_pyobject(context_port).ok()?;
+        Some((variable, context_port))
+    }
+}
+
+//##################################################################
+
+iterator_wrapper!(VariableAccessIterator, VariableAccess);

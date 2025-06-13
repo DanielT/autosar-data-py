@@ -880,6 +880,69 @@ class RunnableEntity:
     name: str
     swc_internal_behavior: Optional[SwcInternalBehavior]
     """`SwcInternalBehavior` that contains the `RunnableEntity`"""
+    def create_data_read_access(
+        self, name: str, data_element: VariableDataPrototype, port: PortPrototype, /
+    ) -> VariableAccess:
+        """
+        add implicit read access to a data element of a sender-receiver `PortPrototype`
+
+        this results in `Rte_IRead_<port>_<data_element>` being generated
+        """
+        ...
+
+    def data_read_accesses(self, /) -> Iterator[VariableAccess]:
+        """iterate over all data read accesses of the runnable entity"""
+        ...
+
+    def create_data_write_access(
+        self, name: str, data_element: VariableDataPrototype, port: PortPrototype, /
+    ) -> VariableAccess:
+        """
+        add implicit write access to a data element of a sender-receiver `PortPrototype`
+
+        this results in `Rte_IWrite_<port>_<data_element>` being generated
+        """
+        ...
+
+    def data_write_accesses(self, /) -> Iterator[VariableAccess]:
+        """iterate over all data write accesses of the runnable entity"""
+        ...
+
+    def create_data_send_point(
+        self, name: str, data_element: VariableDataPrototype, port: PortPrototype, /
+    ) -> VariableAccess:
+        """
+        add a data send point to a data element of a sender-receiver `PortPrototype`
+        """
+        ...
+
+    def data_send_points(self, /) -> Iterator[VariableAccess]:
+        """iterate over all data send points of the runnable entity"""
+        ...
+
+    def create_data_receive_point_by_argument(
+        self, name: str, data_element: VariableDataPrototype, port: PortPrototype, /
+    ) -> VariableAccess:
+        """
+        add explicit read access by argument to a data element of a sender-receiver `PortPrototype`
+        """
+        ...
+
+    def data_receive_points_by_argument(self, /) -> Iterator[VariableAccess]:
+        """iterate over all data receive points by argument of the runnable entity"""
+        ...
+
+    def create_data_receive_point_by_value(
+        self, name: str, data_element: VariableDataPrototype, port: PortPrototype, /
+    ) -> VariableAccess:
+        """
+        add explicit read access by value to a data element of a sender-receiver `PortPrototype`
+        """
+        ...
+
+    def data_receive_points_by_value(self, /) -> Iterator[VariableAccess]:
+        """iterate over all data receive points by value of the runnable entity"""
+        ...
 
 @final
 class SenderReceiverInterface:
@@ -1212,6 +1275,23 @@ class TriggerInterface:
     name: str
     is_service: Optional[bool]
     """Get/Set if the trigger interface is a service interface"""
+
+@final
+class VariableAccess:
+    """
+    A `VariableAccess` allows a `RunnableEntity` to access a variable in various contexts
+    """
+
+    def __init__(self, element: Element, /) -> VariableAccess: ...
+    element: Element
+    name: str
+    def set_accessed_variable(
+        self, variable: VariableDataPrototype, context_port: PortPrototype, /
+    ) -> None:
+        """Set the variable that is accessed by the `VariableAccess`"""
+        ...
+    accessed_variable: Optional[Tuple[VariableDataPrototype, PortPrototype]]
+    """Get the variable that is accessed by the `VariableAccess`"""
 
 @final
 class VariableDataPrototype:

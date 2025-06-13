@@ -17,9 +17,9 @@ mod abstraction;
 mod arxmlfile;
 mod element;
 mod model;
+mod pyutils;
 mod specification;
 mod version;
-mod pyutils;
 
 use pyo3::IntoPyObjectExt;
 use version::AutosarVersion;

@@ -586,6 +586,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     software_component.add_class::<software_component::TimingEvent>()?;
     software_component.add_class::<software_component::TransformerHardErrorEvent>()?;
     software_component.add_class::<software_component::TriggerInterface>()?;
+    software_component.add_class::<software_component::VariableAccess>()?;
     software_component.add_class::<software_component::VariableDataPrototype>()?;
 
     // Workaround for Pyo3 issue #759 (https://github.com/PyO3/pyo3/issues/759)

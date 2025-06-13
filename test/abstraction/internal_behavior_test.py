@@ -76,6 +76,17 @@ def test_runnable_entity() -> None:
     internal_behavior = app_component_type.create_swc_internal_behavior(
         "InternalBehavior"
     )
+    app_data_type = package.create_application_primitive_data_type(
+        "PrimitiveType", ApplicationPrimitiveCategory.Boolean
+    )
+    sender_receiver_interface = package.create_sender_receiver_interface(
+        "SenderReceiver"
+    )
+    r_port = app_component_type.create_r_port("RPort", sender_receiver_interface)
+    p_port = app_component_type.create_p_port("PPort", sender_receiver_interface)
+    variable = sender_receiver_interface.create_data_element(
+        "DataElement", app_data_type
+    )
 
     # Runnable
     runnable = internal_behavior.create_runnable_entity("Runnable")
@@ -89,6 +100,22 @@ def test_runnable_entity() -> None:
 
     event = internal_behavior.create_init_event("InitEvent", runnable)
     assert list(runnable.events()) == [event]
+
+    # test all types of variable access
+    read_access = runnable.create_data_read_access("read_access", variable, r_port)
+    assert list(runnable.data_read_accesses()) == [read_access]
+    receive_by_arg_access = runnable.create_data_receive_point_by_argument(
+        "receive_point_by_argument", variable, r_port
+    )
+    assert list(runnable.data_receive_points_by_argument()) == [receive_by_arg_access]
+    receive_by_val_access = runnable.create_data_receive_point_by_value(
+        "receive_point_by_value", variable, r_port
+    )
+    assert list(runnable.data_receive_points_by_value()) == [receive_by_val_access]
+    write_access = runnable.create_data_write_access("write_access", variable, p_port)
+    assert list(runnable.data_write_accesses()) == [write_access]
+    send_point = runnable.create_data_send_point("send_point", variable, p_port)
+    assert list(runnable.data_send_points()) == [send_point]
 
     # check if the runnable_entity can be constructed from an element and is equal to the original one
     element = runnable.element
@@ -366,7 +393,9 @@ def test_data_received_event() -> None:
     app_data_type = package.create_application_primitive_data_type(
         "PrimitiveType", ApplicationPrimitiveCategory.Boolean
     )
-    sender_receiver_interface = package.create_sender_receiver_interface("ClientServer")
+    sender_receiver_interface = package.create_sender_receiver_interface(
+        "SenderReceiver"
+    )
     r_port = app_component_type.create_r_port("Port", sender_receiver_interface)
     variable_data_prototype = sender_receiver_interface.create_data_element(
         "DataElement", app_data_type
@@ -407,3 +436,47 @@ def test_data_received_event() -> None:
     # quick check if a custom __repr__ method is implemented and returns a non-empty string
     assert "__repr__" in DataReceivedEvent.__dict__
     assert data_received_event.__repr__()
+
+
+def test_variable_access() -> None:
+    model = AutosarModelAbstraction.create("test.arxml")
+    package = model.get_or_create_package("/package")
+    app_component_type = package.create_application_sw_component_type(
+        "ApplicationSwComponentType"
+    )
+    internal_behavior = app_component_type.create_swc_internal_behavior(
+        "InternalBehavior"
+    )
+    app_data_type = package.create_application_primitive_data_type(
+        "PrimitiveType", ApplicationPrimitiveCategory.Boolean
+    )
+    sender_receiver_interface = package.create_sender_receiver_interface(
+        "SenderReceiver"
+    )
+    r_port = app_component_type.create_r_port("RPort", sender_receiver_interface)
+    variable = sender_receiver_interface.create_data_element(
+        "DataElement", app_data_type
+    )
+
+    runnable = internal_behavior.create_runnable_entity("Runnable")
+
+    # DataReadAccess
+    variable_access = runnable.create_data_read_access(
+        "DataReadAccess", variable, r_port
+    )
+    assert isinstance(variable_access, VariableAccess)
+    # get and set the name
+    assert variable_access.name == "DataReadAccess"
+    variable_access.name = "DataReadAccess2"
+    assert variable_access.name == "DataReadAccess2"
+
+    variable_access.set_accessed_variable(variable, r_port)
+    assert variable_access.accessed_variable == (variable, r_port)
+
+    # check if the variable_access can be constructed from an element and is equal to the original one
+    element = variable_access.element
+    variable_access2 = VariableAccess(element)
+    assert variable_access == variable_access2
+    # quick check if a custom __repr__ method is implemented and returns a non-empty string
+    assert "__repr__" in VariableAccess.__dict__
+    assert variable_access.__repr__()
