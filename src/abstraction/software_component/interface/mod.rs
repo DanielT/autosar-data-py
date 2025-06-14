@@ -1,8 +1,8 @@
 use crate::{
     abstraction::{
         datatype::{
-            pyobject_to_autosar_data_type, pyobject_to_value_specification,
-            value_specification_to_pyobject,
+            autosar_data_type_to_pyobject, pyobject_to_autosar_data_type,
+            pyobject_to_value_specification, value_specification_to_pyobject,
         },
         software_component::ModeDeclarationGroup,
         *,
@@ -286,7 +286,33 @@ impl ParameterDataPrototype {
         format!("{:#?}", self.0)
     }
 
-    /// set the init value for the data element
+    /// Set the data type of the parameter
+    #[setter]
+    fn set_data_type(&self, data_type: &Bound<'_, PyAny>) -> PyResult<()> {
+        let data_type = pyobject_to_autosar_data_type(data_type)?;
+        self.0
+            .set_data_type(&data_type)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the data type of the parameter
+    #[getter]
+    fn data_type(&self) -> Option<PyObject> {
+        self.0
+            .data_type()
+            .and_then(|value| autosar_data_type_to_pyobject(value).ok())
+    }
+
+    /// Get the interface containing the parameter
+    #[getter]
+    fn interface(&self) -> PyResult<ParameterInterface> {
+        match self.0.interface() {
+            Ok(value) => Ok(ParameterInterface(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// set the init value for the parameter
     #[setter]
     fn set_init_value(&self, init_value: Option<&Bound<'_, PyAny>>) -> PyResult<()> {
         let init_value = init_value
@@ -297,7 +323,7 @@ impl ParameterDataPrototype {
             .map_err(abstraction_err_to_pyerr)
     }
 
-    /// get the init value for the data element
+    /// get the init value for the parameter
     #[getter]
     fn init_value(&self) -> Option<PyObject> {
         self.0

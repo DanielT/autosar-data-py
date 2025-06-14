@@ -792,6 +792,10 @@ class ParameterDataPrototype:
     element: Element
     name: str
     init_value: Optional[ValueSpecification]
+    data_type: Optional[AutosarDataType]
+    """data type of the parameter"""
+    interface: Optional[SenderReceiverInterface]
+    """Get the interface containing the parameter"""
 
 @final
 class ParameterInterface:

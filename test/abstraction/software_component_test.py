@@ -872,7 +872,8 @@ def test_parameter_data_prototype() -> None:
 
     parameter_data_prototype.init_value = 42
     assert parameter_data_prototype.init_value == NumericalValueSpecification(42)
-    # assert parameter_data_prototype.interface == parameter_interface
+    assert parameter_data_prototype.interface == parameter_interface
+    assert parameter_data_prototype.data_type == impl_data_type
 
     # check if the parameter data prototype can be constructed from an element and is equal to the original one
     element = parameter_data_prototype.element
