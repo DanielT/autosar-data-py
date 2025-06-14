@@ -791,7 +791,7 @@ class ParameterDataPrototype:
     # """data type of the parameter"""
     element: Element
     name: str
-    init_value: ValueSpecification
+    init_value: Optional[ValueSpecification]
 
 @final
 class ParameterInterface:

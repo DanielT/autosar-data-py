@@ -288,8 +288,10 @@ impl ParameterDataPrototype {
 
     /// set the init value for the data element
     #[setter]
-    fn set_init_value(&self, init_value: &Bound<'_, PyAny>) -> PyResult<()> {
-        let init_value = pyobject_to_value_specification(init_value)?;
+    fn set_init_value(&self, init_value: Option<&Bound<'_, PyAny>>) -> PyResult<()> {
+        let init_value = init_value
+            .map(|val| pyobject_to_value_specification(val))
+            .transpose()?;
         self.0
             .set_init_value(init_value)
             .map_err(abstraction_err_to_pyerr)
