@@ -1,6 +1,6 @@
 [package]
 name = "py-autosar-data"
-version = "0.11.0"
+version = "0.12.0"
 edition = "2024"
 description = "read, write and modify Autosar arxml data using Python"
 authors = ["Daniel Thaler <daniel@dthaler.de>"]
