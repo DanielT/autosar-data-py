@@ -1105,6 +1105,7 @@ impl SwcModeSwitchEvent {
     module = "autosar_data._autosar_data._abstraction._software_component"
 )]
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[allow(clippy::enum_variant_names)] // named as per AUTOSAR standard
 pub(crate) enum ModeActivationKind {
     /// On entering the mode
     OnEntry,

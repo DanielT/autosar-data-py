@@ -692,7 +692,7 @@ impl PartialEq for ApplicationValueSpecification {
             self.label == other.label
                 && self.category == other.category
                 && compare_pylist(py, &self.sw_axis_conts, &other.sw_axis_conts)
-                && &*self.sw_value_cont.borrow(py) == &*other.sw_value_cont.borrow(py)
+                && *self.sw_value_cont.borrow(py) == *other.sw_value_cont.borrow(py)
         })
     }
 }
@@ -833,7 +833,7 @@ impl TryFrom<&ReferenceValueSpecification>
     type Error = PyErr;
     fn try_from(value: &ReferenceValueSpecification) -> Result<Self, Self::Error> {
         let reference_value =
-            Python::with_gil(|py| pyobject_to_data_prototype(&value.reference_value.bind(py)))?;
+            Python::with_gil(|py| pyobject_to_data_prototype(value.reference_value.bind(py)))?;
         Ok(
             autosar_data_abstraction::datatype::ReferenceValueSpecification {
                 label: value.label.clone(),
@@ -846,8 +846,8 @@ impl TryFrom<&ReferenceValueSpecification>
 impl PartialEq for ReferenceValueSpecification {
     fn eq(&self, other: &Self) -> bool {
         Python::with_gil(|py| {
-            let own_ref = pyobject_to_data_prototype(&self.reference_value.bind(py));
-            let other_ref = pyobject_to_data_prototype(&other.reference_value.bind(py));
+            let own_ref = pyobject_to_data_prototype(self.reference_value.bind(py));
+            let other_ref = pyobject_to_data_prototype(other.reference_value.bind(py));
             if let (Ok(own_ref), Ok(other_ref)) = (own_ref, other_ref) {
                 self.label == other.label && own_ref == other_ref
             } else {
@@ -977,7 +977,7 @@ impl PartialEq for ApplicationRuleBasedValueSpecification {
             self.label == other.label
                 && self.category == other.category
                 && compare_pylist(py, &self.sw_axis_cont, &other.sw_axis_cont)
-                && &*self.sw_value_cont.borrow(py) == &*other.sw_value_cont.borrow(py)
+                && *self.sw_value_cont.borrow(py) == *other.sw_value_cont.borrow(py)
         })
     }
 }
@@ -1223,7 +1223,7 @@ impl PartialEq for NumericalRuleBasedValueSpecification {
     fn eq(&self, other: &Self) -> bool {
         Python::with_gil(|py| {
             self.label == other.label
-                && &*self.rule_based_values.borrow(py) == &*other.rule_based_values.borrow(py)
+                && *self.rule_based_values.borrow(py) == *other.rule_based_values.borrow(py)
         })
     }
 }
@@ -1345,7 +1345,7 @@ impl SwAxisCont {
             text.push_str(unit_display_name);
         }
 
-        text.push_str(")");
+        text.push(')');
         text
     }
 }
@@ -1417,6 +1417,7 @@ impl PartialEq for SwAxisCont {
     module = "autosar_data._autosar_data._abstraction._datatype"
 )]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[allow(clippy::enum_variant_names)] // named as per AUTOSAR standard
 pub(crate) enum SwAxisContCategory {
     /// standard axis
     StdAxis,
@@ -1569,7 +1570,7 @@ impl TryFrom<&autosar_data_abstraction::datatype::SwValue> for SwValue {
             autosar_data_abstraction::datatype::SwValue::Vf(vf) => Self::Vf { value: *vf },
             autosar_data_abstraction::datatype::SwValue::Vg { label, vg_content } => {
                 let vg_content = Python::with_gil(|py| {
-                    slice_to_pylist(py, &vg_content, |sw_value| {
+                    slice_to_pylist(py, vg_content, |sw_value| {
                         SwValue::try_from(sw_value)?.into_py_any(py)
                     })
                 })?;
@@ -1723,7 +1724,7 @@ impl RuleBasedAxisCont {
                     .unwrap_or_else(|_| "<invalid>".to_string()),
             );
         }
-        text.push_str(")");
+        text.push(')');
         text
     }
 }
@@ -1773,8 +1774,8 @@ impl PartialEq for RuleBasedAxisCont {
             self.category == other.category
                 && self.sw_array_size == other.sw_array_size
                 && self.sw_axis_index == other.sw_axis_index
-                && &*self.rule_based_values.bind_borrowed(py).borrow()
-                    == &*other.rule_based_values.bind_borrowed(py).borrow()
+                && *self.rule_based_values.bind_borrowed(py).borrow()
+                    == *other.rule_based_values.bind_borrowed(py).borrow()
                 && self.unit == other.unit
         })
     }
@@ -1881,8 +1882,8 @@ impl TryFrom<&RuleBasedValueCont> for autosar_data_abstraction::datatype::RuleBa
 impl PartialEq for RuleBasedValueCont {
     fn eq(&self, other: &Self) -> bool {
         Python::with_gil(|py| {
-            &*self.rule_based_values.bind_borrowed(py).borrow()
-                == &*other.rule_based_values.bind_borrowed(py).borrow()
+            *self.rule_based_values.bind_borrowed(py).borrow()
+                == *other.rule_based_values.bind_borrowed(py).borrow()
                 && self.sw_array_size == other.sw_array_size
                 && self.unit == other.unit
         })
