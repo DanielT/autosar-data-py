@@ -578,6 +578,24 @@ class InternalTriggerOccurredEvent:
     """Get the `SwcInternalBehavior` that contains the event"""
 
 @final
+class ModeAccessPoint:
+    """
+    A `ModeAccessPoint`provides the ability to access the current mode of a ModeDeclarationGroup
+    """
+
+    def __init__(self, element: Element, /) -> ModeAccessPoint: ...
+    element: Element
+    name: str
+    runnable_entity: Optional[RunnableEntity]
+    """Get the `RunnableEntity` that contains the `ModeAccessPoint`"""
+    def set_mode_group(
+        self, mode_group: ModeGroup, context_port: PortPrototype, /
+    ) -> None:
+        """Set the mode group and context port of the `ModeAccessPoint`"""
+        ...
+    mode_group: Optional[Tuple[ModeGroup, PortPrototype]]
+
+@final
 class ModeActivationKind:
     """
     Kind of mode switch condition used for activation of an event
@@ -699,6 +717,24 @@ class ModeSwitchedAckEvent:
     """`RunnableEntity` that is triggered by the `AsynchronousServerCallCompleted`"""
     swc_internal_behavior: Optional[SwcInternalBehavior]
     """Get the `SwcInternalBehavior` that contains the event"""
+
+@final
+class ModeSwitchPoint:
+    """
+    A `ModeSwitchPoint` allows a `RunnableEntity` to switch modes in a ModeDeclarationGroup
+    """
+
+    def __init__(self, element: Element, /) -> ModeSwitchPoint: ...
+    element: Element
+    name: str
+    runnable_entity: Optional[RunnableEntity]
+    """Get the `RunnableEntity` that contains the `ModeSwitchPoint`"""
+    def set_mode_group(
+        self, mode_group: ModeGroup, context_port: PortPrototype, /
+    ) -> None:
+        """Set the mode group and context port of the `ModeSwitchPoint`"""
+        ...
+    mode_group: Optional[Tuple[ModeGroup, PortPrototype]]
 
 @final
 class NvDataInterface:
@@ -958,6 +994,30 @@ class RunnableEntity:
 
     def synchronous_server_call_points(self, /) -> Iterator[SynchronousServerCallPoint]:
         """iterate over all synchronous server call points of the runnable entity"""
+        ...
+
+    def create_mode_switch_point(
+        self, name: str, mode_group: ModeGroup, context_port: PortPrototype, /
+    ) -> ModeSwitchPoint:
+        """
+        create a mode switch point that allows the runnable to switch modes in a mode group
+        """
+        ...
+
+    def mode_switch_points(self, /) -> Iterator[ModeSwitchPoint]:
+        """iterate over all mode switch points of the runnable entity"""
+        ...
+
+    def create_mode_access_point(
+        self, name: str, mode_group: ModeGroup, context_port: PortPrototype, /
+    ) -> ModeAccessPoint:
+        """
+        create a mode access point that allows the runnable to access the current mode of a mode group
+        """
+        ...
+
+    def mode_access_points(self, /) -> Iterator[ModeAccessPoint]:
+        """iterate over all mode access points of the runnable entity"""
         ...
 
 @final

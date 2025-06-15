@@ -522,3 +522,93 @@ def test_synchronous_server_call_point() -> None:
     # quick check if a custom __repr__ method is implemented and returns a non-empty string
     assert "__repr__" in SynchronousServerCallPoint.__dict__
     assert sync_call_point.__repr__()
+
+
+def test_mode_access_point() -> None:
+    model = AutosarModelAbstraction.create("test.arxml")
+    package = model.get_or_create_package("/package")
+    app_component_type = package.create_application_sw_component_type(
+        "ApplicationSwComponentType"
+    )
+    mode_declacration_group = package.create_mode_declaration_group(
+        "ModeDeclarationGroup"
+    )
+    mode_switch_interface = package.create_mode_switch_interface("ModeSwitchInterface")
+    mode_group = mode_switch_interface.create_mode_group(
+        "ModeGroup", mode_declacration_group
+    )
+    r_port = app_component_type.create_r_port("Port", mode_switch_interface)
+    internal_behavior = app_component_type.create_swc_internal_behavior(
+        "InternalBehavior"
+    )
+    runnable = internal_behavior.create_runnable_entity("Runnable")
+
+    # ModeAccessPoint
+    mode_access_point = runnable.create_mode_access_point(
+        "ModeAccessPoint",
+        mode_group,
+        r_port,
+    )
+    assert isinstance(mode_access_point, ModeAccessPoint)
+    # get and set the name
+    assert mode_access_point.name == "ModeAccessPoint"
+    mode_access_point.name = "ModeAccessPoint2"
+    assert mode_access_point.name == "ModeAccessPoint2"
+
+    assert mode_access_point.runnable_entity == runnable
+    mode_access_point.set_mode_group(mode_group, r_port)
+    assert mode_access_point.mode_group == (mode_group, r_port)
+
+    assert list(runnable.mode_access_points()) == [mode_access_point]
+
+    # check if the mode_access_point can be constructed from an element and is equal to the original one
+    element = mode_access_point.element
+    mode_access_point2 = ModeAccessPoint(element)
+    assert mode_access_point == mode_access_point2
+    # quick check if a custom __repr__ method is implemented and returns a non-empty string
+    assert "__repr__" in ModeAccessPoint.__dict__
+
+
+def test_mode_switch_point() -> None:
+    model = AutosarModelAbstraction.create("test.arxml")
+    package = model.get_or_create_package("/package")
+    app_component_type = package.create_application_sw_component_type(
+        "ApplicationSwComponentType"
+    )
+    mode_declacration_group = package.create_mode_declaration_group(
+        "ModeDeclarationGroup"
+    )
+    mode_switch_interface = package.create_mode_switch_interface("ModeSwitchInterface")
+    mode_group = mode_switch_interface.create_mode_group(
+        "ModeGroup", mode_declacration_group
+    )
+    p_port = app_component_type.create_p_port("Port", mode_switch_interface)
+    internal_behavior = app_component_type.create_swc_internal_behavior(
+        "InternalBehavior"
+    )
+    runnable = internal_behavior.create_runnable_entity("Runnable")
+
+    # ModeSwitchPoint
+    mode_switch_point = runnable.create_mode_switch_point(
+        "ModeSwitchPoint",
+        mode_group,
+        p_port,
+    )
+    assert isinstance(mode_switch_point, ModeSwitchPoint)
+    # get and set the name
+    assert mode_switch_point.name == "ModeSwitchPoint"
+    mode_switch_point.name = "ModeSwitchPoint2"
+    assert mode_switch_point.name == "ModeSwitchPoint2"
+
+    assert mode_switch_point.runnable_entity == runnable
+    mode_switch_point.set_mode_group(mode_group, p_port)
+    assert mode_switch_point.mode_group == (mode_group, p_port)
+
+    assert list(runnable.mode_switch_points()) == [mode_switch_point]
+
+    # check if the mode_switch_point can be constructed from an element and is equal to the original one
+    element = mode_switch_point.element
+    mode_switch_point2 = ModeSwitchPoint(element)
+    assert mode_switch_point == mode_switch_point2
+    # quick check if a custom __repr__ method is implemented and returns a non-empty string
+    assert "__repr__" in ModeSwitchPoint.__dict__

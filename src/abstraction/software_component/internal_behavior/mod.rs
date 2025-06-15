@@ -4,7 +4,7 @@ use crate::{
         AutosarAbstractionError, abstraction_err_to_pyerr,
         datatype::{DataTypeMappingSet, DataTypeMappingSetIterator},
         software_component::{
-            ClientServerOperation, ModeDeclaration, PPortPrototype, RPortPrototype,
+            ClientServerOperation, ModeDeclaration, ModeGroup, PPortPrototype, RPortPrototype,
             VariableDataPrototype, port_prototype_to_pyobject, pyobject_to_port_prototype,
             sw_component_type_to_pyobject,
         },
@@ -466,6 +466,50 @@ impl RunnableEntity {
                 .map(SynchronousServerCallPoint),
         )
     }
+
+    /// create a mode access point that allows the runnable to access the current mode of a ModeDeclarationGroup
+    fn create_mode_access_point(
+        &self,
+        name: &str,
+        mode_group: &ModeGroup,
+        context_port: &Bound<'_, PyAny>,
+    ) -> PyResult<ModeAccessPoint> {
+        let context_port = pyobject_to_port_prototype(context_port)?;
+        match self
+            .0
+            .create_mode_access_point(name, &mode_group.0, &context_port)
+        {
+            Ok(value) => Ok(ModeAccessPoint(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// iterate over all mode access points
+    fn mode_access_points(&self) -> ModeAccessPointIterator {
+        ModeAccessPointIterator::new(self.0.mode_access_points().map(ModeAccessPoint))
+    }
+
+    /// create a mode switch point that allows the runnable to switch modes in a ModeDeclarationGroup
+    fn create_mode_switch_point(
+        &self,
+        name: &str,
+        mode_group: &ModeGroup,
+        context_port: &Bound<'_, PyAny>,
+    ) -> PyResult<ModeSwitchPoint> {
+        let context_port = pyobject_to_port_prototype(context_port)?;
+        match self
+            .0
+            .create_mode_switch_point(name, &mode_group.0, &context_port)
+        {
+            Ok(value) => Ok(ModeSwitchPoint(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// iterate over all mode switch points
+    fn mode_switch_points(&self) -> ModeSwitchPointIterator {
+        ModeSwitchPointIterator::new(self.0.mode_switch_points().map(ModeSwitchPoint))
+    }
 }
 
 //##################################################################
@@ -633,3 +677,159 @@ iterator_wrapper!(
     SynchronousServerCallPointIterator,
     SynchronousServerCallPoint
 );
+
+//##################################################################
+
+/// A `ModeAccessPoint`provides the ability to access the current mode of a ModeDeclarationGroup
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._software_component"
+)]
+#[derive(Clone, PartialEq)]
+pub(crate) struct ModeAccessPoint(
+    pub(crate) autosar_data_abstraction::software_component::ModeAccessPoint,
+);
+
+#[pymethods]
+impl ModeAccessPoint {
+    #[new]
+    fn new(element: &Element) -> PyResult<Self> {
+        match autosar_data_abstraction::software_component::ModeAccessPoint::try_from(
+            element.0.clone(),
+        ) {
+            Ok(value) => Ok(Self(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    #[setter]
+    fn set_name(&self, name: &str) -> PyResult<()> {
+        self.0.set_name(name).map_err(abstraction_err_to_pyerr)
+    }
+
+    #[getter]
+    fn name(&self) -> Option<String> {
+        self.0.name()
+    }
+
+    #[getter]
+    fn element(&self) -> Element {
+        Element(self.0.element().clone())
+    }
+
+    fn __repr__(&self) -> String {
+        format!("{:#?}", self.0)
+    }
+
+    /// Set the mode group and context port of the `ModeAccessPoint`
+    #[pyo3(signature = (mode_group, context_port, /))]
+    #[pyo3(text_signature = "(self, mode_group: ModeGroup, context_port: PortPrototype, /)")]
+    fn set_mode_group(
+        &self,
+        mode_group: &ModeGroup,
+        context_port: &Bound<'_, PyAny>,
+    ) -> PyResult<()> {
+        let context_port = pyobject_to_port_prototype(context_port)?;
+        self.0
+            .set_mode_group(&mode_group.0, &context_port)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the mode group and context port of the `ModeAccessPoint`
+    #[getter]
+    fn mode_group(&self) -> Option<(ModeGroup, PyObject)> {
+        let (mode_group, context_port) = self.0.mode_group()?;
+        let mode_group = ModeGroup(mode_group);
+        let context_port = port_prototype_to_pyobject(context_port).ok()?;
+        Some((mode_group, context_port))
+    }
+
+    /// Get the `RunnableEntity` that contains the `ModeAccessPoint`
+    #[getter]
+    fn runnable_entity(&self) -> Option<RunnableEntity> {
+        self.0.runnable_entity().map(RunnableEntity)
+    }
+}
+
+//##################################################################
+
+iterator_wrapper!(ModeAccessPointIterator, ModeAccessPoint);
+
+//##################################################################
+
+/// A `ModeSwitchPoint` allows a `RunnableEntity` to switch modes in a ModeDeclarationGroup
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._software_component"
+)]
+#[derive(Clone, PartialEq)]
+pub(crate) struct ModeSwitchPoint(
+    pub(crate) autosar_data_abstraction::software_component::ModeSwitchPoint,
+);
+
+#[pymethods]
+impl ModeSwitchPoint {
+    #[new]
+    fn new(element: &Element) -> PyResult<Self> {
+        match autosar_data_abstraction::software_component::ModeSwitchPoint::try_from(
+            element.0.clone(),
+        ) {
+            Ok(value) => Ok(Self(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    #[setter]
+    fn set_name(&self, name: &str) -> PyResult<()> {
+        self.0.set_name(name).map_err(abstraction_err_to_pyerr)
+    }
+
+    #[getter]
+    fn name(&self) -> Option<String> {
+        self.0.name()
+    }
+
+    #[getter]
+    fn element(&self) -> Element {
+        Element(self.0.element().clone())
+    }
+
+    fn __repr__(&self) -> String {
+        format!("{:#?}", self.0)
+    }
+
+    /// Set the mode group and context port of the `ModeSwitchPoint`
+    #[pyo3(signature = (mode_group, context_port, /))]
+    #[pyo3(text_signature = "(self, mode_group: ModeGroup, context_port: PortPrototype, /)")]
+    fn set_mode_group(
+        &self,
+        mode_group: &ModeGroup,
+        context_port: &Bound<'_, PyAny>,
+    ) -> PyResult<()> {
+        let context_port = pyobject_to_port_prototype(context_port)?;
+        self.0
+            .set_mode_group(&mode_group.0, &context_port)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the mode group and context port of the `ModeAccessPoint`
+    #[getter]
+    fn mode_group(&self) -> Option<(ModeGroup, PyObject)> {
+        let (mode_group, context_port) = self.0.mode_group()?;
+        let mode_group = ModeGroup(mode_group);
+        let context_port = port_prototype_to_pyobject(context_port).ok()?;
+        Some((mode_group, context_port))
+    }
+
+    /// Get the `RunnableEntity` that contains the `ModeAccessPoint`
+    #[getter]
+    fn runnable_entity(&self) -> Option<RunnableEntity> {
+        self.0.runnable_entity().map(RunnableEntity)
+    }
+}
+
+//##################################################################
+
+iterator_wrapper!(ModeSwitchPointIterator, ModeSwitchPoint);

@@ -557,6 +557,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     software_component.add_class::<software_component::ExternalTriggerOccurredEvent>()?;
     software_component.add_class::<software_component::InitEvent>()?;
     software_component.add_class::<software_component::InternalTriggerOccurredEvent>()?;
+    software_component.add_class::<software_component::ModeAccessPoint>()?;
     software_component.add_class::<software_component::ModeActivationKind>()?;
     software_component.add_class::<software_component::ModeDeclaration>()?;
     software_component.add_class::<software_component::ModeDeclarationGroup>()?;
@@ -564,6 +565,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     software_component.add_class::<software_component::ModeGroup>()?;
     software_component.add_class::<software_component::ModeSwitchInterface>()?;
     software_component.add_class::<software_component::ModeSwitchedAckEvent>()?;
+    software_component.add_class::<software_component::ModeSwitchPoint>()?;
     software_component.add_class::<software_component::NvDataInterface>()?;
     software_component.add_class::<software_component::OperationInvokedEvent>()?;
     software_component.add_class::<software_component::OsTaskExecutionEvent>()?;
