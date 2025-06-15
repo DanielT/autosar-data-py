@@ -3334,6 +3334,7 @@ class SocketAddressType:
     """
 
     Unicast: Type[SocketAddressType_Unicast]
+    """SocketAddressType.Unicast(ecu | None)"""
     Multicast: Type[SocketAddressType_Multicast]
 
 @final
