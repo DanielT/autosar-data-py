@@ -8,8 +8,8 @@ use crate::{
             ISignalToIPduMapping, SomeIpTransformationISignalProps, TransformationTechnology,
         },
         datatype::{
-            CompuMethod, DataConstr, SwBaseType, Unit, pyobject_to_value_specification,
-            value_specification_to_pyobject,
+            CompuMethod, DataConstr, SwBaseType, Unit, pyany_to_value_specification,
+            value_specification_to_pyany,
         },
     },
     iterator_wrapper,
@@ -85,7 +85,7 @@ impl ISignal {
     #[setter]
     fn set_init_value(&self, init_value: Option<&Bound<'_, PyAny>>) -> PyResult<()> {
         let init_value = init_value
-            .map(|val| pyobject_to_value_specification(val))
+            .map(|val| pyany_to_value_specification(val))
             .transpose()?;
         self.0
             .set_init_value(init_value)
@@ -94,10 +94,10 @@ impl ISignal {
 
     /// get the init value for this signal
     #[getter]
-    fn init_value(&self) -> Option<PyObject> {
+    fn init_value(&self) -> Option<Py<PyAny>> {
         self.0
             .init_value()
-            .and_then(|value_spec| value_specification_to_pyobject(&value_spec).ok())
+            .and_then(|value_spec| value_specification_to_pyany(&value_spec).ok())
     }
 
     /// set the system signal that corresponds to this isignal
@@ -193,14 +193,14 @@ impl ISignal {
             |props| match props {
                 autosar_data_abstraction::communication::TransformationISignalProps::E2E(
                     end_to_end_transformation_isignal_props,
-                ) => Python::with_gil(|py| {
+                ) => Python::attach(|py| {
                     EndToEndTransformationISignalProps(end_to_end_transformation_isignal_props)
                         .into_py_any(py)
                         .ok()
                 }),
                 autosar_data_abstraction::communication::TransformationISignalProps::SomeIp(
                     some_ip_transformation_isignal_props,
-                ) => Python::with_gil(|py| {
+                ) => Python::attach(|py| {
                     SomeIpTransformationISignalProps(some_ip_transformation_isignal_props)
                         .into_py_any(py)
                         .ok()
@@ -412,14 +412,14 @@ impl ISignalGroup {
             |props| match props {
                 autosar_data_abstraction::communication::TransformationISignalProps::E2E(
                     end_to_end_transformation_isignal_props,
-                ) => Python::with_gil(|py| {
+                ) => Python::attach(|py| {
                     EndToEndTransformationISignalProps(end_to_end_transformation_isignal_props)
                         .into_py_any(py)
                         .ok()
                 }),
                 autosar_data_abstraction::communication::TransformationISignalProps::SomeIp(
                     some_ip_transformation_isignal_props,
-                ) => Python::with_gil(|py| {
+                ) => Python::attach(|py| {
                     SomeIpTransformationISignalProps(some_ip_transformation_isignal_props)
                         .into_py_any(py)
                         .ok()
@@ -527,7 +527,7 @@ impl ISignalTriggering {
 
     /// get the physical channel that contains this signal triggering
     #[getter]
-    fn physical_channel(&self, py: Python) -> PyResult<PyObject> {
+    fn physical_channel(&self, py: Python) -> PyResult<Py<PyAny>> {
         match self.0.physical_channel() {
             Ok(physical_channel) => match physical_channel {
                 autosar_data_abstraction::communication::PhysicalChannel::Can(
@@ -682,6 +682,6 @@ impl From<TransferProperty> for autosar_data_abstraction::communication::Transfe
 
 iterator_wrapper!(
     TransformationISignalPropsIterator,
-    PyObject,
+    Py<PyAny>,
     "Union[EndToEndTransformationISignalProps, SomeIpTransformationISignalProps]"
 );

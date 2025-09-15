@@ -344,19 +344,19 @@ impl Element {
     #[getter]
     fn elements_dfs(&self) -> ElementsDfsIterator {
         ElementsDfsIterator::new(self.0.elements_dfs().filter_map(|(depth, elem)| {
-            Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).ok())
+            Python::attach(|py| (depth, Element(elem)).into_py_any(py).ok())
         }))
     }
 
     #[pyo3(signature = (max_depth, /))]
     fn elements_dfs_with_max_depth(&self, max_depth: usize) -> ElementsDfsIterator {
         ElementsDfsIterator::new(self.0.elements_dfs_with_max_depth(max_depth).filter_map(
-            |(depth, elem)| Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).ok()),
+            |(depth, elem)| Python::attach(|py| (depth, Element(elem)).into_py_any(py).ok()),
         ))
     }
 
     #[setter]
-    fn set_character_data(&self, chardata: PyObject) -> PyResult<()> {
+    fn set_character_data(&self, chardata: Py<PyAny>) -> PyResult<()> {
         let Some(spec) = self.0.element_type().chardata_spec() else {
             return Err(AutosarDataError::new_err(
                 autosar_data_rs::AutosarDataError::IncorrectContentType {
@@ -379,7 +379,7 @@ impl Element {
     }
 
     #[getter]
-    fn character_data(&self) -> PyResult<Option<PyObject>> {
+    fn character_data(&self) -> PyResult<Option<Py<PyAny>>> {
         self.0
             .character_data()
             .map(|cdata| character_data_to_object(&cdata))
@@ -411,7 +411,7 @@ impl Element {
     fn content(&self) -> ElementContentIterator {
         ElementContentIterator::new(self.0.content().filter_map(|ec| match ec {
             autosar_data_rs::ElementContent::Element(elem) => {
-                Python::with_gil(|py| Element(elem).into_py_any(py)).ok()
+                Python::attach(|py| Element(elem).into_py_any(py)).ok()
             }
             autosar_data_rs::ElementContent::CharacterData(cdata) => {
                 character_data_to_object(&cdata).ok()
@@ -429,7 +429,7 @@ impl Element {
         }))
     }
 
-    pub(crate) fn attribute_value(&self, attrname_str: &str) -> PyResult<Option<PyObject>> {
+    pub(crate) fn attribute_value(&self, attrname_str: &str) -> PyResult<Option<Py<PyAny>>> {
         let attrname = get_attribute_name(attrname_str)?;
         self.0
             .attribute_value(attrname)
@@ -437,7 +437,7 @@ impl Element {
             .transpose()
     }
 
-    pub(crate) fn set_attribute(&self, attrname_str: &str, value: PyObject) -> PyResult<()> {
+    pub(crate) fn set_attribute(&self, attrname_str: &str, value: Py<PyAny>) -> PyResult<()> {
         let attrname = get_attribute_name(attrname_str)?;
         let attrspec = self.0.element_type().find_attribute_spec(attrname).ok_or(
             AutosarDataError::new_err(
@@ -480,13 +480,13 @@ impl Element {
     }
 
     #[getter]
-    fn file_membership(&self) -> PyResult<PyObject> {
+    fn file_membership(&self) -> PyResult<Py<PyAny>> {
         match self.0.file_membership() {
             Ok((local, weak_file_set)) => {
                 let file_set_iter = weak_file_set
                     .iter()
                     .filter_map(|weak| weak.upgrade().map(ArxmlFile));
-                Python::with_gil(|py| {
+                Python::attach(|py| {
                     let frozenset = PyFrozenSet::new(py, file_set_iter)?;
                     (local, frozenset).into_py_any(py)
                 })

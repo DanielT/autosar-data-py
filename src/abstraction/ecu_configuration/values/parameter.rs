@@ -1,6 +1,6 @@
 use crate::{
     abstraction::{
-        ecu_configuration::{ecuc_parameter_def_to_pyobject, pyobject_to_ecuc_parameter_def},
+        ecu_configuration::{ecuc_parameter_def_to_pyany, pyany_to_ecuc_parameter_def},
         *,
     },
     *,
@@ -82,7 +82,7 @@ impl EcucNumericalParamValue {
     /// set the parameter definition reference
     #[setter]
     fn set_definition(&self, definition: &Bound<'_, PyAny>) -> PyResult<()> {
-        let definition = pyobject_to_ecuc_parameter_def(definition)?;
+        let definition = pyany_to_ecuc_parameter_def(definition)?;
         self.0
             .set_definition(&definition)
             .map_err(abstraction_err_to_pyerr)
@@ -94,10 +94,10 @@ impl EcucNumericalParamValue {
     /// could contain either an `EcucFloatParamDef` or an `EcucIntegerParamDef`.
     /// If the definition is not loaded, use `definition_ref()` instead.
     #[getter]
-    fn definition(&self) -> Option<PyObject> {
+    fn definition(&self) -> Option<Py<PyAny>> {
         self.0
             .definition()
-            .and_then(|def| ecuc_parameter_def_to_pyobject(def).ok())
+            .and_then(|def| ecuc_parameter_def_to_pyany(def).ok())
     }
 
     /// get the parameter definition reference as a string
@@ -212,7 +212,7 @@ impl EcucTextualParamValue {
     /// set the parameter definition reference
     #[setter]
     fn set_definition(&self, definition: &Bound<'_, PyAny>) -> PyResult<()> {
-        let definition = pyobject_to_ecuc_parameter_def(definition)?;
+        let definition = pyany_to_ecuc_parameter_def(definition)?;
         self.0
             .set_definition(&definition)
             .map_err(abstraction_err_to_pyerr)
@@ -225,10 +225,10 @@ impl EcucTextualParamValue {
     /// `EcucFunctionNameDef` or `EcucLinkerSymbolDef`.
     /// If the definition is not loaded, use `definition_ref()` instead.
     #[getter]
-    fn definition(&self) -> Option<PyObject> {
+    fn definition(&self) -> Option<Py<PyAny>> {
         self.0
             .definition()
-            .and_then(|def| ecuc_parameter_def_to_pyobject(def).ok())
+            .and_then(|def| ecuc_parameter_def_to_pyany(def).ok())
     }
 
     /// get the parameter definition reference as a string
@@ -291,14 +291,14 @@ impl EcucTextualParamValue {
 
 //##################################################################
 
-iterator_wrapper!(EcucParameterValueIterator, PyObject, "EcucParameterValue");
+iterator_wrapper!(EcucParameterValueIterator, Py<PyAny>, "EcucParameterValue");
 
 //##################################################################
 
-pub(crate) fn ecuc_parameter_value_to_pyobject(
+pub(crate) fn ecuc_parameter_value_to_pyany(
     value: &autosar_data_abstraction::ecu_configuration::EcucParameterValue,
-) -> PyResult<PyObject> {
-    Python::with_gil(|py| match value {
+) -> PyResult<Py<PyAny>> {
+    Python::attach(|py| match value {
         autosar_data_abstraction::ecu_configuration::EcucParameterValue::AddInfo(value) => {
             EcucAddInfoParamValue(value.clone()).into_py_any(py)
         }

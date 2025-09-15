@@ -672,13 +672,13 @@ impl PduTriggering {
 
     /// get the Pdu that is triggered by this pdu triggering
     #[getter]
-    fn pdu(&self) -> Option<PyObject> {
+    fn pdu(&self) -> Option<Py<PyAny>> {
         self.0.pdu().and_then(|pdu| pdu_to_pyany(&pdu).ok())
     }
 
     /// get the physical channel that contains this pdu triggering
     #[getter]
-    fn physical_channel(&self, py: Python) -> PyResult<PyObject> {
+    fn physical_channel(&self, py: Python) -> PyResult<Py<PyAny>> {
         match self.0.physical_channel() {
             Ok(physical_channel) => match physical_channel {
                 autosar_data_abstraction::communication::PhysicalChannel::Can(
@@ -840,8 +840,8 @@ impl From<PduCollectionTrigger> for autosar_data_abstraction::communication::Pdu
 
 pub(crate) fn pdu_to_pyany(
     pdu: &autosar_data_abstraction::communication::Pdu,
-) -> PyResult<PyObject> {
-    Python::with_gil(|py| match pdu {
+) -> PyResult<Py<PyAny>> {
+    Python::attach(|py| match pdu {
         autosar_data_abstraction::communication::Pdu::ISignalIPdu(isignal_ipdu) => {
             ISignalIPdu(isignal_ipdu.clone()).into_py_any(py)
         }
@@ -917,8 +917,8 @@ pub(crate) fn pyany_to_pdu(
 
 pub(crate) fn ipdu_to_pyany(
     ipdu: &autosar_data_abstraction::communication::IPdu,
-) -> PyResult<PyObject> {
-    Python::with_gil(|py| match ipdu {
+) -> PyResult<Py<PyAny>> {
+    Python::attach(|py| match ipdu {
         autosar_data_abstraction::communication::IPdu::ISignalIPdu(isignal_ipdu) => {
             ISignalIPdu(isignal_ipdu.clone()).into_py_any(py)
         }

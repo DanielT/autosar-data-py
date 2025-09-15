@@ -107,10 +107,10 @@ impl ServiceInstanceCollectionSet {
         ServiceInstanceIterator::new(self.0.service_instances().filter_map(|service_instance| {
             match service_instance {
                 autosar_data_abstraction::communication::ServiceInstance::Provided(psi) => {
-                    Python::with_gil(|py| ProvidedServiceInstance(psi).into_py_any(py).ok())
+                    Python::attach(|py| ProvidedServiceInstance(psi).into_py_any(py).ok())
                 }
                 autosar_data_abstraction::communication::ServiceInstance::Consumed(csi) => {
-                    Python::with_gil(|py| ConsumedServiceInstance(csi).into_py_any(py).ok())
+                    Python::attach(|py| ConsumedServiceInstance(csi).into_py_any(py).ok())
                 }
             }
         }))
@@ -121,7 +121,7 @@ impl ServiceInstanceCollectionSet {
 
 iterator_wrapper!(
     ServiceInstanceIterator,
-    PyObject,
+    Py<PyAny>,
     "Union[ProvidedServiceInstance, ConsumedServiceInstance]"
 );
 
@@ -1391,9 +1391,9 @@ impl SomeipTpConfig {
 
     /// get the communication cluster of this `SomeipTpConfig`
     #[getter]
-    fn cluster(&self) -> Option<PyObject> {
+    fn cluster(&self) -> Option<Py<PyAny>> {
         let cluster = self.0.cluster()?;
-        Python::with_gil(|py| match cluster {
+        Python::attach(|py| match cluster {
             autosar_data_abstraction::communication::Cluster::Can(can_cluster) => {
                 CanCluster(can_cluster).into_py_any(py).ok()
             }

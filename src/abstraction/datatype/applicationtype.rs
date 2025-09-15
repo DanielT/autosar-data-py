@@ -198,7 +198,7 @@ impl ApplicationArrayElement {
     /// set the data type of the array element
     #[setter]
     fn set_data_type(&self, data_type: &Bound<'_, PyAny>) -> PyResult<()> {
-        let data_type = pyobject_to_application_data_type(data_type)?;
+        let data_type = pyany_to_application_data_type(data_type)?;
         self.0
             .set_data_type(&data_type)
             .map_err(abstraction_err_to_pyerr)
@@ -206,10 +206,10 @@ impl ApplicationArrayElement {
 
     /// get the data type of the array element
     #[getter]
-    fn data_type(&self) -> Option<PyObject> {
+    fn data_type(&self) -> Option<Py<PyAny>> {
         self.0
             .data_type()
-            .and_then(|data_type| application_data_type_to_pyobject(data_type).ok())
+            .and_then(|data_type| application_data_type_to_pyany(data_type).ok())
     }
 }
 
@@ -267,7 +267,7 @@ impl ApplicationRecordDataType {
         name: &str,
         data_type: &Bound<'_, PyAny>,
     ) -> PyResult<ApplicationRecordElement> {
-        let data_type = pyobject_to_application_data_type(data_type)?;
+        let data_type = pyany_to_application_data_type(data_type)?;
         match self.0.create_record_element(name, &data_type) {
             Ok(element) => Ok(ApplicationRecordElement(element)),
             Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
@@ -329,7 +329,7 @@ impl ApplicationRecordElement {
     /// set the data type of the record element
     #[setter]
     fn set_data_type(&self, data_type: &Bound<'_, PyAny>) -> PyResult<()> {
-        let data_type = pyobject_to_application_data_type(data_type)?;
+        let data_type = pyany_to_application_data_type(data_type)?;
         self.0
             .set_data_type(&data_type)
             .map_err(abstraction_err_to_pyerr)
@@ -337,10 +337,10 @@ impl ApplicationRecordElement {
 
     /// get the data type of the record element
     #[getter]
-    fn data_type(&self) -> Option<PyObject> {
+    fn data_type(&self) -> Option<Py<PyAny>> {
         self.0
             .data_type()
-            .and_then(|data_type| application_data_type_to_pyobject(data_type).ok())
+            .and_then(|data_type| application_data_type_to_pyany(data_type).ok())
     }
 }
 
@@ -573,10 +573,10 @@ impl From<autosar_data_abstraction::datatype::ApplicationPrimitiveCategory>
 //#########################################################
 
 // convert the application data type to a python object
-pub(crate) fn application_data_type_to_pyobject(
+pub(crate) fn application_data_type_to_pyany(
     data_type: autosar_data_abstraction::datatype::ApplicationDataType,
-) -> PyResult<PyObject> {
-    Python::with_gil(|py| match data_type {
+) -> PyResult<Py<PyAny>> {
+    Python::attach(|py| match data_type {
         autosar_data_abstraction::datatype::ApplicationDataType::Array(data_type) => {
             ApplicationArrayDataType(data_type).into_py_any(py)
         }
@@ -590,7 +590,7 @@ pub(crate) fn application_data_type_to_pyobject(
 }
 
 // convert a python object to an application data type
-pub(crate) fn pyobject_to_application_data_type(
+pub(crate) fn pyany_to_application_data_type(
     data_type: &Bound<'_, PyAny>,
 ) -> PyResult<autosar_data_abstraction::datatype::ApplicationDataType> {
     if let Ok(array) = data_type.extract::<ApplicationArrayDataType>() {

@@ -1,7 +1,7 @@
 use crate::{
     abstraction::{
         AutosarAbstractionError, Element, abstraction_err_to_pyerr,
-        software_component::{port_interface_to_pyobject, sw_component_type_to_pyobject},
+        software_component::{port_interface_to_pyany, sw_component_type_to_pyany},
     },
     iterator_wrapper,
 };
@@ -54,18 +54,18 @@ impl RPortPrototype {
 
     /// Get the port interface of the port prototype
     #[getter]
-    fn port_interface(&self) -> PyResult<PyObject> {
+    fn port_interface(&self) -> PyResult<Py<PyAny>> {
         match self.0.port_interface() {
-            Ok(value) => port_interface_to_pyobject(value),
+            Ok(value) => port_interface_to_pyany(value),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
     }
 
     /// Get the component type containing the port prototype
     #[getter]
-    fn component_type(&self) -> PyResult<PyObject> {
+    fn component_type(&self) -> PyResult<Py<PyAny>> {
         match self.0.component_type() {
-            Ok(value) => sw_component_type_to_pyobject(value),
+            Ok(value) => sw_component_type_to_pyany(value),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
     }
@@ -117,18 +117,18 @@ impl PPortPrototype {
 
     /// Get the port interface of the port prototype
     #[getter]
-    fn port_interface(&self) -> PyResult<PyObject> {
+    fn port_interface(&self) -> PyResult<Py<PyAny>> {
         match self.0.port_interface() {
-            Ok(value) => port_interface_to_pyobject(value),
+            Ok(value) => port_interface_to_pyany(value),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
     }
 
     /// Get the component type containing the port prototype
     #[getter]
-    fn component_type(&self) -> PyResult<PyObject> {
+    fn component_type(&self) -> PyResult<Py<PyAny>> {
         match self.0.component_type() {
-            Ok(value) => sw_component_type_to_pyobject(value),
+            Ok(value) => sw_component_type_to_pyany(value),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
     }
@@ -180,18 +180,18 @@ impl PRPortPrototype {
 
     /// Get the port interface of the port prototype
     #[getter]
-    fn port_interface(&self) -> PyResult<PyObject> {
+    fn port_interface(&self) -> PyResult<Py<PyAny>> {
         match self.0.port_interface() {
-            Ok(value) => port_interface_to_pyobject(value),
+            Ok(value) => port_interface_to_pyany(value),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
     }
 
     /// Get the component type containing the port prototype
     #[getter]
-    fn component_type(&self) -> PyResult<PyObject> {
+    fn component_type(&self) -> PyResult<Py<PyAny>> {
         match self.0.component_type() {
-            Ok(value) => sw_component_type_to_pyobject(value),
+            Ok(value) => sw_component_type_to_pyany(value),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
     }
@@ -199,11 +199,11 @@ impl PRPortPrototype {
 
 //##################################################################
 
-iterator_wrapper!(PortPrototypeIterator, PyObject, "PortPrototype");
+iterator_wrapper!(PortPrototypeIterator, Py<PyAny>, "PortPrototype");
 
 //##################################################################
 
-pub(crate) fn pyobject_to_port_prototype(
+pub(crate) fn pyany_to_port_prototype(
     pyobject: &Bound<'_, PyAny>,
 ) -> PyResult<autosar_data_abstraction::software_component::PortPrototype> {
     if let Ok(rport_proto) = pyobject.extract::<RPortPrototype>() {
@@ -219,11 +219,11 @@ pub(crate) fn pyobject_to_port_prototype(
     }
 }
 
-pub(crate) fn port_prototype_to_pyobject(
+pub(crate) fn port_prototype_to_pyany(
     port_proto: autosar_data_abstraction::software_component::PortPrototype,
-) -> PyResult<PyObject> {
+) -> PyResult<Py<PyAny>> {
     use autosar_data_abstraction::software_component::PortPrototype;
-    Python::with_gil(|py| match port_proto {
+    Python::attach(|py| match port_proto {
         PortPrototype::R(value) => RPortPrototype(value).into_py_any(py),
         PortPrototype::P(value) => PPortPrototype(value).into_py_any(py),
         PortPrototype::PR(value) => PRPortPrototype(value).into_py_any(py),

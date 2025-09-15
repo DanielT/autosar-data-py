@@ -319,7 +319,7 @@ impl FlexrayTpConnection {
 
     /// get the direct TP SDU of the connection
     #[getter]
-    fn direct_tp_sdu(&self) -> Option<PyObject> {
+    fn direct_tp_sdu(&self) -> Option<Py<PyAny>> {
         self.0
             .direct_tp_sdu()
             .and_then(|ipdu| ipdu_to_pyany(&ipdu).ok())
@@ -369,7 +369,7 @@ impl FlexrayTpConnection {
 
     /// get the reversed TP SDU of the connection
     #[getter]
-    fn reversed_tp_sdu(&self) -> Option<PyObject> {
+    fn reversed_tp_sdu(&self) -> Option<Py<PyAny>> {
         self.0
             .reversed_tp_sdu()
             .and_then(|ipdu| ipdu_to_pyany(&ipdu).ok())

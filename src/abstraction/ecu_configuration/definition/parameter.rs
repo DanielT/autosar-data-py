@@ -2737,14 +2737,14 @@ impl EcucStringParamDef {
 
 //##################################################################
 
-iterator_wrapper!(EcucParameterDefIterator, PyObject, "EcucParameterDef");
+iterator_wrapper!(EcucParameterDefIterator, Py<PyAny>, "EcucParameterDef");
 
 //##################################################################
 
-pub(crate) fn ecuc_parameter_def_to_pyobject(
+pub(crate) fn ecuc_parameter_def_to_pyany(
     parameter_def: autosar_data_abstraction::ecu_configuration::EcucParameterDef,
-) -> PyResult<PyObject> {
-    Python::with_gil(|py| match parameter_def {
+) -> PyResult<Py<PyAny>> {
+    Python::attach(|py| match parameter_def {
         autosar_data_abstraction::ecu_configuration::EcucParameterDef::AddInfo(value) => {
             EcucAddInfoParamDef(value).into_py_any(py)
         }
@@ -2775,7 +2775,7 @@ pub(crate) fn ecuc_parameter_def_to_pyobject(
     })
 }
 
-pub(crate) fn pyobject_to_ecuc_parameter_def(
+pub(crate) fn pyany_to_ecuc_parameter_def(
     pyobject: &Bound<'_, PyAny>,
 ) -> PyResult<autosar_data_abstraction::ecu_configuration::EcucParameterDef> {
     if let Ok(value) = pyobject.extract::<EcucAddInfoParamDef>() {

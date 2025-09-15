@@ -140,7 +140,7 @@ impl EcucModuleDef {
         EcucContainerDefIterator::new(
             self.0
                 .containers()
-                .filter_map(|container| ecuc_container_def_to_pyobject(container).ok()),
+                .filter_map(|container| ecuc_container_def_to_pyany(container).ok()),
         )
     }
 
@@ -598,7 +598,7 @@ impl EcucDestinationUriDef {
         EcucContainerDefIterator::new(
             self.0
                 .containers()
-                .filter_map(|container| ecuc_container_def_to_pyobject(container).ok()),
+                .filter_map(|container| ecuc_container_def_to_pyany(container).ok()),
         )
     }
 }

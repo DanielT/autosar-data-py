@@ -55,7 +55,7 @@ impl PduToFrameMapping {
 
     /// Reference to the PDU that is mapped into the frame. The PDU reference is mandatory.
     #[getter]
-    fn pdu(&self) -> Option<PyObject> {
+    fn pdu(&self) -> Option<Py<PyAny>> {
         self.0.pdu().and_then(|pdu| pdu_to_pyany(&pdu).ok())
     }
 

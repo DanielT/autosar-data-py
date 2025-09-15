@@ -102,19 +102,19 @@ impl EcuInstance {
             |comm_controller| match comm_controller {
                 autosar_data_abstraction::communication::CommunicationController::Can(
                     controller,
-                ) => Python::with_gil(|py| {
-                    CanCommunicationController(controller).into_py_any(py).ok()
-                }),
+                ) => {
+                    Python::attach(|py| CanCommunicationController(controller).into_py_any(py).ok())
+                }
                 autosar_data_abstraction::communication::CommunicationController::Ethernet(
                     controller,
-                ) => Python::with_gil(|py| {
+                ) => Python::attach(|py| {
                     EthernetCommunicationController(controller)
                         .into_py_any(py)
                         .ok()
                 }),
                 autosar_data_abstraction::communication::CommunicationController::Flexray(
                     controller,
-                ) => Python::with_gil(|py| {
+                ) => Python::attach(|py| {
                     FlexrayCommunicationController(controller)
                         .into_py_any(py)
                         .ok()
@@ -127,6 +127,6 @@ impl EcuInstance {
 
 iterator_wrapper!(
     CommunicationControllersIterator,
-    PyObject,
+    Py<PyAny>,
     "CommunicationController"
 );

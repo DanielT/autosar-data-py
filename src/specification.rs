@@ -78,7 +78,7 @@ impl ElementType {
     fn find_sub_element(
         &self,
         target_name: &str,
-        version_obj: PyObject,
+        version_obj: Py<PyAny>,
     ) -> PyResult<Option<ElementType>> {
         let version = version_mask_from_any(&version_obj)?;
         let elem_name = get_element_name(target_name)?;
@@ -89,7 +89,7 @@ impl ElementType {
     }
 
     #[getter]
-    fn chardata_spec(&self) -> PyResult<Option<PyObject>> {
+    fn chardata_spec(&self) -> PyResult<Option<Py<PyAny>>> {
         self.0
             .chardata_spec()
             .map(character_data_spec_to_object)
@@ -137,7 +137,7 @@ impl AttributeSpec {
     }
 
     #[getter]
-    fn value_spec(&self) -> PyResult<PyObject> {
+    fn value_spec(&self) -> PyResult<Py<PyAny>> {
         character_data_spec_to_object(self.value_spec)
     }
 }
@@ -217,8 +217,8 @@ impl CharacterDataTypeUnsignedInt {
     }
 }
 
-fn character_data_spec_to_object(spec: &CharacterDataSpec) -> PyResult<PyObject> {
-    Python::with_gil(|py| match spec {
+fn character_data_spec_to_object(spec: &CharacterDataSpec) -> PyResult<Py<PyAny>> {
+    Python::attach(|py| match spec {
         CharacterDataSpec::Enum { items } => {
             //
             CharacterDataTypeEnum {

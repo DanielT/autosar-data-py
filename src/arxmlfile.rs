@@ -73,7 +73,7 @@ impl ArxmlFile {
     fn check_version_compatibility(
         &self,
         target_version: AutosarVersion,
-    ) -> PyResult<Vec<PyObject>> {
+    ) -> PyResult<Vec<Py<PyAny>>> {
         let (error_list, _) = self.0.check_version_compatibility(target_version.into());
         let mut out_list = Vec::with_capacity(error_list.len());
         for compat_err in error_list {
@@ -92,7 +92,7 @@ impl ArxmlFile {
                             .collect(),
                         target_version,
                     };
-                    Python::with_gil(|py| errobj.into_py_any(py))?
+                    Python::attach(|py| errobj.into_py_any(py))?
                 }
                 CompatibilityError::IncompatibleAttributeValue {
                     element,
@@ -110,7 +110,7 @@ impl ArxmlFile {
                             .collect(),
                         target_version,
                     };
-                    Python::with_gil(|py| errobj.into_py_any(py))?
+                    Python::attach(|py| errobj.into_py_any(py))?
                 }
                 CompatibilityError::IncompatibleElement {
                     element,
@@ -124,7 +124,7 @@ impl ArxmlFile {
                             .collect(),
                         target_version,
                     };
-                    Python::with_gil(|py| errobj.into_py_any(py))?
+                    Python::attach(|py| errobj.into_py_any(py))?
                 }
             };
             out_list.push(pyobj);
@@ -144,13 +144,13 @@ impl ArxmlFile {
     #[getter]
     fn elements_dfs(&self) -> ElementsDfsIterator {
         ElementsDfsIterator::new(self.0.elements_dfs().filter_map(|(depth, elem)| {
-            Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).ok())
+            Python::attach(|py| (depth, Element(elem)).into_py_any(py).ok())
         }))
     }
 
     fn elements_dfs_with_max_depth(&self, max_depth: usize) -> ElementsDfsIterator {
         ElementsDfsIterator::new(self.0.elements_dfs_with_max_depth(max_depth).filter_map(
-            |(depth, elem)| Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).ok()),
+            |(depth, elem)| Python::attach(|py| (depth, Element(elem)).into_py_any(py).ok()),
         ))
     }
 

@@ -2,7 +2,7 @@ use crate::{
     Element,
     abstraction::{
         AutosarAbstractionError, abstraction_err_to_pyerr,
-        software_component::{SwComponentPrototype, port_prototype_to_pyobject},
+        software_component::{SwComponentPrototype, port_prototype_to_pyany},
     },
     iterator_wrapper,
 };
@@ -55,10 +55,10 @@ impl DelegationSwConnector {
 
     /// Get the inner port of the delegation connector
     #[getter]
-    fn inner_port(&self) -> Option<PyObject> {
+    fn inner_port(&self) -> Option<Py<PyAny>> {
         self.0
             .inner_port()
-            .and_then(|port| port_prototype_to_pyobject(port).ok())
+            .and_then(|port| port_prototype_to_pyany(port).ok())
     }
 
     /// Get the component containing the inner port of the delegation connector
@@ -69,10 +69,10 @@ impl DelegationSwConnector {
 
     /// Get the outer port of the delegation connector
     #[getter]
-    fn outer_port(&self) -> Option<PyObject> {
+    fn outer_port(&self) -> Option<Py<PyAny>> {
         self.0
             .outer_port()
-            .and_then(|port| port_prototype_to_pyobject(port).ok())
+            .and_then(|port| port_prototype_to_pyany(port).ok())
     }
 }
 
@@ -122,10 +122,10 @@ impl AssemblySwConnector {
 
     /// Get the provider port of the assembly connector
     #[getter]
-    fn p_port(&self) -> Option<PyObject> {
+    fn p_port(&self) -> Option<Py<PyAny>> {
         self.0
             .p_port()
-            .and_then(|port| port_prototype_to_pyobject(port).ok())
+            .and_then(|port| port_prototype_to_pyany(port).ok())
     }
 
     /// get the component containing the p_port of the assembly connector
@@ -136,10 +136,10 @@ impl AssemblySwConnector {
 
     /// Get the requester port of the assembly connector
     #[getter]
-    fn r_port(&self) -> Option<PyObject> {
+    fn r_port(&self) -> Option<Py<PyAny>> {
         self.0
             .r_port()
-            .and_then(|port| port_prototype_to_pyobject(port).ok())
+            .and_then(|port| port_prototype_to_pyany(port).ok())
     }
 
     /// get the component containing the r_port of the assembly connector
@@ -195,18 +195,18 @@ impl PassThroughSwConnector {
 
     /// Get the provided port of the pass-through connector
     #[getter]
-    fn p_port(&self) -> Option<PyObject> {
+    fn p_port(&self) -> Option<Py<PyAny>> {
         self.0
             .p_port()
-            .and_then(|port| port_prototype_to_pyobject(port).ok())
+            .and_then(|port| port_prototype_to_pyany(port).ok())
     }
 
     /// Get the required port of the pass-through connector
     #[getter]
-    fn r_port(&self) -> Option<PyObject> {
+    fn r_port(&self) -> Option<Py<PyAny>> {
         self.0
             .r_port()
-            .and_then(|port| port_prototype_to_pyobject(port).ok())
+            .and_then(|port| port_prototype_to_pyany(port).ok())
     }
 }
 
@@ -214,17 +214,17 @@ impl PassThroughSwConnector {
 
 iterator_wrapper!(
     SwConnectorIterator,
-    PyObject,
+    Py<PyAny>,
     "Union[DelegationSwConnector, AssemblySwConnector, PassThroughSwConnector]"
 );
 
 //##################################################################
 
-pub(crate) fn sw_connector_to_pyobject(
+pub(crate) fn sw_connector_to_pyany(
     connector: autosar_data_abstraction::software_component::SwConnector,
-) -> PyResult<PyObject> {
+) -> PyResult<Py<PyAny>> {
     use autosar_data_abstraction::software_component::SwConnector;
-    Python::with_gil(|py| match connector {
+    Python::attach(|py| match connector {
         SwConnector::Delegation(connector) => DelegationSwConnector(connector).into_py_any(py),
         SwConnector::Assembly(connector) => AssemblySwConnector(connector).into_py_any(py),
         SwConnector::PassThrough(connector) => PassThroughSwConnector(connector).into_py_any(py),

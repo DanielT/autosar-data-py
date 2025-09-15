@@ -1,8 +1,8 @@
 use crate::{
     abstraction::{
         datatype::{
-            autosar_data_type_to_pyobject, pyobject_to_autosar_data_type,
-            pyobject_to_value_specification, value_specification_to_pyobject,
+            autosar_data_type_to_pyany, pyany_to_autosar_data_type, pyany_to_value_specification,
+            value_specification_to_pyany,
         },
         software_component::ModeDeclarationGroup,
         *,
@@ -212,7 +212,7 @@ impl ParameterInterface {
         name: &str,
         data_type: &Bound<'_, PyAny>,
     ) -> PyResult<ParameterDataPrototype> {
-        let data_type = pyobject_to_autosar_data_type(data_type)?;
+        let data_type = pyany_to_autosar_data_type(data_type)?;
         let parameter = self
             .0
             .create_parameter(name, &data_type)
@@ -289,7 +289,7 @@ impl ParameterDataPrototype {
     /// Set the data type of the parameter
     #[setter]
     fn set_data_type(&self, data_type: &Bound<'_, PyAny>) -> PyResult<()> {
-        let data_type = pyobject_to_autosar_data_type(data_type)?;
+        let data_type = pyany_to_autosar_data_type(data_type)?;
         self.0
             .set_data_type(&data_type)
             .map_err(abstraction_err_to_pyerr)
@@ -297,10 +297,10 @@ impl ParameterDataPrototype {
 
     /// Get the data type of the parameter
     #[getter]
-    fn data_type(&self) -> Option<PyObject> {
+    fn data_type(&self) -> Option<Py<PyAny>> {
         self.0
             .data_type()
-            .and_then(|value| autosar_data_type_to_pyobject(value).ok())
+            .and_then(|value| autosar_data_type_to_pyany(value).ok())
     }
 
     /// Get the interface containing the parameter
@@ -316,7 +316,7 @@ impl ParameterDataPrototype {
     #[setter]
     fn set_init_value(&self, init_value: Option<&Bound<'_, PyAny>>) -> PyResult<()> {
         let init_value = init_value
-            .map(|val| pyobject_to_value_specification(val))
+            .map(|val| pyany_to_value_specification(val))
             .transpose()?;
         self.0
             .set_init_value(init_value)
@@ -325,10 +325,10 @@ impl ParameterDataPrototype {
 
     /// get the init value for the parameter
     #[getter]
-    fn init_value(&self) -> Option<PyObject> {
+    fn init_value(&self) -> Option<Py<PyAny>> {
         self.0
             .init_value()
-            .and_then(|value_spec| value_specification_to_pyobject(&value_spec).ok())
+            .and_then(|value_spec| value_specification_to_pyany(&value_spec).ok())
     }
 }
 
@@ -460,11 +460,11 @@ impl TriggerInterface {
 
 //##################################################################
 
-pub(crate) fn port_interface_to_pyobject(
+pub(crate) fn port_interface_to_pyany(
     port_interface: autosar_data_abstraction::software_component::PortInterface,
-) -> PyResult<PyObject> {
+) -> PyResult<Py<PyAny>> {
     use autosar_data_abstraction::software_component::PortInterface;
-    Python::with_gil(|py| match port_interface {
+    Python::attach(|py| match port_interface {
         PortInterface::SenderReceiverInterface(value) => {
             SenderReceiverInterface(value).into_py_any(py)
         }
@@ -476,7 +476,7 @@ pub(crate) fn port_interface_to_pyobject(
     })
 }
 
-pub(crate) fn pyobject_to_port_interface(
+pub(crate) fn pyany_to_port_interface(
     pyobject: &Bound<'_, PyAny>,
 ) -> PyResult<autosar_data_abstraction::software_component::PortInterface> {
     use autosar_data_abstraction::software_component::PortInterface;

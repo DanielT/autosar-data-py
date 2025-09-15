@@ -9,8 +9,8 @@ use crate::abstraction::{
         ApplicationArrayDataType, ApplicationArraySize, ApplicationPrimitiveCategory,
         ApplicationPrimitiveDataType, ApplicationRecordDataType, BaseTypeEncoding, CompuMethod,
         ConstantSpecification, DataConstr, DataTypeMappingSet, ImplementationDataType, SwBaseType,
-        Unit, pyany_to_implmentation_settings, pyobject_to_compu_method_content,
-        pyobject_to_value_specification,
+        Unit, pyany_to_compu_method_content, pyany_to_implmentation_settings,
+        pyany_to_value_specification,
     },
     ecu_configuration::{
         EcucDefinitionCollection, EcucDestinationUriDefSet, EcucModuleConfigurationValues,
@@ -185,7 +185,7 @@ impl ArPackage {
     /// create a new `CompuMethod` in the package
     #[pyo3(text_signature = "(self, name: str, content: CompuMethodContent)")]
     fn create_compu_method(&self, name: &str, content: &Bound<'_, PyAny>) -> PyResult<CompuMethod> {
-        let content = pyobject_to_compu_method_content(content)?;
+        let content = pyany_to_compu_method_content(content)?;
         match self.0.create_compu_method(name, content) {
             Ok(value) => Ok(CompuMethod(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
@@ -199,7 +199,7 @@ impl ArPackage {
         name: &str,
         value: &Bound<'_, PyAny>,
     ) -> PyResult<ConstantSpecification> {
-        let value = pyobject_to_value_specification(value)?;
+        let value = pyany_to_value_specification(value)?;
         match self.0.create_constant_specification(name, value) {
             Ok(value) => Ok(ConstantSpecification(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),

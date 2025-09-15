@@ -4,8 +4,8 @@ use crate::{
         AutosarAbstractionError, System, abstraction_err_to_pyerr,
         ecu_configuration::{
             EcucAddInfoParamDef, EcucInstanceReferenceDef, EcucModuleDef,
-            ecuc_container_def_from_pyobject, ecuc_container_def_to_pyobject,
-            pyobject_to_ecuc_parameter_def, pyobject_to_ecuc_reference_def,
+            ecuc_container_def_from_pyany, ecuc_container_def_to_pyany,
+            pyany_to_ecuc_parameter_def, pyany_to_ecuc_reference_def,
         },
     },
     iterator_wrapper,
@@ -178,7 +178,7 @@ impl EcucModuleConfigurationValues {
         name: &str,
         definition: &Bound<'_, PyAny>,
     ) -> PyResult<EcucContainerValue> {
-        let definition = ecuc_container_def_from_pyobject(definition)?;
+        let definition = ecuc_container_def_from_pyany(definition)?;
         match self.0.create_container_value(name, &definition) {
             Ok(value) => Ok(EcucContainerValue(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
@@ -245,7 +245,7 @@ impl EcucContainerValue {
     /// set the container definition reference
     #[setter]
     fn set_definition(&self, definition: &Bound<'_, PyAny>) -> PyResult<()> {
-        let definition = ecuc_container_def_from_pyobject(definition)?;
+        let definition = ecuc_container_def_from_pyany(definition)?;
         self.0
             .set_definition(&definition)
             .map_err(abstraction_err_to_pyerr)
@@ -256,10 +256,10 @@ impl EcucContainerValue {
     /// This function returns the definition as an `EcucContainerDef` object.
     /// If the definition is not loaded, use `definition_ref()` instead.
     #[getter]
-    fn definition(&self) -> Option<PyObject> {
+    fn definition(&self) -> Option<Py<PyAny>> {
         self.0
             .definition()
-            .and_then(|def| ecuc_container_def_to_pyobject(def).ok())
+            .and_then(|def| ecuc_container_def_to_pyany(def).ok())
     }
 
     /// get the definition reference as a string
@@ -279,7 +279,7 @@ impl EcucContainerValue {
         name: &str,
         definition: &Bound<'_, PyAny>,
     ) -> PyResult<EcucContainerValue> {
-        let definition = ecuc_container_def_from_pyobject(definition)?;
+        let definition = ecuc_container_def_from_pyany(definition)?;
         match self.0.create_sub_container(name, &definition) {
             Ok(value) => Ok(EcucContainerValue(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
@@ -317,7 +317,7 @@ impl EcucContainerValue {
         definition: &Bound<'_, PyAny>,
         value: &str,
     ) -> PyResult<EcucNumericalParamValue> {
-        let definition = pyobject_to_ecuc_parameter_def(definition)?;
+        let definition = pyany_to_ecuc_parameter_def(definition)?;
         match self.0.create_numerical_param_value(&definition, value) {
             Ok(value) => Ok(EcucNumericalParamValue(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
@@ -332,7 +332,7 @@ impl EcucContainerValue {
         definition: &Bound<'_, PyAny>,
         value: &str,
     ) -> PyResult<EcucTextualParamValue> {
-        let definition = pyobject_to_ecuc_parameter_def(definition)?;
+        let definition = pyany_to_ecuc_parameter_def(definition)?;
         match self.0.create_textual_param_value(&definition, value) {
             Ok(value) => Ok(EcucTextualParamValue(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
@@ -357,7 +357,7 @@ impl EcucContainerValue {
         EcucParameterValueIterator::new(
             self.0
                 .parameter_values()
-                .filter_map(|val| ecuc_parameter_value_to_pyobject(&val).ok()),
+                .filter_map(|val| ecuc_parameter_value_to_pyany(&val).ok()),
         )
     }
 
@@ -390,7 +390,7 @@ impl EcucContainerValue {
         definition: &Bound<'_, PyAny>,
         target: &Element,
     ) -> PyResult<EcucReferenceValue> {
-        let definition = pyobject_to_ecuc_reference_def(definition)?;
+        let definition = pyany_to_ecuc_reference_def(definition)?;
         match self.0.create_reference_value(&definition, &target.0) {
             Ok(value) => Ok(EcucReferenceValue(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
@@ -402,7 +402,7 @@ impl EcucContainerValue {
         EcucAnyReferenceValueIterator::new(
             self.0
                 .reference_values()
-                .filter_map(|val| ecuc_reference_value_to_pyobject(&val).ok()),
+                .filter_map(|val| ecuc_reference_value_to_pyany(&val).ok()),
         )
     }
 }

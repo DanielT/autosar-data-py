@@ -278,7 +278,7 @@ pub(crate) struct IpduTiming {
 
 impl From<autosar_data_abstraction::communication::IpduTiming> for IpduTiming {
     fn from(timing: autosar_data_abstraction::communication::IpduTiming) -> Self {
-        Python::with_gil(|py| Self {
+        Python::attach(|py| Self {
             minimum_delay: timing.minimum_delay,
             transmission_mode_true_timing: timing
                 .transmission_mode_true_timing
@@ -292,7 +292,7 @@ impl From<autosar_data_abstraction::communication::IpduTiming> for IpduTiming {
 
 impl From<&IpduTiming> for autosar_data_abstraction::communication::IpduTiming {
     fn from(timing: &IpduTiming) -> Self {
-        Python::with_gil(|py| Self {
+        Python::attach(|py| Self {
             minimum_delay: timing.minimum_delay,
             transmission_mode_true_timing: timing
                 .transmission_mode_true_timing
@@ -332,7 +332,7 @@ impl IpduTiming {
 
 impl std::fmt::Debug for IpduTiming {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        Python::with_gil(|py| {
+        Python::attach(|py| {
             let mut ds = f.debug_struct("IpduTiming");
             match &self.minimum_delay {
                 Some(value) => {
@@ -365,7 +365,7 @@ impl std::fmt::Debug for IpduTiming {
 
 impl PartialEq for IpduTiming {
     fn eq(&self, other: &Self) -> bool {
-        Python::with_gil(|py|
+        Python::attach(|py|
         match (&self.transmission_mode_true_timing, &other.transmission_mode_true_timing) {
             (Some(a), Some(b)) => *a.borrow(py) == *b.borrow(py),
             (None, None) => true,
@@ -399,7 +399,7 @@ impl From<autosar_data_abstraction::communication::TransmissionModeTiming>
     for TransmissionModeTiming
 {
     fn from(timing: autosar_data_abstraction::communication::TransmissionModeTiming) -> Self {
-        Python::with_gil(|py| Self {
+        Python::attach(|py| Self {
             cyclic_timing: timing
                 .cyclic_timing
                 .map(|value| Py::new(py, CyclicTiming::from(value)).unwrap()),
@@ -414,7 +414,7 @@ impl From<&TransmissionModeTiming>
     for autosar_data_abstraction::communication::TransmissionModeTiming
 {
     fn from(timing: &TransmissionModeTiming) -> Self {
-        Python::with_gil(|py| Self {
+        Python::attach(|py| Self {
             cyclic_timing: timing
                 .cyclic_timing
                 .as_ref()
@@ -451,7 +451,7 @@ impl TransmissionModeTiming {
 
 impl std::fmt::Debug for TransmissionModeTiming {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        Python::with_gil(|py| {
+        Python::attach(|py| {
             let mut ds = f.debug_struct("TransmissionModeTiming");
             match &self.cyclic_timing {
                 Some(value) => {
@@ -476,7 +476,7 @@ impl std::fmt::Debug for TransmissionModeTiming {
 
 impl PartialEq for TransmissionModeTiming {
     fn eq(&self, other: &Self) -> bool {
-        Python::with_gil(|py|
+        Python::attach(|py|
         match (&self.cyclic_timing, &other.cyclic_timing) {
             (Some(a), Some(b)) => *a.borrow(py) == *b.borrow(py),
             (None, None) => true,

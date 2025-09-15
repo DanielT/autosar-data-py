@@ -5,7 +5,7 @@ use crate::{
         communication::SystemSignal,
         software_component::{
             RootSwCompositionPrototype, SwComponentPrototype, VariableDataPrototype,
-            pyobject_to_port_prototype,
+            pyany_to_port_prototype,
         },
     },
 };
@@ -101,7 +101,7 @@ impl SystemMapping {
         context_components: Vec<SwComponentPrototype>,
         root_composition_prototype: Option<&RootSwCompositionPrototype>,
     ) -> PyResult<()> {
-        let port_prototype = pyobject_to_port_prototype(port_prototype)?;
+        let port_prototype = pyany_to_port_prototype(port_prototype)?;
         let context_components: Vec<_> = context_components.iter().map(|c| &c.0).collect();
         self.0
             .map_sender_receiver_to_signal(

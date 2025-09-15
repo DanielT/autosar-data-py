@@ -499,7 +499,7 @@ impl CanTpConnection {
     ///
     /// This is the Pdu that is sent over the transport protocol
     #[getter]
-    fn tp_sdu(&self) -> Option<PyObject> {
+    fn tp_sdu(&self) -> Option<Py<PyAny>> {
         self.0.tp_sdu().and_then(|ipdu| ipdu_to_pyany(&ipdu).ok())
     }
 

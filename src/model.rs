@@ -129,7 +129,7 @@ impl AutosarModel {
     /// depth first dearch iterator over all elements in the model, regardless of their association with a file
     fn elements_dfs(&self) -> ElementsDfsIterator {
         ElementsDfsIterator::new(self.0.elements_dfs().filter_map(|(depth, elem)| {
-            Python::with_gil(|py| (depth, Element(elem)).into_py_any(py).ok())
+            Python::attach(|py| (depth, Element(elem)).into_py_any(py).ok())
         }))
     }
 
@@ -142,7 +142,7 @@ impl AutosarModel {
     /// Iterate over pairs of (path, element) for all identifiable elements in the model
     fn identifiable_elements(&self) -> IdentifiablesIterator {
         IdentifiablesIterator::new(self.0.identifiable_elements().filter_map(|(path, weak)| {
-            Python::with_gil(|py| (path, Element(weak.upgrade()?)).into_py_any(py).ok())
+            Python::attach(|py| (path, Element(weak.upgrade()?)).into_py_any(py).ok())
         }))
     }
 

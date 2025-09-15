@@ -1,8 +1,8 @@
 use crate::{
     abstraction::{
         datatype::{
-            autosar_data_type_to_pyobject, pyobject_to_autosar_data_type,
-            pyobject_to_value_specification, value_specification_to_pyobject,
+            autosar_data_type_to_pyany, pyany_to_autosar_data_type, pyany_to_value_specification,
+            value_specification_to_pyany,
         },
         *,
     },
@@ -67,7 +67,7 @@ impl SenderReceiverInterface {
         name: &str,
         data_type: &Bound<'_, PyAny>,
     ) -> PyResult<VariableDataPrototype> {
-        let data_type = pyobject_to_autosar_data_type(data_type)?;
+        let data_type = pyany_to_autosar_data_type(data_type)?;
         match self.0.create_data_element(name, &data_type) {
             Ok(value) => Ok(VariableDataPrototype(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
@@ -141,7 +141,7 @@ impl VariableDataPrototype {
     /// Set the data type of the data element
     #[setter]
     fn set_data_type(&self, data_type: &Bound<'_, PyAny>) -> PyResult<()> {
-        let data_type = pyobject_to_autosar_data_type(data_type)?;
+        let data_type = pyany_to_autosar_data_type(data_type)?;
         self.0
             .set_data_type(&data_type)
             .map_err(abstraction_err_to_pyerr)
@@ -149,10 +149,10 @@ impl VariableDataPrototype {
 
     /// Get the data type of the data element
     #[getter]
-    fn data_type(&self) -> Option<PyObject> {
+    fn data_type(&self) -> Option<Py<PyAny>> {
         self.0
             .data_type()
-            .and_then(|value| autosar_data_type_to_pyobject(value).ok())
+            .and_then(|value| autosar_data_type_to_pyany(value).ok())
     }
 
     /// Get the interface containing the data element
@@ -168,7 +168,7 @@ impl VariableDataPrototype {
     #[setter]
     fn set_init_value(&self, init_value: Option<&Bound<'_, PyAny>>) -> PyResult<()> {
         let init_value = init_value
-            .map(|val| pyobject_to_value_specification(val))
+            .map(|val| pyany_to_value_specification(val))
             .transpose()?;
         self.0
             .set_init_value(init_value)
@@ -177,10 +177,10 @@ impl VariableDataPrototype {
 
     /// get the init value for the data element
     #[getter]
-    fn init_value(&self) -> Option<PyObject> {
+    fn init_value(&self) -> Option<Py<PyAny>> {
         self.0
             .init_value()
-            .and_then(|value_spec| value_specification_to_pyobject(&value_spec).ok())
+            .and_then(|value_spec| value_specification_to_pyany(&value_spec).ok())
     }
 }
 

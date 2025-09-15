@@ -4,8 +4,7 @@ use crate::{
         AutosarAbstractionError, abstraction_err_to_pyerr,
         ecu_configuration::{
             EcucConfigurationClass, EcucConfigurationVariant, EcucContainerDefIterator,
-            EcucDestinationUriDef, ecuc_container_def_from_pyobject,
-            ecuc_container_def_to_pyobject,
+            EcucDestinationUriDef, ecuc_container_def_from_pyany, ecuc_container_def_to_pyany,
         },
     },
     iterator_wrapper,
@@ -628,7 +627,7 @@ impl EcucChoiceReferenceDef {
 
     /// add a reference to a destination container
     fn add_destination(&self, destination: &Bound<'_, PyAny>) -> PyResult<()> {
-        let destination = ecuc_container_def_from_pyobject(destination)?;
+        let destination = ecuc_container_def_from_pyany(destination)?;
         self.0
             .add_destination(&destination)
             .map_err(abstraction_err_to_pyerr)
@@ -639,7 +638,7 @@ impl EcucChoiceReferenceDef {
         EcucContainerDefIterator::new(
             self.0
                 .destination_refs()
-                .filter_map(|container| ecuc_container_def_to_pyobject(container).ok()),
+                .filter_map(|container| ecuc_container_def_to_pyany(container).ok()),
         )
     }
 
@@ -903,7 +902,7 @@ impl EcucReferenceDef {
     /// set the destination container of the reference
     #[setter]
     fn set_destination(&self, destination: Option<&Bound<'_, PyAny>>) -> PyResult<()> {
-        let destination = destination.and_then(|d| ecuc_container_def_from_pyobject(d).ok());
+        let destination = destination.and_then(|d| ecuc_container_def_from_pyany(d).ok());
         self.0
             .set_destination(destination.as_ref())
             .map_err(abstraction_err_to_pyerr)
@@ -911,10 +910,10 @@ impl EcucReferenceDef {
 
     /// get the destination container of the reference
     #[getter]
-    fn destination(&self) -> Option<PyObject> {
+    fn destination(&self) -> Option<Py<PyAny>> {
         self.0
             .destination()
-            .and_then(|d| ecuc_container_def_to_pyobject(d).ok())
+            .and_then(|d| ecuc_container_def_to_pyany(d).ok())
     }
 
     // ------- EcucCommonAttributes -------
@@ -1404,14 +1403,18 @@ impl EcucUriReferenceDef {
 
 //##################################################################
 
-iterator_wrapper!(EcucAnyReferenceDefIterator, PyObject, "EcucAnyReferenceDef");
+iterator_wrapper!(
+    EcucAnyReferenceDefIterator,
+    Py<PyAny>,
+    "EcucAnyReferenceDef"
+);
 
 //##################################################################
 
-pub(crate) fn ecuc_reference_def_to_pyobject(
+pub(crate) fn ecuc_reference_def_to_pyany(
     reference_def: autosar_data_abstraction::ecu_configuration::EcucAnyReferenceDef,
-) -> PyResult<PyObject> {
-    Python::with_gil(|py| match reference_def {
+) -> PyResult<Py<PyAny>> {
+    Python::attach(|py| match reference_def {
         autosar_data_abstraction::ecu_configuration::EcucAnyReferenceDef::Foreign(value) => {
             EcucForeignReferenceDef(value).into_py_any(py)
         }
@@ -1430,7 +1433,7 @@ pub(crate) fn ecuc_reference_def_to_pyobject(
     })
 }
 
-pub(crate) fn pyobject_to_ecuc_reference_def(
+pub(crate) fn pyany_to_ecuc_reference_def(
     py_reference_def: &Bound<'_, PyAny>,
 ) -> PyResult<autosar_data_abstraction::ecu_configuration::EcucAnyReferenceDef> {
     if let Ok(reference_def) = py_reference_def.extract::<EcucForeignReferenceDef>() {

@@ -8,7 +8,7 @@ use crate::{
             EcucForeignReferenceDef, EcucFunctionNameDef, EcucInstanceReferenceDef,
             EcucIntegerParamDef, EcucLinkerSymbolDef, EcucMultilineStringParamDef,
             EcucParameterDefIterator, EcucReferenceDef, EcucStringParamDef, EcucUriReferenceDef,
-            ecuc_parameter_def_to_pyobject, ecuc_reference_def_to_pyobject,
+            ecuc_parameter_def_to_pyany, ecuc_reference_def_to_pyany,
         },
     },
     iterator_wrapper,
@@ -198,7 +198,7 @@ impl EcucParamConfContainerDef {
         EcucContainerDefIterator::new(
             self.0
                 .sub_containers()
-                .filter_map(|container| ecuc_container_def_to_pyobject(container).ok()),
+                .filter_map(|container| ecuc_container_def_to_pyany(container).ok()),
         )
     }
 
@@ -313,7 +313,7 @@ impl EcucParamConfContainerDef {
         EcucParameterDefIterator::new(
             self.0
                 .parameters()
-                .filter_map(|value| ecuc_parameter_def_to_pyobject(value).ok()),
+                .filter_map(|value| ecuc_parameter_def_to_pyany(value).ok()),
         )
     }
 
@@ -384,7 +384,7 @@ impl EcucParamConfContainerDef {
         EcucAnyReferenceDefIterator::new(
             self.0
                 .references()
-                .filter_map(|value| ecuc_reference_def_to_pyobject(value).ok()),
+                .filter_map(|value| ecuc_reference_def_to_pyany(value).ok()),
         )
     }
 
@@ -442,16 +442,16 @@ impl EcucParamConfContainerDef {
 iterator_wrapper!(EcucParamConfContainerDefIterator, EcucParamConfContainerDef);
 iterator_wrapper!(
     EcucContainerDefIterator,
-    PyObject,
+    Py<PyAny>,
     "Union[EcucChoiceContainerDef, EcucParamConfContainerDef]"
 );
 
 //##################################################################
 
-pub(crate) fn ecuc_container_def_to_pyobject(
+pub(crate) fn ecuc_container_def_to_pyany(
     container: autosar_data_abstraction::ecu_configuration::EcucContainerDef,
-) -> PyResult<PyObject> {
-    Python::with_gil(|py| match container {
+) -> PyResult<Py<PyAny>> {
+    Python::attach(|py| match container {
         autosar_data_abstraction::ecu_configuration::EcucContainerDef::Choice(container) => {
             EcucChoiceContainerDef(container).into_py_any(py)
         }
@@ -461,7 +461,7 @@ pub(crate) fn ecuc_container_def_to_pyobject(
     })
 }
 
-pub(crate) fn ecuc_container_def_from_pyobject(
+pub(crate) fn ecuc_container_def_from_pyany(
     py_container: &Bound<'_, PyAny>,
 ) -> PyResult<autosar_data_abstraction::ecu_configuration::EcucContainerDef> {
     if let Ok(container) = py_container.extract::<EcucChoiceContainerDef>() {

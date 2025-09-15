@@ -3,8 +3,7 @@ use crate::{
     abstraction::{
         AutosarAbstractionError, abstraction_err_to_pyerr,
         datatype::{
-            ImplementationDataType, application_data_type_to_pyobject,
-            pyobject_to_application_data_type,
+            ImplementationDataType, application_data_type_to_pyany, pyany_to_application_data_type,
         },
     },
     iterator_wrapper,
@@ -66,7 +65,7 @@ impl DataTypeMappingSet {
         implementation_data_type: &ImplementationDataType,
         application_data_type: &Bound<'_, PyAny>,
     ) -> PyResult<DataTypeMap> {
-        let application_data_type = pyobject_to_application_data_type(application_data_type)?;
+        let application_data_type = pyany_to_application_data_type(application_data_type)?;
         match self
             .0
             .create_data_type_map(&implementation_data_type.0, &application_data_type)
@@ -126,10 +125,10 @@ impl DataTypeMap {
 
     /// Get the `ApplicationDataType` of the `DataTypeMap`
     #[getter]
-    fn application_data_type(&self) -> Option<PyObject> {
+    fn application_data_type(&self) -> Option<Py<PyAny>> {
         self.0
             .application_data_type()
-            .and_then(|dt| application_data_type_to_pyobject(dt).ok())
+            .and_then(|dt| application_data_type_to_pyany(dt).ok())
     }
 }
 

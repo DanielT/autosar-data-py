@@ -93,7 +93,7 @@ struct Attribute {
     #[pyo3(get)]
     pub attrname: String,
     #[pyo3(get)]
-    pub content: PyObject,
+    pub content: Py<PyAny>,
 }
 
 #[pyclass(frozen, module = "autosar_data._autosar_data")]
@@ -214,10 +214,10 @@ struct CharacterDataTypeFloat(());
 // Every one of these iterators follows the same pattern, returning "impl Iterator<Item = T>", so
 // they can all be wrapped using the same method.
 macro_rules! iterator_wrapper {
-    ($iter_name:ident, $item_name:ident) => {
+    ($iter_name:ident, $item_name:ty) => {
         iterator_wrapper!($iter_name, $item_name, stringify!($item_name));
     };
-    ($iter_name:ident, $item_name:ident, $desc:expr) => {
+    ($iter_name:ident, $item_name:ty, $desc:expr) => {
         #[pyclass(module = "autosar_data._autosar_data._iterators")]
         pub(crate) struct $iter_name {
             iter: Box<dyn Iterator<Item = $item_name> + Sync + Send + 'static>,
@@ -254,13 +254,13 @@ pub(crate) use iterator_wrapper;
 
 //##################################################################
 
-iterator_wrapper!(ElementsDfsIterator, PyObject, "Tuple[int, Element]");
-iterator_wrapper!(IdentifiablesIterator, PyObject, "Tuple[str, Element]");
+iterator_wrapper!(ElementsDfsIterator, Py<PyAny>, "Tuple[int, Element]");
+iterator_wrapper!(IdentifiablesIterator, Py<PyAny>, "Tuple[str, Element]");
 iterator_wrapper!(AttributeIterator, Attribute);
 iterator_wrapper!(ElementsIterator, Element);
 iterator_wrapper!(
     ElementContentIterator,
-    PyObject,
+    Py<PyAny>,
     "Union[Element, CharacterData]"
 );
 
@@ -378,8 +378,8 @@ fn check_file(filename: &str) -> bool {
 #[pyfunction]
 #[pyo3(signature = (input, /))]
 #[pyo3(text_signature = "(input: Union[bytes, str], /)")]
-fn check_buffer(input: PyObject) -> PyResult<bool> {
-    Python::with_gil(|py| {
+fn check_buffer(input: Py<PyAny>) -> PyResult<bool> {
+    Python::attach(|py| {
         if let Ok(bytebuffer) = input.extract::<&[u8]>(py) {
             Ok(autosar_data_rs::check_buffer(bytebuffer))
         } else if let Ok(stringbuffer) = input.extract::<&str>(py) {
@@ -459,9 +459,9 @@ fn _autosar_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
 
 fn extract_character_data(
     spec: &CharacterDataSpec,
-    object: &PyObject,
+    object: &Py<PyAny>,
 ) -> PyResult<autosar_data_rs::CharacterData> {
-    Python::with_gil(|py| {
+    Python::attach(|py| {
         let any = object.bind(py);
         match spec {
             CharacterDataSpec::Enum { .. } => {
@@ -536,8 +536,8 @@ fn extract_character_data(
     })
 }
 
-fn character_data_to_object(cdata: &autosar_data_rs::CharacterData) -> PyResult<PyObject> {
-    Python::with_gil(|py| match cdata {
+fn character_data_to_object(cdata: &autosar_data_rs::CharacterData) -> PyResult<Py<PyAny>> {
+    Python::attach(|py| match cdata {
         autosar_data_rs::CharacterData::Enum(enumitem) => enumitem.to_str().into_py_any(py),
         autosar_data_rs::CharacterData::String(s) => {
             if let Some(val) = cdata.parse_integer::<i64>() {
@@ -567,8 +567,8 @@ fn get_attribute_name(name_str: &str) -> PyResult<autosar_data_rs::AttributeName
     })
 }
 
-fn version_mask_from_any(version_obj: &PyObject) -> PyResult<u32> {
-    Python::with_gil(|py| {
+fn version_mask_from_any(version_obj: &Py<PyAny>) -> PyResult<u32> {
+    Python::attach(|py| {
         if let Ok(list) = version_obj.downcast_bound::<PyList>(py) {
             let mut mask = 0;
             for item in list {

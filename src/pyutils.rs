@@ -1,21 +1,21 @@
 use pyo3::{prelude::*, types::PyList};
 
 /// convert any slice of items to a Py<PyList>
-/// There must be some function that converts a single item to a PyObject
+/// There must be some function that converts a single item to a Py<PyAny>
 pub(crate) fn slice_to_pylist<T>(
     py: Python<'_>,
     slice: &[T],
-    convert: impl Fn(&T) -> PyResult<PyObject>,
+    convert: impl Fn(&T) -> PyResult<Py<PyAny>>,
 ) -> PyResult<Py<PyList>> {
     let object_vec: Vec<_> = slice
         .iter()
-        .map(|item| -> PyResult<PyObject> { convert(item) })
+        .map(|item| -> PyResult<Py<PyAny>> { convert(item) })
         .collect::<PyResult<Vec<_>>>()?;
     PyList::new(py, object_vec).map(|x| x.unbind())
 }
 
 /// convert a Py<PyList> to a vector of items
-/// There must be some function that converts a PyObject to an item
+/// There must be some function that converts a Py<PyAny> to an item
 pub(crate) fn pylist_to_vec<T>(
     py: Python<'_>,
     seq: &Py<PyList>,

@@ -189,13 +189,13 @@ impl System {
     fn clusters(&self) -> ClusterIterator {
         ClusterIterator::new(self.0.clusters().filter_map(|cluster| match cluster {
             autosar_data_abstraction::communication::Cluster::Can(cluster) => {
-                Python::with_gil(|py| CanCluster(cluster).into_py_any(py).ok())
+                Python::attach(|py| CanCluster(cluster).into_py_any(py).ok())
             }
             autosar_data_abstraction::communication::Cluster::Ethernet(cluster) => {
-                Python::with_gil(|py| EthernetCluster(cluster).into_py_any(py).ok())
+                Python::attach(|py| EthernetCluster(cluster).into_py_any(py).ok())
             }
             autosar_data_abstraction::communication::Cluster::FlexRay(cluster) => {
-                Python::with_gil(|py| FlexrayCluster(cluster).into_py_any(py).ok())
+                Python::attach(|py| FlexrayCluster(cluster).into_py_any(py).ok())
             }
             _ => None,
         }))
@@ -239,10 +239,10 @@ impl System {
     fn frames(&self) -> FrameIterator {
         FrameIterator::new(self.0.frames().filter_map(|frame| match frame {
             autosar_data_abstraction::communication::Frame::Can(frame) => {
-                Python::with_gil(|py| CanFrame(frame).into_py_any(py).ok())
+                Python::attach(|py| CanFrame(frame).into_py_any(py).ok())
             }
             autosar_data_abstraction::communication::Frame::Flexray(frame) => {
-                Python::with_gil(|py| FlexrayFrame(frame).into_py_any(py).ok())
+                Python::attach(|py| FlexrayFrame(frame).into_py_any(py).ok())
             }
             _ => None,
         }))
@@ -462,31 +462,31 @@ impl System {
     fn pdus(&self) -> PduIterator {
         PduIterator::new(self.0.pdus().filter_map(|pdu| match pdu {
             autosar_data_abstraction::communication::Pdu::ISignalIPdu(pdu) => {
-                Python::with_gil(|py| ISignalIPdu(pdu).into_py_any(py).ok())
+                Python::attach(|py| ISignalIPdu(pdu).into_py_any(py).ok())
             }
             autosar_data_abstraction::communication::Pdu::NmPdu(pdu) => {
-                Python::with_gil(|py| NmPdu(pdu).into_py_any(py).ok())
+                Python::attach(|py| NmPdu(pdu).into_py_any(py).ok())
             }
             autosar_data_abstraction::communication::Pdu::NPdu(pdu) => {
-                Python::with_gil(|py| NPdu(pdu).into_py_any(py).ok())
+                Python::attach(|py| NPdu(pdu).into_py_any(py).ok())
             }
             autosar_data_abstraction::communication::Pdu::DcmIPdu(pdu) => {
-                Python::with_gil(|py| DcmIPdu(pdu).into_py_any(py).ok())
+                Python::attach(|py| DcmIPdu(pdu).into_py_any(py).ok())
             }
             autosar_data_abstraction::communication::Pdu::GeneralPurposePdu(pdu) => {
-                Python::with_gil(|py| GeneralPurposePdu(pdu).into_py_any(py).ok())
+                Python::attach(|py| GeneralPurposePdu(pdu).into_py_any(py).ok())
             }
             autosar_data_abstraction::communication::Pdu::GeneralPurposeIPdu(pdu) => {
-                Python::with_gil(|py| GeneralPurposeIPdu(pdu).into_py_any(py).ok())
+                Python::attach(|py| GeneralPurposeIPdu(pdu).into_py_any(py).ok())
             }
             autosar_data_abstraction::communication::Pdu::ContainerIPdu(pdu) => {
-                Python::with_gil(|py| ContainerIPdu(pdu).into_py_any(py).ok())
+                Python::attach(|py| ContainerIPdu(pdu).into_py_any(py).ok())
             }
             autosar_data_abstraction::communication::Pdu::SecuredIPdu(pdu) => {
-                Python::with_gil(|py| SecuredIPdu(pdu).into_py_any(py).ok())
+                Python::attach(|py| SecuredIPdu(pdu).into_py_any(py).ok())
             }
             autosar_data_abstraction::communication::Pdu::MultiplexedIPdu(pdu) => {
-                Python::with_gil(|py| MultiplexedIPdu(pdu).into_py_any(py).ok())
+                Python::attach(|py| MultiplexedIPdu(pdu).into_py_any(py).ok())
             } //_ => None,
         }))
     }
@@ -742,13 +742,13 @@ impl System {
 iterator_wrapper!(EcuInstanceIterator, EcuInstance);
 iterator_wrapper!(
     ClusterIterator,
-    PyObject,
+    Py<PyAny>,
     "Union[CanCluster, EthernetCluster, FlexrayCluster]"
 );
-iterator_wrapper!(FrameIterator, PyObject, "Union[CanFrame, FlexrayFrame]");
+iterator_wrapper!(FrameIterator, Py<PyAny>, "Union[CanFrame, FlexrayFrame]");
 iterator_wrapper!(ISignalIterator, ISignal);
 iterator_wrapper!(ISignalGroupIterator, ISignalGroup);
-iterator_wrapper!(PduIterator, PyObject, "Pdu");
+iterator_wrapper!(PduIterator, Py<PyAny>, "Pdu");
 
 //#########################################################
 

@@ -4,8 +4,8 @@ use crate::{
         AutosarAbstractionError, abstraction_err_to_pyerr,
         software_component::{
             ClientServerOperation, ModeDeclaration, PPortPrototype, RunnableEntity,
-            SwcInternalBehavior, VariableDataPrototype, port_prototype_to_pyobject,
-            pyobject_to_port_prototype,
+            SwcInternalBehavior, VariableDataPrototype, port_prototype_to_pyany,
+            pyany_to_port_prototype,
         },
     },
     iterator_wrapper,
@@ -293,7 +293,7 @@ impl DataReceivedEvent {
         variable_data_prototype: &VariableDataPrototype,
         context_port: &Bound<'_, PyAny>,
     ) -> PyResult<()> {
-        let context_port = pyobject_to_port_prototype(context_port)?;
+        let context_port = pyany_to_port_prototype(context_port)?;
         self.0
             .set_variable_data_prototype(&variable_data_prototype.0, &context_port)
             .map_err(abstraction_err_to_pyerr)
@@ -301,9 +301,9 @@ impl DataReceivedEvent {
 
     /// Get the `VariableDataPrototype` and the associated context port that triggers the `DataReceivedEvent`
     #[getter]
-    fn variable_data_prototype(&self) -> Option<(VariableDataPrototype, PyObject)> {
+    fn variable_data_prototype(&self) -> Option<(VariableDataPrototype, Py<PyAny>)> {
         let (variable_data_prototype, context_port) = self.0.variable_data_prototype()?;
-        let context_port = port_prototype_to_pyobject(context_port).ok()?;
+        let context_port = port_prototype_to_pyany(context_port).ok()?;
         Some((VariableDataPrototype(variable_data_prototype), context_port))
     }
 }
@@ -1074,7 +1074,7 @@ impl SwcModeSwitchEvent {
         mode_declaration: &ModeDeclaration,
         second_mode_declaration: Option<&ModeDeclaration>,
     ) -> PyResult<()> {
-        let context_port = pyobject_to_port_prototype(context_port)?;
+        let context_port = pyany_to_port_prototype(context_port)?;
         self.0
             .set_mode_declaration(
                 &context_port,
@@ -1087,10 +1087,10 @@ impl SwcModeSwitchEvent {
     /// Get the `ModeDeclaration`s that trigger the `SwcModeSwitchEvent`
     ///
     /// The list contains either one or two `ModeDeclaration`s depending on the `ModeActivationKind`.
-    fn mode_declarations(&self) -> Option<(Vec<ModeDeclaration>, PyObject)> {
+    fn mode_declarations(&self) -> Option<(Vec<ModeDeclaration>, Py<PyAny>)> {
         let (modes, context_port) = self.0.mode_declarations()?;
         let mode_declarations = modes.into_iter().map(ModeDeclaration).collect::<Vec<_>>();
-        let context_port = port_prototype_to_pyobject(context_port).ok()?;
+        let context_port = port_prototype_to_pyany(context_port).ok()?;
         Some((mode_declarations, context_port))
     }
 }
@@ -1218,15 +1218,15 @@ impl TransformerHardErrorEvent {
 
 //##################################################################
 
-iterator_wrapper!(RteEventIterator, PyObject, "RTEEvent");
+iterator_wrapper!(RteEventIterator, Py<PyAny>, "RTEEvent");
 
 //##################################################################
 
-pub(crate) fn rte_event_to_pyobject(
+pub(crate) fn rte_event_to_pyany(
     event: autosar_data_abstraction::software_component::RTEEvent,
-) -> PyResult<PyObject> {
+) -> PyResult<Py<PyAny>> {
     use autosar_data_abstraction::software_component::RTEEvent;
-    Python::with_gil(|py| match event {
+    Python::attach(|py| match event {
         RTEEvent::TimingEvent(event) => TimingEvent(event).into_py_any(py),
         RTEEvent::AsynchronousServerCallReturnsEvent(event) => {
             AsynchronousServerCallReturnsEvent(event).into_py_any(py)
