@@ -229,7 +229,7 @@ impl CompuScale {
             autosar_data_abstraction::datatype::CompuScaleContent::TextConstant(content)
         } else if let Ok(content) = content.extract::<f64>() {
             autosar_data_abstraction::datatype::CompuScaleContent::NumericConstant(content)
-        } else if let Ok(content) = content.downcast_exact::<CompuScaleRationalCoefficients>() {
+        } else if let Ok(content) = content.cast_exact::<CompuScaleRationalCoefficients>() {
             Python::attach(|py| {
                 let content = content.borrow();
                 autosar_data_abstraction::datatype::CompuScaleContent::RationalCoeffs {
@@ -1118,11 +1118,11 @@ pub(crate) fn pyany_to_compu_method_content(
     use autosar_data_abstraction::datatype as dt;
     Python::attach(|py| {
         if pyobject
-            .downcast_exact::<CompuMethodContent_Identical>()
+            .cast_exact::<CompuMethodContent_Identical>()
             .is_ok()
         {
             Ok(dt::CompuMethodContent::Identical)
-        } else if let Ok(linear) = pyobject.downcast_exact::<CompuMethodContent_Linear>() {
+        } else if let Ok(linear) = pyobject.cast_exact::<CompuMethodContent_Linear>() {
             let lb: PyRef<'_, CompuMethodContent_Linear> = linear.borrow();
             Ok(dt::CompuMethodContent::Linear(
                 dt::CompuMethodLinearContent {
@@ -1134,11 +1134,10 @@ pub(crate) fn pyany_to_compu_method_content(
                     upper_limit: lb.upper_limit,
                 },
             ))
-        } else if let Ok(scale_linear) = pyobject.downcast_exact::<CompuMethodContent_ScaleLinear>()
-        {
+        } else if let Ok(scale_linear) = pyobject.cast_exact::<CompuMethodContent_ScaleLinear>() {
             let out_scales_vec = pylist_to_linear_scales(py, &scale_linear.borrow().scales);
             Ok(dt::CompuMethodContent::ScaleLinear(out_scales_vec))
-        } else if let Ok(rational) = pyobject.downcast_exact::<CompuMethodContent_Rational>() {
+        } else if let Ok(rational) = pyobject.cast_exact::<CompuMethodContent_Rational>() {
             let rb = rational.borrow();
             Ok(dt::CompuMethodContent::Rational(
                 dt::CompuMethodRationalContent {
@@ -1149,21 +1148,18 @@ pub(crate) fn pyany_to_compu_method_content(
                     upper_limit: rb.upper_limit,
                 },
             ))
-        } else if let Ok(scale_rational) =
-            pyobject.downcast_exact::<CompuMethodContent_ScaleRational>()
+        } else if let Ok(scale_rational) = pyobject.cast_exact::<CompuMethodContent_ScaleRational>()
         {
             let scales = pylist_to_rational_scales(py, &scale_rational.borrow().scales);
             Ok(dt::CompuMethodContent::ScaleRational(scales))
-        } else if let Ok(text_table) = pyobject.downcast_exact::<CompuMethodContent_TextTable>() {
+        } else if let Ok(text_table) = pyobject.cast_exact::<CompuMethodContent_TextTable>() {
             let texts = pylist_to_text_table(py, &text_table.borrow().texts);
             Ok(dt::CompuMethodContent::TextTable(texts))
-        } else if let Ok(bitfield) =
-            pyobject.downcast_exact::<CompuMethodContent_BitfieldTextTable>()
-        {
+        } else if let Ok(bitfield) = pyobject.cast_exact::<CompuMethodContent_BitfieldTextTable>() {
             let entries = pylist_to_bitfield(py, &bitfield.borrow().entries);
             Ok(dt::CompuMethodContent::BitfieldTextTable(entries))
         } else if let Ok(scale_linear_text_table) =
-            pyobject.downcast_exact::<CompuMethodContent_ScaleLinearAndTextTable>()
+            pyobject.cast_exact::<CompuMethodContent_ScaleLinearAndTextTable>()
         {
             let borrowed = scale_linear_text_table.borrow();
             let scales = pylist_to_linear_scales(py, &borrowed.scales);
@@ -1172,7 +1168,7 @@ pub(crate) fn pyany_to_compu_method_content(
                 scales, texts,
             ))
         } else if let Ok(scale_rational_text_table) =
-            pyobject.downcast_exact::<CompuMethodContent_ScaleRationalAndTextTable>()
+            pyobject.cast_exact::<CompuMethodContent_ScaleRationalAndTextTable>()
         {
             let borrowed = scale_rational_text_table.borrow();
             let scales = pylist_to_rational_scales(py, &borrowed.scales);
@@ -1181,7 +1177,7 @@ pub(crate) fn pyany_to_compu_method_content(
                 scales, texts,
             ))
         } else if let Ok(tab_no_intp) =
-            pyobject.downcast_exact::<CompuMethodContent_TabNoInterpretation>()
+            pyobject.cast_exact::<CompuMethodContent_TabNoInterpretation>()
         {
             let entries = pylist_to_tab_no_intp(py, &tab_no_intp.borrow().entries);
             Ok(dt::CompuMethodContent::TabNoInterpretation(entries))
@@ -1202,11 +1198,7 @@ fn pylist_to_linear_scales(
         let mut out_scales_vec = vec![];
         for params in scales_iter
             .filter_map(Result::ok)
-            .filter_map(|pyany| {
-                pyany
-                    .downcast_into_exact::<LinearConversionParameters>()
-                    .ok()
-            })
+            .filter_map(|pyany| pyany.cast_into_exact::<LinearConversionParameters>().ok())
             .map(|py_lcp| py_lcp.borrow())
         {
             out_scales_vec.push(
@@ -1234,11 +1226,7 @@ fn pylist_to_rational_scales(
         let mut out_scales_vec = vec![];
         for params in scales_iter
             .filter_map(Result::ok)
-            .filter_map(|pyany| {
-                pyany
-                    .downcast_into_exact::<RationalConversionParameters>()
-                    .ok()
-            })
+            .filter_map(|pyany| pyany.cast_into_exact::<RationalConversionParameters>().ok())
             .map(|py_rcp| py_rcp.borrow())
         {
             out_scales_vec.push(
@@ -1265,7 +1253,7 @@ fn pylist_to_text_table(
         let mut out_texts_vec = vec![];
         for ttentry in texts_iter
             .filter_map(Result::ok)
-            .filter_map(|pyany| pyany.downcast_into_exact::<TextTableEntry>().ok())
+            .filter_map(|pyany| pyany.cast_into_exact::<TextTableEntry>().ok())
             .map(|py_tte| py_tte.borrow())
         {
             out_texts_vec.push(
@@ -1289,7 +1277,7 @@ fn pylist_to_bitfield(
         let mut out_texts_vec = vec![];
         for bfentry in texts_iter
             .filter_map(Result::ok)
-            .filter_map(|pyany| pyany.downcast_into_exact::<BitfieldEntry>().ok())
+            .filter_map(|pyany| pyany.cast_into_exact::<BitfieldEntry>().ok())
             .map(|py_tte| py_tte.borrow())
         {
             out_texts_vec.push(
@@ -1314,7 +1302,7 @@ fn pylist_to_tab_no_intp(
         let mut out_texts_vec = vec![];
         for tnientry in texts_iter
             .filter_map(Result::ok)
-            .filter_map(|pyany| pyany.downcast_into_exact::<TabNoIntpEntry>().ok())
+            .filter_map(|pyany| pyany.cast_into_exact::<TabNoIntpEntry>().ok())
             .map(|py_tte| py_tte.borrow())
         {
             out_texts_vec.push(

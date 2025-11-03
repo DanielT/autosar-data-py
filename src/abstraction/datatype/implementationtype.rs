@@ -352,43 +352,43 @@ impl<'py> From<&Bound<'py, PyAny>> for ImplementationDataTypeSettingsInternal<'p
         {
             "ImplementationDataTypeSettings_Value" => Self::Value(
                 settings
-                    .downcast_exact::<ImplementationDataTypeSettings_Value>()
+                    .cast_exact::<ImplementationDataTypeSettings_Value>()
                     .unwrap()
                     .borrow(),
             ),
             "ImplementationDataTypeSettings_Array" => Self::Array(
                 settings
-                    .downcast_exact::<ImplementationDataTypeSettings_Array>()
+                    .cast_exact::<ImplementationDataTypeSettings_Array>()
                     .unwrap()
                     .borrow(),
             ),
             "ImplementationDataTypeSettings_Structure" => Self::Structure(
                 settings
-                    .downcast_exact::<ImplementationDataTypeSettings_Structure>()
+                    .cast_exact::<ImplementationDataTypeSettings_Structure>()
                     .unwrap()
                     .borrow(),
             ),
             "ImplementationDataTypeSettings_Union" => Self::Union(
                 settings
-                    .downcast_exact::<ImplementationDataTypeSettings_Union>()
+                    .cast_exact::<ImplementationDataTypeSettings_Union>()
                     .unwrap()
                     .borrow(),
             ),
             "ImplementationDataTypeSettings_DataReference" => Self::DataReference(
                 settings
-                    .downcast_exact::<ImplementationDataTypeSettings_DataReference>()
+                    .cast_exact::<ImplementationDataTypeSettings_DataReference>()
                     .unwrap()
                     .borrow(),
             ),
             "ImplementationDataTypeSettings_FunctionReference" => Self::FunctionReference(
                 settings
-                    .downcast_exact::<ImplementationDataTypeSettings_FunctionReference>()
+                    .cast_exact::<ImplementationDataTypeSettings_FunctionReference>()
                     .unwrap()
                     .borrow(),
             ),
             "ImplementationDataTypeSettings_TypeReference" => Self::TypeReference(
                 settings
-                    .downcast_exact::<ImplementationDataTypeSettings_TypeReference>()
+                    .cast_exact::<ImplementationDataTypeSettings_TypeReference>()
                     .unwrap()
                     .borrow(),
             ),
@@ -747,13 +747,13 @@ impl PartialEq for ImplementationDataTypeSettings_DataReference {
     fn eq(&self, other: &Self) -> bool {
         Python::attach(|py| {
             if let (Ok(self_target), Ok(other_target)) = (
-                self.target.downcast_bound::<SwBaseType>(py),
-                other.target.downcast_bound::<SwBaseType>(py),
+                self.target.cast_bound::<SwBaseType>(py),
+                other.target.cast_bound::<SwBaseType>(py),
             ) {
                 self.name == other.name && *self_target.borrow() == *other_target.borrow()
             } else if let (Ok(self_target), Ok(other_target)) = (
-                self.target.downcast_bound::<ImplementationDataType>(py),
-                other.target.downcast_bound::<ImplementationDataType>(py),
+                self.target.cast_bound::<ImplementationDataType>(py),
+                other.target.cast_bound::<ImplementationDataType>(py),
             ) {
                 self.name == other.name && *self_target.borrow() == *other_target.borrow()
             } else {

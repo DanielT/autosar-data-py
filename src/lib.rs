@@ -569,7 +569,7 @@ fn get_attribute_name(name_str: &str) -> PyResult<autosar_data_rs::AttributeName
 
 fn version_mask_from_any(version_obj: &Py<PyAny>) -> PyResult<u32> {
     Python::attach(|py| {
-        if let Ok(list) = version_obj.downcast_bound::<PyList>(py) {
+        if let Ok(list) = version_obj.cast_bound::<PyList>(py) {
             let mut mask = 0;
             for item in list {
                 let ver: autosar_data_rs::AutosarVersion = item.extract::<AutosarVersion>()?.into();

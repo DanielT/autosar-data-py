@@ -125,68 +125,66 @@ pub(crate) fn pyany_to_value_specification(
     pyobject: &Bound<'_, PyAny>,
 ) -> PyResult<autosar_data_abstraction::datatype::ValueSpecification> {
     use autosar_data_abstraction::datatype::ValueSpecification;
-    if let Ok(array_value_specification) = pyobject.downcast_exact::<ArrayValueSpecification>() {
+    if let Ok(array_value_specification) = pyobject.cast_exact::<ArrayValueSpecification>() {
         (&*array_value_specification.borrow())
             .try_into()
             .map(ValueSpecification::Array)
-    } else if let Ok(record_value_specification) =
-        pyobject.downcast_exact::<RecordValueSpecification>()
+    } else if let Ok(record_value_specification) = pyobject.cast_exact::<RecordValueSpecification>()
     {
         (&*record_value_specification.borrow())
             .try_into()
             .map(ValueSpecification::Record)
-    } else if let Ok(text_value_specification) = pyobject.downcast_exact::<TextValueSpecification>()
-    {
+    } else if let Ok(text_value_specification) = pyobject.cast_exact::<TextValueSpecification>() {
         Ok(ValueSpecification::Text(
             (&*text_value_specification.borrow()).into(),
         ))
     } else if let Ok(numerical_value_specification) =
-        pyobject.downcast_exact::<NumericalValueSpecification>()
+        pyobject.cast_exact::<NumericalValueSpecification>()
     {
         Ok(ValueSpecification::Numerical(
             (&*numerical_value_specification.borrow()).into(),
         ))
-    } else if let Ok(constant_reference) = pyobject.downcast_exact::<ConstantReference>() {
+    } else if let Ok(constant_reference) = pyobject.cast_exact::<ConstantReference>() {
         Ok(ValueSpecification::ConstantReference(
             (&*constant_reference.borrow()).into(),
         ))
     } else if let Ok(application_value_specification) =
-        pyobject.downcast_exact::<ApplicationValueSpecification>()
+        pyobject.cast_exact::<ApplicationValueSpecification>()
     {
         (&*application_value_specification.borrow())
             .try_into()
             .map(ValueSpecification::Application)
     } else if let Ok(not_available_value_specification) =
-        pyobject.downcast_exact::<NotAvailableValueSpecification>()
+        pyobject.cast_exact::<NotAvailableValueSpecification>()
     {
         Ok(ValueSpecification::NotAvailable(
             (&*not_available_value_specification.borrow()).into(),
         ))
     } else if let Ok(reference_value_specification) =
-        pyobject.downcast_exact::<ReferenceValueSpecification>()
+        pyobject.cast_exact::<ReferenceValueSpecification>()
     {
         (&*reference_value_specification.borrow())
             .try_into()
             .map(ValueSpecification::Reference)
     } else if let Ok(application_rule_based_value_specification) =
-        pyobject.downcast_exact::<ApplicationRuleBasedValueSpecification>()
+        pyobject.cast_exact::<ApplicationRuleBasedValueSpecification>()
     {
         (&*application_rule_based_value_specification.borrow())
             .try_into()
             .map(ValueSpecification::ApplicationRuleBased)
     } else if let Ok(composite_rule_based_value_specification) =
-        pyobject.downcast_exact::<CompositeRuleBasedValueSpecification>()
+        pyobject.cast_exact::<CompositeRuleBasedValueSpecification>()
     {
         (&*composite_rule_based_value_specification.borrow())
             .try_into()
             .map(ValueSpecification::CompositeRuleBased)
     } else if let Ok(numerical_rule_based_value_specification) =
-        pyobject.downcast_exact::<NumericalRuleBasedValueSpecification>()
+        pyobject.cast_exact::<NumericalRuleBasedValueSpecification>()
     {
         (&*numerical_rule_based_value_specification.borrow())
             .try_into()
             .map(ValueSpecification::NumericalRuleBased)
-    } else if let Ok(py_list) = pyobject.downcast_exact::<PyList>() {
+    } else if let Ok(py_list) = pyobject.cast_exact::<PyList>() {
         // If it's a PyList, we assume it's an ArrayValueSpecification. This is more convenient for simple use cases
         let values: Vec<autosar_data_abstraction::datatype::ValueSpecification> = pylist_to_vec(
             pyobject.py(),
@@ -199,7 +197,7 @@ pub(crate) fn pyany_to_value_specification(
                 values,
             },
         ))
-    } else if let Ok(py_tuple) = pyobject.downcast_exact::<PyTuple>() {
+    } else if let Ok(py_tuple) = pyobject.cast_exact::<PyTuple>() {
         // If it's a PyTuple, we assume it's a RecordValueSpecification. This is more convenient for simple use cases
         let tuple_values = py_tuple
             .as_sequence()
@@ -669,7 +667,7 @@ impl TryFrom<&ApplicationValueSpecification>
     fn try_from(value: &ApplicationValueSpecification) -> Result<Self, Self::Error> {
         Python::attach(|py| {
             let sw_axis_conts = pylist_to_vec(py, &value.sw_axis_conts, |axis| {
-                (&*axis.downcast_exact::<SwAxisCont>()?.borrow()).try_into()
+                (&*axis.cast_exact::<SwAxisCont>()?.borrow()).try_into()
             })?;
             let sw_value_cont = &*value.sw_value_cont.borrow(py);
             Ok(
@@ -953,7 +951,7 @@ impl TryFrom<&ApplicationRuleBasedValueSpecification>
     fn try_from(value: &ApplicationRuleBasedValueSpecification) -> Result<Self, Self::Error> {
         Python::attach(|py| {
             let sw_axis_cont = pylist_to_vec(py, &value.sw_axis_cont, |axis| {
-                (&*axis.downcast_exact::<RuleBasedAxisCont>()?.borrow()).try_into()
+                (&*axis.cast_exact::<RuleBasedAxisCont>()?.borrow()).try_into()
             })?;
 
             let sw_value_cont = &*value.sw_value_cont.borrow(py);
@@ -1370,7 +1368,7 @@ impl TryFrom<&SwAxisCont> for autosar_data_abstraction::datatype::SwAxisCont {
     fn try_from(value: &SwAxisCont) -> Result<Self, Self::Error> {
         Python::attach(|py| {
             let sw_values_phys = pylist_to_vec(py, &value.sw_values_phys, |sw_value| {
-                (&*sw_value.downcast::<SwValue>()?.borrow()).try_into()
+                (&*sw_value.cast::<SwValue>()?.borrow()).try_into()
             })?;
             let unit = value.unit.as_ref().map(|unit| unit.0.clone());
             Ok(autosar_data_abstraction::datatype::SwAxisCont {
@@ -1500,7 +1498,7 @@ impl TryFrom<&SwValueCont> for autosar_data_abstraction::datatype::SwValueCont {
     fn try_from(value: &SwValueCont) -> Result<Self, Self::Error> {
         Python::attach(|py| {
             let sw_values_phys = pylist_to_vec(py, &value.sw_values_phys, |sw_value| {
-                (&*sw_value.downcast::<SwValue>()?.borrow()).try_into()
+                (&*sw_value.cast::<SwValue>()?.borrow()).try_into()
             })?;
             Ok(autosar_data_abstraction::datatype::SwValueCont {
                 sw_array_size: value.sw_array_size.clone(),
@@ -1591,7 +1589,7 @@ impl TryFrom<&SwValue> for autosar_data_abstraction::datatype::SwValue {
             SwValue::Vg { label, values } => {
                 let vg_content = Python::attach(|py| {
                     pylist_to_vec(py, values, |sw_value| {
-                        (&*sw_value.downcast_exact::<SwValue>()?.borrow()).try_into()
+                        (&*sw_value.cast_exact::<SwValue>()?.borrow()).try_into()
                     })
                 })?;
                 Self::Vg {
@@ -1962,7 +1960,7 @@ impl TryFrom<&RuleBasedValueSpecification>
     fn try_from(value: &RuleBasedValueSpecification) -> Result<Self, Self::Error> {
         Python::attach(|py| {
             let arguments = pylist_to_vec(py, &value.arguments, |elem| {
-                Ok((&*elem.downcast::<RuleArgument>()?.borrow()).into())
+                Ok((&*elem.cast::<RuleArgument>()?.borrow()).into())
             })?;
             Ok(
                 autosar_data_abstraction::datatype::RuleBasedValueSpecification {
@@ -2005,12 +2003,11 @@ pub(crate) fn pyany_to_composite_value_specification(
     pyobject: &Bound<'_, PyAny>,
 ) -> PyResult<autosar_data_abstraction::datatype::CompositeValueSpecification> {
     use autosar_data_abstraction::datatype::CompositeValueSpecification;
-    if let Ok(array_value_specification) = pyobject.downcast_exact::<ArrayValueSpecification>() {
+    if let Ok(array_value_specification) = pyobject.cast_exact::<ArrayValueSpecification>() {
         (&*array_value_specification.borrow())
             .try_into()
             .map(CompositeValueSpecification::Array)
-    } else if let Ok(record_value_specification) =
-        pyobject.downcast_exact::<RecordValueSpecification>()
+    } else if let Ok(record_value_specification) = pyobject.cast_exact::<RecordValueSpecification>()
     {
         (&*record_value_specification.borrow())
             .try_into()
@@ -2042,13 +2039,13 @@ pub(crate) fn pyany_to_composite_rule_based_value_argument(
     pyobject: &Bound<'_, PyAny>,
 ) -> PyResult<autosar_data_abstraction::datatype::CompositeRuleBasedValueArgument> {
     if let Ok(application_value_specification) =
-        pyobject.downcast_exact::<ApplicationValueSpecification>()
+        pyobject.cast_exact::<ApplicationValueSpecification>()
     {
         (&*application_value_specification.borrow())
             .try_into()
             .map(autosar_data_abstraction::datatype::CompositeRuleBasedValueArgument::Application)
     } else if let Ok(application_rule_based_value_specification) =
-        pyobject.downcast_exact::<ApplicationRuleBasedValueSpecification>()
+        pyobject.cast_exact::<ApplicationRuleBasedValueSpecification>()
     {
         (&*application_rule_based_value_specification.borrow())
             .try_into()
