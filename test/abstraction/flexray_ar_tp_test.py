@@ -119,7 +119,7 @@ def test_flexray_ar_tp_channel() -> None:
     flexray_ar_tp_node = flexray_ar_tp_config.create_flexray_ar_tp_node(
         "FlexrayArTpNode"
     )
-    direct_tp_sdu = system.create_dcm_ipdu("DirectTpSdu", package, 100)
+    direct_tp_sdu = system.create_dcm_ipdu("DirectTpSdu", package, 100, DiagPduType.DiagRequest)
     flexray_ar_tp_connection = flexray_ar_tp_channel.create_flexray_ar_tp_connection(
         "FlexrayArTpConnection", direct_tp_sdu, flexray_ar_tp_node, flexray_ar_tp_node
     )
@@ -154,8 +154,8 @@ def test_fr_ar_tp_connection() -> None:
     flexray_ar_tp_node = flexray_ar_tp_config.create_flexray_ar_tp_node(
         "FlexrayArTpNode"
     )
-    direct_tp_sdu = system.create_dcm_ipdu("DirectTpSdu", package, 100)
-    reversed_tp_sdu = system.create_dcm_ipdu("ReversedTpSdu", package, 100)
+    direct_tp_sdu = system.create_dcm_ipdu("DirectTpSdu", package, 100, DiagPduType.DiagRequest)
+    reversed_tp_sdu = system.create_dcm_ipdu("ReversedTpSdu", package, 100, DiagPduType.DiagResponse)
 
     # FlexrayArTpConnection
     flexray_ar_tp_connection = flexray_ar_tp_channel.create_flexray_ar_tp_connection(

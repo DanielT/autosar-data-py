@@ -5,7 +5,8 @@ use crate::{
         communication::{
             CanPhysicalChannel, CommunicationDirection, DataTransformation,
             EndToEndTransformationISignalProps, EthernetPhysicalChannel, FlexrayPhysicalChannel,
-            ISignalToIPduMapping, SomeIpTransformationISignalProps, TransformationTechnology,
+            ISignalToIPduMapping, LinPhysicalChannel, SomeIpTransformationISignalProps,
+            TransformationTechnology,
         },
         datatype::{
             CompuMethod, DataConstr, SwBaseType, Unit, pyany_to_value_specification,
@@ -539,6 +540,9 @@ impl ISignalTriggering {
                 autosar_data_abstraction::communication::PhysicalChannel::Flexray(
                     flexray_physical_channel,
                 ) => FlexrayPhysicalChannel(flexray_physical_channel).into_py_any(py),
+                autosar_data_abstraction::communication::PhysicalChannel::Lin(
+                    lin_physical_channel,
+                ) => LinPhysicalChannel(lin_physical_channel).into_py_any(py),
             },
             Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
         }

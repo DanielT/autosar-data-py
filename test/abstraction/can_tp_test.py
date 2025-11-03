@@ -32,7 +32,7 @@ def test_can_tp_config():
     assert list(can_tp_config.can_tp_channels()) == [can_tp_channel]
 
     n_pdu = system.create_n_pdu("NPdu", package, 8)
-    tp_sdu = system.create_dcm_ipdu("TpSdu", package, 8)
+    tp_sdu = system.create_dcm_ipdu("TpSdu", package, 8, DiagPduType.DiagRequest)
     can_tp_connection = can_tp_config.create_can_tp_connection(
         "CanTpConnection",
         CanTpAddressingFormat.NormalFixed,
@@ -152,7 +152,7 @@ def test_can_tp_connection() -> None:
 
     # CanTpConnection
     n_pdu = system.create_n_pdu("NPdu", package, 8)
-    tp_sdu = system.create_dcm_ipdu("TpSdu", package, 8)
+    tp_sdu = system.create_dcm_ipdu("TpSdu", package, 8, DiagPduType.DiagResponse)
     can_tp_channel = can_tp_config.create_can_tp_channel(
         "CanTpChannel", 1, CanTpChannelMode.HalfDuplex
     )

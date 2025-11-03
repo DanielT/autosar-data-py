@@ -317,7 +317,7 @@ def test_system() -> None:
     )
     assert isinstance(container_ipdu, ContainerIPdu)
 
-    dcm_ipdu = system.create_dcm_ipdu("dcm_ipdu", package, 8)
+    dcm_ipdu = system.create_dcm_ipdu("dcm_ipdu", package, 8, DiagPduType.DiagRequest)
     assert isinstance(dcm_ipdu, DcmIPdu)
 
     ecu_instance = system.create_ecu_instance("ecu_instance", package)

@@ -5,9 +5,11 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 
 mod can;
 mod flexray;
+mod lin;
 
 pub(crate) use can::*;
 pub(crate) use flexray::*;
+pub(crate) use lin::*;
 
 //##################################################################
 

@@ -10,7 +10,7 @@ def test_flexray_tp_config() -> None:
         "FlexrayCluster", package, FlexrayClusterSettings()
     )
     ecu_instance = system.create_ecu_instance("EcuInstance", package)
-    tp_sdu = system.create_dcm_ipdu("TpSdu", package, 64)
+    tp_sdu = system.create_dcm_ipdu("TpSdu", package, 64, DiagPduType.DiagRequest)
 
     # Test FlexrayTpConfig
     flexray_tp_config = system.create_flexray_tp_config(
@@ -88,7 +88,7 @@ def test_flexray_tp_connection() -> None:
     flexray_tp_config = system.create_flexray_tp_config(
         "FlexrayTpConfig", package, flexray_cluster
     )
-    tp_sdu = system.create_dcm_ipdu("TpSdu", package, 64)
+    tp_sdu = system.create_dcm_ipdu("TpSdu", package, 64, DiagPduType.DiagRequest)
     tp_node = flexray_tp_config.create_flexray_tp_node("TpNode")
     connection_control = flexray_tp_config.create_flexray_tp_connection_control("CC")
     pdu_pool = flexray_tp_config.create_flexray_tp_pdu_pool("PduPool")

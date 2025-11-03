@@ -162,7 +162,7 @@ def test_dcm_i_pdu() -> None:
     )
 
     # DcmIPdu
-    dcm_ipdu = system.create_dcm_ipdu("DcmIPdu", package, 64)
+    dcm_ipdu = system.create_dcm_ipdu("DcmIPdu", package, 64, DiagPduType.DiagRequest)
     assert isinstance(dcm_ipdu, DcmIPdu)
     assert list(system.pdus()) == [dcm_ipdu]
     # get and set the name

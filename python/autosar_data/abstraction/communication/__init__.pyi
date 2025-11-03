@@ -3,7 +3,13 @@
 from typing import List, Optional, Tuple, TypeAlias, Union, Iterator, Type, final
 from autosar_data import Element
 from autosar_data.abstraction import ByteOrder, EcuInstance, System
-from autosar_data.abstraction.datatype import CompuMethod, DataConstr, SwBaseType, Unit, ValueSpecification
+from autosar_data.abstraction.datatype import (
+    CompuMethod,
+    DataConstr,
+    SwBaseType,
+    Unit,
+    ValueSpecification,
+)
 
 Pdu: TypeAlias = Union[
     ContainerIPdu,
@@ -25,13 +31,21 @@ IPdu: TypeAlias = Union[
     NPdu,
     MultiplexedIPdu,
 ]
-Cluster: TypeAlias = Union[CanCluster, FlexrayCluster, EthernetCluster]
+Cluster: TypeAlias = Union[CanCluster, FlexrayCluster, EthernetCluster, LinCluster]
 CommunicationController: TypeAlias = Union[
     CanCommunicationController,
     FlexrayCommunicationController,
     EthernetCommunicationController,
+    LinMaster,
+    LinSlave,
 ]
-Frame: TypeAlias = Union[CanFrame, FlexrayFrame]
+Frame: TypeAlias = Union[
+    CanFrame,
+    FlexrayFrame,
+    LinUnconditionalFrame,
+    LinSporadicFrame,
+    LinEventTriggeredFrame,
+]
 TransformationTechnologyConfig: TypeAlias = Union[
     ComTransformationTechnologyConfig,
     E2ETransformationTechnologyConfig,
@@ -39,7 +53,10 @@ TransformationTechnologyConfig: TypeAlias = Union[
     GenericTransformationTechnologyConfig,
 ]
 PhysicalChannel: TypeAlias = Union[
-    CanPhysicalChannel, FlexrayPhysicalChannel, EthernetPhysicalChannel
+    CanPhysicalChannel,
+    FlexrayPhysicalChannel,
+    EthernetPhysicalChannel,
+    LinPhysicalChannel,
 ]
 
 @final
@@ -941,6 +958,15 @@ class DcmIPdu:
     def pdu_triggerings(self, /) -> List[PduTriggering]:
         """list all `PduTriggerings` that trigger this PDU"""
         ...
+
+@final
+class DiagPduType:
+    """
+    The type of a diagnostic PDU
+    """
+
+    DiagRequest: DiagPduType
+    DiagResponse: DiagPduType
 
 @final
 class DoIpLogicAddress:
@@ -2629,6 +2655,60 @@ class IpduTiming:
     """timing specification if the COM transmission mode is false"""
     transmission_mode_true_timing: Optional[TransmissionModeTiming]
     """timing specification if the COM transmission mode is true"""
+
+@final
+class LinCluster:
+    """
+    A `LinCluster` represents a LIN cluster in a LIN network
+    """
+
+    def __init__(self, element: Element) -> LinCluster: ...
+    element: Element
+    name: str
+
+@final
+class LinEventTriggeredFrame:
+    def __init__(self, element: Element) -> LinEventTriggeredFrame: ...
+    element: Element
+    name: str
+
+@final
+class LinMaster:
+    """
+    A `LinMaster` represents a LIN master node in a LIN cluster
+    """
+
+    def __init__(self, element: Element) -> LinMaster: ...
+    element: Element
+    name: str
+
+@final
+class LinPhysicalChannel:
+    def __init__(self, element: Element) -> LinPhysicalChannel: ...
+    element: Element
+    name: str
+
+@final
+class LinSlave:
+    """
+    A `LinSlave` represents a LIN slave node in a LIN cluster
+    """
+
+    def __init__(self, element: Element) -> LinSlave: ...
+    element: Element
+    name: str
+
+@final
+class LinSporadicFrame:
+    def __init__(self, element: Element) -> LinSporadicFrame: ...
+    element: Element
+    name: str
+
+@final
+class LinUnconditionalFrame:
+    def __init__(self, element: Element) -> LinUnconditionalFrame: ...
+    element: Element
+    name: str
 
 @final
 class LocalUnicastAddress:

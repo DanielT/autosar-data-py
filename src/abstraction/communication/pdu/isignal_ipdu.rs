@@ -10,7 +10,7 @@ use crate::{
 };
 use autosar_data_abstraction::{
     self, AbstractionElement, IdentifiableAbstractionElement,
-    communication::{AbstractIpdu, AbstractPdu},
+    communication::{AbstractIpdu, AbstractPdu, SignalPdu},
 };
 use pyo3::prelude::*;
 

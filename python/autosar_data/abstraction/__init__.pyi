@@ -410,7 +410,7 @@ class System:
         """create a [`ContainerIPdu`] in the [`System`]"""
         ...
 
-    def create_dcm_ipdu(self, name: str, package: ArPackage, length: int, /) -> DcmIPdu:
+    def create_dcm_ipdu(self, name: str, package: ArPackage, length: int, diag_pdu_type: DiagPduType, /) -> DcmIPdu:
         """create a [`DcmIPdu`] in the [`System`]"""
         ...
 

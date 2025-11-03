@@ -242,6 +242,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     communication.add_class::<communication::DataTransformation>()?;
     communication.add_class::<communication::DataTransformationSet>()?;
     communication.add_class::<communication::DcmIPdu>()?;
+    communication.add_class::<communication::DiagPduType>()?;
     communication.add_class::<communication::DoIpLogicAddress>()?;
     communication.add_class::<communication::DoIpTpConfig>()?;
     communication.add_class::<communication::DoIpTpConnection>()?;
@@ -301,6 +302,15 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     communication.add_class::<communication::ISignalTriggering>()?;
     communication.add_class::<communication::InitialSdDelayConfig>()?;
     communication.add_class::<communication::IpduTiming>()?;
+    communication.add_class::<communication::LinCluster>()?;
+    communication.add_class::<communication::LinEventTriggeredFrame>()?;
+    communication.add_class::<communication::LinFrameTriggering>()?;
+    communication.add_class::<communication::LinFrameTriggeringIterator>()?;
+    communication.add_class::<communication::LinMaster>()?;
+    communication.add_class::<communication::LinPhysicalChannel>()?;
+    communication.add_class::<communication::LinSlave>()?;
+    communication.add_class::<communication::LinSporadicFrame>()?;
+    communication.add_class::<communication::LinUnconditionalFrame>()?;
     communication.add_class::<communication::LocalUnicastAddress>()?;
     communication.add_class::<communication::MaximumMessageLengthType>()?;
     communication.add_class::<communication::MultiplexedIPdu>()?;

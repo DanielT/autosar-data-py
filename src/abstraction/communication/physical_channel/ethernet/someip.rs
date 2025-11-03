@@ -1,6 +1,5 @@
 use crate::abstraction::communication::{
-    CanCluster, EthernetCluster, EventGroupControlType, FlexrayCluster, ISignalIPdu, PduTriggering,
-    SoConIPduIdentifier, SoConIPduIdentifierIterator, SocketAddress, SocketAddressIterator,
+    CanCluster, EthernetCluster, EventGroupControlType, FlexrayCluster, ISignalIPdu, LinCluster, PduTriggering, SoConIPduIdentifier, SoConIPduIdentifierIterator, SocketAddress, SocketAddressIterator
 };
 use crate::abstraction::{AutosarAbstractionError, abstraction_err_to_pyerr};
 use crate::{Element, iterator_wrapper};
@@ -1402,6 +1401,9 @@ impl SomeipTpConfig {
             }
             autosar_data_abstraction::communication::Cluster::FlexRay(flexray_cluster) => {
                 FlexrayCluster(flexray_cluster).into_py_any(py).ok()
+            }
+            autosar_data_abstraction::communication::Cluster::Lin(lin_cluster) => {
+                LinCluster(lin_cluster).into_py_any(py).ok()
             }
             _ => None,
         })

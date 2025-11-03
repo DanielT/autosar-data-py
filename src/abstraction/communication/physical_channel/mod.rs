@@ -4,10 +4,12 @@ use pyo3::prelude::*;
 pub(crate) mod can;
 pub(crate) mod ethernet;
 pub(crate) mod flexray;
+pub(crate) mod lin;
 
 pub(crate) use can::*;
 pub(crate) use ethernet::*;
 pub(crate) use flexray::*;
+pub(crate) use lin::*;
 
 pub(crate) fn pyany_to_physical_channel(
     pyany: &Bound<'_, PyAny>,
@@ -18,9 +20,11 @@ pub(crate) fn pyany_to_physical_channel(
         Ok(autosar_data_abstraction::communication::PhysicalChannel::Ethernet(ethernet.0))
     } else if let Ok(flexray) = pyany.extract::<FlexrayPhysicalChannel>() {
         Ok(autosar_data_abstraction::communication::PhysicalChannel::Flexray(flexray.0))
+    } else if let Ok(lin) = pyany.extract::<LinPhysicalChannel>() {
+        Ok(autosar_data_abstraction::communication::PhysicalChannel::Lin(lin.0))
     } else {
         Err(AutosarAbstractionError::new_err(
-            "Expected a CanChannel, EthernetChannel, or FlexRayChannel",
+            "Expected a CanChannel, EthernetChannel, FlexRayChannel, or LinChannel",
         ))
     }
 }

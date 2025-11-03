@@ -4,7 +4,7 @@ use crate::{
         AutosarAbstractionError, EcuInstance, abstraction_err_to_pyerr,
         communication::{
             CanPhysicalChannel, CommunicationDirection, EthernetPhysicalChannel,
-            FlexrayPhysicalChannel, ISignalTriggering,
+            FlexrayPhysicalChannel, ISignalTriggering, LinPhysicalChannel,
         },
     },
     iterator_wrapper,
@@ -252,6 +252,54 @@ impl DcmIPdu {
     #[getter]
     fn contained_ipdu_props(&self) -> Option<ContainedIPduProps> {
         self.0.contained_ipdu_props().map(Into::into)
+    }
+}
+
+//##################################################################
+
+/// The category of a `GeneralPurposePdu`
+///
+/// The Autosar standard defines the following categories:
+/// - `SD`
+/// - `GLOBAL_TIME`
+/// - `DOIP`
+#[pyclass(
+    frozen,
+    eq,
+    eq_int,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum DiagPduType {
+    /// diagnostic request
+    DiagRequest,
+    /// diagnostic response
+    DiagResponse,
+}
+
+impl From<autosar_data_abstraction::communication::DiagPduType> for DiagPduType {
+    fn from(category: autosar_data_abstraction::communication::DiagPduType) -> Self {
+        match category {
+            autosar_data_abstraction::communication::DiagPduType::DiagRequest => {
+                DiagPduType::DiagRequest
+            }
+            autosar_data_abstraction::communication::DiagPduType::DiagResponse => {
+                DiagPduType::DiagResponse
+            }
+        }
+    }
+}
+
+impl From<DiagPduType> for autosar_data_abstraction::communication::DiagPduType {
+    fn from(category: DiagPduType) -> Self {
+        match category {
+            DiagPduType::DiagRequest => {
+                autosar_data_abstraction::communication::DiagPduType::DiagRequest
+            }
+            DiagPduType::DiagResponse => {
+                autosar_data_abstraction::communication::DiagPduType::DiagResponse
+            }
+        }
     }
 }
 
@@ -690,6 +738,9 @@ impl PduTriggering {
                 autosar_data_abstraction::communication::PhysicalChannel::Flexray(
                     flexray_physical_channel,
                 ) => FlexrayPhysicalChannel(flexray_physical_channel).into_py_any(py),
+                autosar_data_abstraction::communication::PhysicalChannel::Lin(
+                    lin_physical_channel,
+                ) => LinPhysicalChannel(lin_physical_channel).into_py_any(py),
             },
             Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
         }
