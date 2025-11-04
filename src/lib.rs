@@ -421,7 +421,7 @@ fn check_buffer(input: Py<PyAny>) -> PyResult<bool> {
 /// Variables:
 ///
 /// - __version__
-#[pymodule]
+#[pymodule(gil_used = false)]
 fn _autosar_data(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<ElementType>()?;
     m.add_class::<AutosarVersion>()?;
