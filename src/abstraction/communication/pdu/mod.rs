@@ -1,17 +1,18 @@
 use crate::{
     Element,
     abstraction::{
-        AutosarAbstractionError, EcuInstance, abstraction_err_to_pyerr,
+        AutosarAbstractionError, ByteOrder, EcuInstance, abstraction_err_to_pyerr,
         communication::{
             CanPhysicalChannel, CommunicationDirection, EthernetPhysicalChannel,
-            FlexrayPhysicalChannel, ISignalTriggering, LinPhysicalChannel,
+            FlexrayPhysicalChannel, ISignal, ISignalGroup, ISignalTriggering, LinPhysicalChannel,
+            TransferProperty,
         },
     },
     iterator_wrapper,
 };
 use autosar_data_abstraction::{
     self, AbstractionElement, IdentifiableAbstractionElement,
-    communication::{AbstractIpdu, AbstractPdu},
+    communication::{AbstractIpdu, AbstractPdu, SignalPdu},
 };
 use pyo3::{IntoPyObjectExt, prelude::*};
 
@@ -61,6 +62,62 @@ impl NmPdu {
 
     fn __repr__(&self) -> String {
         format!("{:#?}", self.0)
+    }
+
+    /// returns an iterator over all signals and signal groups mapped to the PDU
+    fn mapped_signals(&self) -> ISignalToIPduMappingIterator {
+        ISignalToIPduMappingIterator::new(self.0.mapped_signals().map(ISignalToIPduMapping))
+    }
+
+    /// map a signal to the `ISignalIPdu`
+    ///
+    /// If this signal is part of a signal group, then the group must be mapped first
+    #[pyo3(signature = (signal, start_position, byte_order, /, *, update_bit=None, transfer_property=TransferProperty::Pending))]
+    #[pyo3(
+        text_signature = "(self, signal: ISignal, start_position: int, byte_order: ByteOrder, /, *, update_bit: Optional[int] = None, transfer_property: TransferProperty = TransferProperty.Pending)"
+    )]
+    fn map_signal(
+        &self,
+        signal: &ISignal,
+        start_position: u32,
+        byte_order: ByteOrder,
+        update_bit: Option<u32>,
+        transfer_property: TransferProperty,
+    ) -> PyResult<ISignalToIPduMapping> {
+        match self.0.map_signal(
+            &signal.0,
+            start_position,
+            byte_order.into(),
+            update_bit,
+            transfer_property.into(),
+        ) {
+            Ok(value) => Ok(ISignalToIPduMapping(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// map a signal group to the PDU
+    #[pyo3(signature = (signal_group, /))]
+    #[pyo3(text_signature = "(self, signal_group: ISignalGroup, /)")]
+    fn map_signal_group(&self, signal_group: &ISignalGroup) -> PyResult<ISignalToIPduMapping> {
+        match self.0.map_signal_group(&signal_group.0) {
+            Ok(value) => Ok(ISignalToIPduMapping(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// set the unused bit pattern for this PDU
+    #[setter]
+    fn set_unused_bit_pattern(&self, pattern: u8) -> PyResult<()> {
+        self.0
+            .set_unused_bit_pattern(pattern)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// get the unused bit pattern for this PDU
+    #[getter]
+    fn unused_bit_pattern(&self) -> Option<u8> {
+        self.0.unused_bit_pattern()
     }
 
     // --------- AbstractPdu methods ---------
@@ -220,7 +277,9 @@ impl DcmIPdu {
 
     #[setter]
     fn set_diag_pdu_type(&self, diag_pdu_type: DiagPduType) -> PyResult<()> {
-        self.0.set_diag_pdu_type(diag_pdu_type.into()).map_err(abstraction_err_to_pyerr)
+        self.0
+            .set_diag_pdu_type(diag_pdu_type.into())
+            .map_err(abstraction_err_to_pyerr)
     }
 
     // --------- AbstractPdu methods ---------
