@@ -705,6 +705,18 @@ impl MultiplexedIPdu {
         format!("{:#?}", self.0)
     }
 
+    #[setter]
+    fn set_static_part(&self, static_part: &ISignalIPdu) -> PyResult<()> {
+        self.0
+            .set_static_part(&static_part.0)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    #[getter]
+    fn static_part(&self) -> Option<ISignalIPdu> {
+        self.0.static_part().map(|pdu| ISignalIPdu(pdu.clone()))
+    }
+
     // --------- AbstractPdu methods ---------
 
     /// set the length of this PDU
@@ -728,6 +740,35 @@ impl MultiplexedIPdu {
             .collect()
     }
 
+    /// addd a dynamic part alternative to this `MultiplexedIPdu`
+    #[pyo3(signature = (dynamic_ipdu, selector_code, /, *, initial_dynamic_part))]
+    #[pyo3(
+        text_signature = "(self, dynamic_ipdu: ISignalIPdu, selector_code: int, /, *, initial_dynamic_part: bool = false)"
+    )]
+    fn add_dynamic_part(
+        &self,
+        dynamic_ipdu: &ISignalIPdu,
+        selector_code: u16,
+        initial_dynamic_part: bool,
+    ) -> PyResult<DynamicPartAlternative> {
+        match self
+            .0
+            .add_dynamic_part(&dynamic_ipdu.0, selector_code, initial_dynamic_part)
+        {
+            Ok(value) => Ok(DynamicPartAlternative(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    // TODO: enable iterator once the fixed version of autosar-data-abstraction is published
+    // fn dynamic_part_alternatives(&self) -> DynamicPartAlternativesIterator {
+    //     DynamicPartAlternativesIterator::new(
+    //         self.0
+    //             .dynamic_part_alternatives()
+    //             .map(DynamicPartAlternative),
+    //     )
+    // }
+
     // --------- AbstractIPdu methods ---------
 
     /// set the ContainedIPduProps for this `IPdu`
@@ -744,6 +785,45 @@ impl MultiplexedIPdu {
     #[getter]
     fn contained_ipdu_props(&self) -> Option<ContainedIPduProps> {
         self.0.contained_ipdu_props().map(Into::into)
+    }
+}
+
+//##################################################################
+
+// iterator_wrapper!(DynamicPartAlternativesIterator, DynamicPartAlternative);
+
+//##################################################################
+
+/// An alternative for the dynamic part of a `MultiplexedIPdu`
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
+#[derive(Clone, PartialEq)]
+pub(crate) struct DynamicPartAlternative(
+    pub(crate) autosar_data_abstraction::communication::DynamicPartAlternative,
+);
+
+#[pymethods]
+impl DynamicPartAlternative {
+    #[new]
+    fn new(element: &Element) -> PyResult<Self> {
+        match autosar_data_abstraction::communication::DynamicPartAlternative::try_from(
+            element.0.clone(),
+        ) {
+            Ok(value) => Ok(Self(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    #[getter]
+    fn element(&self) -> Element {
+        Element(self.0.element().clone())
+    }
+
+    fn __repr__(&self) -> String {
+        format!("{:#?}", self.0)
     }
 }
 
