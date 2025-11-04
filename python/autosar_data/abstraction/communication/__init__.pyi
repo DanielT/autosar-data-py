@@ -958,6 +958,8 @@ class DcmIPdu:
     def pdu_triggerings(self, /) -> List[PduTriggering]:
         """list all `PduTriggerings` that trigger this PDU"""
         ...
+    diag_pdu_type: Optional[DiagPduType]
+    """get or set the type of this diagnostic PDU"""
 
 @final
 class DiagPduType:

@@ -213,6 +213,16 @@ impl DcmIPdu {
         format!("{:#?}", self.0)
     }
 
+    #[getter]
+    fn diag_pdu_type(&self) -> Option<DiagPduType> {
+        self.0.diag_pdu_type().map(Into::into)
+    }
+
+    #[setter]
+    fn set_diag_pdu_type(&self, diag_pdu_type: DiagPduType) -> PyResult<()> {
+        self.0.set_diag_pdu_type(diag_pdu_type.into()).map_err(abstraction_err_to_pyerr)
+    }
+
     // --------- AbstractPdu methods ---------
 
     /// set the length of this PDU

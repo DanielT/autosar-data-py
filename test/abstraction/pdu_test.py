@@ -179,6 +179,7 @@ def test_dcm_i_pdu() -> None:
     assert pt.pdu == dcm_ipdu
     assert len(list(dcm_ipdu.pdu_triggerings())) == 1
     assert dcm_ipdu.pdu_triggerings()[0] == pt
+    assert dcm_ipdu.diag_pdu_type == DiagPduType.DiagRequest
 
     contained_props = ContainedIPduProps(header_id_long=333)
     dcm_ipdu.contained_ipdu_props = contained_props
