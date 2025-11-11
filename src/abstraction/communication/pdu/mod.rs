@@ -45,6 +45,15 @@ impl NmPdu {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -165,6 +174,15 @@ impl NPdu {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -249,6 +267,15 @@ impl DcmIPdu {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[setter]
@@ -397,6 +424,15 @@ impl GeneralPurposePdu {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -537,6 +573,15 @@ impl GeneralPurposeIPdu {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[setter]
@@ -686,6 +731,15 @@ impl MultiplexedIPdu {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -760,14 +814,13 @@ impl MultiplexedIPdu {
         }
     }
 
-    // TODO: enable iterator once the fixed version of autosar-data-abstraction is published
-    // fn dynamic_part_alternatives(&self) -> DynamicPartAlternativesIterator {
-    //     DynamicPartAlternativesIterator::new(
-    //         self.0
-    //             .dynamic_part_alternatives()
-    //             .map(DynamicPartAlternative),
-    //     )
-    // }
+    fn dynamic_part_alternatives(&self) -> DynamicPartAlternativesIterator {
+        DynamicPartAlternativesIterator::new(
+            self.0
+                .dynamic_part_alternatives()
+                .map(DynamicPartAlternative),
+        )
+    }
 
     // --------- AbstractIPdu methods ---------
 
@@ -790,7 +843,7 @@ impl MultiplexedIPdu {
 
 //##################################################################
 
-// iterator_wrapper!(DynamicPartAlternativesIterator, DynamicPartAlternative);
+iterator_wrapper!(DynamicPartAlternativesIterator, DynamicPartAlternative);
 
 //##################################################################
 
@@ -815,6 +868,15 @@ impl DynamicPartAlternative {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[getter]
@@ -846,6 +908,15 @@ impl PduTriggering {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[setter]
@@ -945,6 +1016,15 @@ impl IPduPort {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[setter]

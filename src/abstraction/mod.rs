@@ -197,6 +197,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     abstraction.add_class::<ByteOrder>()?;
     abstraction.add_class::<arpackage::ArPackage>()?;
     abstraction.add_class::<ecuinstance::EcuInstance>()?;
+    abstraction.add_class::<system::SenderReceiverToSignalMapping>()?;
     abstraction.add_class::<system::SwcToEcuMapping>()?;
     abstraction.add_class::<system::System>()?;
     abstraction.add_class::<system::SystemCategory>()?;
@@ -303,6 +304,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     communication.add_class::<communication::InitialSdDelayConfig>()?;
     communication.add_class::<communication::IpduTiming>()?;
     communication.add_class::<communication::LinCluster>()?;
+    communication.add_class::<communication::LinCommunicationConnector>()?;
     communication.add_class::<communication::LinEventTriggeredFrame>()?;
     communication.add_class::<communication::LinFrameTriggering>()?;
     communication.add_class::<communication::LinFrameTriggeringIterator>()?;

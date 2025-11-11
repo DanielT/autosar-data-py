@@ -255,7 +255,7 @@ class AutosarModel:
     def get_element_by_path(self, autosar_path: str) -> Element:
         """get an identifiable element in the model by its Autosar path"""
         ...
-    elements_dfs: Iterator[(int, Element)]
+    elements_dfs: Iterator[Tuple[int, Element]]
     """depth first dearch iterator over all elements in the model, regardless of their association with a file"""
     def sort(self) -> None:
         """sort the entire model in place. Takes all ordering constraints into account."""

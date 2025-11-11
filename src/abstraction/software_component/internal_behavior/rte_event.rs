@@ -37,6 +37,15 @@ impl TimingEvent {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -114,6 +123,15 @@ impl AsynchronousServerCallReturnsEvent {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -179,6 +197,15 @@ impl BackgroundEvent {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -242,6 +269,15 @@ impl DataReceivedEvent {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[setter]
@@ -333,6 +369,15 @@ impl DataSendCompletedEvent {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -396,6 +441,15 @@ impl DataReceiveErrorEvent {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[setter]
@@ -463,6 +517,15 @@ impl DataWriteCompletedEvent {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -528,6 +591,15 @@ impl ExternalTriggerOccurredEvent {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -587,6 +659,15 @@ impl InitEvent {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[setter]
@@ -654,6 +735,15 @@ impl InternalTriggerOccurredEvent {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -719,6 +809,15 @@ impl ModeSwitchedAckEvent {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -782,6 +881,15 @@ impl OperationInvokedEvent {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[setter]
@@ -877,6 +985,15 @@ impl OsTaskExecutionEvent {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -942,6 +1059,15 @@ impl SwcModeManagerErrorEvent {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -1005,6 +1131,15 @@ impl SwcModeSwitchEvent {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[setter]
@@ -1170,6 +1305,15 @@ impl TransformerHardErrorEvent {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     /// Set the name of the `TransformerHardErrorEvent`

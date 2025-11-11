@@ -4,7 +4,7 @@ use crate::{
         AutosarAbstractionError, abstraction_err_to_pyerr,
         communication::{
             ISignalTriggering, LinCluster, LinFrameTriggering, PduTriggering,
-            PduTriggeringIterator, SignalTriggeringsIterator,
+            PduTriggeringIterator, SignalTriggeringsIterator, pyany_to_lin_frame,
         },
     },
     iterator_wrapper,
@@ -40,6 +40,15 @@ impl LinPhysicalChannel {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -64,6 +73,21 @@ impl LinPhysicalChannel {
     fn cluster(&self) -> PyResult<LinCluster> {
         match self.0.cluster() {
             Ok(cluster) => Ok(LinCluster(cluster)),
+            Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
+        }
+    }
+
+    /// add a trigger for a CAN frame in this physical channel
+    #[pyo3(signature = (frame, identifier, /))]
+    #[pyo3(text_signature = "(self, frame: CanFrame, identifier: int, /)")]
+    fn trigger_frame(
+        &self,
+        frame: &Bound<'_, PyAny>,
+        identifier: u32,
+    ) -> PyResult<LinFrameTriggering> {
+        let lin_frame = pyany_to_lin_frame(frame)?;
+        match self.0.trigger_frame(&lin_frame, identifier) {
+            Ok(triggering) => Ok(LinFrameTriggering(triggering)),
             Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
         }
     }

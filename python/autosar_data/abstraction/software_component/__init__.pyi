@@ -65,6 +65,7 @@ class ApplicationSwComponentType:
     """
 
     def __init__(self, element: Element, /) -> ApplicationSwComponentType: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_p_port(
         self, name: str, port_interface: PortInterface, /
     ) -> PPortPrototype:
@@ -118,6 +119,7 @@ class ArgumentDataPrototype:
     """
 
     def __init__(self, element: Element, /) -> ArgumentDataPrototype: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     data_type: Optional[AutosarDataType]
     """data type of the argument"""
     direction: Optional[ArgumentDirection]
@@ -146,6 +148,7 @@ class AssemblySwConnector:
     """
 
     def __init__(self, element: Element, /) -> AssemblySwConnector: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     p_port: Optional[PortPrototype]
@@ -164,6 +167,7 @@ class AsynchronousServerCallReturnsEvent:
     """
 
     def __init__(self, element: Element, /) -> AsynchronousServerCallReturnsEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -178,6 +182,7 @@ class BackgroundEvent:
     """
 
     def __init__(self, element: Element, /) -> BackgroundEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -194,6 +199,7 @@ class ClientServerInterface:
     """
 
     def __init__(self, element: Element, /) -> ClientServerInterface: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_operation(self, name: str, /) -> ClientServerOperation:
         """add an operation to the client server interface"""
         ...
@@ -221,6 +227,7 @@ class ClientServerOperation:
     """
 
     def __init__(self, element: Element, /) -> ClientServerOperation: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_possible_error(self, error: ApplicationError, /) -> None:
         """add a reference to possible error to the operation"""
         ...
@@ -250,6 +257,7 @@ class ComplexDeviceDriverSwComponentType:
     """
 
     def __init__(self, element: Element, /) -> ComplexDeviceDriverSwComponentType: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_p_port(
         self, name: str, port_interface: PortInterface, /
     ) -> PPortPrototype:
@@ -305,6 +313,7 @@ class CompositionSwComponentType:
     """
 
     def __init__(self, element: Element, /) -> CompositionSwComponentType: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def components(self, /) -> Iterator[SwComponentPrototype]:
         """get an iterator over the components of the composition"""
         ...
@@ -404,6 +413,7 @@ class DataReceiveErrorEvent:
     """
 
     def __init__(self, element: Element, /) -> DataReceiveErrorEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -418,6 +428,7 @@ class DataReceivedEvent:
     """
 
     def __init__(self, element: Element, /) -> DataReceivedEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -442,6 +453,7 @@ class DataSendCompletedEvent:
     """
 
     def __init__(self, element: Element, /) -> DataSendCompletedEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -456,6 +468,7 @@ class DataWriteCompletedEvent:
     """
 
     def __init__(self, element: Element, /) -> DataWriteCompletedEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -470,6 +483,7 @@ class DelegationSwConnector:
     """
 
     def __init__(self, element: Element, /) -> DelegationSwConnector: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     inner_port: Optional[PortPrototype]
@@ -489,6 +503,7 @@ class EcuAbstractionSwComponentType:
     """
 
     def __init__(self, element: Element, /) -> EcuAbstractionSwComponentType: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_p_port(
         self, name: str, port_interface: PortInterface, /
     ) -> PPortPrototype:
@@ -542,6 +557,7 @@ class ExternalTriggerOccurredEvent:
     """
 
     def __init__(self, element: Element, /) -> ExternalTriggerOccurredEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -556,6 +572,7 @@ class InitEvent:
     """
 
     def __init__(self, element: Element, /) -> InitEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -570,6 +587,7 @@ class InternalTriggerOccurredEvent:
     """
 
     def __init__(self, element: Element, /) -> InternalTriggerOccurredEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -584,6 +602,7 @@ class ModeAccessPoint:
     """
 
     def __init__(self, element: Element, /) -> ModeAccessPoint: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -621,6 +640,7 @@ class ModeDeclaration:
     """
 
     def __init__(self, element: Element, /) -> ModeDeclaration: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     value: Optional[int]
@@ -633,6 +653,7 @@ class ModeDeclarationGroup:
     """
 
     def __init__(self, element: Element, /) -> ModeDeclarationGroup: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_mode_declaration(self, name: str, /) -> ModeDeclaration:
         """Create a new mode declaration in the group"""
         ...
@@ -675,6 +696,7 @@ class ModeGroup:
     """
 
     def __init__(self, element: Element, /) -> ModeGroup: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     mode_declaration_group: ModeDeclarationGroup
@@ -689,6 +711,7 @@ class ModeSwitchInterface:
     """
 
     def __init__(self, element: Element, /) -> ModeSwitchInterface: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     def create_mode_group(
@@ -711,6 +734,7 @@ class ModeSwitchedAckEvent:
     """
 
     def __init__(self, element: Element, /) -> ModeSwitchedAckEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -725,6 +749,7 @@ class ModeSwitchPoint:
     """
 
     def __init__(self, element: Element, /) -> ModeSwitchPoint: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -745,6 +770,7 @@ class NvDataInterface:
     """
 
     def __init__(self, element: Element, /) -> NvDataInterface: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     is_service: Optional[bool]
@@ -757,6 +783,7 @@ class OperationInvokedEvent:
     """
 
     def __init__(self, element: Element, /) -> OperationInvokedEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     client_server_operation: Tuple[ClientServerOperation, PPortPrototype]
     """Get the `ClientServerOperation` that triggers the `OperationInvokedEvent`"""
     element: Element
@@ -781,6 +808,7 @@ class OsTaskExecutionEvent:
     """
 
     def __init__(self, element: Element, /) -> OsTaskExecutionEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -795,6 +823,7 @@ class PPortPrototype:
     """
 
     def __init__(self, element: Element, /) -> PPortPrototype: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     component_type: Optional[SwComponentType]
     """component type containing the port prototype"""
     element: Element
@@ -809,6 +838,7 @@ class PRPortPrototype:
     """
 
     def __init__(self, element: Element, /) -> PRPortPrototype: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     component_type: Optional[SwComponentType]
     """component type containing the port prototype"""
     element: Element
@@ -823,8 +853,7 @@ class ParameterDataPrototype:
     """
 
     def __init__(self, element: Element, /) -> ParameterDataPrototype: ...
-    # data_type: Optional[AutosarDataType]
-    # """data type of the parameter"""
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     init_value: Optional[ValueSpecification]
@@ -842,6 +871,7 @@ class ParameterInterface:
     """
 
     def __init__(self, element: Element, /) -> ParameterInterface: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_parameter(
         self, name: str, data_type: AutosarDataType, /
     ) -> ParameterDataPrototype:
@@ -863,6 +893,7 @@ class PassThroughSwConnector:
     """
 
     def __init__(self, element: Element, /) -> PassThroughSwConnector: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     p_port: Optional[PortPrototype]
@@ -877,6 +908,7 @@ class PortGroup:
     """
 
     def __init__(self, element: Element, /) -> PortGroup: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
 
@@ -887,6 +919,7 @@ class RPortPrototype:
     """
 
     def __init__(self, element: Element, /) -> RPortPrototype: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     component_type: Optional[SwComponentType]
     """component type containing the port prototype"""
     element: Element
@@ -901,6 +934,7 @@ class RootSwCompositionPrototype:
     """
 
     def __init__(self, element: Element, /) -> RootSwCompositionPrototype: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     composition: Optional[CompositionSwComponentType]
     """composition that this root component is based on"""
     element: Element
@@ -913,6 +947,7 @@ class RunnableEntity:
     """
 
     def __init__(self, element: Element, /) -> RunnableEntity: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     def events(self, /) -> List[RTEEvent]:
         """Iterate over all events that can trigger the `RunnableEntity`"""
@@ -1029,6 +1064,7 @@ class SenderReceiverInterface:
     """
 
     def __init__(self, element: Element, /) -> SenderReceiverInterface: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_data_element(
         self, name: str, data_type: AutosarDataType, /
     ) -> VariableDataPrototype:
@@ -1052,6 +1088,7 @@ class SensorActuatorSwComponentType:
     """
 
     def __init__(self, element: Element, /) -> SensorActuatorSwComponentType: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_p_port(
         self, name: str, port_interface: PortInterface, /
     ) -> PPortPrototype:
@@ -1108,6 +1145,7 @@ class ServiceSwComponentType:
     """
 
     def __init__(self, element: Element, /) -> ServiceSwComponentType: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_p_port(
         self, name: str, port_interface: PortInterface, /
     ) -> PPortPrototype:
@@ -1161,6 +1199,7 @@ class SwComponentPrototype:
     """
 
     def __init__(self, element: Element, /) -> SwComponentPrototype: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
 
@@ -1172,6 +1211,7 @@ class SwcInternalBehavior:
     """
 
     def __init__(self, element: Element, /) -> SwcInternalBehavior: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_data_type_mapping_set(
         self, data_type_mapping_set: DataTypeMappingSet, /
     ) -> None:
@@ -1259,6 +1299,7 @@ class SwcModeManagerErrorEvent:
     """
 
     def __init__(self, element: Element, /) -> SwcModeManagerErrorEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -1273,6 +1314,7 @@ class SwcModeSwitchEvent:
     """
 
     def __init__(self, element: Element, /) -> SwcModeSwitchEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     runnable_entity: Optional[RunnableEntity]
@@ -1313,6 +1355,7 @@ class SynchronousServerCallPoint:
     """
 
     def __init__(self, element: Element, /) -> SynchronousServerCallPoint: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     def set_client_server_operation(
@@ -1335,6 +1378,7 @@ class TimingEvent:
     """
 
     def __init__(self, element: Element, /) -> TimingEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     period: Optional[float]
@@ -1351,6 +1395,7 @@ class TransformerHardErrorEvent:
     """
 
     def __init__(self, element: Element, /) -> TransformerHardErrorEvent: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     """element of the `TransformerHardErrorEvent`"""
     name: str
@@ -1369,6 +1414,7 @@ class TriggerInterface:
     """
 
     def __init__(self, element: Element, /) -> TriggerInterface: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     is_service: Optional[bool]
@@ -1381,6 +1427,7 @@ class VariableAccess:
     """
 
     def __init__(self, element: Element, /) -> VariableAccess: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     def set_accessed_variable(
@@ -1400,6 +1447,7 @@ class VariableDataPrototype:
     """
 
     def __init__(self, element: Element, /) -> VariableDataPrototype: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     data_type: Optional[AutosarDataType]
     """data type of the data element"""
     element: Element

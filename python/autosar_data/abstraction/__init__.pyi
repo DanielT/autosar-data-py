@@ -13,6 +13,7 @@ class ArPackage:
     """
 
     def __init__(self, element: Element) -> ArPackage: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_application_array_data_type(
         self,
         name: str,
@@ -300,6 +301,7 @@ class EcuInstance:
     """
 
     def __init__(self, element: Element) -> EcuInstance: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def communication_controllers(self, /) -> Iterator[CommunicationController]:
         """return an interator over all communication controllers in this `EcuInstance`"""
         ...
@@ -343,6 +345,7 @@ class SwcToEcuMapping:
     """
 
     def __init__(self, element: Element) -> SwcToEcuMapping: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     ecu_instance: Optional[EcuInstance]
     """get the ECU instance which is the target of this mapping"""
     element: Element
@@ -360,6 +363,7 @@ class System:
     """
 
     def __init__(self, element: Element) -> System: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     category: Optional[SystemCategory]
     """category of the system"""
     def clusters(self, /) -> Iterator[Cluster]:
@@ -681,6 +685,7 @@ class SystemMapping:
     """
 
     def __init__(self, element: Element) -> SystemMapping: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     def map_sender_receiver_to_signal(
         self,

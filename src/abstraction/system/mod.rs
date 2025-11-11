@@ -45,6 +45,15 @@ impl System {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -248,6 +257,66 @@ impl System {
     ) -> PyResult<FlexrayFrame> {
         match self.0.create_flexray_frame(name, &package.0, byte_length) {
             Ok(frame) => Ok(FlexrayFrame(frame)),
+            Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
+        }
+    }
+
+    /// create a new [`LinEventTriggeredFrame`]
+    ///
+    /// This new frame needs to be linked to a `LinPhysicalChannel`
+    #[pyo3(signature = (name, package, byte_length, /))]
+    #[pyo3(text_signature = "(self, name: str, package: ArPackage, byte_length: int, /)")]
+    fn create_lin_event_triggered_frame(
+        &self,
+        name: &str,
+        package: &ArPackage,
+        byte_length: u64,
+    ) -> PyResult<LinEventTriggeredFrame> {
+        match self
+            .0
+            .create_lin_event_triggered_frame(name, &package.0, byte_length)
+        {
+            Ok(frame) => Ok(LinEventTriggeredFrame(frame)),
+            Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
+        }
+    }
+
+    /// create a new [`LinSporadicFrame`]
+    ///
+    /// This new frame needs to be linked to a `LinPhysicalChannel`
+    #[pyo3(signature = (name, package, byte_length, /))]
+    #[pyo3(text_signature = "(self, name: str, package: ArPackage, byte_length: int, /)")]
+    fn create_lin_sporadic_frame(
+        &self,
+        name: &str,
+        package: &ArPackage,
+        byte_length: u64,
+    ) -> PyResult<LinSporadicFrame> {
+        match self
+            .0
+            .create_lin_sporadic_frame(name, &package.0, byte_length)
+        {
+            Ok(frame) => Ok(LinSporadicFrame(frame)),
+            Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
+        }
+    }
+
+    /// create a new [`LinUnconditionalFrame`]
+    ///
+    /// This new frame needs to be linked to a `LinPhysicalChannel`
+    #[pyo3(signature = (name, package, byte_length, /))]
+    #[pyo3(text_signature = "(self, name: str, package: ArPackage, byte_length: int, /)")]
+    fn create_lin_unconditional_frame(
+        &self,
+        name: &str,
+        package: &ArPackage,
+        byte_length: u64,
+    ) -> PyResult<LinUnconditionalFrame> {
+        match self
+            .0
+            .create_lin_unconditional_frame(name, &package.0, byte_length)
+        {
+            Ok(frame) => Ok(LinUnconditionalFrame(frame)),
             Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
         }
     }

@@ -1,4 +1,5 @@
 use crate::abstraction::AutosarAbstractionError;
+use crate::abstraction::datatype::Unit;
 use crate::pyutils::compare_pylist;
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstractionElement};
@@ -26,6 +27,15 @@ impl CompuMethod {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -49,6 +59,19 @@ impl CompuMethod {
     #[getter]
     fn category(&self) -> Option<CompuMethodCategory> {
         self.0.category().map(std::convert::Into::into)
+    }
+
+    /// Set the Unit of the `CompuMethod`
+    #[setter]
+    fn set_unit(&self, unit: Option<&Unit>) -> PyResult<()> {
+        let unit = unit.map(|u| &u.0);
+        self.0.set_unit(unit).map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the Unit of the `CompuMethod`
+    #[getter]
+    fn unit(&self) -> Option<Unit> {
+        self.0.unit().map(Unit)
     }
 
     /// Apply `CompumethodContent` to the `CompuMethod`
@@ -187,6 +210,15 @@ impl CompuScale {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[getter]

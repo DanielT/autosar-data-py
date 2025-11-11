@@ -76,6 +76,7 @@ class CanCluster:
     """
 
     def __init__(self, element: Element) -> CanCluster: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     baudrate: int
     """get or set the baudrate of the cluster"""
     can_fd_baudrate: Optional[int]
@@ -102,6 +103,7 @@ class CanCommunicationConnector:
     """
 
     def __init__(self, element: Element) -> CanCommunicationConnector: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     controller: CanCommunicationController
     """Get the controller of the `CommunicationConnector`"""
     ecu_instance: EcuInstance
@@ -116,6 +118,7 @@ class CanCommunicationController:
     """
 
     def __init__(self, element: Element) -> CanCommunicationController: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def connect_physical_channel(
         self, connection_name: str, can_channel: CanPhysicalChannel, /
     ) -> CanCommunicationConnector:
@@ -143,6 +146,7 @@ class CanFrame:
     """
 
     def __init__(self, element: Element) -> CanFrame: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     def frame_triggerings(self, /) -> List[CanFrameTriggering]:
         """List all [`FrameTriggering`]s using this frame"""
@@ -173,6 +177,7 @@ class CanFrameTriggering:
     """
 
     def __init__(self, element: Element) -> CanFrameTriggering: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     addressing_mode: Optional[CanAddressingMode]
     """set the addressing mode for this frame triggering"""
     def connect_to_ecu(
@@ -217,6 +222,7 @@ class CanNmCluster:
     """
 
     def __init__(self, element: Element) -> CanNmCluster: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     channel_sleep_master: Optional[bool]
     """set or remove the nmChannelSleepMaster flag"""
     communication_cluster: Optional[CanCluster]
@@ -267,6 +273,7 @@ class CanNmClusterCoupling:
     """
 
     def __init__(self, element: Element) -> CanNmClusterCoupling: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_coupled_cluster(self, cluster: CanNmCluster, /) -> None:
         """add a reference to a coupled `NmCluster`"""
         ...
@@ -328,6 +335,7 @@ class CanNmNode:
     """
 
     def __init__(self, element: Element) -> CanNmNode: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_rx_nm_pdu(self, nm_pdu: NmPdu, /) -> None:
         """add an Rx `NmPdu`
 
@@ -368,6 +376,7 @@ class CanPhysicalChannel:
     """
 
     def __init__(self, element: Element) -> CanPhysicalChannel: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     cluster: CanCluster
     """get the cluster containing this physical channel"""
     element: Element
@@ -401,6 +410,7 @@ class CanTpAddress:
     """
 
     def __init__(self, element: Element) -> CanTpAddress: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     tp_address: Optional[int]
@@ -425,6 +435,7 @@ class CanTpChannel:
     """
 
     def __init__(self, element: Element) -> CanTpChannel: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     channel_id: Optional[int]
     """get or set the channel id of the channel"""
     channel_mode: Optional[CanTpChannelMode]
@@ -450,6 +461,7 @@ class CanTpConfig:
     """
 
     def __init__(self, element: Element) -> CanTpConfig: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def can_tp_addresses(self, /) -> Iterator[CanTpAddress]:
         """get all of the Can Tp addresses in the configuration"""
         ...
@@ -518,6 +530,7 @@ class CanTpConnection:
     """
 
     def __init__(self, element: Element) -> CanTpConnection: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_receiver(self, receiver: CanTpNode, /) -> None:
         """add a receiver to the connection
 
@@ -550,6 +563,7 @@ class CanTpEcu:
     """
 
     def __init__(self, element: Element) -> CanTpEcu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     cycle_time_main_function: Optional[float]
     """get or set the cycle time of the `CanTp` main function of the ECU"""
     ecu_instance: Optional[EcuInstance]
@@ -563,6 +577,7 @@ class CanTpNode:
     """
 
     def __init__(self, element: Element) -> CanTpNode: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     address: Optional[CanTpAddress]
     """get or set the `CanTpAddress` of this Node"""
     connector: Optional[CanCommunicationConnector]
@@ -582,6 +597,7 @@ class ComTransformationTechnologyConfig:
     def __init__(
         self, *, isignal_ipdu_length: int
     ) -> ComTransformationTechnologyConfig: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     isignal_ipdu_length: int
     """The length of the `ISignalIpdu` tha will be transformed by this Com transformer.
     The value is only used up to AUTOSAR R20-11 (`AUTOSAR_00049`), where it is needed to calculate the buffer size."""
@@ -634,6 +650,7 @@ class ConsumedEventGroup:
     """
 
     def __init__(self, element: Element) -> ConsumedEventGroup: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_event_multicast_address(self, address: SocketAddress, /) -> None:
         """add an event multicast address to this `ConsumedEventGroup`"""
         ...
@@ -665,6 +682,7 @@ class ConsumedEventGroupV1:
     """
 
     def __init__(self, element: Element) -> ConsumedEventGroupV1: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_routing_group(self, routing_group: SoAdRoutingGroup, /) -> None:
         """add a reference to a `SoAdRoutingGroup` to this `ConsumedEventGroup`"""
         ...
@@ -691,6 +709,7 @@ class ConsumedServiceInstance:
     """
 
     def __init__(self, element: Element) -> ConsumedServiceInstance: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def consumed_event_groups(self, /) -> Iterator[ConsumedEventGroup]:
         """get the `ConsumedEventGroup`s in this `ConsumedServiceInstance`"""
         ...
@@ -735,6 +754,7 @@ class ConsumedServiceInstanceV1:
     """
 
     def __init__(self, element: Element) -> ConsumedServiceInstanceV1: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def consumed_event_groups(self, /) -> Iterator[ConsumedEventGroupV1]:
         """get the `ConsumedEventGroup`s in this `ConsumedServiceInstanceV1`"""
         ...
@@ -803,6 +823,7 @@ class ContainerIPdu:
     """
 
     def __init__(self, element: Element) -> ContainerIPdu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     contained_ipdu_props: Optional[ContainedIPduProps]
     """set the ContainedIPduProps for this `IPdu`
     This is only needed when the `IPdu` is contained in a `ContainerIPdu`"""
@@ -898,6 +919,7 @@ class DataTransformation:
     """
 
     def __init__(self, element: Element) -> DataTransformation: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     data_transformation_set: Optional[DataTransformationSet]
     """get the `DataTransformationSet` that contains this `DataTransformation`"""
     element: Element
@@ -915,6 +937,7 @@ class DataTransformationSet:
     """
 
     def __init__(self, element: Element) -> DataTransformationSet: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_data_transformation(
         self,
         name: str,
@@ -947,6 +970,7 @@ class DcmIPdu:
     """
 
     def __init__(self, element: Element) -> DcmIPdu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     contained_ipdu_props: Optional[ContainedIPduProps]
     """set the ContainedIPduProps for this `IPdu`
     This is only needed when the `IPdu` is contained in a `ContainerIPdu`"""
@@ -989,6 +1013,7 @@ class DoIpTpConfig:
     """
 
     def __init__(self, element: Element) -> DoIpTpConfig: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     cluster: Optional[EthernetCluster]
     """get or set the reference to the `EthernetCluster` for this `DoIpTpConfig`"""
     def create_doip_logic_address(self, name: str, address: int, /) -> DoIpLogicAddress:
@@ -1023,6 +1048,7 @@ class DoIpTpConnection:
     """
 
     def __init__(self, element: Element) -> DoIpTpConnection: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     source: Optional[DoIpLogicAddress]
@@ -1173,6 +1199,7 @@ class EthernetCluster:
     """
 
     def __init__(self, element: Element) -> EthernetCluster: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_physical_channel(
         self, channel_name: str, /, *, vlan_info: Optional[EthernetVlanInfo] = None
     ) -> EthernetPhysicalChannel:
@@ -1197,6 +1224,7 @@ class EthernetCommunicationConnector:
     """
 
     def __init__(self, element: Element) -> EthernetCommunicationConnector: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     controller: EthernetCommunicationController
     """Get the controller of the `CommunicationConnector`"""
     ecu_instance: EcuInstance
@@ -1211,6 +1239,7 @@ class EthernetCommunicationController:
     """
 
     def __init__(self, element: Element) -> EthernetCommunicationController: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def connect_physical_channel(
         self, connection_name: str, eth_channel: EthernetPhysicalChannel, /
     ) -> EthernetCommunicationConnector:
@@ -1238,6 +1267,7 @@ class EthernetPhysicalChannel:
     """
 
     def __init__(self, element: Element) -> EthernetPhysicalChannel: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     cluster: EthernetCluster
     """get the cluster containing this physical channel"""
     def configure_service_discovery_for_ecu(
@@ -1425,6 +1455,7 @@ class EventHandler:
     """
 
     def __init__(self, element: Element) -> EventHandler: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_pdu_activation_routing_group(
         self, name: str, event_group_control_type: EventGroupControlType, /
     ) -> PduActivationRoutingGroup:
@@ -1449,6 +1480,7 @@ class EventHandlerV1:
     """
 
     def __init__(self, element: Element) -> EventHandlerV1: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_consumed_event_group(
         self, consumed_event_group: ConsumedEventGroupV1, /
     ) -> None:
@@ -1483,6 +1515,7 @@ class FlexrayArTpChannel:
     """
 
     def __init__(self, element: Element) -> FlexrayArTpChannel: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     ack_type: Optional[FrArTpAckType]
     """get or set the ack type of the channel"""
     def add_n_pdu(self, n_pdu: NPdu, /) -> None:
@@ -1527,6 +1560,7 @@ class FlexrayArTpConfig:
     """
 
     def __init__(self, element: Element) -> FlexrayArTpConfig: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     cluster: Optional[FlexrayCluster]
     """get or set the Flexray cluster for the configuration"""
     def create_flexray_ar_tp_channel(
@@ -1571,6 +1605,7 @@ class FlexrayArTpConnection:
     """
 
     def __init__(self, element: Element) -> FlexrayArTpConnection: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_target(self, target: FlexrayArTpNode, /) -> None:
         """add a target to the connection
 
@@ -1601,6 +1636,7 @@ class FlexrayArTpNode:
     """
 
     def __init__(self, element: Element) -> FlexrayArTpNode: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_communication_connector(
         self, connector: FlexrayCommunicationConnector, /
     ) -> None:
@@ -1640,6 +1676,7 @@ class FlexrayCluster:
     """
 
     def __init__(self, element: Element) -> FlexrayCluster: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_physical_channel(
         self, name: str, channel_name: FlexrayChannelName, /
     ) -> FlexrayPhysicalChannel:
@@ -1746,6 +1783,7 @@ class FlexrayCommunicationConnector:
     """
 
     def __init__(self, element: Element) -> FlexrayCommunicationConnector: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     controller: FlexrayCommunicationController
     """Get or set the controller of the `CommunicationConnector`"""
     ecu_instance: EcuInstance
@@ -1760,6 +1798,7 @@ class FlexrayCommunicationController:
     """
 
     def __init__(self, element: Element) -> FlexrayCommunicationController: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def connect_physical_channel(
         self, connection_name: str, flx_channel: FlexrayPhysicalChannel
     ) -> FlexrayCommunicationConnector:
@@ -1809,6 +1848,7 @@ class FlexrayFrame:
     """
 
     def __init__(self, element: Element) -> FlexrayFrame: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     def frame_triggerings(self, /) -> List[FlexrayFrameTriggering]:
         """List all `FlexrayFrameTriggering`s using this frame"""
@@ -1841,6 +1881,7 @@ class FlexrayFrameTriggering:
     """
 
     def __init__(self, element: Element) -> FlexrayFrameTriggering: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def connect_to_ecu(
         self, ecu: EcuInstance, direction: CommunicationDirection, /
     ) -> FramePort:
@@ -1879,6 +1920,7 @@ class FlexrayNmCluster:
     """
 
     def __init__(self, element: Element) -> FlexrayNmCluster: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     channel_sleep_master: Optional[bool]
     """get or set or remove the nmChannelSleepMaster flag"""
     communication_cluster: Optional[FlexrayCluster]
@@ -1934,6 +1976,7 @@ class FlexrayNmClusterCoupling:
     """
 
     def __init__(self, element: Element) -> FlexrayNmClusterCoupling: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_coupled_cluster(self, cluster: FlexrayNmCluster, /) -> None:
         """add a reference to a coupled `NmCluster`"""
         ...
@@ -1984,6 +2027,7 @@ class FlexrayNmNode:
     """
 
     def __init__(self, element: Element) -> FlexrayNmNode: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_rx_nm_pdu(self, nm_pdu: NmPdu, /) -> None:
         """add an Rx `NmPdu`
 
@@ -2038,6 +2082,7 @@ class FlexrayPhysicalChannel:
     """
 
     def __init__(self, element: Element) -> FlexrayPhysicalChannel: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     channel_name: Optional[FlexrayChannelName]
     """get the channel name of a `FlexrayPhysicalChannel`"""
     cluster: FlexrayCluster
@@ -2079,6 +2124,7 @@ class FlexrayTpConfig:
     """
 
     def __init__(self, element: Element) -> FlexrayTpConfig: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     cluster: Optional[FlexrayCluster]
     """get or set the `FlexrayCluster` of the `FlexrayTpConfig`"""
     def create_flexray_tp_connection(
@@ -2147,6 +2193,7 @@ class FlexrayTpConnection:
     """
 
     def __init__(self, element: Element) -> FlexrayTpConnection: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_receiver(self, receiver: FlexrayTpNode, /) -> None:
         """add a receiver to the connection"""
         ...
@@ -2178,6 +2225,7 @@ class FlexrayTpConnectionControl:
     """
 
     def __init__(self, element: Element) -> FlexrayTpConnectionControl: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     max_fc_wait: Optional[int]
     """get or set the maxFcWait value"""
@@ -2196,6 +2244,7 @@ class FlexrayTpEcu:
     """
 
     def __init__(self, element: Element) -> FlexrayTpEcu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     cancellation: Optional[bool]
     """get or set the cancellation status of the `FlexrayTpEcu`"""
     cycle_time_main_function: Optional[float]
@@ -2213,6 +2262,7 @@ class FlexrayTpNode:
     """
 
     def __init__(self, element: Element) -> FlexrayTpNode: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_communication_connector(
         self, connector: FlexrayCommunicationConnector, /
     ) -> None:
@@ -2238,6 +2288,7 @@ class FlexrayTpPduPool:
     """
 
     def __init__(self, element: Element) -> FlexrayTpPduPool: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_n_pdu(self, n_pdu: NPdu, /) -> None:
         """add an `NPdu` to the `PduPool`"""
         ...
@@ -2264,6 +2315,7 @@ class FramePort:
     """
 
     def __init__(self, element: Element) -> FramePort: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     communication_direction: Optional[CommunicationDirection]
     """get or set the communication direction of the frame port"""
     ecu: EcuInstance
@@ -2278,6 +2330,7 @@ class GeneralPurposeIPdu:
     """
 
     def __init__(self, element: Element) -> GeneralPurposeIPdu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     category: Optional[GeneralPurposeIPduCategory]
     """get the category of this PDU"""
     contained_ipdu_props: Optional[ContainedIPduProps]
@@ -2313,6 +2366,7 @@ class GeneralPurposePdu:
     """
 
     def __init__(self, element: Element) -> GeneralPurposePdu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     category: Optional[GeneralPurposePduCategory]
     """get or set the category of this PDU"""
     element: Element
@@ -2369,6 +2423,7 @@ class IPduPort:
     """
 
     def __init__(self, element: Element) -> IPduPort: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     communication_direction: Optional[CommunicationDirection]
     """get or set the communication direction of this `IPduPort`"""
     ecu: EcuInstance
@@ -2406,6 +2461,7 @@ class ISignal:
     """
 
     def __init__(self, element: Element) -> ISignal: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_data_transformation(
         self, data_transformation: DataTransformation, /
     ) -> None:
@@ -2464,6 +2520,7 @@ class ISignalGroup:
     """
 
     def __init__(self, element: Element) -> ISignalGroup: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_data_transformation(
         self, data_transformation: DataTransformation, /
     ) -> None:
@@ -2513,6 +2570,7 @@ class ISignalIPdu:
     """
 
     def __init__(self, element: Element) -> ISignalIPdu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     contained_ipdu_props: Optional[ContainedIPduProps]
     """set the ContainedIPduProps for this `IPdu`
     This is only needed when the `IPdu` is contained in a `ContainerIPdu`"""
@@ -2562,6 +2620,7 @@ class ISignalPort:
     """
 
     def __init__(self, element: Element) -> ISignalPort: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     communication_direction: Optional[CommunicationDirection]
     """get or set the communication direction of this port"""
     ecu: EcuInstance
@@ -2576,6 +2635,7 @@ class ISignalToIPduMapping:
     """
 
     def __init__(self, element: Element) -> ISignalToIPduMapping: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     byte_order: Optional[ByteOrder]
     """get or set the byte order of the data in the mapped signal."""
     element: Element
@@ -2602,6 +2662,7 @@ class ISignalTriggering:
     """
 
     def __init__(self, element: Element) -> ISignalTriggering: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def connect_to_ecu(
         self, ecu: EcuInstance, direction: CommunicationDirection, /
     ) -> ISignalPort:
@@ -2665,12 +2726,15 @@ class LinCluster:
     """
 
     def __init__(self, element: Element) -> LinCluster: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
+    def create_physical_channel(self, channel_name: str, /) -> LinPhysicalChannel: ...
     element: Element
     name: str
 
 @final
 class LinEventTriggeredFrame:
     def __init__(self, element: Element) -> LinEventTriggeredFrame: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
 
@@ -2681,12 +2745,14 @@ class LinMaster:
     """
 
     def __init__(self, element: Element) -> LinMaster: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
 
 @final
 class LinPhysicalChannel:
     def __init__(self, element: Element) -> LinPhysicalChannel: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
 
@@ -2697,18 +2763,21 @@ class LinSlave:
     """
 
     def __init__(self, element: Element) -> LinSlave: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
 
 @final
 class LinSporadicFrame:
     def __init__(self, element: Element) -> LinSporadicFrame: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
 
 @final
 class LinUnconditionalFrame:
     def __init__(self, element: Element) -> LinUnconditionalFrame: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
 
@@ -2748,6 +2817,7 @@ class MultiplexedIPdu:
     """
 
     def __init__(self, element: Element) -> MultiplexedIPdu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     contained_ipdu_props: Optional[ContainedIPduProps]
     """set the ContainedIPduProps for this `IPdu`
     This is only needed when the `IPdu` is contained in a `ContainerIPdu`"""
@@ -2766,6 +2836,7 @@ class NPdu:
     """
 
     def __init__(self, element: Element) -> NPdu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     contained_ipdu_props: Optional[ContainedIPduProps]
     """set the ContainedIPduProps for this `IPdu`
     This is only needed when the `IPdu` is contained in a `ContainerIPdu`"""
@@ -2784,6 +2855,7 @@ class NetworkEndpoint:
     """
 
     def __init__(self, element: Element) -> NetworkEndpoint: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_network_endpoint_address(self, address: NetworkEndpointAddress, /) -> None:
         """add a network endpoint address to this `NetworkEndpoint`
 
@@ -2848,6 +2920,7 @@ class NmConfig:
     """
 
     def __init__(self, element: Element) -> NmConfig: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_can_nm_cluster(
         self, name: str, settings: CanNmClusterSettings, can_cluster: CanCluster
     ) -> CanNmCluster:
@@ -2918,6 +2991,7 @@ class NmEcu:
     """
 
     def __init__(self, element: Element) -> NmEcu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     cycle_time_main_function: Optional[float]
     """get or set or remove the nmCycletimeMainFunction value"""
     ecu_instance: Optional[EcuInstance]
@@ -2936,6 +3010,7 @@ class NmPdu:
     """
 
     def __init__(self, element: Element) -> NmPdu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     length: Optional[int]
     """get or set the length of this PDU"""
@@ -2952,6 +3027,7 @@ class PduActivationRoutingGroup:
     """
 
     def __init__(self, element: Element) -> PduActivationRoutingGroup: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_ipdu_identifier_tcp(self, ipdu_identifier: SoConIPduIdentifier, /) -> None:
         """add a reference to a `SoConIPduIdentifier` for TCP communication to this `PduActivationRoutingGroup`"""
         ...
@@ -2988,6 +3064,7 @@ class PduToFrameMapping:
     """
 
     def __init__(self, element: Element) -> PduToFrameMapping: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     byte_order: Optional[ByteOrder]
     """get or set the byte order of the data in the PDU.
     
@@ -3018,6 +3095,7 @@ class PduTriggering:
     """
 
     def __init__(self, element: Element) -> PduTriggering: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_pdu_port(
         self, ecu: EcuInstance, direction: CommunicationDirection, /
     ) -> IPduPort:
@@ -3043,6 +3121,7 @@ class ProvidedServiceInstance:
     """
 
     def __init__(self, element: Element) -> ProvidedServiceInstance: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_event_handler(
         self, name: str, event_group_identifier: int, /
     ) -> EventHandler:
@@ -3083,6 +3162,7 @@ class ProvidedServiceInstanceV1:
     """
 
     def __init__(self, element: Element) -> ProvidedServiceInstanceV1: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_event_handler(self, name: str, /) -> EventHandlerV1:
         """create a new `EventHandlerV1` in this `ProvidedServiceInstance`"""
         ...
@@ -3238,6 +3318,7 @@ class SecuredIPdu:
     """
 
     def __init__(self, element: Element) -> SecuredIPdu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     contained_ipdu_props: Optional[ContainedIPduProps]
     """set the ContainedIPduProps for this `IPdu`
     This is only needed when the `IPdu` is contained in a `ContainerIPdu`"""
@@ -3271,6 +3352,7 @@ class ServiceInstanceCollectionSet:
     """
 
     def __init__(self, element: Element) -> ServiceInstanceCollectionSet: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_consumed_service_instance(
         self,
         name: str,
@@ -3311,6 +3393,7 @@ class SoAdRoutingGroup:
     """
 
     def __init__(self, element: Element) -> SoAdRoutingGroup: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     control_type: Optional[EventGroupControlType]
     """get or set the `EventGroupControlType` of this `SoAdRoutingGroup`"""
     element: Element
@@ -3323,6 +3406,7 @@ class SoConIPduIdentifier:
     """
 
     def __init__(self, element: Element) -> SoConIPduIdentifier: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     collection_trigger: Optional[PduCollectionTrigger]
     """get or set the collection trigger for this `SoConIPduIdentifier`"""
     element: Element
@@ -3345,6 +3429,7 @@ class SocketAddress:
     """
 
     def __init__(self, element: Element) -> SocketAddress: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_multicast_ecu(self, ecu: EcuInstance, /) -> None:
         """add an `EcuInstance` to this multicast `SocketAddress`"""
         ...
@@ -3440,6 +3525,7 @@ class SocketConnection:
     """
 
     def __init__(self, element: Element) -> SocketConnection: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     client_ip_addr_from_connection_request: Optional[bool]
     """get or set the `client_ip_addr_from_connection_request` attribute for this socket connection
     
@@ -3489,6 +3575,7 @@ class SocketConnectionBundle:
     """
 
     def __init__(self, element: Element) -> SocketConnectionBundle: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def bundled_connections(self, /) -> Iterator[SocketConnection]:
         """create an iterator over all bundled connections in this socket connection bundle"""
         ...
@@ -3515,6 +3602,7 @@ class SocketConnectionIpduIdentifier:
     """
 
     def __init__(self, element: Element) -> SocketConnectionIpduIdentifier: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_routing_group(self, routing_group: SoAdRoutingGroup, /) -> None:
         """add a reference to a `SoAdRoutingGroup` to this `SocketConnectionIpduIdentifier`"""
         ...
@@ -3543,6 +3631,7 @@ class SocketConnectionIpduIdentifierSet:
     """
 
     def __init__(self, element: Element) -> SocketConnectionIpduIdentifierSet: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_socon_ipdu_identifier(
         self,
         name: str,
@@ -3627,6 +3716,7 @@ class SomeipSdClientEventGroupTimingConfig:
     """
 
     def __init__(self, element: Element) -> SomeipSdClientEventGroupTimingConfig: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     def request_response_delay(self) -> Optional[RequestResponseDelay]:
@@ -3658,6 +3748,7 @@ class SomeipSdClientServiceInstanceConfig:
     """
 
     def __init__(self, element: Element) -> SomeipSdClientServiceInstanceConfig: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     def initial_find_behavior(self) -> Optional[InitialSdDelayConfig]:
         """get the initial find behavior of this `SomeipSdClientServiceInstanceConfig`"""
@@ -3685,6 +3776,7 @@ class SomeipSdServerEventGroupTimingConfig:
     """
 
     def __init__(self, element: Element) -> SomeipSdServerEventGroupTimingConfig: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     def request_response_delay(self) -> Optional[RequestResponseDelay]:
@@ -3708,6 +3800,7 @@ class SomeipSdServerServiceInstanceConfig:
     """
 
     def __init__(self, element: Element) -> SomeipSdServerServiceInstanceConfig: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     def initial_offer_behavior(self) -> Optional[InitialSdDelayConfig]:
         """get the initial offer behavior of this `SomeipSdServerServiceInstanceConfig`"""
@@ -3746,6 +3839,7 @@ class SomeipTpChannel:
     """
 
     def __init__(self, element: Element) -> SomeipTpChannel: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     rx_timeout_time: Optional[float]
@@ -3760,6 +3854,7 @@ class SomeipTpConfig:
     """
 
     def __init__(self, element: Element) -> SomeipTpConfig: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     cluster: Optional[Union[CanCluster, FlexrayCluster, EthernetCluster]]
     """get the communication cluster of this `SomeipTpConfig`"""
     def create_someip_tp_channel(self, name: str, /) -> SomeipTpChannel:
@@ -3795,6 +3890,7 @@ class SomeipTpConnection:
     """
 
     def __init__(self, element: Element) -> SomeipTpConnection: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     someip_tp_config: SomeipTpConfig
     """get the `SomeipTpConfig` that contains this `SomeipTpConnection`"""
@@ -3814,6 +3910,7 @@ class StaticSocketConnection:
     """
 
     def __init__(self, element: Element) -> StaticSocketConnection: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_ipdu_identifier(self, identifier: SoConIPduIdentifier, /) -> None:
         """add a `SoConIPduIdentifier` to this static socket connection"""
         ...
@@ -3840,6 +3937,7 @@ class SystemSignal:
     """
 
     def __init__(self, element: Element) -> SystemSignal: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     compu_method: Optional[CompuMethod]
     """get or set the compu method for this signal"""
     data_constr: Optional[DataConstr]
@@ -3861,6 +3959,7 @@ class SystemSignalGroup:
     """
 
     def __init__(self, element: Element) -> SystemSignalGroup: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_signal(self, signal: SystemSignal, /) -> None:
         """Add a signal to the signal group"""
         ...
@@ -3888,6 +3987,7 @@ class TpAddress:
     """
 
     def __init__(self, element: Element) -> TpAddress: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     address: Optional[int]
     """get or set the value of the address"""
     element: Element
@@ -3941,6 +4041,7 @@ class TransformationTechnology:
     """
 
     def __init__(self, element: Element) -> TransformationTechnology: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def config(self) -> Optional[TransformationTechnologyConfig]:
         """get the configuration of the `TransformationTechnology`"""
         ...
@@ -3981,6 +4082,7 @@ class UdpNmCluster:
     """
 
     def __init__(self, element: Element) -> UdpNmCluster: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     channel_sleep_master: Optional[bool]
     """get or set the nmChannelSleepMaster flag"""
     communication_cluster: Optional[EthernetCluster]
@@ -4042,6 +4144,7 @@ class UdpNmClusterCoupling:
     """
 
     def __init__(self, element: Element) -> UdpNmClusterCoupling: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_coupled_cluster(self, cluster: UdpNmCluster, /) -> None:
         """add a reference to a coupled `NmCluster`"""
         ...
@@ -4089,6 +4192,7 @@ class UdpNmNode:
     """
 
     def __init__(self, element: Element) -> UdpNmNode: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_rx_nm_pdu(self, /, nm_pdu: NmPdu) -> None:
         """add an Rx `NmPdu`
 

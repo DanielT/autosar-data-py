@@ -55,6 +55,7 @@ class ApplicationArrayDataType:
     """
 
     def __init__(self, element: Element, /) -> ApplicationArrayDataType: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     array_element: ApplicationArrayElement
     """array element of the array data type"""
     element: Element
@@ -74,6 +75,7 @@ class ApplicationArrayElement:
     """
 
     def __init__(self, element: Element, /) -> ApplicationArrayElement: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     data_type: ApplicationDataType
     """data type of the array element"""
     element: Element
@@ -147,6 +149,7 @@ class ApplicationPrimitiveDataType:
     """
 
     def __init__(self, element: Element, /) -> ApplicationPrimitiveDataType: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     category: ApplicationPrimitiveCategory
     """category of the primitive data type"""
     compu_method: CompuMethod
@@ -167,6 +170,7 @@ class ApplicationRecordDataType:
     """
 
     def __init__(self, element: Element, /) -> ApplicationRecordDataType: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_record_element(
         self, name: str, data_type: ApplicationDataType, /
     ) -> ApplicationRecordElement:
@@ -185,6 +189,7 @@ class ApplicationRecordElement:
     """
 
     def __init__(self, element: Element, /) -> ApplicationRecordElement: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     data_type: ApplicationDataType
     """data type of the record element"""
     element: Element
@@ -325,6 +330,7 @@ class CompuMethod:
     """
 
     def __init__(self, element: Element, /) -> CompuMethod: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     category: CompuMethodCategory
     """category of the `CompuMethod`"""
     def content(self, /) -> Optional[CompuMethodContent]:
@@ -354,6 +360,7 @@ class CompuMethod:
         """set the content of the `CompuMethod`
         Writing to this attribute removes any existing content"""
         ...
+    unit: Optional[Unit]
 
 @final
 class CompuMethodBitfieldTextTableContent:
@@ -507,6 +514,7 @@ class CompuScale:
     """
 
     def __init__(self, element: Element, /) -> CompuScale: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     content: Union[CompuScaleRationalCoefficients, str, int]
     """content of the `CompuScale`"""
     element: Element
@@ -567,6 +575,7 @@ class ConstantSpecification:
     """
 
     def __init__(self, element: Element, /) -> ConstantSpecification: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
     value_specification: ValueSpecification
@@ -578,6 +587,7 @@ class DataConstr:
     """
 
     def __init__(self, element: Element, /) -> DataConstr: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_data_constr_rule(
         self,
         rule_type: DataConstrType,
@@ -602,6 +612,7 @@ class DataConstrRule:
     """
 
     def __init__(self, element: Element, /) -> DataConstrRule: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     lower_limit: Optional[float]
     """get the lower limit"""
@@ -626,6 +637,7 @@ class DataTypeMap:
     """
 
     def __init__(self, element: Element, /) -> DataTypeMap: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     application_data_type: ApplicationDataType
     """Get the `ApplicationDataType` of the `DataTypeMap`"""
     element: Element
@@ -641,6 +653,7 @@ class DataTypeMappingSet:
     """
 
     def __init__(self, element: Element, /) -> DataTypeMappingSet: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_data_type_map(
         self,
         implementation_data_type: ImplementationDataType,
@@ -679,6 +692,7 @@ class ImplementationDataType:
     """
 
     def __init__(self, element: Element, /) -> ImplementationDataType: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def apply_settings(self, settings: ImplementationDataTypeSettings, /) -> None:
         """apply the settings to this implementation data type
 
@@ -717,6 +731,7 @@ class ImplementationDataTypeElement:
     """
 
     def __init__(self, element: Element, /) -> ImplementationDataTypeElement: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def apply_settings(self, settings: ImplementationDataTypeSettings, /) -> None:
         """apply the settings to this implementation data type
 
@@ -1168,6 +1183,7 @@ class SwBaseType:
     """
 
     def __init__(self, element: Element, /) -> SwBaseType: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     base_type_encoding: BaseTypeEncoding
     """set the base type encoding of the `SwBaseType`"""
     bit_length: Optional[int]
@@ -1329,6 +1345,7 @@ class Unit:
     """
 
     def __init__(self, element: Element, /) -> Unit: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     display_name: Optional[str]
     """display name of the unit"""
     element: Element

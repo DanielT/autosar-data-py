@@ -34,6 +34,7 @@ class EcucAddInfoParamDef:
     """
 
     def __init__(self, element: Element, /) -> EcucAddInfoParamDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     lower_multiplicity: Optional[int]
     """get or set the lower multiplicity attribute"""
@@ -88,6 +89,7 @@ class EcucAddInfoParamValue:
     """
 
     def __init__(self, element: Element, /) -> EcucAddInfoParamValue: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
 
 @final
@@ -97,6 +99,7 @@ class EcucBooleanParamDef:
     """
 
     def __init__(self, element: Element, /) -> EcucBooleanParamDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     default_value: Optional[bool]
     """set the default value of the boolean parameter"""
     element: Element
@@ -155,6 +158,7 @@ class EcucChoiceContainerDef:
     """
 
     def __init__(self, element: Element, /) -> EcucChoiceContainerDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def choices(self, /) -> Iterator[EcucParamConfContainerDef]:
         """iterate over the choices in the container"""
         ...
@@ -185,6 +189,7 @@ class EcucChoiceReferenceDef:
     """
 
     def __init__(self, element: Element, /) -> EcucChoiceReferenceDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_destination(self, /, destination) -> None:
         """add a reference to a destination container"""
         ...
@@ -272,6 +277,7 @@ class EcucContainerValue:
     """
 
     def __init__(self, element: Element, /) -> EcucContainerValue: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_add_info_param_value(
         self, definition: EcucAddInfoParamDef, /
     ) -> EcucAddInfoParamValue:
@@ -346,6 +352,7 @@ class EcucDefinitionCollection:
     """
 
     def __init__(self, element: Element, /) -> EcucDefinitionCollection: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_module_def(self, module_def: EcucModuleDef, /) -> None:
         """add a reference to a module definition to the collection"""
         ...
@@ -362,6 +369,7 @@ class EcucDestinationUriDef:
     """
 
     def __init__(self, element: Element, /) -> EcucDestinationUriDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def containers(
         self, /
     ) -> Iterator[Union[EcucChoiceContainerDef, EcucParamConfContainerDef]]:
@@ -389,6 +397,7 @@ class EcucDestinationUriDefSet:
     """
 
     def __init__(self, element: Element, /) -> EcucDestinationUriDefSet: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_destination_uri_def(
         self, name: str, contract: EcucDestinationUriNestingContract, /
     ) -> EcucDestinationUriDef:
@@ -418,6 +427,7 @@ class EcucEnumerationLiteralDef:
     """
 
     def __init__(self, element: Element, /) -> EcucEnumerationLiteralDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     name: str
 
@@ -428,6 +438,7 @@ class EcucEnumerationParamDef:
     """
 
     def __init__(self, element: Element, /) -> EcucEnumerationParamDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_enumeration_literal(self, /, name) -> EcucEnumerationLiteralDef:
         """create a new enumeration literal"""
         ...
@@ -492,6 +503,7 @@ class EcucFloatParamDef:
     """
 
     def __init__(self, element: Element, /) -> EcucFloatParamDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     default_value: Optional[float]
     """set the default value of the float parameter"""
     element: Element
@@ -554,6 +566,7 @@ class EcucForeignReferenceDef:
     """
 
     def __init__(self, element: Element, /) -> EcucForeignReferenceDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     destination_type: Optional[str]
     """set the destination type of the reference definition"""
     element: Element
@@ -610,6 +623,7 @@ class EcucFunctionNameDef:
     """
 
     def __init__(self, element: Element, /) -> EcucFunctionNameDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     lower_multiplicity: Optional[int]
     """get or set the lower multiplicity attribute"""
@@ -673,6 +687,7 @@ class EcucInstanceReferenceDef:
     """
 
     def __init__(self, element: Element, /) -> EcucInstanceReferenceDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     destination_context: Optional[str]
     """set the destination context of the reference definition
     
@@ -735,6 +750,7 @@ class EcucInstanceReferenceValue:
     """
 
     def __init__(self, element: Element, /) -> EcucInstanceReferenceValue: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     definition: Optional[EcucInstanceReferenceDef]
     """set the parameter definition reference"""
     definition_ref: Optional[str]
@@ -766,6 +782,7 @@ class EcucIntegerParamDef:
     """
 
     def __init__(self, element: Element, /) -> EcucIntegerParamDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     default_value: Optional[int]
     """set the default value of the integer parameter"""
     element: Element
@@ -826,6 +843,7 @@ class EcucLinkerSymbolDef:
     """
 
     def __init__(self, element: Element, /) -> EcucLinkerSymbolDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     lower_multiplicity: Optional[int]
     """get or set the lower multiplicity attribute"""
@@ -888,6 +906,7 @@ class EcucModuleConfigurationValues:
     """
 
     def __init__(self, element: Element, /) -> EcucModuleConfigurationValues: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def container_values(self, /) -> Iterator[EcucContainerValue]:
         """create an iterator over the container values in the module configuration"""
         ...
@@ -914,6 +933,7 @@ class EcucModuleDef:
     """
 
     def __init__(self, element: Element, /) -> EcucModuleDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     api_service_prefix: Optional[str]
     """get or set the apiServicePrefix for the module
     
@@ -973,6 +993,7 @@ class EcucMultilineStringParamDef:
     """
 
     def __init__(self, element: Element, /) -> EcucMultilineStringParamDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     lower_multiplicity: Optional[int]
     """get or set the lower multiplicity attribute"""
@@ -1038,6 +1059,7 @@ class EcucNumericalParamValue:
     """
 
     def __init__(self, element: Element, /) -> EcucNumericalParamValue: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     definition: Optional[
         Union[EcucBooleanParamDef, EcucFloatParamDef, EcucIntegerParamDef]
     ]
@@ -1073,6 +1095,7 @@ class EcucParamConfContainerDef:
     """
 
     def __init__(self, element: Element, /) -> EcucParamConfContainerDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def create_add_info_param_def(
         self, name: str, origin: str, /
     ) -> EcucAddInfoParamDef:
@@ -1191,6 +1214,7 @@ class EcucReferenceDef:
     """
 
     def __init__(self, element: Element, /) -> EcucReferenceDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     destination: Optional[EcucContainerDef]
     """destination container of the reference"""
     element: Element
@@ -1247,6 +1271,7 @@ class EcucReferenceValue:
     """
 
     def __init__(self, element: Element, /) -> EcucReferenceValue: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     definition: Optional[EcucReferenceDef]
     """set the parameter definition reference"""
     definition_ref: Optional[str]
@@ -1274,6 +1299,7 @@ class EcucStringParamDef:
     """
 
     def __init__(self, element: Element, /) -> EcucStringParamDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     element: Element
     lower_multiplicity: Optional[int]
     """get or set the lower multiplicity attribute"""
@@ -1337,6 +1363,7 @@ class EcucTextualParamValue:
     """
 
     def __init__(self, element: Element, /) -> EcucTextualParamValue: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     definition: Optional[EcucParameterDef]
     """set the parameter definition reference"""
     definition_ref: Optional[str]
@@ -1364,6 +1391,7 @@ class EcucUriReferenceDef:
     """
 
     def __init__(self, element: Element, /) -> EcucUriReferenceDef: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     destination_uri: Optional[EcucDestinationUriDef]
     """set the destination uri of the reference definition"""
     element: Element
@@ -1420,6 +1448,7 @@ class EcucValueCollection:
     """
 
     def __init__(self, element: Element, /) -> EcucValueCollection: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
     def add_module_configuration(
         self, module_configuration: EcucModuleConfigurationValues
     ) -> None:

@@ -31,6 +31,15 @@ impl SystemMapping {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -100,7 +109,7 @@ impl SystemMapping {
         port_prototype: &Bound<'_, PyAny>,
         context_components: Vec<SwComponentPrototype>,
         root_composition_prototype: Option<&RootSwCompositionPrototype>,
-    ) -> PyResult<()> {
+    ) -> PyResult<SenderReceiverToSignalMapping> {
         let port_prototype = pyany_to_port_prototype(port_prototype)?;
         let context_components: Vec<_> = context_components.iter().map(|c| &c.0).collect();
         self.0
@@ -111,6 +120,7 @@ impl SystemMapping {
                 &context_components,
                 root_composition_prototype.map(|r| &r.0),
             )
+            .map(SenderReceiverToSignalMapping)
             .map_err(abstraction_err_to_pyerr)
     }
 }
@@ -130,6 +140,15 @@ impl SwcToEcuMapping {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[setter]
@@ -161,5 +180,44 @@ impl SwcToEcuMapping {
     #[getter]
     fn ecu_instance(&self) -> Option<EcuInstance> {
         self.0.ecu_instance().map(EcuInstance)
+    }
+}
+
+//##################################################################
+
+/// A `SenderReceiverToSignalMapping` contains a mapping between a sender/receiver port and a system signal
+#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
+#[derive(Clone, PartialEq)]
+pub(crate) struct SenderReceiverToSignalMapping(
+    pub(crate) autosar_data_abstraction::SenderReceiverToSignalMapping,
+);
+
+#[pymethods]
+impl SenderReceiverToSignalMapping {
+    #[new]
+    fn new(element: &Element) -> PyResult<Self> {
+        match autosar_data_abstraction::SenderReceiverToSignalMapping::try_from(element.0.clone()) {
+            Ok(value) => Ok(Self(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    #[getter]
+    fn system_signal(&self) -> Option<SystemSignal> {
+        self.0.system_signal().map(SystemSignal)
+    }
+
+    #[getter]
+    fn data_element(&self) -> Option<VariableDataPrototype> {
+        self.0.data_element().map(VariableDataPrototype)
     }
 }

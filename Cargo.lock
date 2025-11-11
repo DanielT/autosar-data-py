@@ -25,9 +25,9 @@ dependencies = [
 
 [[package]]
 name = "autosar-data-abstraction"
-version = "0.8.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "77ce7cf6da6ac3fc8a993f0a63ac2a3257d93568dea5a75f01f8a2bb55233664"
+checksum = "ef8dcf31ff2a635011b1698ca42905946de373f9b5f042eff32511d7cee9e471"
 dependencies = [
  "autosar-data",
  "thiserror",

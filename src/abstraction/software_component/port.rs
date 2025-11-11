@@ -33,6 +33,15 @@ impl RPortPrototype {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -54,11 +63,10 @@ impl RPortPrototype {
 
     /// Get the port interface of the port prototype
     #[getter]
-    fn port_interface(&self) -> PyResult<Py<PyAny>> {
-        match self.0.port_interface() {
-            Ok(value) => port_interface_to_pyany(value),
-            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
-        }
+    fn port_interface(&self) -> Option<Py<PyAny>> {
+        self.0
+            .port_interface()
+            .and_then(|port_interface| port_interface_to_pyany(port_interface).ok())
     }
 
     /// Get the component type containing the port prototype
@@ -96,6 +104,15 @@ impl PPortPrototype {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -117,11 +134,10 @@ impl PPortPrototype {
 
     /// Get the port interface of the port prototype
     #[getter]
-    fn port_interface(&self) -> PyResult<Py<PyAny>> {
-        match self.0.port_interface() {
-            Ok(value) => port_interface_to_pyany(value),
-            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
-        }
+    fn port_interface(&self) -> Option<Py<PyAny>> {
+        self.0
+            .port_interface()
+            .and_then(|port_interface| port_interface_to_pyany(port_interface).ok())
     }
 
     /// Get the component type containing the port prototype
@@ -159,6 +175,15 @@ impl PRPortPrototype {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -180,11 +205,10 @@ impl PRPortPrototype {
 
     /// Get the port interface of the port prototype
     #[getter]
-    fn port_interface(&self) -> PyResult<Py<PyAny>> {
-        match self.0.port_interface() {
-            Ok(value) => port_interface_to_pyany(value),
-            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
-        }
+    fn port_interface(&self) -> Option<Py<PyAny>> {
+        self.0
+            .port_interface()
+            .and_then(|port_interface| port_interface_to_pyany(port_interface).ok())
     }
 
     /// Get the component type containing the port prototype
@@ -249,6 +273,15 @@ impl PortGroup {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[setter]

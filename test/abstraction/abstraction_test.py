@@ -89,7 +89,7 @@ def test_package() -> None:
     )
 
     app_array_size = ApplicationArraySize.Fixed(16)
-    package.create_application_array_data_type(
+    application_array_data_type = package.create_application_array_data_type(
         "array_data_type", app_primitive_data_type, app_array_size
     )
 
@@ -265,6 +265,43 @@ def test_package() -> None:
     assert isinstance(unit, Unit)
 
     assert len(list(package.elements())) == 34
+
+    unit.remove()
+    trigger_interface.remove()
+    system_signal_group.remove()
+    system_signal.remove()
+    system.remove()
+    someip_sd_server_service_instance_config.remove()
+    someip_sd_client_service_instance_config.remove()
+    someip_sd_client_event_group_timing_config.remove()
+    someip_sd_server_event_group_timing_config.remove()
+    service_sw_component.remove()
+    sensor_actuator_sw_component.remove()
+    sender_receiver_interface.remove()
+    parameter_interface.remove()
+    nv_data_interface.remove()
+    mode_switch_interface.remove()
+    implementation_data_type.remove()
+    base_type.remove()
+    ecuc_value_collection.remove()
+    ecuc_module_configuration_values.remove()
+    ecuc_module_def.remove()
+    ecuc_destination_uri_def_set.remove()
+    ecuc_definition_collection.remove()
+    ecu_abstraction_sw_component.remove()
+    data_type_mapping_set.remove()
+    data_transformation_set.remove()
+    data_constr.remove()
+    compu_method.remove()
+    composition_sw_component_type.remove()
+    complex_device_driver_sw_component_type.remove()
+    client_server_interface.remove()
+    application_sw_component_type.remove()
+    application_record_data_type.remove()
+    application_array_data_type.remove()
+    app_primitive_data_type.remove()
+
+    assert len(list(package.elements())) == 0
 
 
 def test_system() -> None:

@@ -1,7 +1,7 @@
 use crate::abstraction::AutosarAbstractionError;
 use crate::abstraction::communication::{
-    FramePort, FramePortIterator, LinPhysicalChannel, PduToFrameMapping, PduToFrameMappingIterator,
-    PduTriggering, PduTriggeringIterator, pyany_to_pdu,
+    CommunicationDirection, FramePort, FramePortIterator, LinPhysicalChannel, PduToFrameMapping,
+    PduToFrameMappingIterator, PduTriggering, PduTriggeringIterator, pyany_to_pdu,
 };
 use crate::{abstraction::*, *};
 use autosar_data_abstraction::communication::{AbstractFrame, AbstractFrameTriggering};
@@ -30,6 +30,15 @@ impl LinEventTriggeredFrame {
             Ok(value) => Ok(Self(value)),
             Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
         }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
     }
 
     #[setter]
@@ -152,6 +161,15 @@ impl LinFrameTriggering {
         }
     }
 
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
     #[setter]
     fn set_name(&self, name: &str) -> PyResult<()> {
         self.0.set_name(name).map_err(abstraction_err_to_pyerr)
@@ -169,6 +187,20 @@ impl LinFrameTriggering {
 
     fn __repr__(&self) -> String {
         format!("{:#?}", self.0)
+    }
+
+    /// Set the identifier of the frame that is triggered
+    #[setter]
+    fn set_identifier(&self, identifier: u32) -> PyResult<()> {
+        self.0
+            .set_identifier(identifier)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the identifier of the frame that is triggered
+    #[getter]
+    fn identifier(&self) -> Option<u32> {
+        self.0.identifier()
     }
 
     /// get the frame that is triggered
@@ -193,14 +225,27 @@ impl LinFrameTriggering {
         }
     }
 
+    /// connect this frame triggering to an ECU
+    ///
+    /// The direction parameter specifies if the communication is incoming or outgoing
+    #[pyo3(signature = (ecu, direction, /))]
+    #[pyo3(text_signature = "(self, ecu: EcuInstance, direction: CommunicationDirection, /)")]
+    fn connect_to_ecu(
+        &self,
+        ecu: &EcuInstance,
+        direction: CommunicationDirection,
+    ) -> PyResult<FramePort> {
+        match self.0.connect_to_ecu(&ecu.0, direction.into()) {
+            Ok(port) => Ok(FramePort(port)),
+            Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
+        }
+    }
+
     /// get the physical channel that contains this frame triggering
     #[getter]
     fn physical_channel(&self) -> PyResult<LinPhysicalChannel> {
         match self.0.physical_channel() {
-            Ok(autosar_data_abstraction::communication::PhysicalChannel::Lin(channel)) => {
-                Ok(LinPhysicalChannel(channel))
-            }
-            Ok(_) => unreachable!(), // LinFrameTriggering can only be on LinPhysicalChannel
+            Ok(channel) => Ok(LinPhysicalChannel(channel)),
             Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
         }
     }
@@ -213,5 +258,34 @@ impl LinFrameTriggering {
     /// iterate over all PDU triggerings used by this frame triggering
     fn pdu_triggerings(&self) -> PduTriggeringIterator {
         PduTriggeringIterator::new(self.0.pdu_triggerings().map(PduTriggering))
+    }
+}
+
+//##################################################################
+
+pub(crate) fn pyany_to_lin_frame(
+    py_any: &Bound<'_, PyAny>,
+) -> PyResult<autosar_data_abstraction::communication::LinFrame> {
+    if let Ok(lin_unconditional_frame) = py_any.extract::<LinUnconditionalFrame>() {
+        Ok(
+            autosar_data_abstraction::communication::LinFrame::Unconditional(
+                lin_unconditional_frame.0,
+            ),
+        )
+    } else if let Ok(lin_event_triggered_frame) = py_any.extract::<LinEventTriggeredFrame>() {
+        Ok(
+            autosar_data_abstraction::communication::LinFrame::EventTriggered(
+                lin_event_triggered_frame.0,
+            ),
+        )
+    } else if let Ok(lin_sporadic_frame) = py_any.extract::<LinSporadicFrame>() {
+        Ok(autosar_data_abstraction::communication::LinFrame::Sporadic(
+            lin_sporadic_frame.0,
+        ))
+    } else {
+        Err(pyo3::exceptions::PyTypeError::new_err(format!(
+            "'{:?}' cannot be converted to 'LinFrame'",
+            py_any.get_type().name()
+        )))
     }
 }
