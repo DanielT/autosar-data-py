@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://danielt.github.io/autosar-data-py/</loc>
+         <lastmod>2025-11-12</lastmod>
+    </url>
+    <url>
+         <loc>https://danielt.github.io/autosar-data-py/abstraction_api/</loc>
+         <lastmod>2025-11-12</lastmod>
+    </url>
+    <url>
+         <loc>https://danielt.github.io/autosar-data-py/api/</loc>
+         <lastmod>2025-11-12</lastmod>
+    </url>
+    <url>
+         <loc>https://danielt.github.io/autosar-data-py/communication_api/</loc>
+         <lastmod>2025-11-12</lastmod>
+    </url>
+    <url>
+         <loc>https://danielt.github.io/autosar-data-py/datatype_api/</loc>
+         <lastmod>2025-11-12</lastmod>
+    </url>
+    <url>
+         <loc>https://danielt.github.io/autosar-data-py/ecu_configuration_api/</loc>
+         <lastmod>2025-11-12</lastmod>
+    </url>
+    <url>
+         <loc>https://danielt.github.io/autosar-data-py/software_component_api/</loc>
+         <lastmod>2025-11-12</lastmod>
+    </url>
+</urlset>

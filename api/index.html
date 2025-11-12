@@ -1,0 +1,4959 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://danielt.github.io/autosar-data-py/api/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>API Documentation: autosar_data - Autosar Data for Python</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "API Documentation: autosar_data";
+        var mkdocs_page_input_path = "api.md";
+        var mkdocs_page_url = "/autosar-data-py/api/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Autosar Data for Python
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API documentation</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">API Documentation: autosar_data</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#example">Example</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#api">API</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#autosar_data">autosar_data</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.AttributeName">AttributeName</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.CharacterData">CharacterData</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.CharacterDataType">CharacterDataType</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.ElementContent">ElementContent</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.ElementName">ElementName</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.EnumItem">EnumItem</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.IncompatibleItemError">IncompatibleItemError</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.VersionSpecification">VersionSpecification</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.ArxmlFile">ArxmlFile</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ArxmlFile.elements_dfs">elements_dfs</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ArxmlFile.filename">filename</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ArxmlFile.model">model</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ArxmlFile.version">version</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ArxmlFile.xml_standalone">xml_standalone</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ArxmlFile.check_version_compatibility">check_version_compatibility</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ArxmlFile.elements_dfs_with_max_depth">elements_dfs_with_max_depth</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ArxmlFile.serialize">serialize</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.Attribute">Attribute</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Attribute.attrname">attrname</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Attribute.content">content</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.AttributeSpec">AttributeSpec</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AttributeSpec.attribute_name">attribute_name</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AttributeSpec.required">required</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AttributeSpec.value_spec">value_spec</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.AutosarDataError">AutosarDataError</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.AutosarModel">AutosarModel</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.elements_dfs">elements_dfs</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.files">files</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.identifiable_elements">identifiable_elements</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.root_element">root_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.check_references">check_references</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.create_file">create_file</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.duplicate">duplicate</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.get_element_by_path">get_element_by_path</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.get_references_to">get_references_to</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.load_buffer">load_buffer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.load_file">load_file</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.remove_file">remove_file</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.serialize_files">serialize_files</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.sort">sort</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarModel.write">write</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.AutosarVersion">AutosarVersion</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_00042">AUTOSAR_00042</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_00043">AUTOSAR_00043</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_00044">AUTOSAR_00044</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_00045">AUTOSAR_00045</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_00046">AUTOSAR_00046</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_00047">AUTOSAR_00047</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_00048">AUTOSAR_00048</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_00049">AUTOSAR_00049</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_00050">AUTOSAR_00050</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_00051">AUTOSAR_00051</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_00052">AUTOSAR_00052</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_00053">AUTOSAR_00053</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_4_0_1">AUTOSAR_4_0_1</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_4_0_2">AUTOSAR_4_0_2</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_4_0_3">AUTOSAR_4_0_3</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_4_1_1">AUTOSAR_4_1_1</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_4_1_2">AUTOSAR_4_1_2</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_4_1_3">AUTOSAR_4_1_3</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_4_2_1">AUTOSAR_4_2_1</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_4_2_2">AUTOSAR_4_2_2</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.AUTOSAR_4_3_0">AUTOSAR_4_3_0</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.AutosarVersion.LATEST">LATEST</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.CharacterDataTypeEnum">CharacterDataTypeEnum</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.CharacterDataTypeEnum.values">values</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.CharacterDataTypeFloat">CharacterDataTypeFloat</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.CharacterDataTypeRestrictedString">CharacterDataTypeRestrictedString</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.CharacterDataTypeRestrictedString.max_length">max_length</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.CharacterDataTypeRestrictedString.regex">regex</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.CharacterDataTypeString">CharacterDataTypeString</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.CharacterDataTypeString.max_length">max_length</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.CharacterDataTypeString.preserve_whitespace">preserve_whitespace</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.CharacterDataTypeUnsignedInt">CharacterDataTypeUnsignedInt</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.ContentMode">ContentMode</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ContentMode.Bag">Bag</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ContentMode.Characters">Characters</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ContentMode.Choice">Choice</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ContentMode.Mixed">Mixed</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ContentMode.Sequence">Sequence</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.ContentType">ContentType</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ContentType.CharacterData">CharacterData</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ContentType.Elements">Elements</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ContentType.Mixed">Mixed</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.Element">Element</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.attributes">attributes</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.character_data">character_data</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.comment">comment</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.content">content</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.content_item_count">content_item_count</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.content_type">content_type</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.element_name">element_name</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.element_type">element_type</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.elements_dfs">elements_dfs</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.file_membership">file_membership</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.is_identifiable">is_identifiable</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.is_reference">is_reference</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.item_name">item_name</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.min_version">min_version</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.model">model</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.named_parent">named_parent</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.parent">parent</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.path">path</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.position">position</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.reference_target">reference_target</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.sub_elements">sub_elements</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.xml_path">xml_path</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.add_to_file">add_to_file</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.attribute_value">attribute_value</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.create_copied_sub_element">create_copied_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.create_named_sub_element">create_named_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.create_sub_element">create_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.elements_dfs_with_max_depth">elements_dfs_with_max_depth</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.get_bsw_sub_element">get_bsw_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.get_named_sub_element">get_named_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.get_or_create_named_sub_element">get_or_create_named_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.get_or_create_sub_element">get_or_create_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.get_sub_element">get_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.get_sub_element_at">get_sub_element_at</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.insert_character_content_item">insert_character_content_item</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.list_valid_sub_elements">list_valid_sub_elements</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.move_element_here">move_element_here</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.remove_attribute">remove_attribute</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.remove_character_content_item">remove_character_content_item</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.remove_character_data">remove_character_data</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.remove_from_file">remove_from_file</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.remove_sub_element">remove_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.remove_sub_element_kind">remove_sub_element_kind</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.serialize">serialize</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.set_attribute">set_attribute</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.Element.sort">sort</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.ElementType">ElementType</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.attributes_spec">attributes_spec</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.chardata_spec">chardata_spec</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.content_mode">content_mode</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.is_named">is_named</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.is_ordered">is_ordered</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.is_ref">is_ref</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.splittable">splittable</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.std_restriction">std_restriction</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.sub_elements_spec">sub_elements_spec</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.find_attribute_spec">find_attribute_spec</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.find_sub_element">find_sub_element</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.reference_dest_value">reference_dest_value</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ElementType.splittable_in">splittable_in</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.IncompatibleAttributeError">IncompatibleAttributeError</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.IncompatibleAttributeError.allowed_versions">allowed_versions</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.IncompatibleAttributeError.attribute">attribute</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.IncompatibleAttributeError.element">element</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.IncompatibleAttributeValueError">IncompatibleAttributeValueError</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.IncompatibleAttributeValueError.allowed_versions">allowed_versions</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.IncompatibleAttributeValueError.attribute">attribute</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.IncompatibleAttributeValueError.attribute_value">attribute_value</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.IncompatibleAttributeValueError.element">element</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.IncompatibleElementError">IncompatibleElementError</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.IncompatibleElementError.allowed_versions">allowed_versions</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.IncompatibleElementError.element">element</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.SubElementSpec">SubElementSpec</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.SubElementSpec.allowed_versions">allowed_versions</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.SubElementSpec.element_name">element_name</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.SubElementSpec.element_type">element_type</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.ValidSubElementInfo">ValidSubElementInfo</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ValidSubElementInfo.element_name">element_name</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ValidSubElementInfo.is_allowed">is_allowed</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.ValidSubElementInfo.is_named">is_named</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.check_buffer">check_buffer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.check_file">check_file</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Abstraction</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../abstraction_api/">API Documentation: autosar_data.abstraction</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../communication_api/">Communication</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../datatype_api/">Datatype</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ecu_configuration_api/">ECU configuration</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../software_component_api/">Software Component</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Autosar Data for Python</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">API documentation</li>
+      <li class="breadcrumb-item active">API Documentation: autosar_data</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/danielt/autosar-data-py/edit/master/docs/api.md">Edit on danielt/autosar-data-py</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="api-documentation-autosar_data">API Documentation: autosar_data<a class="headerlink" href="#api-documentation-autosar_data" title="Permanent link">&para;</a></h1>
+<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
+<pre class="codehilite"><code class="language-python">from autosar_data import *
+# alternatively: create a new data model from scratch
+model = AutosarModel()
+
+# create a file in the model
+file1 = model.create_file(&quot;filename.arxml&quot;, AutosarVersion.AUTOSAR_4_3_0)
+# a model can consist of multiple files - elements appear in all of them by default, unless restrictions are set
+file2 = model.create_file(&quot;filename2.arxml&quot;, AutosarVersion.AUTOSAR_00051)
+
+# initially the model only has its root element, &lt;AUTOSAR&gt;. Create some elements
+el_elements = model.root_element \
+    .create_sub_element(&quot;AR-PACKAGES&quot;) \
+    .create_named_sub_element(&quot;AR-PACKAGE&quot;, &quot;Pkg&quot;) \
+    .create_sub_element(&quot;ELEMENTS&quot;)
+
+# create some more elements
+el_fibex_element_ref = el_elements \
+    .create_named_sub_element(&quot;SYSTEM&quot;, &quot;System&quot;) \
+    .create_sub_element(&quot;FIBEX-ELEMENTS&quot;) \
+    .create_sub_element(&quot;FIBEX-ELEMENT-REF-CONDITIONAL&quot;) \
+    .create_sub_element(&quot;FIBEX-ELEMENT-REF&quot;)
+el_can_cluster = model.root_element \
+    .get_sub_element(&quot;AR-PACKAGES&quot;) \
+    .create_named_sub_element(&quot;AR-PACKAGE&quot;, &quot;Pkg2&quot;) \
+    .create_sub_element(&quot;ELEMENTS&quot;) \
+    .create_named_sub_element(&quot;CAN-CLUSTER&quot;, &quot;CanCluster&quot;)
+
+# set a cross reference
+el_fibex_element_ref.reference_target = el_can_cluster
+
+# check the cross reference
+el_fibex_element_ref.character_data
+# '/Pkg2/CanCluster'
+el_fibex_element_ref.reference_target == el_can_cluster
+# True
+
+# get an attribute
+el_fibex_element_ref.attribute_value(&quot;DEST&quot;)
+# EnumItem.CanCluster
+model.root_element.attribute_value(&quot;xmlns&quot;)
+# 'http://autosar.org/schema/r4.0'
+
+# set an attribute value
+el_fibex_element_ref.set_attribute(&quot;DEST&quot;, &quot;I-SIGNAL&quot;)
+# setting the DEST of the reference to an invalid value has invalidated the
+# reference, so accessing el_fibex_element_ref.reference_target will now cause an exception
+
+el_can_cluster.set_attribute(&quot;UUID&quot;, &quot;1234567890abcdefg&quot;)
+
+# get the current xml text of the model:
+print(file1.serialize())
+# this prints &quot;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;\n&lt;AUTOSAR ...&quot;
+
+# write all the files in the model - this will create filename.arxml and filename2.arxml with identical content
+model.write()
+
+# get the autosar paths of all elements in the model
+paths = model.identifiable_elements
+# paths = ['/Pkg', '/Pkg/System', '/Pkg2', '/Pkg2/CanCluster']
+
+# get an element by its path
+el_ar_package1 = model.get_element_by_path(&quot;/Pkg&quot;)
+el_ar_package2 = model.get_element_by_path(&quot;/Pkg2&quot;)
+el_system = model.get_element_by_path(&quot;/Pkg/System&quot;)
+
+# restrict the packages to only appear in one file each
+el_ar_package1.remove_from_file(file2)
+el_ar_package2.remove_from_file(file1)
+
+# write all the files in the model - now the content is different
+model.write()
+</code></pre>
+
+<h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="autosar_data" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">autosar_data</span>
+
+
+<a href="#autosar_data" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Provides functionality to read, modify and write Autosar arxml files,
+both separately and in projects consisting of multiple files.</p>
+<p>Classes:</p>
+<ul>
+<li>ArxmlFile</li>
+<li>AutosarModel</li>
+<li>AutosarVersion</li>
+<li>Element</li>
+<li>ElementType</li>
+<li>ValidSubElementInfo</li>
+</ul>
+<p>Variables:</p>
+<ul>
+<li><strong>version</strong></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="autosar_data.AttributeName" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AttributeName</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AttributeName" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">AttributeName: TypeAlias = Literal[
+    "ACCESSKEY",
+    "ALIGN",
+    "ALLOW-BREAK",
+    "ALT",
+    "BASE",
+    "BGCOLOR",
+    "BINDING-TIME",
+    "BLUEPRINT-VALUE",
+    "BREAK",
+    "CLASS",
+    "COLNAME",
+    "COLNUM",
+    "COLOR",
+    "COLS",
+    "COLSEP",
+    "COLWIDTH",
+    "COORDS",
+    "DEST",
+    "EDIT-HEIGHT",
+    "EDIT-WIDTH",
+    "EDITFIT",
+    "EDITSCALE",
+    "ENUM-TABLE",
+    "FILENAME",
+    "FIT",
+    "FLOAT",
+    "FONT",
+    "FRAME",
+    "GENERATOR",
+    "GID",
+    "HEIGHT",
+    "HELP-ENTRY",
+    "HREF",
+    "HTML-FIT",
+    "HTML-HEIGHT",
+    "HTML-SCALE",
+    "HTML-WIDTH",
+    "INDEX",
+    "INTERVAL-TYPE",
+    "ITEM-LABEL-POS",
+    "KEEP-WITH-PREVIOUS",
+    "L",
+    "LEVEL",
+    "MIME-TYPE",
+    "MOREROWS",
+    "NAME",
+    "NAME-PATTERN",
+    "NAMEEND",
+    "NAMEST",
+    "NOHREF",
+    "NOTATION",
+    "NOTE-TYPE",
+    "ONBLUR",
+    "ONCLICK",
+    "ONDBLCLICK",
+    "ONFOCUS",
+    "ONKEYDOWN",
+    "ONKEYPRESS",
+    "ONKEYUP",
+    "ONMOUSEDOWN",
+    "ONMOUSEMOVE",
+    "ONMOUSEOUT",
+    "ONMOUSEOVER",
+    "ONMOUSEUP",
+    "ORIENT",
+    "PGWIDE",
+    "RESOLUTION-POLICY",
+    "ROTATE",
+    "ROWSEP",
+    "S",
+    "SCALE",
+    "SD",
+    "SHAPE",
+    "SHORT-LABEL",
+    "SHOW-CONTENT",
+    "SHOW-RESOURCE-ALIAS-NAME",
+    "SHOW-RESOURCE-CATEGORY",
+    "SHOW-RESOURCE-LONG-NAME",
+    "SHOW-RESOURCE-NUMBER",
+    "SHOW-RESOURCE-PAGE",
+    "SHOW-RESOURCE-SHORT-NAME",
+    "SHOW-RESOURCE-TYPE",
+    "SHOW-SEE",
+    "SI",
+    "SPANNAME",
+    "STYLE",
+    "T",
+    "TABINDEX",
+    "TABSTYLE",
+    "TEX-RENDER",
+    "TITLE",
+    "TYPE",
+    "UUID",
+    "VALIDITY",
+    "VALIGN",
+    "VIEW",
+    "WIDTH",
+    "xml:space",
+    "xmlns",
+    "xmlns:xsi",
+    "xsi:schemaLocation",
+]
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="autosar_data.CharacterData" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">CharacterData</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.CharacterData" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">CharacterData: TypeAlias = Union[EnumItem, str, int, float]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="autosar_data.CharacterDataType" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">CharacterDataType</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.CharacterDataType" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">CharacterDataType: TypeAlias = Union[
+    CharacterDataTypeEnum,
+    CharacterDataTypeFloat,
+    CharacterDataTypeRestrictedString,
+    CharacterDataTypeString,
+    CharacterDataTypeUnsignedInt,
+]
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="autosar_data.ElementContent" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">ElementContent</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.ElementContent" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">ElementContent: TypeAlias = Union[Element, CharacterData]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="autosar_data.ElementName" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">ElementName</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.ElementName" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">ElementName: TypeAlias = str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="autosar_data.EnumItem" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">EnumItem</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.EnumItem" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">EnumItem: TypeAlias = str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="autosar_data.IncompatibleItemError" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">IncompatibleItemError</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.IncompatibleItemError" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">IncompatibleItemError: TypeAlias = Union[
+    IncompatibleAttributeError,
+    IncompatibleAttributeValueError,
+    IncompatibleElementError,
+]
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="autosar_data.VersionSpecification" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">VersionSpecification</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.VersionSpecification" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">VersionSpecification: TypeAlias = Union[
+    AutosarVersion, List[AutosarVersion]
+]
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.ArxmlFile" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ArxmlFile</span>
+
+
+<a href="#autosar_data.ArxmlFile" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Represents a file that is part of an AutosarModel</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ArxmlFile.elements_dfs" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">elements_dfs</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ArxmlFile.elements_dfs" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">elements_dfs: Iterator[Tuple[int, Element]]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ArxmlFile.filename" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">filename</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ArxmlFile.filename" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">filename: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ArxmlFile.model" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">model</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ArxmlFile.model" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">model: AutosarModel</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get the autosar model that is built from the ARXML files</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ArxmlFile.version" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">version</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ArxmlFile.version" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">version: AutosarVersion</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ArxmlFile.xml_standalone" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">xml_standalone</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ArxmlFile.xml_standalone" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">xml_standalone: bool</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>get the "xml_standalone" attribute from the header of the ARXML file</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.ArxmlFile.check_version_compatibility" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">check_version_compatibility</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.ArxmlFile.check_version_compatibility" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">check_version_compatibility() -&gt; List[
+    IncompatibleItemError
+]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Check if the data in the ARXML file is compatible with the given target version</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.ArxmlFile.elements_dfs_with_max_depth" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">elements_dfs_with_max_depth</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.ArxmlFile.elements_dfs_with_max_depth" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">elements_dfs_with_max_depth(
+    max_depth: int,
+) -&gt; Iterator[Tuple[int, Element]]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>dfs iterator over all elements in this file, with a maximum depth</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.ArxmlFile.serialize" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">serialize</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.ArxmlFile.serialize" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">serialize() -&gt; str</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Serialize the ARXML file to a string</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.Attribute" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Attribute</span>
+
+
+<a href="#autosar_data.Attribute" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>An attribute on an element</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Attribute.attrname" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">attrname</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Attribute.attrname" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">attrname: AttributeName</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Attribute.content" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">content</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.Attribute.content" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">content: CharacterData = &lt;member 'content' of 'autosar_data._autosar_data.Attribute' objects&gt;</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.AttributeSpec" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">AttributeSpec</span>
+
+
+<a href="#autosar_data.AttributeSpec" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Specification of an attribute</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AttributeSpec.attribute_name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">attribute_name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.AttributeSpec.attribute_name" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">attribute_name: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>name of the attribute</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AttributeSpec.required" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">required</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.AttributeSpec.required" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">required: bool</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>is the attribute required or optional</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AttributeSpec.value_spec" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">value_spec</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.AttributeSpec.value_spec" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">value_spec: CharacterDataType</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.AutosarDataError" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">AutosarDataError</span>
+
+
+<a href="#autosar_data.AutosarDataError" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code>builtins.Exception</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.AutosarModel" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">AutosarModel</span>
+
+
+<a href="#autosar_data.AutosarModel" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Autosar data model. It contains all elements.</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarModel.elements_dfs" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">elements_dfs</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.elements_dfs" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">elements_dfs: Iterator[Tuple[int, Element]]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>depth first dearch iterator over all elements in the model, regardless of their association with a file</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarModel.files" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">files</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.files" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">files: List[ArxmlFile]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>a list of ArxmlFile objects containing all files in the model</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarModel.identifiable_elements" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">identifiable_elements</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.identifiable_elements" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">identifiable_elements: Iterator[Tuple[str, Element]]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Iterate over pairs of (path, element) for all identifiable elements in the model</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarModel.root_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">root_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.root_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">root_element: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>The root element of the model, <AUTOSAR></p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.AutosarModel.check_references" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">check_references</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.check_references" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">check_references() -&gt; List[Element]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>check all references in the model and return a list of elements containing invalid references</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.AutosarModel.create_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_file</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.create_file" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_file(
+    filename: str, /, version: AutosarVersion = Ellipsis
+) -&gt; ArxmlFile</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new file in the model</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.AutosarModel.duplicate" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">duplicate</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.duplicate" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">duplicate() -&gt; AutosarModel</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>duplicate the model, creating a new independent copy</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.AutosarModel.get_element_by_path" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_element_by_path</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.get_element_by_path" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">get_element_by_path(path) -&gt; Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>get an identifiable element in the model by its Autosar path</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.AutosarModel.get_references_to" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_references_to</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.get_references_to" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">get_references_to(target_path: str) -&gt; List[Element]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>get all reference elements which refer to the given Autosar path</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.AutosarModel.load_buffer" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">load_buffer</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.load_buffer" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">load_buffer(
+    buffer: str, filename: str, /, strict: bool = False
+) -&gt; Tuple[ArxmlFile, List[str]]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>load a buffer (string) as arxml</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.AutosarModel.load_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">load_file</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.load_file" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">load_file(
+    filename: str, /, strict: bool = False
+) -&gt; Tuple[ArxmlFile, List[str]]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>load a file as arxml</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.AutosarModel.remove_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove_file</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.remove_file" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove_file(file) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>remove a file from the model. Any elements belonging exclusively to that file will also be removed.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.AutosarModel.serialize_files" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">serialize_files</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.serialize_files" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">serialize_files() -&gt; Dict[str, str]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>serialize all files individually, to generate a dict(filename, serialized content),</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.AutosarModel.sort" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">sort</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.sort" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">sort() -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>sort the entire model in place. Takes all ordering constraints into account.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.AutosarModel.write" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">write</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarModel.write" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">write() -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>write all files in the model to disk</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.AutosarVersion" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">AutosarVersion</span>
+
+
+<a href="#autosar_data.AutosarVersion" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_00042" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_00042</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_00042" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_00042: AutosarVersion = AutosarVersion.AUTOSAR_00042
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_00043" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_00043</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_00043" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_00043: AutosarVersion = AutosarVersion.AUTOSAR_00043
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_00044" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_00044</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_00044" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_00044: AutosarVersion = AutosarVersion.AUTOSAR_00044
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_00045" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_00045</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_00045" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_00045: AutosarVersion = AutosarVersion.AUTOSAR_00045
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_00046" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_00046</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_00046" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_00046: AutosarVersion = AutosarVersion.AUTOSAR_00046
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_00047" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_00047</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_00047" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_00047: AutosarVersion = AutosarVersion.AUTOSAR_00047
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_00048" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_00048</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_00048" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_00048: AutosarVersion = AutosarVersion.AUTOSAR_00048
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_00049" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_00049</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_00049" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_00049: AutosarVersion = AutosarVersion.AUTOSAR_00049
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_00050" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_00050</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_00050" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_00050: AutosarVersion = AutosarVersion.AUTOSAR_00050
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_00051" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_00051</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_00051" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_00051: AutosarVersion = AutosarVersion.AUTOSAR_00051
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_00052" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_00052</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_00052" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_00052: AutosarVersion = AutosarVersion.AUTOSAR_00052
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_00053" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_00053</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_00053" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_00053: AutosarVersion = AutosarVersion.AUTOSAR_00053
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_4_0_1" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_4_0_1</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_4_0_1" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_4_0_1: AutosarVersion = AutosarVersion.AUTOSAR_4_0_1
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_4_0_2" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_4_0_2</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_4_0_2" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_4_0_2: AutosarVersion = AutosarVersion.AUTOSAR_4_0_2
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_4_0_3" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_4_0_3</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_4_0_3" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_4_0_3: AutosarVersion = AutosarVersion.AUTOSAR_4_0_3
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_4_1_1" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_4_1_1</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_4_1_1" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_4_1_1: AutosarVersion = AutosarVersion.AUTOSAR_4_1_1
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_4_1_2" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_4_1_2</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_4_1_2" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_4_1_2: AutosarVersion = AutosarVersion.AUTOSAR_4_1_2
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_4_1_3" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_4_1_3</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_4_1_3" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_4_1_3: AutosarVersion = AutosarVersion.AUTOSAR_4_1_3
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_4_2_1" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_4_2_1</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_4_2_1" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_4_2_1: AutosarVersion = AutosarVersion.AUTOSAR_4_2_1
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_4_2_2" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_4_2_2</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_4_2_2" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_4_2_2: AutosarVersion = AutosarVersion.AUTOSAR_4_2_2
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.AUTOSAR_4_3_0" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AUTOSAR_4_3_0</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.AUTOSAR_4_3_0" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AUTOSAR_4_3_0: AutosarVersion = AutosarVersion.AUTOSAR_4_3_0
+</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.AutosarVersion.LATEST" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">LATEST</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.AutosarVersion.LATEST" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">LATEST: AutosarVersion = AutosarVersion.LATEST</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.CharacterDataTypeEnum" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CharacterDataTypeEnum</span>
+
+
+<a href="#autosar_data.CharacterDataTypeEnum" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>The character data in an element or attribute is an enum value</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.CharacterDataTypeEnum.values" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">values</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.CharacterDataTypeEnum.values" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">values: List[str]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>list of permitted enum values</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.CharacterDataTypeFloat" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CharacterDataTypeFloat</span>
+
+
+<a href="#autosar_data.CharacterDataTypeFloat" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>The character data in an element or attribute is a float</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.CharacterDataTypeRestrictedString" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CharacterDataTypeRestrictedString</span>
+
+
+<a href="#autosar_data.CharacterDataTypeRestrictedString" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>The character data in an element or attribute is a string that must match a regex</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.CharacterDataTypeRestrictedString.max_length" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">max_length</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.CharacterDataTypeRestrictedString.max_length" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">max_length</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>max length (if any)</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.CharacterDataTypeRestrictedString.regex" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">regex</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.CharacterDataTypeRestrictedString.regex" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">regex: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>validation regex</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.CharacterDataTypeString" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CharacterDataTypeString</span>
+
+
+<a href="#autosar_data.CharacterDataTypeString" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>The character data in an element or attribute is a string</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.CharacterDataTypeString.max_length" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">max_length</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.CharacterDataTypeString.max_length" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">max_length</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>max length (if any)</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.CharacterDataTypeString.preserve_whitespace" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">preserve_whitespace</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.CharacterDataTypeString.preserve_whitespace" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">preserve_whitespace</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>does this element preserve whitespace in its character data</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.CharacterDataTypeUnsignedInt" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CharacterDataTypeUnsignedInt</span>
+
+
+<a href="#autosar_data.CharacterDataTypeUnsignedInt" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>The character data in an element or attribute is an unsigned integer</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.ContentMode" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ContentMode</span>
+
+
+<a href="#autosar_data.ContentMode" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>The content mode of an element type</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ContentMode.Bag" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">Bag</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.ContentMode.Bag" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">Bag: ContentMode = Bag</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>The content mode of an element type</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ContentMode.Characters" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">Characters</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.ContentMode.Characters" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">Characters: ContentMode = Characters</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>The content mode of an element type</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ContentMode.Choice" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">Choice</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.ContentMode.Choice" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">Choice: ContentMode = Choice</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>The content mode of an element type</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ContentMode.Mixed" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">Mixed</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.ContentMode.Mixed" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">Mixed: ContentMode = Mixed</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>The content mode of an element type</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ContentMode.Sequence" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">Sequence</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.ContentMode.Sequence" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">Sequence: ContentMode = Sequence</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>The content mode of an element type</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.ContentType" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ContentType</span>
+
+
+<a href="#autosar_data.ContentType" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>The content type of an element</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ContentType.CharacterData" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">CharacterData</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.ContentType.CharacterData" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">CharacterData: ContentType = CharacterData</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>The content type of an element</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ContentType.Elements" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">Elements</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.ContentType.Elements" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">Elements: ContentType = Elements</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>The content type of an element</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ContentType.Mixed" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">Mixed</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.ContentType.Mixed" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">Mixed: ContentType = Mixed</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>The content type of an element</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.Element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Element</span>
+
+
+<a href="#autosar_data.Element" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>An element in the Autosar data model</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.attributes" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">attributes</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.attributes" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">attributes: Iterator[Attribute]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.character_data" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">character_data</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.character_data" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">character_data: CharacterData</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.comment" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">comment</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.comment" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">comment: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.content" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">content</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.content" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">content: Iterator[Union[Element, CharacterData]]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.content_item_count" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">content_item_count</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.content_item_count" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">content_item_count: int</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.content_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">content_type</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.content_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">content_type: ContentType</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.element_name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element_name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.element_name" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element_name: ElementName</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.element_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element_type</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.element_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element_type: ElementType</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.elements_dfs" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">elements_dfs</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.elements_dfs" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">elements_dfs: Iterator[Tuple[int, Element]]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.file_membership" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">file_membership</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.file_membership" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">file_membership: Tuple[bool, FrozenSet[ArxmlFile]]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.is_identifiable" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">is_identifiable</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.is_identifiable" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">is_identifiable: bool</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.is_reference" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">is_reference</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.is_reference" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">is_reference: bool</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.item_name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">item_name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.item_name" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">item_name: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.min_version" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">min_version</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.min_version" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">min_version: AutosarVersion</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.model" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">model</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.model" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">model: AutosarModel</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.named_parent" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">named_parent</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.named_parent" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">named_parent: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.parent" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">parent</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.parent" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">parent: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.path" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">path</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.path" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">path: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.position" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">position</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.position" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">position: int</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.reference_target" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">reference_target</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.reference_target" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">reference_target: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Set the reference target of a reference element</p>
+<p>This is only valid for elements with a reference content type.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.sub_elements" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">sub_elements</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.sub_elements" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">sub_elements: Iterator[Element]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.Element.xml_path" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">xml_path</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.Element.xml_path" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">xml_path: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.add_to_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">add_to_file</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.add_to_file" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">add_to_file(file: ArxmlFile) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>add the element to a file. if necessary all parent elements of this element also become part of the file</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.attribute_value" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">attribute_value</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.attribute_value" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">attribute_value(attrname_str) -&gt; CharacterData</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>get the attribute value of a specific attribute. Returns None if that attribute is not set</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.create_copied_sub_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_copied_sub_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.create_copied_sub_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_copied_sub_element() -&gt; Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a new sub-element by copying the given element and all its children</p>
+<p>This creates a fully-independen copy. The function can copy elements between different models.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.create_named_sub_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_named_sub_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.create_named_sub_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_named_sub_element() -&gt; Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a new sub-element with the given element name and item name</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.create_sub_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_sub_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.create_sub_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_sub_element() -&gt; Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a new sub-element with the given element name</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.elements_dfs_with_max_depth" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">elements_dfs_with_max_depth</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.elements_dfs_with_max_depth" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">elements_dfs_with_max_depth(
+    max_depth: int,
+) -&gt; Iterator[Tuple[int, Element]]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>depth first search iterator for this element and all of its sub elements, with a maximum depth</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.get_bsw_sub_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_bsw_sub_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.get_bsw_sub_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">get_bsw_sub_element() -&gt; Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>get the sub element with the given definition ref. It is possible to specify either the full definition ref, or only the last part after the final '/'</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.get_named_sub_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_named_sub_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.get_named_sub_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">get_named_sub_element() -&gt; Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get the sub-element with the given item name, if it exists</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.get_or_create_named_sub_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_or_create_named_sub_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.get_or_create_named_sub_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">get_or_create_named_sub_element() -&gt; Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get or create a sub-element with the given element name and item name</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.get_or_create_sub_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_or_create_sub_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.get_or_create_sub_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">get_or_create_sub_element() -&gt; Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get or create a sub-element with the given element name</p>
+<p>This is used to ensure that a sub-element with the given name exists.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.get_sub_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_sub_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.get_sub_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">get_sub_element() -&gt; Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get a sub-element with the given element name</p>
+<p>If multiple sub-elements with the same name exist, only the first one is returned.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.get_sub_element_at" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_sub_element_at</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.get_sub_element_at" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">get_sub_element_at() -&gt; Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get a sub-element at the given position</p>
+<p>The position is 0-based, and must be less than the number of sub-elements.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.insert_character_content_item" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">insert_character_content_item</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.insert_character_content_item" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">insert_character_content_item() -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>for elements with ElementType mixed, this allows character data to be inserted at any point in the content of this element</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.list_valid_sub_elements" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">list_valid_sub_elements</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.list_valid_sub_elements" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">list_valid_sub_elements() -&gt; List[ValidSubElementInfo]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>provide information about valid sub elements as a list of ValidSubElementInfo</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.move_element_here" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">move_element_here</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.move_element_here" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">move_element_here() -&gt; Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Move the given element to become a sub-element of this element</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.remove_attribute" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove_attribute</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.remove_attribute" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove_attribute() -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>remove an attribute from the element</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.remove_character_content_item" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove_character_content_item</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.remove_character_content_item" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove_character_content_item() -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>remove one character content item from the given position</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.remove_character_data" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove_character_data</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.remove_character_data" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove_character_data() -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Remove the character data from the element</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.remove_from_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove_from_file</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.remove_from_file" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove_from_file(file: ArxmlFile) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>remove this element from a file. Does not affect parent elements. When an element is no longer part of any file it is deleted.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.remove_sub_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove_sub_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.remove_sub_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove_sub_element() -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Remove the given sub-element from this element</p>
+<p>Removing the element invalidates it, and causes all of the removed elements children to be removed as well.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.remove_sub_element_kind" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove_sub_element_kind</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.remove_sub_element_kind" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove_sub_element_kind() -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Remove a sub-element with the given element name</p>
+<p>If multiple sub-elements with the same name exist, only the first one is removed.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.serialize" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">serialize</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.serialize" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">serialize() -&gt; str</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Serialize the element to a string in XML format</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.set_attribute" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">set_attribute</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.set_attribute" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">set_attribute(attrname_str, value) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>set the given attribute to the provided value. If the attribute is valid for this element it will be created or modified as needed.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.Element.sort" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">sort</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.Element.sort" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">sort() -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>sort this element and all of its sub elements</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.ElementType" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ElementType</span>
+
+
+<a href="#autosar_data.ElementType" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Type of an Element in the specification</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ElementType.attributes_spec" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">attributes_spec</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.attributes_spec" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">attributes_spec: List[AttributeSpec]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ElementType.chardata_spec" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">chardata_spec</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.chardata_spec" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">chardata_spec: CharacterDataType</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ElementType.content_mode" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">content_mode</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.content_mode" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">content_mode: ContentMode</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ElementType.is_named" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">is_named</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.is_named" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">is_named: bool</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ElementType.is_ordered" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">is_ordered</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.is_ordered" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">is_ordered: bool</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ElementType.is_ref" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">is_ref</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.is_ref" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">is_ref: bool</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ElementType.splittable" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">splittable</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.splittable" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">splittable: List[AutosarVersion]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ElementType.std_restriction" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">std_restriction</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.std_restriction" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">std_restriction: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ElementType.sub_elements_spec" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">sub_elements_spec</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.sub_elements_spec" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">sub_elements_spec: List[SubElementSpec]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.ElementType.find_attribute_spec" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">find_attribute_spec</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.find_attribute_spec" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">find_attribute_spec(attrname_str) -&gt; AttributeSpec</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>find the specification for the given attribute name</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.ElementType.find_sub_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">find_sub_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.find_sub_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">find_sub_element(
+    target_name: ElementName, version_obj
+) -&gt; ElementType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>find the ElementType of the named sub element in the specification of this ElementType</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.ElementType.reference_dest_value" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">reference_dest_value</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.reference_dest_value" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">reference_dest_value(target: ElementType) -&gt; EnumItem</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>helper to determine the correct value for the DEST attribute when setting a reference</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.ElementType.splittable_in" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">splittable_in</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.ElementType.splittable_in" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">splittable_in(version: AutosarVersion) -&gt; bool</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>is this element splittable in a particular AutosarVersion</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.IncompatibleAttributeError" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">IncompatibleAttributeError</span>
+
+
+<a href="#autosar_data.IncompatibleAttributeError" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Information about an attribute that is incompatible with a given target version</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.IncompatibleAttributeError.allowed_versions" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">allowed_versions</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.IncompatibleAttributeError.allowed_versions" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">allowed_versions: List[AutosarVersion]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.IncompatibleAttributeError.attribute" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">attribute</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.IncompatibleAttributeError.attribute" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">attribute: AttributeName</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.IncompatibleAttributeError.element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.IncompatibleAttributeError.element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.IncompatibleAttributeValueError" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">IncompatibleAttributeValueError</span>
+
+
+<a href="#autosar_data.IncompatibleAttributeValueError" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Information about an attribute value that is incompatible with a given target version</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.IncompatibleAttributeValueError.allowed_versions" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">allowed_versions</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.IncompatibleAttributeValueError.allowed_versions" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">allowed_versions: List[AutosarVersion]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.IncompatibleAttributeValueError.attribute" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">attribute</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.IncompatibleAttributeValueError.attribute" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">attribute: AttributeName</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.IncompatibleAttributeValueError.attribute_value" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">attribute_value</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.IncompatibleAttributeValueError.attribute_value" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">attribute_value: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.IncompatibleAttributeValueError.element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.IncompatibleAttributeValueError.element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.IncompatibleElementError" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">IncompatibleElementError</span>
+
+
+<a href="#autosar_data.IncompatibleElementError" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Information about an element that is incompatible with a given target version</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.IncompatibleElementError.allowed_versions" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">allowed_versions</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.IncompatibleElementError.allowed_versions" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">allowed_versions: List[AutosarVersion]</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.IncompatibleElementError.element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.IncompatibleElementError.element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.SubElementSpec" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">SubElementSpec</span>
+
+
+<a href="#autosar_data.SubElementSpec" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Specification of a sub element</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.SubElementSpec.allowed_versions" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">allowed_versions</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.SubElementSpec.allowed_versions" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">allowed_versions: List[AutosarVersion]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>list of versions in which this sub element is compatible</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.SubElementSpec.element_name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element_name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.SubElementSpec.element_name" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element_name: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>name of the sub element</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.SubElementSpec.element_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element_type</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.SubElementSpec.element_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element_type: ElementType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>element type of the sub element</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.ValidSubElementInfo" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ValidSubElementInfo</span>
+
+
+<a href="#autosar_data.ValidSubElementInfo" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Details about a particular sub element</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ValidSubElementInfo.element_name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element_name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ValidSubElementInfo.element_name" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element_name: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ValidSubElementInfo.is_allowed" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">is_allowed</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ValidSubElementInfo.is_allowed" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">is_allowed: bool</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.ValidSubElementInfo.is_named" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">is_named</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.ValidSubElementInfo.is_named" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">is_named: bool</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="autosar_data.check_buffer" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">check_buffer</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-builtin"><code>builtin</code></small>
+  </span>
+
+<a href="#autosar_data.check_buffer" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">check_buffer()</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Check if the given buffer contains valid Autosar data</p>
+<p>The function returns true if the buffer starts with a valid arxml header (after
+skipping whitespace and comments). This function does not check anything after the header.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="autosar_data.check_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">check_file</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-builtin"><code>builtin</code></small>
+  </span>
+
+<a href="#autosar_data.check_file" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">check_file(filename: str)</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Check if the file contains arxml data. Returns true if an arxml file header is found and does not parse anything after it.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../abstraction_api/" class="btn btn-neutral float-right" title="API Documentation: autosar_data.abstraction">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2025 Daniel Thaler</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/danielt/autosar-data-py" class="fa fa-code-fork" style="color: #fcfcfc"> danielt/autosar-data-py</a>
+        </span>
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../abstraction_api/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

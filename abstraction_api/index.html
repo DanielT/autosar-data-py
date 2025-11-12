@@ -1,0 +1,3728 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://danielt.github.io/autosar-data-py/abstraction_api/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>API Documentation: autosar_data.abstraction - Autosar Data for Python</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "API Documentation: autosar_data.abstraction";
+        var mkdocs_page_input_path = "abstraction_api.md";
+        var mkdocs_page_url = "/autosar-data-py/abstraction_api/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Autosar Data for Python
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API documentation</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../api/">API Documentation: autosar_data</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Abstraction</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">API Documentation: autosar_data.abstraction</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#description">Description</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#example">Example</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#api">API</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#autosar_data.abstraction">abstraction</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.abstraction.ArPackage">ArPackage</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.abstraction.AutosarModelAbstraction">AutosarModelAbstraction</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.abstraction.ByteOrder">ByteOrder</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.abstraction.EcuInstance">EcuInstance</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.abstraction.SenderReceiverToSignalMapping">SenderReceiverToSignalMapping</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.abstraction.SwcToEcuMapping">SwcToEcuMapping</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.abstraction.System">System</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.abstraction.SystemCategory">SystemCategory</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#autosar_data.abstraction.SystemMapping">SystemMapping</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../communication_api/">Communication</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../datatype_api/">Datatype</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ecu_configuration_api/">ECU configuration</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../software_component_api/">Software Component</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Autosar Data for Python</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">API documentation</li>
+          <li class="breadcrumb-item">Abstraction</li>
+      <li class="breadcrumb-item active">API Documentation: autosar_data.abstraction</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/danielt/autosar-data-py/edit/master/docs/abstraction_api.md">Edit on danielt/autosar-data-py</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="api-documentation-autosar_dataabstraction">API Documentation: autosar_data.abstraction<a class="headerlink" href="#api-documentation-autosar_dataabstraction" title="Permanent link">&para;</a></h1>
+<h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
+<p>The base package of the abstraction API provides a small number of classes shared by it's sub-packages.
+it would usually only be used in combination with one of these:</p>
+<ul>
+<li><a href="../communication_api/">autosar_data.abstraction.communication</a>: Communication over various busses</li>
+<li><a href="../datatype_api/">autosar_data.abstraction.datatype</a>: data types used in the definition of software components and signals</li>
+<li><a href="../ecu_configuration_api/">autosar_data.abstraction.ecu_configuration</a>: Access to the definition and values of an ECU configuration</li>
+<li><a href="../software_component_api/">autosar_data.abstraction.software_component</a>: Modeling of software components</li>
+</ul>
+<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
+<pre class="codehilite"><code class="language-python">from autosar_data.abstraction import *
+from autosar_data.abstraction.communication import *
+from autosar_data.abstraction.datatype import *
+
+model = AutosarModelAbstraction.create(&quot;kitchen_comms.arxml&quot;)
+system_package = model.get_or_create_package(&quot;/System&quot;)
+ecu_package = model.get_or_create_package(&quot;/Ecus&quot;)
+swc_package = model.get_or_create_package(&quot;/SoftwareComponentTypes&quot;)
+comm_package = model.get_or_create_package(&quot;/Communication&quot;)
+frames_package = model.get_or_create_package(&quot;/Frames&quot;)
+pdus_package = model.get_or_create_package(&quot;/Pdus&quot;)
+signals_package = model.get_or_create_package(&quot;/Signals&quot;)
+datatypes_package = model.get_or_create_package(&quot;/DataTypes&quot;)
+interfaces_package = model.get_or_create_package(&quot;/Interfaces&quot;)
+
+# basic model elements
+system = system_package.create_system(&quot;system&quot;, SystemCategory.EcuExtract)
+
+toaster_ecu = system.create_ecu_instance(&quot;ToasterEcu&quot;, ecu_package)
+fridge_ecu = system.create_ecu_instance(&quot;FridgeEcu&quot;, ecu_package)
+
+# software component types: The system root contains two software components, one for a toaster and one for a fridge.
+root_composition_type = swc_package.create_composition_sw_component_type(
+    &quot;RootCompositionType&quot;
+)
+toaster_app_swc_type = swc_package.create_application_sw_component_type(
+    &quot;ToasterAppSwcType&quot;
+)
+toaster_app_swc = root_composition_type.create_component(
+    &quot;ToasterAppSwc&quot;, toaster_app_swc_type
+)
+fridge_app_swc_type = swc_package.create_application_sw_component_type(
+    &quot;FridgeAppSwcType&quot;
+)
+fridge_app_swc = root_composition_type.create_component(
+    &quot;FridgeAppSwc&quot;, fridge_app_swc_type
+)
+
+# map the software components to the ECUs
+root_composition = system.set_root_sw_composition(
+    &quot;RootComposition&quot;, root_composition_type
+)
+system_mapping = system.get_or_create_mapping(&quot;SystemMapping&quot;)
+system_mapping.map_swc_to_ecu(&quot;ToasterEcuMapping&quot;, toaster_app_swc, toaster_ecu)
+system_mapping.map_swc_to_ecu(&quot;FridgeEcuMapping&quot;, fridge_app_swc, fridge_ecu)
+
+# communication over can
+can_cluster = system.create_can_cluster(&quot;CanBus&quot;, comm_package)
+can_channel = can_cluster.create_physical_channel(&quot;CanChannel&quot;)
+
+# both ECUs participate in the same CAN cluster
+toaster_can_ctrl = toaster_ecu.create_can_communication_controller(&quot;ToasterCanCtrl&quot;)
+toaster_can_ctrl.connect_physical_channel(&quot;Connection&quot;, can_channel)
+fridge_can_ctrl = fridge_ecu.create_can_communication_controller(&quot;FridgeCanCtrl&quot;)
+fridge_can_ctrl.connect_physical_channel(&quot;Connection&quot;, can_channel)
+
+# create CAN frames, each containing a PDU and some signals
+# Toaster to Fridge communication: Create a frame and trigger it in the channel on id 0x101.
+toaster_to_fridge_frame = system.create_can_frame(
+    &quot;ToasterToFridgeFrame&quot;, frames_package, 8
+)
+can_channel.trigger_frame(
+    toaster_to_fridge_frame, 0x101, CanAddressingMode.Standard, CanFrameType.Can20
+)
+toaster_to_fridge_pdu = system.create_isignal_ipdu(
+    &quot;ToasterToFridgePdu&quot;, pdus_package, 8
+)
+# Create a PDU and trigger it in the frame at byte offset 0. CAN Frames do not allow multiple PDUs
+toaster_to_fridge_frame.map_pdu(
+    toaster_to_fridge_pdu, 0, ByteOrder.MostSignificantByteLast
+)
+# Signal &quot;beep&quot; is sent from the toaster to the fridge. It is a 32-bit signal.
+toaster_to_fridge_beep_syssignal = system_package.create_system_signal(
+    &quot;ToasterToFridgeBeepSysSignal&quot;
+)
+beep_type = datatypes_package.create_sw_base_type(
+    &quot;BeepType&quot;,
+    32,
+    BaseTypeEncoding.TwosComplement,
+    byte_order=ByteOrder.MostSignificantByteLast,
+    native_declaration=&quot;uint32&quot;,
+)
+toaster_to_fridge_beep_signal = system.create_isignal(
+    &quot;ToasterToFridgeBeep&quot;,
+    signals_package,
+    32,
+    toaster_to_fridge_beep_syssignal,
+    datatype=beep_type,
+)
+toaster_to_fridge_pdu.map_signal(
+    toaster_to_fridge_beep_signal,
+    0,
+    ByteOrder.MostSignificantByteLast,
+    transfer_property=TransferProperty.Triggered,
+)
+toaster_to_fridge_beep_signal.init_value = 1
+
+# Fridge to Toaster communication: Create a frame and trigger it in the channel on id 0x102.
+fridge_to_toaster_frame = system.create_can_frame(
+    &quot;FridgeToToasterFrame&quot;, frames_package, 8
+)
+can_channel.trigger_frame(
+    fridge_to_toaster_frame, 0x102, CanAddressingMode.Standard, CanFrameType.Can20
+)
+# Create a PDU and trigger it in the frame at byte offset 0. CAN Frames do not allow multiple PDUs
+fridge_to_toaster_pdu = system.create_isignal_ipdu(
+    &quot;FridgeToToasterPdu&quot;, pdus_package, 8
+)
+fridge_to_toaster_frame.map_pdu(
+    fridge_to_toaster_pdu, 0, ByteOrder.MostSignificantByteLast
+)
+# Signal &quot;toot&quot; is sent from the fridge to the toaster. It is a 16-bit signal.
+fridge_to_toaster_toot_syssignal = system_package.create_system_signal(
+    &quot;FridgeToToasterTootSysSignal&quot;
+)
+toot_type = datatypes_package.create_sw_base_type(
+    &quot;TootType&quot;,
+    16,
+    BaseTypeEncoding.TwosComplement,
+    byte_order=ByteOrder.MostSignificantByteLast,
+    native_declaration=&quot;uint16&quot;,
+)
+fridge_to_toaster_toot_signal = system.create_isignal(
+    &quot;FridgeToToasterToot&quot;,
+    signals_package,
+    16,
+    fridge_to_toaster_toot_syssignal,
+    datatype=toot_type,
+)
+fridge_to_toaster_pdu.map_signal(
+    fridge_to_toaster_toot_signal,
+    0,
+    ByteOrder.MostSignificantByteLast,
+    transfer_property=TransferProperty.Triggered,
+)
+fridge_to_toaster_toot_signal.init_value = 0
+
+# create Sender/Receiver interfaces for the PDUs
+toaster_to_fridge_interface = interfaces_package.create_sender_receiver_interface(
+    &quot;ToasterToFridgeInterface&quot;
+)
+beep_impl_datatype = datatypes_package.create_implementation_data_type(
+    ImplementationDataTypeSettings.Value(&quot;beep_impl&quot;, base_type=beep_type)
+)
+toaster_to_fridge_interface_beep = toaster_to_fridge_interface.create_data_element(
+    &quot;beep&quot;, beep_impl_datatype
+)
+
+fridge_to_toaster_interface = interfaces_package.create_sender_receiver_interface(
+    &quot;FridgeToToasterInterface&quot;
+)
+toot_impl_datatype = datatypes_package.create_implementation_data_type(
+    ImplementationDataTypeSettings.Value(&quot;toot_impl&quot;, base_type=toot_type)
+)
+fridge_to_toaster_interface_toot = fridge_to_toaster_interface.create_data_element(
+    &quot;toot&quot;, toot_impl_datatype
+)
+
+# create ports in the software components
+# provide the ToasterToFridge message in the toaster (p-port) and require it in the fridge (r-port)
+toaster_p_port = toaster_app_swc_type.create_p_port(
+    &quot;ToasterToFridgePort&quot;, toaster_to_fridge_interface
+)
+fridge_r_port = fridge_app_swc_type.create_r_port(
+    &quot;ToasterToFridgePort&quot;, toaster_to_fridge_interface
+)
+root_composition_type.create_assembly_connector(
+    &quot;ToasterToFridgeConnector&quot;,
+    toaster_p_port,
+    toaster_app_swc,
+    fridge_r_port,
+    fridge_app_swc,
+)
+# provide the FridgeToToaster message in the fridge (p-port) and require it in the toaster (r-port)
+fridge_p_port = fridge_app_swc_type.create_p_port(
+    &quot;FridgeToToasterPort&quot;, fridge_to_toaster_interface
+)
+toaster_r_port = toaster_app_swc_type.create_r_port(
+    &quot;FridgeToToasterPort&quot;, fridge_to_toaster_interface
+)
+root_composition_type.create_assembly_connector(
+    &quot;FridgeToToasterConnector&quot;,
+    fridge_p_port,
+    fridge_app_swc,
+    toaster_r_port,
+    toaster_app_swc,
+)
+
+# map the ports to the PDUs
+system_mapping.map_sender_receiver_to_signal(
+    toaster_to_fridge_beep_syssignal,  # the system signal
+    toaster_to_fridge_interface_beep,  # is mapped to a data element in the interface
+    toaster_p_port,  # using the port in the software component
+    [
+        toaster_app_swc
+    ],  # hierarchy of the software component including any non-root composition
+    root_composition_prototype=root_composition,  # the root composition prototype
+)
+system_mapping.map_sender_receiver_to_signal(
+    toaster_to_fridge_beep_syssignal,
+    toaster_to_fridge_interface_beep,
+    fridge_r_port,
+    [fridge_app_swc],
+    root_composition_prototype=root_composition,
+)
+system_mapping.map_sender_receiver_to_signal(
+    fridge_to_toaster_toot_syssignal,
+    fridge_to_toaster_interface_toot,
+    fridge_p_port,
+    [fridge_app_swc],
+    root_composition_prototype=root_composition,
+)
+system_mapping.map_sender_receiver_to_signal(
+    fridge_to_toaster_toot_syssignal,
+    fridge_to_toaster_interface_toot,
+    toaster_r_port,
+    [toaster_app_swc],
+    root_composition_prototype=root_composition,
+)
+
+# save the model to the filename that we specified at the beginning
+model.write()
+</code></pre>
+
+<h2 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="autosar_data.abstraction" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">abstraction</span>
+
+
+<a href="#autosar_data.abstraction" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.abstraction.ArPackage" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ArPackage</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">ArPackage(element: Element)</code></pre>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>An <code>ArPackage</code> is an Autosar package, which can contain other packages or elements</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.ArPackage.element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.ArPackage.element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.ArPackage.name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.ArPackage.name" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">name: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_application_array_data_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_application_array_data_type</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_application_array_data_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_application_array_data_type(
+    name: str,
+    element_type: ApplicationDataType,
+    size: ApplicationArraySize,
+) -&gt; ApplicationArrayDataType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>ApplicationArrayDataType</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_application_primitive_data_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_application_primitive_data_type</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_application_primitive_data_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_application_primitive_data_type(
+    name: str,
+    category: ApplicationPrimitiveCategory,
+    /,
+    *,
+    compu_method: CompuMethod = None,
+    unit: Unit = None,
+    data_constraint: DataConstr = None,
+) -&gt; ApplicationPrimitiveDataType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>ApplicationPrimitiveDataType</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_application_record_data_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_application_record_data_type</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_application_record_data_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_application_record_data_type(
+    name: str,
+) -&gt; ApplicationRecordDataType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>ApplicationRecordDataType</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_application_sw_component_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_application_sw_component_type</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_application_sw_component_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_application_sw_component_type(
+    name: str,
+) -&gt; ApplicationSwComponentType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>ApplicationSwComponentType</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_client_server_interface" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_client_server_interface</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_client_server_interface" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_client_server_interface(
+    name: str,
+) -&gt; ClientServerInterface</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>ClientServerInterface</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_complex_device_driver_sw_component_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_complex_device_driver_sw_component_type</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_complex_device_driver_sw_component_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_complex_device_driver_sw_component_type(
+    name: str,
+) -&gt; ComplexDeviceDriverSwComponentType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>ComplexDeviceDriverSwComponentType</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_composition_sw_component_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_composition_sw_component_type</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_composition_sw_component_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_composition_sw_component_type(
+    name: str,
+) -&gt; CompositionSwComponentType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>CompositionSwComponentType</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_compu_method" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_compu_method</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_compu_method" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_compu_method(
+    name: str, content: CompuMethodContent
+) -&gt; CompuMethod</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>CompuMethod</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_constant_specification" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_constant_specification</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_constant_specification" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_constant_specification(
+    name: str, value: ValueSpecification
+) -&gt; ConstantSpecification</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>ConstantSpecification</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_data_constr" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_data_constr</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_data_constr" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_data_constr(name: str) -&gt; DataConstr</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>DataConstr</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_data_transformation_set" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_data_transformation_set</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_data_transformation_set" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_data_transformation_set(
+    name: str,
+) -&gt; DataTransformationSet</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>DataTransformationSet</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_data_type_mapping_set" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_data_type_mapping_set</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_data_type_mapping_set" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_data_type_mapping_set(
+    name: str,
+) -&gt; DataTypeMappingSet</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>DataTypeMappingSet</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_ecu_abstraction_sw_component_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_ecu_abstraction_sw_component_type</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_ecu_abstraction_sw_component_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_ecu_abstraction_sw_component_type(
+    name: str,
+) -&gt; EcuAbstractionSwComponentType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>EcuAbstractionSwComponentType</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_ecuc_definition_collection" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_ecuc_definition_collection</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_ecuc_definition_collection" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_ecuc_definition_collection(
+    name: str,
+) -&gt; EcucDefinitionCollection</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>EcucDefinitionCollection</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_ecuc_destination_uri_def_set" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_ecuc_destination_uri_def_set</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_ecuc_destination_uri_def_set" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_ecuc_destination_uri_def_set(
+    name: str,
+) -&gt; EcucDestinationUriDefSet</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>EcucDestinationUriDefSet</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_ecuc_module_configuration_values" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_ecuc_module_configuration_values</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_ecuc_module_configuration_values" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_ecuc_module_configuration_values(
+    name: str, definition: EcucModuleDef
+) -&gt; EcucModuleConfigurationValues</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>EcucModuleConfigurationValues</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_ecuc_module_def" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_ecuc_module_def</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_ecuc_module_def" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_ecuc_module_def(name: str) -&gt; EcucModuleDef</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>EcucModuleDef</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_ecuc_value_collection" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_ecuc_value_collection</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_ecuc_value_collection" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_ecuc_value_collection(
+    name: str,
+) -&gt; EcucValueCollection</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>EcucValueCollection</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_implementation_data_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_implementation_data_type</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_implementation_data_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_implementation_data_type(
+    settings: ImplementationDataTypeSettings,
+) -&gt; ImplementationDataType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>ImplementationDataType</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_mode_declaration_group" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_mode_declaration_group</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_mode_declaration_group" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_mode_declaration_group(
+    name: str,
+    *,
+    category: Optional[ModeDeclarationGroupCategory] = None,
+) -&gt; ModeDeclarationGroup</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>ModeDeclarationGroup</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_mode_switch_interface" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_mode_switch_interface</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_mode_switch_interface" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_mode_switch_interface(
+    name: str,
+) -&gt; ModeSwitchInterface</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>ModeSwitchInterface</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_nv_data_interface" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_nv_data_interface</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_nv_data_interface" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_nv_data_interface(name: str) -&gt; NvDataInterface</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>NvDataInterface</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_parameter_interface" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_parameter_interface</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_parameter_interface" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_parameter_interface(name: str) -&gt; ParameterInterface</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>ParameterInterface</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_sender_receiver_interface" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_sender_receiver_interface</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_sender_receiver_interface" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_sender_receiver_interface(
+    name: str,
+) -&gt; SenderReceiverInterface</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>SenderReceiverInterface</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_sensor_actuator_sw_component_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_sensor_actuator_sw_component_type</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_sensor_actuator_sw_component_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_sensor_actuator_sw_component_type(
+    name: str,
+) -&gt; SensorActuatorSwComponentType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>SensorActuatorSwComponentType</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_service_sw_component_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_service_sw_component_type</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_service_sw_component_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_service_sw_component_type(
+    name: str,
+) -&gt; ServiceSwComponentType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>ServiceSwComponentType</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_someip_sd_client_event_group_timing_config" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_someip_sd_client_event_group_timing_config</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_someip_sd_client_event_group_timing_config" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_someip_sd_client_event_group_timing_config(
+    name: str, time_to_live: int
+) -&gt; SomeipSdClientEventGroupTimingConfig</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>SomeipSdClientEventGroupTimingConfig</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_someip_sd_client_service_instance_config" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_someip_sd_client_service_instance_config</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_someip_sd_client_service_instance_config" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_someip_sd_client_service_instance_config(
+    name: str,
+) -&gt; SomeipSdClientServiceInstanceConfig</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>SomeipSdClientServiceInstanceConfig</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_someip_sd_server_event_group_timing_config" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_someip_sd_server_event_group_timing_config</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_someip_sd_server_event_group_timing_config" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_someip_sd_server_event_group_timing_config(
+    name: str, request_response_delay: RequestResponseDelay
+) -&gt; SomeipSdServerEventGroupTimingConfig</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>SomeipSdServerEventGroupTimingConfig</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_someip_sd_server_service_instance_config" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_someip_sd_server_service_instance_config</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_someip_sd_server_service_instance_config" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_someip_sd_server_service_instance_config(
+    name: str, ttl: int
+) -&gt; SomeipSdServerServiceInstanceConfig</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>SomeipSdServerServiceInstanceConfig</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_sub_package" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_sub_package</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_sub_package" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_sub_package(name: str) -&gt; ArPackage</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new sub-package in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_sw_base_type" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_sw_base_type</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_sw_base_type" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_sw_base_type(
+    name: str,
+    bit_length: int,
+    base_type_encoding: BaseTypeEncoding,
+    /,
+    *,
+    byte_order: Optional[ByteOrder] = None,
+    mem_alignment: Optional[int] = None,
+    native_declaration: Optional[str] = None,
+) -&gt; SwBaseType</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>SwBaseType</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_system" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_system</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_system" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_system(
+    name: str, category: SystemCategory
+) -&gt; System</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new System in the package</p>
+<p>Note that an Autosar model should ony contain one SYSTEM. This is not checked here.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_system_signal" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_system_signal</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_system_signal" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_system_signal(name: str) -&gt; SystemSignal</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>SystemSignal</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_system_signal_group" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_system_signal_group</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_system_signal_group" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_system_signal_group(name: str) -&gt; SystemSignalGroup</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>SystemSignalGroup</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_trigger_interface" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_trigger_interface</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_trigger_interface" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_trigger_interface(name: str) -&gt; TriggerInterface</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>TriggerInterface</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.create_unit" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_unit</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.create_unit" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_unit(
+    name: str, /, *, display_name: Optional[str] = None
+) -&gt; Unit</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>Unit</code> in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.elements" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">elements</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.elements" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">elements() -&gt; Iterator[Element]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>iterate over all elements in the package</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.remove" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.remove" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove(*, deep: bool = False) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.ArPackage.sub_packages" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">sub_packages</span>
+
+
+<a href="#autosar_data.abstraction.ArPackage.sub_packages" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">sub_packages() -&gt; Iterator[ArPackage]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>iterate over all sub-packages in the package</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.abstraction.AutosarModelAbstraction" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">AutosarModelAbstraction</span>
+
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">AutosarModelAbstraction(model: AutosarModel)</code></pre>
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.AutosarModelAbstraction.model" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">model</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction.model" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">model: AutosarModel</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get the underlying <code>AutosarModel</code> from the abstraction model</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.AutosarModelAbstraction.root_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">root_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction.root_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">root_element: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get the root element of the model</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.AutosarModelAbstraction.create" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction.create" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create(
+    filename: str,
+    /,
+    *,
+    version: Optional[AutosarVersion] = None,
+) -&gt; AutosarModelAbstraction</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new <code>AutosarModelAbstraction</code> with an empty <code>AutosarModel</code></p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.AutosarModelAbstraction.create_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_file</span>
+
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction.create_file" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_file(
+    filename: str,
+    /,
+    *,
+    version: Optional[AutosarVersion] = None,
+) -&gt; ArxmlFile</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a new file in the model</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.AutosarModelAbstraction.files" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">files</span>
+
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction.files" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">files() -&gt; Iterator[ArxmlFile]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>iterate over all files in the model</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.AutosarModelAbstraction.find_system" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">find_system</span>
+
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction.find_system" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">find_system() -&gt; Optional[System]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>find an existing SYSTEM in the model, if it exists</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.AutosarModelAbstraction.from_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_file</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction.from_file" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">from_file(filename: str) -&gt; AutosarModelAbstraction</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create an <code>AutosarModelAbstraction</code> from a file on disk</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.AutosarModelAbstraction.get_element_by_path" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_element_by_path</span>
+
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction.get_element_by_path" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">get_element_by_path(path: str) -&gt; Optional[Element]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get an element by its path</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.AutosarModelAbstraction.get_or_create_package" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_or_create_package</span>
+
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction.get_or_create_package" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">get_or_create_package(path: str) -&gt; ArPackage</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get a package by its path or create it if it does not exist</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.AutosarModelAbstraction.load_file" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">load_file</span>
+
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction.load_file" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">load_file(
+    filename: str, /, *, strict: bool = False
+) -&gt; Tuple[ArxmlFile, List[str]]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Load a file into the model</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.AutosarModelAbstraction.packages" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">packages</span>
+
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction.packages" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">packages() -&gt; Iterator[ArPackage]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>iterate over all top-level packages</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.AutosarModelAbstraction.write" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">write</span>
+
+
+<a href="#autosar_data.abstraction.AutosarModelAbstraction.write" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">write() -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>write the model to disk, creating or updating all files in the model</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.abstraction.ByteOrder" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ByteOrder</span>
+
+
+<a href="#autosar_data.abstraction.ByteOrder" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>The <code>ByteOrder</code> is used to define the order of bytes in a multi-byte value</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.ByteOrder.MostSignificantByteFirst" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">MostSignificantByteFirst</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.ByteOrder.MostSignificantByteFirst" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">MostSignificantByteFirst: ByteOrder</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.ByteOrder.MostSignificantByteLast" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">MostSignificantByteLast</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.ByteOrder.MostSignificantByteLast" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">MostSignificantByteLast: ByteOrder</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.ByteOrder.Opaque" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">Opaque</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.ByteOrder.Opaque" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">Opaque: ByteOrder</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.abstraction.EcuInstance" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">EcuInstance</span>
+
+
+<a href="#autosar_data.abstraction.EcuInstance" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">EcuInstance(element: Element)</code></pre>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>The <code>EcuInstance</code> represents one ECU in a <code>System</code>Union[</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.EcuInstance.element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.EcuInstance.element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.EcuInstance.name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.EcuInstance.name" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">name: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.EcuInstance.add_associated_com_ipdu_group" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">add_associated_com_ipdu_group</span>
+
+
+<a href="#autosar_data.abstraction.EcuInstance.add_associated_com_ipdu_group" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">add_associated_com_ipdu_group(
+    group: ISignalIPduGroup,
+) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Add a reference to an associated COM IPdu group</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.EcuInstance.associated_com_ipdu_groups" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">associated_com_ipdu_groups</span>
+
+
+<a href="#autosar_data.abstraction.EcuInstance.associated_com_ipdu_groups" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">associated_com_ipdu_groups() -&gt; Iterator[ISignalIPduGroup]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Iterate over all associated COM IPdu groups</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.EcuInstance.communication_controllers" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">communication_controllers</span>
+
+
+<a href="#autosar_data.abstraction.EcuInstance.communication_controllers" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">communication_controllers() -&gt; Iterator[
+    CommunicationController
+]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>return an interator over all communication controllers in this <code>EcuInstance</code></p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.EcuInstance.create_can_communication_controller" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_can_communication_controller</span>
+
+
+<a href="#autosar_data.abstraction.EcuInstance.create_can_communication_controller" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_can_communication_controller(
+    name: str,
+) -&gt; CanCommunicationController</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a CAN-COMMUNICATION-CONTROLLER for this ECU-INSTANCE</p>
+<p>The ECU must have one controller per bus it communicates on.
+For example, if it communicates on two CAN buses, then two CAN-COMMUNICATION-CONTROLLERs are needed.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.EcuInstance.create_ethernet_communication_controller" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_ethernet_communication_controller</span>
+
+
+<a href="#autosar_data.abstraction.EcuInstance.create_ethernet_communication_controller" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_ethernet_communication_controller(
+    name: str, /, *, mac_address: Optional[str] = None
+) -&gt; EthernetCommunicationController</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create an ETHERNET-COMMUNICATION-CONTROLLER for this ECU-INSTANCE</p>
+<p>The ECU must have one controller per bus it communicates on.
+For example, if it communicates on two CAN buses, then two CAN-COMMUNICATION-CONTROLLERs are needed.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.EcuInstance.create_flexray_communication_controller" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_flexray_communication_controller</span>
+
+
+<a href="#autosar_data.abstraction.EcuInstance.create_flexray_communication_controller" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_flexray_communication_controller(
+    name: str,
+) -&gt; FlexrayCommunicationController</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a FLEXRAY-COMMUNICATION-CONTROLLER for this ECU-INSTANCE</p>
+<p>The ECU must have one controller per bus it communicates on.
+For example, if it communicates on two CAN buses, then two CAN-COMMUNICATION-CONTROLLERs are needed.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.EcuInstance.remove" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove</span>
+
+
+<a href="#autosar_data.abstraction.EcuInstance.remove" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove(*, deep: bool = False) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.abstraction.SenderReceiverToSignalMapping" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">SenderReceiverToSignalMapping</span>
+
+
+<a href="#autosar_data.abstraction.SenderReceiverToSignalMapping" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>A <code>SenderReceiverToSignalMapping</code> contains a mapping between a sender/receiver port and a system signal</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SenderReceiverToSignalMapping.data_element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">data_element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SenderReceiverToSignalMapping.data_element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">data_element</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SenderReceiverToSignalMapping.system_signal" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">system_signal</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SenderReceiverToSignalMapping.system_signal" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">system_signal</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.SenderReceiverToSignalMapping.remove" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-method descriptor"><code>method descriptor</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SenderReceiverToSignalMapping.remove" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove()</code></pre>
+
+    <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.abstraction.SwcToEcuMapping" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">SwcToEcuMapping</span>
+
+
+<a href="#autosar_data.abstraction.SwcToEcuMapping" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">SwcToEcuMapping(element: Element)</code></pre>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>A <code>SwcToEcuMapping</code> contains a mapping between a <code>SwComponentPrototype</code> and an <code>EcuInstance</code></p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SwcToEcuMapping.ecu_instance" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">ecu_instance</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SwcToEcuMapping.ecu_instance" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">ecu_instance: Optional[EcuInstance]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>get the ECU instance which is the target of this mapping</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SwcToEcuMapping.element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SwcToEcuMapping.element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SwcToEcuMapping.name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SwcToEcuMapping.name" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">name: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SwcToEcuMapping.target_component" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">target_component</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SwcToEcuMapping.target_component" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">target_component: Optional[SwComponentPrototype]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>get the component prototype that is mapped here</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.SwcToEcuMapping.remove" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove</span>
+
+
+<a href="#autosar_data.abstraction.SwcToEcuMapping.remove" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove(*, deep: bool = False) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.abstraction.System" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">System</span>
+
+
+<a href="#autosar_data.abstraction.System" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">System(element: Element)</code></pre>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>The System is the top level of a system template</p>
+<p>It defines how ECUs communicate with each other over various networks.
+It also contains the mapping of software components to ECUs.</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.System.category" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">category</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.System.category" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">category: Optional[SystemCategory]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>category of the system</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.System.element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.System.element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.System.name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.System.name" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">name: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.System.pnc_vector_length" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">pnc_vector_length</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.System.pnc_vector_length" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">pnc_vector_length: Optional[int]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>set the pncVectorLength of the system</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.System.pnc_vector_offset" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">pnc_vector_offset</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.System.pnc_vector_offset" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">pnc_vector_offset: Optional[int]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>set the pncVectorOffset of the system</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.System.root_sw_composition" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">root_sw_composition</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.System.root_sw_composition" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">root_sw_composition: Optional[RootSwCompositionPrototype]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>get the root software composition of the system</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.clusters" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">clusters</span>
+
+
+<a href="#autosar_data.abstraction.System.clusters" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">clusters() -&gt; Iterator[Cluster]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create an iterator over all clusters connected to the SYSTEM</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_can_cluster" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_can_cluster</span>
+
+
+<a href="#autosar_data.abstraction.System.create_can_cluster" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_can_cluster(
+    cluster_name: str,
+    package: ArPackage,
+    /,
+    *,
+    can_baudrate: Optional[int] = 500000,
+) -&gt; CanCluster</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new CAN-CLUSTER</p>
+<p>The cluster must have a channel to be valid, but this channel is not created automatically.
+Call [<code>CanCluster::create_physical_channel</code>] to create it.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_can_frame" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_can_frame</span>
+
+
+<a href="#autosar_data.abstraction.System.create_can_frame" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_can_frame(
+    name: str, package: ArPackage, byte_length: int
+) -&gt; CanFrame</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new [<code>CanFrame</code>]</p>
+<p>This new frame needs to be linked to a <code>CanPhysicalChannel</code></p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_can_tp_config" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_can_tp_config</span>
+
+
+<a href="#autosar_data.abstraction.System.create_can_tp_config" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_can_tp_config(
+    name: str, package: ArPackage, can_cluster: CanCluster
+) -&gt; CanTpConfig</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a <code>CanTpConfig</code> in the SYSTEM</p>
+<p><code>CanTpConfig</code>s contain the configuration how to segment or reassemble diagnostic messages on a CAN bus.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_container_ipdu" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_container_ipdu</span>
+
+
+<a href="#autosar_data.abstraction.System.create_container_ipdu" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_container_ipdu(
+    name: str,
+    package: ArPackage,
+    length: int,
+    header_type: ContainerIPduHeaderType,
+    rx_accept: RxAcceptContainedIPdu,
+) -&gt; ContainerIPdu</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a [<code>ContainerIPdu</code>] in the [<code>System</code>]</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_dcm_ipdu" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_dcm_ipdu</span>
+
+
+<a href="#autosar_data.abstraction.System.create_dcm_ipdu" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_dcm_ipdu(
+    name: str,
+    package: ArPackage,
+    length: int,
+    diag_pdu_type: DiagPduType,
+) -&gt; DcmIPdu</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a [<code>DcmIPdu</code>] in the [<code>System</code>]</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_doip_tp_config" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_doip_tp_config</span>
+
+
+<a href="#autosar_data.abstraction.System.create_doip_tp_config" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_doip_tp_config(
+    name: str,
+    package: ArPackage,
+    eth_cluster: EthernetCluster,
+) -&gt; DoIpTpConfig</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a <code>DoIpTpConfig</code> in the SYSTEM</p>
+<p><code>DoIpTpConfig</code>s contain the configuration how to transmit diagnostic messages over IP networks.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_ecu_instance" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_ecu_instance</span>
+
+
+<a href="#autosar_data.abstraction.System.create_ecu_instance" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_ecu_instance(
+    name: str, package: ArPackage
+) -&gt; EcuInstance</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create an <code>EcuInstance</code> that is connected to this System</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_ethernet_cluster" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_ethernet_cluster</span>
+
+
+<a href="#autosar_data.abstraction.System.create_ethernet_cluster" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_ethernet_cluster(
+    cluster_name: str, package: ArPackage
+) -&gt; EthernetCluster</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new ETHERNET-CLUSTER and connect it to the SYSTEM</p>
+<p>The cluster must have at least one channel to be valid.
+Call [<code>EthernetCluster.create_physical_channel</code>] to create it.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_fibex_element_ref" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_fibex_element_ref</span>
+
+
+<a href="#autosar_data.abstraction.System.create_fibex_element_ref" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_fibex_element_ref(elem: Element) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>connect an element to the SYSTEM by creating a FIBEX-ELEMENT-REF</p>
+<p>If there is already a FIBEX-ELEMENT-REF, this function does nothing, successfully.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_flexray_ar_tp_config" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_flexray_ar_tp_config</span>
+
+
+<a href="#autosar_data.abstraction.System.create_flexray_ar_tp_config" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_flexray_ar_tp_config(
+    name: str,
+    package: ArPackage,
+    flexray_cluster: FlexrayCluster,
+) -&gt; FlexrayArTpConfig</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a <code>FlexrayArTpConfig</code> in the SYSTEM</p>
+<p><code>FlexrayArTpConfig</code>s describe how to segment or reassemble diagnostic messages on a Flexray bus.
+This configuration type is used for Flexray AUTOSAR TP communication.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_flexray_cluster" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_flexray_cluster</span>
+
+
+<a href="#autosar_data.abstraction.System.create_flexray_cluster" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_flexray_cluster(
+    cluster_name: str,
+    package: ArPackage,
+    settings: FlexrayClusterSettings,
+) -&gt; FlexrayCluster</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new FLEXRAY-CLUSTER and connect it to the SYSTEM</p>
+<p>A <code>FlexrayClusterSettings</code> structure containing the timings and parameters for the Flexray cluster must be provided.</p>
+<p>The cluster must have at least one channel to be valid.
+Call [<code>FlexrayCluster.create_physical_channel</code>] to create it.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_flexray_frame" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_flexray_frame</span>
+
+
+<a href="#autosar_data.abstraction.System.create_flexray_frame" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_flexray_frame(
+    name: str, package: ArPackage, byte_length: int
+) -&gt; FlexrayFrame</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new [<code>FlexrayFrame</code>]</p>
+<p>This new frame needs to be linked to a <code>FlexrayPhysicalChannel</code></p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_flexray_tp_config" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_flexray_tp_config</span>
+
+
+<a href="#autosar_data.abstraction.System.create_flexray_tp_config" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_flexray_tp_config(
+    name: str,
+    package: ArPackage,
+    flexray_cluster: FlexrayCluster,
+) -&gt; FlexrayTpConfig</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a <code>FlexrayTpConfig</code> in the SYSTEM</p>
+<p><code>FlexrayTpConfig</code>s describe how to segment or reassemble diagnostic messages on a Flexray bus.
+This configuration type is used for Flexray ISO TP communication.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_general_purpose_ipdu" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_general_purpose_ipdu</span>
+
+
+<a href="#autosar_data.abstraction.System.create_general_purpose_ipdu" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_general_purpose_ipdu(
+    name: str,
+    package: ArPackage,
+    length: int,
+    category: GeneralPurposeIPduCategory,
+) -&gt; GeneralPurposeIPdu</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a [<code>GeneralPurposeIPdu</code>] in the [<code>System</code>]</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_general_purpose_pdu" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_general_purpose_pdu</span>
+
+
+<a href="#autosar_data.abstraction.System.create_general_purpose_pdu" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_general_purpose_pdu(
+    name: str,
+    package: ArPackage,
+    length: int,
+    category: GeneralPurposePduCategory,
+) -&gt; GeneralPurposePdu</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a [<code>GeneralPurposePdu</code>] in the [<code>System</code>]</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_isignal" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_isignal</span>
+
+
+<a href="#autosar_data.abstraction.System.create_isignal" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_isignal(
+    name: str,
+    package: ArPackage,
+    bit_length: int,
+    syssignal: SystemSignal,
+    /,
+    *,
+    datatype: Optional[SwBaseType] = None,
+) -&gt; ISignal</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new isignal in the [<code>System</code>]</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_isignal_group" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_isignal_group</span>
+
+
+<a href="#autosar_data.abstraction.System.create_isignal_group" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_isignal_group(
+    name: str,
+    package: ArPackage,
+    system_signal_group: SystemSignalGroup,
+) -&gt; ISignalGroup</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new signal group in the [<code>System</code>]</p>
+<p><code>I-SIGNAL-GROUP</code> and <code>SYSTEM-SIGNAL-GROUP</code> are created using the same name; therefore they must be placed in
+different packages: <code>sig_package</code> and <code>sys_package</code> may not be identical.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_isignal_ipdu" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_isignal_ipdu</span>
+
+
+<a href="#autosar_data.abstraction.System.create_isignal_ipdu" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_isignal_ipdu(
+    name: str, package: ArPackage, length: int
+) -&gt; ISignalIPdu</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create an [<code>ISignalIPdu</code>] in the [<code>System</code>]</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_isignal_ipdu_group" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_isignal_ipdu_group</span>
+
+
+<a href="#autosar_data.abstraction.System.create_isignal_ipdu_group" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_isignal_ipdu_group(
+    name: str, package: ArPackage
+) -&gt; ISignalIPduGroup</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new I-SIGNAL-IPDU-GROUP in the [<code>System</code>]</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_multiplexed_ipdu" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_multiplexed_ipdu</span>
+
+
+<a href="#autosar_data.abstraction.System.create_multiplexed_ipdu" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_multiplexed_ipdu(
+    name: str, package: ArPackage, length: int
+) -&gt; MultiplexedIPdu</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a [<code>MultiplexedIPdu</code>] in the [<code>System</code>]</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_n_pdu" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_n_pdu</span>
+
+
+<a href="#autosar_data.abstraction.System.create_n_pdu" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_n_pdu(
+    name: str, package: ArPackage, length: int
+) -&gt; NPdu</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create an [<code>NPdu</code>] in the [<code>System</code>]</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_nm_config" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_nm_config</span>
+
+
+<a href="#autosar_data.abstraction.System.create_nm_config" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_nm_config(name: str, package: ArPackage) -&gt; NmConfig</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a new <code>NmConfig</code> in the SYSTEM</p>
+<p><code>NmConfig</code>s contain the configuration for network management.
+The System may contain zero or one <code>NmConfig</code>s.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_nm_pdu" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_nm_pdu</span>
+
+
+<a href="#autosar_data.abstraction.System.create_nm_pdu" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_nm_pdu(
+    name: str, package: ArPackage, length: int
+) -&gt; NmPdu</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create an [<code>NmPdu</code>] in the [<code>System</code>]</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_secured_ipdu" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_secured_ipdu</span>
+
+
+<a href="#autosar_data.abstraction.System.create_secured_ipdu" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_secured_ipdu(
+    name: str,
+    package: ArPackage,
+    length: int,
+    secure_props: SecureCommunicationProps,
+) -&gt; SecuredIPdu</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a [<code>SecuredIPdu</code>] in the [<code>System</code>]</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_service_instance_collection_set" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_service_instance_collection_set</span>
+
+
+<a href="#autosar_data.abstraction.System.create_service_instance_collection_set" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_service_instance_collection_set(
+    name: str, package: ArPackage
+) -&gt; ServiceInstanceCollectionSet</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a <code>ServiceInstanceCollectionSet</code> in the SYSTEM</p>
+<p><code>ServiceInstanceCollectionSet</code>s are part of the new ethernet modeling that was introduced in Autosar 4.5.0 (<code>AUTOSAR_00048</code>).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_so_ad_routing_group" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_so_ad_routing_group</span>
+
+
+<a href="#autosar_data.abstraction.System.create_so_ad_routing_group" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_so_ad_routing_group(
+    name: str,
+    package: ArPackage,
+    /,
+    *,
+    control_type: Optional[EventGroupControlType] = None,
+) -&gt; SoAdRoutingGroup</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a <code>SoAdRoutingGroup</code> in the SYSTEM</p>
+<p><code>SoAdRoutingGroup</code> are part of the old ethernet modeling that was used prior to Autosar 4.5.0 (<code>AUTOSAR_00048</code>).
+The elements are still present (but obsolete) in newer versions of the standard.
+Old and new elements may not be mixed in the same model.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_socket_connection_ipdu_identifier_set" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_socket_connection_ipdu_identifier_set</span>
+
+
+<a href="#autosar_data.abstraction.System.create_socket_connection_ipdu_identifier_set" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_socket_connection_ipdu_identifier_set(
+    name: str, package: ArPackage
+) -&gt; SocketConnectionIpduIdentifierSet</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a <code>SocketConnectionIpduIdentifierSet</code> in the SYSTEM</p>
+<p><code>SocketConnectionIpduIdentifierSet</code> are part of the new ethernet modeling that was introduced in Autosar 4.5.0 (<code>AUTOSAR_00048</code>).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_someip_tp_config" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_someip_tp_config</span>
+
+
+<a href="#autosar_data.abstraction.System.create_someip_tp_config" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_someip_tp_config(
+    name: str, package: ArPackage, cluster: Cluster
+) -&gt; SomeipTpConfig</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a <code>SomeipTpConfig</code> in the SYSTEM</p>
+<p><code>SomeipTpConfig</code>s contain the configuration how to segment or reassemble large <code>SomeipTp</code> PDUs.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.create_user_defined_pdu" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">create_user_defined_pdu</span>
+
+
+<a href="#autosar_data.abstraction.System.create_user_defined_pdu" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">create_user_defined_pdu(
+    name: str, package: ArPackage, length: int
+) -&gt; UserDefinedPdu</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a [<code>UserDefinedPdu</code>] in the [<code>System</code>]</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.ecu_instances" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">ecu_instances</span>
+
+
+<a href="#autosar_data.abstraction.System.ecu_instances" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">ecu_instances() -&gt; Iterator[EcuInstance]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>get an iterator over all ECU-INSTANCEs in this SYSTEM</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.frames" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">frames</span>
+
+
+<a href="#autosar_data.abstraction.System.frames" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">frames() -&gt; Iterator[Frame]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>iterate over all Frames in the System</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.get_or_create_mapping" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_or_create_mapping</span>
+
+
+<a href="#autosar_data.abstraction.System.get_or_create_mapping" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">get_or_create_mapping(name: str) -&gt; SystemMapping</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>get or create a mapping for this system</p>
+<p>There does not seem to be any benefit to having multiple mappings for a single system, so this function
+will return the first mapping if it exists. Otherwise a new mapping will be created with the provided name.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.isignal_groups" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">isignal_groups</span>
+
+
+<a href="#autosar_data.abstraction.System.isignal_groups" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">isignal_groups() -&gt; Iterator[ISignalGroup]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>iterate over all ISignalGroups in the System</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.isignals" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">isignals</span>
+
+
+<a href="#autosar_data.abstraction.System.isignals" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">isignals() -&gt; Iterator[ISignal]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>iterate over all ISignals in the System</p>
+<p>This iterator returns all ISignals that are connected to the System using a FibexElementRef.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.nm_config" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">nm_config</span>
+
+
+<a href="#autosar_data.abstraction.System.nm_config" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">nm_config() -&gt; Optional[NmConfig]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>Get the <code>NmConfig</code> of the SYSTEM, if any</p>
+<p>The System may contain zero or one <code>NmConfig</code>s.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.pdus" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">pdus</span>
+
+
+<a href="#autosar_data.abstraction.System.pdus" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">pdus() -&gt; Iterator[Pdu]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>iterate over all PDUs in the System</p>
+<p>This iterator returns all PDUs that are connected to the System using a FibexElementRef.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.remove" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove</span>
+
+
+<a href="#autosar_data.abstraction.System.remove" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove(*, deep: bool = False) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.System.set_root_sw_composition" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">set_root_sw_composition</span>
+
+
+<a href="#autosar_data.abstraction.System.set_root_sw_composition" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">set_root_sw_composition(
+    name: str, composition_type: CompositionSwComponentType
+) -&gt; RootSwCompositionPrototype</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>set the root software composition of the system</p>
+<p>This function will remove any existing root software composition</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.abstraction.SystemCategory" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">SystemCategory</span>
+
+
+<a href="#autosar_data.abstraction.SystemCategory" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>The category of a System</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SystemCategory.AbstractSystemDescription" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">AbstractSystemDescription</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SystemCategory.AbstractSystemDescription" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">AbstractSystemDescription: SystemCategory</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SystemCategory.EcuExtract" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">EcuExtract</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SystemCategory.EcuExtract" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">EcuExtract: SystemCategory</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SystemCategory.EcuSystemDescription" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">EcuSystemDescription</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SystemCategory.EcuSystemDescription" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">EcuSystemDescription: SystemCategory</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SystemCategory.RptSystem" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">RptSystem</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SystemCategory.RptSystem" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">RptSystem: SystemCategory</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SystemCategory.SwClusterSystemDescription" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">SwClusterSystemDescription</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SystemCategory.SwClusterSystemDescription" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">SwClusterSystemDescription: SystemCategory</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SystemCategory.SystemConstraints" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">SystemConstraints</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SystemCategory.SystemConstraints" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">SystemConstraints: SystemCategory</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SystemCategory.SystemDescription" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">SystemDescription</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SystemCategory.SystemDescription" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">SystemDescription: SystemCategory</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SystemCategory.SystemExtract" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">SystemExtract</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SystemCategory.SystemExtract" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">SystemExtract: SystemCategory</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="autosar_data.abstraction.SystemMapping" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">SystemMapping</span>
+
+
+<a href="#autosar_data.abstraction.SystemMapping" class="headerlink" title="Permanent link">&para;</a></h3>
+<pre class="codehilite"><code class="language-python doc-signature">SystemMapping(element: Element)</code></pre>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>A <code>SystemMapping</code> contains mappings in the <code>System</code></p>
+<p>it contains mappings between SWCs and ECUs, as well as between ports and signals</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SystemMapping.element" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">element</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SystemMapping.element" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">element: Element</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SystemMapping.name" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">name</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SystemMapping.name" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">name: str</code></pre>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="autosar_data.abstraction.SystemMapping.system" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">system</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#autosar_data.abstraction.SystemMapping.system" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">system: Optional[System]</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>get the system that contains this mapping</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.SystemMapping.map_sender_receiver_to_signal" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">map_sender_receiver_to_signal</span>
+
+
+<a href="#autosar_data.abstraction.SystemMapping.map_sender_receiver_to_signal" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">map_sender_receiver_to_signal(
+    signal: SystemSignal,
+    data_element: VariableDataPrototype,
+    port_prototype: PortPrototype,
+    context_components: List[SwComponentPrototype],
+    /,
+    *,
+    root_composition_prototype: Optional[
+        RootSwCompositionPrototype
+    ] = None,
+) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new mapping between a sender/receiver port and a signal</p>
+<p><code>signal</code>: the system signal that the port is mapped to</p>
+<p><code>data_element</code>: the data element that is mapped to the signal</p>
+<p><code>port_prototype</code>: the port prototype that contains the data element</p>
+<p><code>context_components</code>: a list of component prototypes from the root up to the component that directly contains the port.
+This list may be empty, or it could only contain the final application component prototype containing the port.</p>
+<p><code>root_composition_prototype</code>: the root composition prototype that contains the <code>swc_prototype</code>.
+Rarely required, but may be needed if multiple root compositions use the same composition/component hierarchy.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.SystemMapping.map_swc_to_ecu" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">map_swc_to_ecu</span>
+
+
+<a href="#autosar_data.abstraction.SystemMapping.map_swc_to_ecu" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">map_swc_to_ecu(
+    name: str,
+    component_prototype: SwComponentPrototype,
+    ecu: EcuInstance,
+) -&gt; SwcToEcuMapping</code></pre>
+
+    <div class="doc doc-contents ">
+
+        <p>create a new mapping between a SWC and an ECU</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="autosar_data.abstraction.SystemMapping.remove" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">remove</span>
+
+
+<a href="#autosar_data.abstraction.SystemMapping.remove" class="headerlink" title="Permanent link">&para;</a></h4>
+<pre class="codehilite"><code class="language-python doc-signature">remove(*, deep: bool = False) -&gt; None</code></pre>
+
+    <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../api/" class="btn btn-neutral float-left" title="API Documentation: autosar_data"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../communication_api/" class="btn btn-neutral float-right" title="Communication">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2025 Daniel Thaler</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/danielt/autosar-data-py" class="fa fa-code-fork" style="color: #fcfcfc"> danielt/autosar-data-py</a>
+        </span>
+    
+    
+      <span><a href="../api/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../communication_api/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
