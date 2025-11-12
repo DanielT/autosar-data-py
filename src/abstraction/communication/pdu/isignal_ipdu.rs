@@ -3,7 +3,8 @@ use crate::{
     abstraction::{
         AutosarAbstractionError, ByteOrder, abstraction_err_to_pyerr,
         communication::{
-            ContainedIPduProps, ISignal, ISignalGroup, PduTriggering, TransferProperty,
+            CommunicationDirection, ContainedIPduProps, ISignal, ISignalGroup, PduTriggering,
+            TransferProperty,
         },
     },
     iterator_wrapper,
@@ -632,3 +633,87 @@ impl EventControlledTiming {
         format!("{self:#?}")
     }
 }
+
+//##################################################################
+
+/// `ISignalIPduGroup`
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
+#[derive(Clone, PartialEq)]
+pub(crate) struct ISignalIPduGroup(
+    pub(crate) autosar_data_abstraction::communication::ISignalIPduGroup,
+);
+
+#[pymethods]
+impl ISignalIPduGroup {
+    #[new]
+    fn new(element: &Element) -> PyResult<Self> {
+        match autosar_data_abstraction::communication::ISignalIPduGroup::try_from(element.0.clone())
+        {
+            Ok(value) => Ok(Self(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    #[setter]
+    fn set_name(&self, name: &str) -> PyResult<()> {
+        self.0.set_name(name).map_err(abstraction_err_to_pyerr)
+    }
+
+    #[getter]
+    fn name(&self) -> Option<String> {
+        self.0.name()
+    }
+
+    #[getter]
+    fn element(&self) -> Element {
+        Element(self.0.element().clone())
+    }
+
+    fn __repr__(&self) -> String {
+        format!("{:#?}", self.0)
+    }
+
+    /// Set the communication direction
+    #[setter]
+    fn set_communication_direction(
+        &self,
+        communication_direction: CommunicationDirection,
+    ) -> PyResult<()> {
+        self.0
+            .set_communication_direction(communication_direction.into())
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Get the communication direction
+    #[getter]
+    fn communication_direction(&self) -> Option<CommunicationDirection> {
+        self.0.communication_direction().map(Into::into)
+    }
+
+    /// add a PDU to the PDU group
+    fn add_pdu(&self, pdu: &ISignalIPdu) -> PyResult<()> {
+        self.0.add_pdu(&pdu.0).map_err(abstraction_err_to_pyerr)
+    }
+
+    /// get an iterator over all PDUs in the PDU group
+    fn pdus(&self) -> ISignalIPduIterator {
+        ISignalIPduIterator::new(self.0.pdus().map(ISignalIPdu))
+    }
+}
+
+//##################################################################
+
+iterator_wrapper!(ISignalIPduIterator, ISignalIPdu);

@@ -298,6 +298,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     communication.add_class::<communication::ISignal>()?;
     communication.add_class::<communication::ISignalGroup>()?;
     communication.add_class::<communication::ISignalIPdu>()?;
+    communication.add_class::<communication::ISignalIPduGroup>()?;
     communication.add_class::<communication::ISignalPort>()?;
     communication.add_class::<communication::ISignalToIPduMapping>()?;
     communication.add_class::<communication::ISignalTriggering>()?;

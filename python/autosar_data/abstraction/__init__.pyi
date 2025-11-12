@@ -335,6 +335,14 @@ class EcuInstance:
         For example, if it communicates on two CAN buses, then two CAN-COMMUNICATION-CONTROLLERs are needed.
         """
         ...
+
+    def add_associated_com_ipdu_group(self, group: ISignalIPduGroup) -> None:
+        """Add a reference to an associated COM IPdu group"""
+        ...
+
+    def associated_com_ipdu_groups(self) -> Iterator[ISignalIPduGroup]:
+        """Iterate over all associated COM IPdu groups"""
+        ...
     element: Element
     name: str
 
@@ -576,6 +584,12 @@ class System:
         /,
     ) -> UserDefinedPdu:
         """create a [`UserDefinedPdu`] in the [`System`]"""
+        ...
+
+    def create_isignal_ipdu_group(
+        self, name: str, package: ArPackage, /
+    ) -> ISignalIPduGroup:
+        """create a new I-SIGNAL-IPDU-GROUP in the [`System`]"""
         ...
 
     def create_service_instance_collection_set(

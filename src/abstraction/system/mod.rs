@@ -3,15 +3,16 @@ use crate::{
     abstraction::{
         ArPackage, AutosarAbstractionError, EcuInstance, abstraction_err_to_pyerr,
         communication::{
-            CanCluster, CanFrame, CanTpConfig, ContainerIPdu, ContainerIPduHeaderType, DcmIPdu,
-            DiagPduType, DoIpTpConfig, EthernetCluster, EventGroupControlType, FlexrayArTpConfig,
-            FlexrayCluster, FlexrayClusterSettings, FlexrayFrame, FlexrayTpConfig,
-            GeneralPurposeIPdu, GeneralPurposeIPduCategory, GeneralPurposePdu,
-            GeneralPurposePduCategory, ISignal, ISignalGroup, ISignalIPdu, LinCluster,
-            LinEventTriggeredFrame, LinSporadicFrame, LinUnconditionalFrame, MultiplexedIPdu, NPdu,
-            NmConfig, NmPdu, RxAcceptContainedIPdu, SecureCommunicationProps, SecuredIPdu,
-            ServiceInstanceCollectionSet, SoAdRoutingGroup, SocketConnectionIpduIdentifierSet,
-            SomeipTpConfig, SystemSignal, SystemSignalGroup, UserDefinedPdu,
+            CanCluster, CanFrame, CanTpConfig, CommunicationDirection, ContainerIPdu,
+            ContainerIPduHeaderType, DcmIPdu, DiagPduType, DoIpTpConfig, EthernetCluster,
+            EventGroupControlType, FlexrayArTpConfig, FlexrayCluster, FlexrayClusterSettings,
+            FlexrayFrame, FlexrayTpConfig, GeneralPurposeIPdu, GeneralPurposeIPduCategory,
+            GeneralPurposePdu, GeneralPurposePduCategory, ISignal, ISignalGroup, ISignalIPdu,
+            ISignalIPduGroup, LinCluster, LinEventTriggeredFrame, LinSporadicFrame,
+            LinUnconditionalFrame, MultiplexedIPdu, NPdu, NmConfig, NmPdu, RxAcceptContainedIPdu,
+            SecureCommunicationProps, SecuredIPdu, ServiceInstanceCollectionSet, SoAdRoutingGroup,
+            SocketConnectionIpduIdentifierSet, SomeipTpConfig, SystemSignal, SystemSignalGroup,
+            UserDefinedPdu,
         },
         datatype::SwBaseType,
         software_component::{CompositionSwComponentType, RootSwCompositionPrototype},
@@ -569,7 +570,7 @@ impl System {
             Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
         }
     }
-    
+
     /// create a [`UserDefinedPdu`] in the [`System`]
     #[pyo3(signature = (name, package, length, /))]
     #[pyo3(text_signature = "(self, name: str, package: ArPackage, length: int, /)")]
@@ -621,6 +622,27 @@ impl System {
                 Python::attach(|py| UserDefinedPdu(pdu).into_py_any(py).ok())
             } //_ => None,
         }))
+    }
+
+    /// create a new `ISignalIPduGroup` in the System
+    pub fn create_isignal_ipdu_group(
+        &self,
+        name: &str,
+        package: &ArPackage,
+        communication_direction: CommunicationDirection,
+    ) -> PyResult<ISignalIPduGroup> {
+        match self
+            .0
+            .create_isignal_ipdu_group(name, &package.0, communication_direction.into())
+        {
+            Ok(set) => Ok(ISignalIPduGroup(set)),
+            Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
+        }
+    }
+
+    /// iterate over all ISSignalIPduGroups in the system
+    fn isignal_ipdu_groups(&self) -> ISignalIPduGroupIterator {
+        ISignalIPduGroupIterator::new(self.0.isignal_ipdu_groups().map(ISignalIPduGroup))
     }
 
     /// Create a `SocketConnectionIpduIdentifierSet` in the SYSTEM
@@ -883,6 +905,7 @@ iterator_wrapper!(FrameIterator, Py<PyAny>, "Union[CanFrame, FlexrayFrame]");
 iterator_wrapper!(ISignalIterator, ISignal);
 iterator_wrapper!(ISignalGroupIterator, ISignalGroup);
 iterator_wrapper!(PduIterator, Py<PyAny>, "Pdu");
+iterator_wrapper!(ISignalIPduGroupIterator, ISignalIPduGroup);
 
 //#########################################################
 

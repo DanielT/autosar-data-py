@@ -1,7 +1,8 @@
 use crate::abstraction::{
     AutosarAbstractionError, abstraction_err_to_pyerr,
     communication::{
-        CanCommunicationController, EthernetCommunicationController, FlexrayCommunicationController,
+        CanCommunicationController, EthernetCommunicationController,
+        FlexrayCommunicationController, ISignalIPduGroup,
     },
 };
 use crate::{Element, iterator_wrapper};
@@ -132,10 +133,29 @@ impl EcuInstance {
             },
         ))
     }
+
+    /// Add a reference to an associated COM IPdu group
+    #[pyo3(signature = (group, /))]
+    #[pyo3(text_signature = "(self, group: ISignalIPduGroup, /)")]
+    fn add_associated_com_ipdu_group(&self, group: &ISignalIPduGroup) -> PyResult<()> {
+        self.0
+            .add_associated_com_ipdu_group(&group.0)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    /// Iterate over all associated COM IPdu groups
+    fn associated_com_ipdu_groups(&self) -> ISignalIPduGroupIterator {
+        ISignalIPduGroupIterator::new(self.0.associated_com_ipdu_groups().map(ISignalIPduGroup))
+    }
 }
+
+//##################################################################
 
 iterator_wrapper!(
     CommunicationControllersIterator,
     Py<PyAny>,
     "CommunicationController"
 );
+iterator_wrapper!(ISignalIPduGroupIterator, ISignalIPduGroup);
+
+//##################################################################

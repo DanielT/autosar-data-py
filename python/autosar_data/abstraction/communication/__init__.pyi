@@ -2614,6 +2614,21 @@ class ISignalIPdu:
         ...
 
 @final
+class ISignalIPduGroup:
+    def __init__(self, element: Element) -> ISignalIPduGroup: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
+    communication_direction: Optional[CommunicationDirection]
+    def add_pdu(self, pdu: ISignalIPdu, /) -> None:
+        """add an `ISignalIPdu` to the group"""
+        ...
+
+    element: Element
+    name: str
+    def pdus(self, /) -> Iterator[ISignalIPdu]:
+        """iterate over all `ISignalIPdu`s in this group"""
+        ...
+
+@final
 class ISignalPort:
     """
     The `ISignalPort` allows an ECU to send or receive a Signal
