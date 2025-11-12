@@ -414,7 +414,9 @@ class System:
         """create a [`ContainerIPdu`] in the [`System`]"""
         ...
 
-    def create_dcm_ipdu(self, name: str, package: ArPackage, length: int, diag_pdu_type: DiagPduType, /) -> DcmIPdu:
+    def create_dcm_ipdu(
+        self, name: str, package: ArPackage, length: int, diag_pdu_type: DiagPduType, /
+    ) -> DcmIPdu:
         """create a [`DcmIPdu`] in the [`System`]"""
         ...
 
@@ -564,6 +566,16 @@ class System:
         /,
     ) -> SecuredIPdu:
         """create a [`SecuredIPdu`] in the [`System`]"""
+        ...
+
+    def create_user_defined_pdu(
+        self,
+        name: str,
+        package: ArPackage,
+        length: int,
+        /,
+    ) -> UserDefinedPdu:
+        """create a [`UserDefinedPdu`] in the [`System`]"""
         ...
 
     def create_service_instance_collection_set(

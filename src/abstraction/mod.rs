@@ -366,6 +366,7 @@ pub(crate) fn add_submodules(py: Python<'_>, parent: &Bound<'_, PyModule>) -> Py
     communication.add_class::<communication::UdpNmClusterCoupling>()?;
     communication.add_class::<communication::UdpNmClusterSettings>()?;
     communication.add_class::<communication::UdpNmNode>()?;
+    communication.add_class::<communication::UserDefinedPdu>()?;
 
     let datatype = PyModule::new(py, "_datatype")?;
     abstraction.add_submodule(&datatype)?;

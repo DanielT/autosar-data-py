@@ -4229,3 +4229,16 @@ class UdpNmNode:
         """iterate over all TX `NmPdus`"""
         ...
     ...
+
+@final
+class UserDefinedPdu:
+    """
+    User defined PDU
+    """
+
+    def __init__(self, element: Element) -> UserDefinedPdu: ...
+    def remove(self, /, *, deep: bool = False) -> None: ...
+    element: Element
+    length: Optional[int]
+    """get or set the length of this PDU"""
+    name: str

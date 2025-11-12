@@ -891,6 +891,81 @@ impl DynamicPartAlternative {
 
 //##################################################################
 
+/// user-defined PDU
+#[pyclass(
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
+#[derive(Clone, PartialEq)]
+pub(crate) struct UserDefinedPdu(
+    pub(crate) autosar_data_abstraction::communication::UserDefinedPdu,
+);
+
+#[pymethods]
+impl UserDefinedPdu {
+    #[new]
+    fn new(element: &Element) -> PyResult<Self> {
+        match autosar_data_abstraction::communication::UserDefinedPdu::try_from(element.0.clone()) {
+            Ok(value) => Ok(Self(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    #[setter]
+    fn set_name(&self, name: &str) -> PyResult<()> {
+        self.0.set_name(name).map_err(abstraction_err_to_pyerr)
+    }
+
+    #[getter]
+    fn name(&self) -> Option<String> {
+        self.0.name()
+    }
+
+    #[getter]
+    fn element(&self) -> Element {
+        Element(self.0.element().clone())
+    }
+
+    fn __repr__(&self) -> String {
+        format!("{:#?}", self.0)
+    }
+
+    // --------- AbstractPdu methods ---------
+
+    /// set the length of this PDU
+    #[setter]
+    fn set_length(&self, length: u32) -> PyResult<()> {
+        self.0.set_length(length).map_err(abstraction_err_to_pyerr)
+    }
+
+    /// get the length of this PDU
+    #[getter]
+    fn length(&self) -> Option<u32> {
+        self.0.length()
+    }
+
+    /// iterate over the `PduTriggerings` that trigger this PDU
+    fn pdu_triggerings(&self) -> Vec<PduTriggering> {
+        self.0
+            .pdu_triggerings()
+            .into_iter()
+            .map(PduTriggering)
+            .collect()
+    }
+}
+
+//##################################################################
+
 /// a `PduTriggering` triggers a PDU in a frame or ethernet connection
 #[pyclass(
     frozen,
@@ -1148,6 +1223,9 @@ pub(crate) fn pdu_to_pyany(
         }
         autosar_data_abstraction::communication::Pdu::MultiplexedIPdu(multiplexed_ipdu) => {
             MultiplexedIPdu(multiplexed_ipdu.clone()).into_py_any(py)
+        }
+        autosar_data_abstraction::communication::Pdu::UserDefinedPdu(user_defined_pdu) => {
+            UserDefinedPdu(user_defined_pdu.clone()).into_py_any(py)
         }
     })
 }

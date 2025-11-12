@@ -11,7 +11,7 @@ use crate::{
             LinEventTriggeredFrame, LinSporadicFrame, LinUnconditionalFrame, MultiplexedIPdu, NPdu,
             NmConfig, NmPdu, RxAcceptContainedIPdu, SecureCommunicationProps, SecuredIPdu,
             ServiceInstanceCollectionSet, SoAdRoutingGroup, SocketConnectionIpduIdentifierSet,
-            SomeipTpConfig, SystemSignal, SystemSignalGroup,
+            SomeipTpConfig, SystemSignal, SystemSignalGroup, UserDefinedPdu,
         },
         datatype::SwBaseType,
         software_component::{CompositionSwComponentType, RootSwCompositionPrototype},
@@ -569,6 +569,21 @@ impl System {
             Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
         }
     }
+    
+    /// create a [`UserDefinedPdu`] in the [`System`]
+    #[pyo3(signature = (name, package, length, /))]
+    #[pyo3(text_signature = "(self, name: str, package: ArPackage, length: int, /)")]
+    fn create_user_defined_pdu(
+        &self,
+        name: &str,
+        package: &ArPackage,
+        length: u32,
+    ) -> PyResult<UserDefinedPdu> {
+        match self.0.create_user_defined_pdu(name, &package.0, length) {
+            Ok(ipdu) => Ok(UserDefinedPdu(ipdu)),
+            Err(error) => Err(AutosarAbstractionError::new_err(error.to_string())),
+        }
+    }
 
     /// iterate over all PDUs in the System
     ///
@@ -601,6 +616,9 @@ impl System {
             }
             autosar_data_abstraction::communication::Pdu::MultiplexedIPdu(pdu) => {
                 Python::attach(|py| MultiplexedIPdu(pdu).into_py_any(py).ok())
+            }
+            autosar_data_abstraction::communication::Pdu::UserDefinedPdu(pdu) => {
+                Python::attach(|py| UserDefinedPdu(pdu).into_py_any(py).ok())
             } //_ => None,
         }))
     }
