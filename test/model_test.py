@@ -210,13 +210,13 @@ def test_model_misc() -> None:
     assert model.root_element.model == model
     # inequalities do not exist
     with pytest.raises(TypeError):
-        model < model2
+        model < model2 # type: ignore [arg-type]
     with pytest.raises(TypeError):
-        model > model2
+        model > model2 # type: ignore [arg-type]
     with pytest.raises(TypeError):
-        model <= model2
+        model <= model2 # type: ignore [arg-type]
     with pytest.raises(TypeError):
-        model >= model2
+        model >= model2 # type: ignore [arg-type]
 
     # models can be hashed
     modelset = set([model, model2])

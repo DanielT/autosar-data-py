@@ -48,6 +48,8 @@ pub(crate) enum AutosarVersion {
     Autosar_00052,
     #[pyo3(name = "AUTOSAR_00053")]
     Autosar_00053,
+    #[pyo3(name = "AUTOSAR_00054")]
+    Autosar_00054,
     #[pyo3(name = "LATEST")]
     Latest,
 }
@@ -95,6 +97,7 @@ impl From<AutosarVersion> for autosar_data_specification::AutosarVersion {
             AutosarVersion::Autosar_00051 => Self::Autosar_00051,
             AutosarVersion::Autosar_00052 => Self::Autosar_00052,
             AutosarVersion::Autosar_00053 => Self::Autosar_00053,
+            AutosarVersion::Autosar_00054 => Self::Autosar_00054,
             AutosarVersion::Latest => Self::LATEST,
         }
     }
@@ -124,8 +127,9 @@ impl From<autosar_data_specification::AutosarVersion> for AutosarVersion {
             autosar_data_specification::AutosarVersion::Autosar_00051 => Self::Autosar_00051,
             autosar_data_specification::AutosarVersion::Autosar_00052 => Self::Autosar_00052,
             autosar_data_specification::AutosarVersion::Autosar_00053 => Self::Autosar_00053,
+            autosar_data_specification::AutosarVersion::Autosar_00054 => Self::Autosar_00054,
 
-            _ => Self::Autosar_00053,
+            _ => Self::Autosar_00054,
         }
     }
 }
