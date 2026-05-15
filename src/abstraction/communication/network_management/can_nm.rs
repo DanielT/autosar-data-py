@@ -12,6 +12,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 
 /// Can specific `NmCluster` attributes
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -323,6 +324,7 @@ iterator_wrapper!(CanNmClusterIterator, CanNmCluster);
 /// These settings are mandatory for a `CanNmCluster` and must be set during creation.
 /// Additional optional settings can be set using the `CanNmCluster` methods.
 #[pyclass(
+    skip_from_py_object,
     eq,
     get_all,
     set_all,
@@ -405,6 +407,7 @@ impl CanNmClusterSettings {
 
 /// A `CanNmClusterCoupling` couples multiple `CanNmCluster`s, and contains CAN specific settings.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -495,6 +498,7 @@ impl CanNmClusterCoupling {
 ///
 /// The node connects to a `CanCommunicationController` and an `NmEcu`.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

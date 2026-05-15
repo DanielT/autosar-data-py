@@ -15,6 +15,7 @@ use pyo3::prelude::*;
 /// A `FlexrayCluster` contains all configuration items associated with a Flexray network.
 /// The cluster connects multiple ECUs.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -112,7 +113,11 @@ impl FlexrayCluster {
 //##################################################################
 
 /// Information about the flexray physical channels present inside a cluster
-#[pyclass(eq, module = "autosar_data._autosar_data._abstraction._communication")]
+#[pyclass(
+    skip_from_py_object,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayPhysicalChannelsInfo(
     pub(crate) autosar_data_abstraction::communication::FlexrayPhysicalChannelsInfo,
@@ -139,7 +144,11 @@ impl FlexrayPhysicalChannelsInfo {
 
 //##################################################################
 
-#[pyclass(eq, module = "autosar_data._autosar_data._abstraction._communication")]
+#[pyclass(
+    skip_from_py_object,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct FlexrayClusterSettings(
     pub(crate) autosar_data_abstraction::communication::FlexrayClusterSettings,

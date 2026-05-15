@@ -10,6 +10,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 
 /// An `EcuInstance` needs an `EthernetCommunicationController` in order to connect to an ethernet cluster.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -109,6 +110,7 @@ iterator_wrapper!(EthernetCCPhysicalChannelIterator, EthernetPhysicalChannel);
 
 /// A connector between an [`EthernetCommunicationController`] in an ECU and an [`EthernetPhysicalChannel`]
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

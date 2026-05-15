@@ -12,6 +12,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 
 /// a Flexray frame
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -113,6 +114,7 @@ impl FlexrayFrame {
 /// map a PDU to the frame
 /// The frame triggering connects a frame to a physical channel
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -238,6 +240,7 @@ impl FlexrayFrameTriggering {
 
 /// The timing settings of a Flexray frame
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication",
@@ -323,6 +326,7 @@ impl FlexrayCommunicationCycle {
 
 /// The cycle repetition of a Flexray frame, from the Flexray standard
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,

@@ -17,6 +17,7 @@ use pyo3::prelude::*;
 
 /// The `CanPhysicalChannel contains all of the communication on a CAN network
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

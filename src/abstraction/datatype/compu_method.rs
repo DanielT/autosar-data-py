@@ -10,6 +10,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 ///
 /// Use [`ArPackage::create_compu_method`] to create a new `CompuMethod`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -133,6 +134,7 @@ iterator_wrapper!(PhysToIntCompuScaleIterator, CompuScale);
 
 /// Category of a `CompuMethod`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -195,6 +197,7 @@ impl From<autosar_data_abstraction::datatype::CompuMethodCategory> for CompuMeth
 
 /// A `CompuScale` describes the conversion between physical and internal values, as well as the limits of the scale
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -310,6 +313,7 @@ impl CompuScale {
 
 /// Direction of a `CompuScale`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -1354,6 +1358,7 @@ fn pylist_to_tab_no_intp(
 
 /// Linear conversion parameters for CompuMethodScaleLinearContent and CompuMethodScaleLinearAndTextTable
 #[pyclass(
+    skip_from_py_object,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
@@ -1404,6 +1409,8 @@ impl LinearConversionParameters {
         format!("{self:#?}")
     }
 }
+
+//##################################################################
 
 /// Description of the content of a `CompuMethod` whose category is `Rational`
 #[pyclass(
@@ -1475,6 +1482,7 @@ impl PartialEq for RationalConversionParameters {
 
 /// A single entry of a text table conversion
 #[pyclass(
+    skip_from_py_object,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
@@ -1505,8 +1513,11 @@ impl TextTableEntry {
     }
 }
 
+//##################################################################
+
 /// A single entry of a bitfield text table conversion
 #[pyclass(
+    skip_from_py_object,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
@@ -1540,8 +1551,11 @@ impl BitfieldEntry {
     }
 }
 
+//##################################################################
+
 /// a single entry of a `CompuMethod` whose category is `TabNoInterpretation`
 #[pyclass(
+    skip_from_py_object,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,

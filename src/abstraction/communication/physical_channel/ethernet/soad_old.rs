@@ -15,6 +15,7 @@ use pyo3::prelude::*;
 /// A `SocketConnectionBundle` describes a connection between a server port and multiple client ports.
 /// It contains multiple bundled connections, each transporting one or more PDUs.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -111,6 +112,7 @@ iterator_wrapper!(SocketConnectionBundleIterator, SocketConnectionBundle);
 
 /// A socketConnection inside a `SocketConnectionBundle` describes a single connection to a specific client port.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -289,6 +291,7 @@ iterator_wrapper!(SocketConnectionIterator, SocketConnection);
 /// In addition to the Pdu Triggering, it also contains associated settings like the
 /// header id, timeout and collection trigger.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -424,6 +427,7 @@ iterator_wrapper!(
 /// to the `SocketConnectionBundles` used for transmission.
 /// `SoAdRoutingGroups` are part of the old way of configuring Ethernet communication in AUTOSAR.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

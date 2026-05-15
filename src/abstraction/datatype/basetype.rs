@@ -10,7 +10,12 @@ use pyo3::prelude::*;
 /// `SwBaseType` is a basic data type.
 ///
 /// It is used to define the data types of signals and variables.
-#[pyclass(frozen, eq, module = "autosar.abstraction.datatype")]
+#[pyclass(
+    from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct SwBaseType(pub(crate) autosar_data_abstraction::datatype::SwBaseType);
 
@@ -133,7 +138,13 @@ impl SwBaseType {
 //##################################################################
 
 /// `BaseTypeEncoding` describes the encoding of a basic data type.
-#[pyclass(frozen, eq, eq_int, module = "autosar.abstraction.datatype")]
+#[pyclass(
+    from_py_object,
+    frozen,
+    eq,
+    eq_int,
+    module = "autosar_data._autosar_data._abstraction._datatype"
+)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum BaseTypeEncoding {
     /// `OnesComplement` is used for signed integers

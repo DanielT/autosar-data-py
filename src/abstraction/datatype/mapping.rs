@@ -17,6 +17,7 @@ use pyo3::prelude::*;
 ///
 /// Use [`ArPackage::create_data_type_mapping_set`] to create a new `DataTypeMappingSet`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -98,6 +99,7 @@ iterator_wrapper!(DataTypeMappingSetIterator, DataTypeMappingSet);
 
 /// A `DataTypeMap` maps an `ImplementationDataType` to an `ApplicationDataType`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"

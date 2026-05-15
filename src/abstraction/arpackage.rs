@@ -33,7 +33,12 @@ use pyo3::prelude::*;
 //##################################################################
 
 /// An `ArPackage` is an Autosar package, which can contain other packages or elements
-#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ArPackage(pub(crate) autosar_data_abstraction::ArPackage);
 

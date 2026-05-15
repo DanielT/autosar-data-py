@@ -12,6 +12,7 @@ use pyo3::{IntoPyObjectExt, prelude::*};
 
 /// `RPortPrototype` represents a required port prototype
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -83,6 +84,7 @@ impl RPortPrototype {
 
 /// `PPortPrototype` represents a provided port prototype
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -154,6 +156,7 @@ impl PPortPrototype {
 
 /// `PRPortPrototype` represents a provided and required port prototype
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -258,6 +261,7 @@ pub(crate) fn port_prototype_to_pyany(
 
 /// `PortGroup` represents a group of ports
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"

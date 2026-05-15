@@ -8,6 +8,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 ///
 /// Use [`ArPackage::create_data_transformation_set`] to create a new `DataTransformationSet`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -113,6 +114,7 @@ impl DataTransformationSet {
 
 /// A `DataTransformation` is a chain of `TransformationTechnology`s that are used to transform data
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -186,6 +188,7 @@ iterator_wrapper!(DataTransformationIterator, DataTransformation);
 
 /// A `TransformationTechnology` describes how to transform signal or PDU data
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -336,6 +339,7 @@ fn transformation_technology_config_to_pyany(
 /// Configuration for a generic transformation technology
 /// For a generic trasformation, the mandatory values must be chosen by the user
 #[pyclass(
+    from_py_object,
     get_all,
     set_all,
     eq,
@@ -411,6 +415,7 @@ impl GenericTransformationTechnologyConfig {
 
 /// Configuration for a COM transformation
 #[pyclass(
+    from_py_object,
     get_all,
     set_all,
     eq,
@@ -465,6 +470,7 @@ impl ComTransformationTechnologyConfig {
 
 /// Configuration for an E2E transformation
 #[pyclass(
+    from_py_object,
     get_all,
     set_all,
     eq,
@@ -661,6 +667,7 @@ impl E2ETransformationTechnologyConfig {
 
 /// Configuration for a SOMEIP transformation
 #[pyclass(
+    from_py_object,
     get_all,
     set_all,
     eq,
@@ -724,6 +731,7 @@ impl SomeIpTransformationTechnologyConfig {
 
 /// enumeration of the possible E2E profiles
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -807,6 +815,7 @@ impl From<autosar_data_abstraction::communication::E2EProfile> for E2EProfile {
 
 /// there are two standardized behaviors for E2E profiles, which can be selected for each E2E transformation
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -851,6 +860,7 @@ impl From<autosar_data_abstraction::communication::E2EProfileBehavior> for E2EPr
 /// data ID modes for E2E profiles 01 and 11
 #[allow(clippy::enum_variant_names)] // naming is consistent with the AUTOSAR standard
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -902,6 +912,7 @@ impl From<autosar_data_abstraction::communication::DataIdMode> for DataIdMode {
 
 /// Properties for the End to End transformation of an ISignal(Group)
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -1030,6 +1041,7 @@ impl EndToEndTransformationISignalProps {
 
 /// Properties for the SOMEIP transformation of an ISignal(Group)
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -1200,6 +1212,7 @@ impl SomeIpTransformationISignalProps {
 
 /// message types that can be used in a SOME/IP message header, depending on the type of communication
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,

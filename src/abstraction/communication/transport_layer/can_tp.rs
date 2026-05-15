@@ -17,6 +17,7 @@ use pyo3::prelude::*;
 ///
 /// There should be one `CanTpConfig` for each CAN network in the system
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -189,6 +190,7 @@ impl CanTpConfig {
 
 /// A `CanTpEcu` represents an ECU that is using the `CanTp` module
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -261,6 +263,7 @@ iterator_wrapper!(CanTpEcuIterator, CanTpEcu);
 
 /// A `CanTpAddress` represents a logical address in the `CanTp` module
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -329,6 +332,7 @@ iterator_wrapper!(CanTpAddressIterator, CanTpAddress);
 
 /// A `CanTpChannel` represents a channel in the `CanTp` module
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -411,6 +415,7 @@ iterator_wrapper!(CanTpChannelIterator, CanTpChannel);
 
 /// The mode of a `CanTpChannel`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -455,6 +460,7 @@ impl From<CanTpChannelMode> for autosar_data_abstraction::communication::CanTpCh
 /// A connection identifies the sender and the receiver of this particular communication.
 /// The `CanTp` module routes a Pdu through this connection.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -617,6 +623,7 @@ iterator_wrapper!(CanTpConnectionIterator, CanTpConnection);
 
 /// The addressing format of a `CanTpConnection`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -688,6 +695,7 @@ impl From<CanTpAddressingFormat>
 
 /// A `CanTpNode` provides the TP address and the connection to the topology description in a `CanTpConfig`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

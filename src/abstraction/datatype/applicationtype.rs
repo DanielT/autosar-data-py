@@ -15,6 +15,7 @@ use pyo3::{IntoPyObjectExt, prelude::*};
 ///
 /// Use [`ArPackage::create_application_array_data_type`] to create a new application array data type.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -89,6 +90,7 @@ impl ApplicationArrayDataType {
 
 /// definition of the size type of an application array data type
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -164,6 +166,7 @@ impl From<autosar_data_abstraction::datatype::ApplicationArraySize> for Applicat
 
 /// An element in an application array data type
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -237,6 +240,7 @@ impl ApplicationArrayElement {
 ///
 /// Use [`ArPackage::create_application_record_data_type`] to create a new application record data type.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -313,6 +317,7 @@ impl ApplicationRecordDataType {
 
 /// An element in an application record data type
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -390,6 +395,7 @@ iterator_wrapper!(ApplicationRecordElementIterator, ApplicationRecordElement);
 ///
 /// Use [`ArPackage::create_application_primitive_data_type`] to create a new application primitive data type.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -500,6 +506,7 @@ impl ApplicationPrimitiveDataType {
 
 /// The category of an application primitive data type
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,

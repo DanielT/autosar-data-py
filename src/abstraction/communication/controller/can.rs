@@ -16,6 +16,7 @@ use pyo3::prelude::*;
 
 /// An `EcuInstance` needs a `CanCommunicationController` in order to connect to a CAN cluster.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -111,6 +112,7 @@ iterator_wrapper!(CanCCPhysicalChannelIterator, CanPhysicalChannel);
 
 /// A connector between a [`CanCommunicationController`] in an ECU and a [`CanPhysicalChannel`]
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

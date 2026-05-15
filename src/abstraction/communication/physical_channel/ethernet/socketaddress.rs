@@ -16,6 +16,7 @@ use pyo3::prelude::*;
 /// A socket address establishes the link between one or more ECUs and a `NetworkEndpoint`.
 /// It contains all settings that are relevant for this combination.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -214,6 +215,7 @@ iterator_wrapper!(SocketAddressIterator, SocketAddress);
 
 /// transport protocol settings of a [`SocketAddress`]
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -306,6 +308,7 @@ impl TpConfig {
 
 /// Describes if a [`SocketAddress`] is used for unicast or multicast
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

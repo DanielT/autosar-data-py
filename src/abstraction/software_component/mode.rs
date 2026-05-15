@@ -9,6 +9,7 @@ use pyo3::prelude::*;
 
 /// A `ModeDeclarationGroup` is a collection of mode declarations.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -119,19 +120,20 @@ impl ModeDeclarationGroup {
 
 //##################################################################
 
-/// Category of mode declaration groupy, which defines the ordering of the modes in the group
+/// Category of mode declaration group, which defines the ordering of the modes in the group
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
     module = "autosar_data._autosar_data._abstraction._software_component"
 )]
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum ModeDeclarationGroupCategory {
     /// Ordering of the modes in the mode declaration group is alphabetic, and the modes may not set a value
     AlphabeticOrder,
     /// Ordering of modes in the mode declaration group is made explicit by the value, which must be set for each mode.
-    /// Additonally, the on_transition_value attribute must be set in this case.
+    /// Additionally, the on_transition_value attribute must be set in this case.
     ExplicitOrder,
 }
 
@@ -171,6 +173,7 @@ impl From<ModeDeclarationGroupCategory>
 
 /// A `ModeDeclaration` represents a mode declaration in a `ModeDeclarationGroup`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"

@@ -21,6 +21,7 @@ use pyo3::{IntoPyObjectExt, prelude::*};
 /// The `EcucForeignReferenceDef` specifies a reference to an XML description of an entity
 /// described in another AUTOSAR template.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -302,6 +303,7 @@ impl EcucForeignReferenceDef {
 /// The `EcucInstanceReferenceDef` specifies a reference to an XML description of an entity
 /// described in another AUTOSAR template using INSTANCE REFERENCE semantics.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -603,6 +605,7 @@ impl EcucInstanceReferenceDef {
 /// The `EcucChoiceReferenceDef` specifies alternative references where only one of the specified
 /// references will be used in the ECU configuration.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -886,6 +889,7 @@ impl EcucChoiceReferenceDef {
 
 /// The `EcuReferenceDef` specifies references between parameters in the ECU configuration.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -1169,6 +1173,7 @@ impl EcucReferenceDef {
 
 /// The `EcucUriReferenceDef` defines a reference with a destination that is specified via a destinationUri
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"

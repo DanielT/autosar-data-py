@@ -17,6 +17,7 @@ use pyo3::prelude::*;
 
 /// Wraps an `IPdu` to protect it from unauthorized manipulation
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -173,6 +174,7 @@ impl SecuredIPdu {
 
 /// The properties of a `SecuredIPdu`
 #[pyclass(
+    skip_from_py_object,
     get_all,
     set_all,
     eq,

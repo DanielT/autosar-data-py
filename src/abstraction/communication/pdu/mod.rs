@@ -28,6 +28,7 @@ pub(crate) use secured_ipdu::*;
 
 /// Network Management Pdu
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -157,6 +158,7 @@ impl NmPdu {
 
 /// This is a Pdu of the transport layer. The main purpose of the TP layer is to segment and reassemble `IPdus`.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -252,6 +254,7 @@ iterator_wrapper!(NPduIterator, NPdu);
 
 /// Represents the `IPdus` handled by Dcm
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -360,6 +363,7 @@ impl DcmIPdu {
 /// - `GLOBAL_TIME`
 /// - `DOIP`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -403,6 +407,7 @@ impl From<DiagPduType> for autosar_data_abstraction::communication::DiagPduType 
 
 /// This element is used for AUTOSAR Pdus without additional attributes that are routed by a bus interface
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -499,6 +504,7 @@ impl GeneralPurposePdu {
 /// - `GLOBAL_TIME`
 /// - `DOIP`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -554,6 +560,7 @@ impl From<GeneralPurposePduCategory>
 
 /// This element is used for AUTOSAR Pdus without attributes that are routed by the `PduR`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -668,6 +675,7 @@ impl GeneralPurposeIPdu {
 /// - SOMEIP_SEGMENTED_IPDU
 /// - DLT
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -711,6 +719,7 @@ impl From<GeneralPurposeIPduCategory>
 
 /// The multiplexed pdu contains one of serveral signal pdus
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -849,6 +858,7 @@ iterator_wrapper!(DynamicPartAlternativesIterator, DynamicPartAlternative);
 
 /// An alternative for the dynamic part of a `MultiplexedIPdu`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -893,6 +903,7 @@ impl DynamicPartAlternative {
 
 /// user-defined PDU
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -968,6 +979,7 @@ impl UserDefinedPdu {
 
 /// a `PduTriggering` triggers a PDU in a frame or ethernet connection
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -1076,6 +1088,7 @@ iterator_wrapper!(SignalTriggeringsIterator, ISignalTriggering);
 
 /// The `IPduPort` allows an ECU to send or receive a PDU
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -1152,6 +1165,7 @@ impl IPduPort {
 /// The collction trigger defines whether a Pdu contributes to the triggering
 /// of the data transmission if Pdu collection is enabled
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,

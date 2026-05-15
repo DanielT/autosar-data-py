@@ -18,6 +18,7 @@ pub(crate) use flexray_tp::*;
 ///
 /// The `TpAddress` element is used by `FlexrayArTpConfig` and `FlexrayTpConfig`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

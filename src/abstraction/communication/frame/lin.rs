@@ -11,6 +11,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 
 /// An event-triggered frame on a LIN bus
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -114,6 +115,7 @@ impl LinEventTriggeredFrame {
 
 /// A sporadic frame on a LIN bus
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -127,6 +129,7 @@ pub(crate) struct LinSporadicFrame(
 
 /// An unconditional frame on a LIN bus
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -140,6 +143,7 @@ pub(crate) struct LinUnconditionalFrame(
 
 /// The frame triggering connects a frame to a physical channel
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

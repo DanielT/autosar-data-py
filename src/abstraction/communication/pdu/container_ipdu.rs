@@ -18,6 +18,7 @@ use pyo3::prelude::*;
 
 /// Several `IPdus` can be collected in one `ContainerIPdu` based on the headerType
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -187,6 +188,7 @@ impl ContainerIPdu {
 /// The header type of a `ContainerIPdu`
 #[allow(clippy::enum_variant_names)] // item names are taken from the AUTOSAR standard
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -242,6 +244,7 @@ impl From<ContainerIPduHeaderType>
 
 /// The `RxAcceptContainedIPdu` enum defines whether a fixed set of contained IPdus is accepted or all contained IPdus
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -291,6 +294,7 @@ impl From<RxAcceptContainedIPdu>
 
 /// collection semantics for the ContainedIPdu
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -341,6 +345,7 @@ impl From<ContainedIPduCollectionSemantics>
 /// Defines when the transmission of the ContainerIPdu shall be requested
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -384,6 +389,7 @@ impl From<ContainerIPduTrigger> for autosar_data_abstraction::communication::Con
 
 /// Properties for an IPdu that is transmitted in a container IPdu
 #[pyclass(
+    skip_from_py_object,
     get_all,
     set_all,
     eq,

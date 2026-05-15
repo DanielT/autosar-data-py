@@ -19,6 +19,7 @@ use pyo3::{IntoPyObjectExt, prelude::*};
 
 /// An `EcuInstance` needs a `LinMaster` or `LinSlave` in order to connect to a LIN cluster.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -106,6 +107,7 @@ impl LinMaster {
 
 /// An `EcuInstance` needs a `LinMaster` or `LinSlave` in order to connect to a LIN cluster.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -188,6 +190,7 @@ iterator_wrapper!(LinCCPhysicalChannelIterator, LinPhysicalChannel);
 
 /// A `LinCommunicationConnector` connects an `EcuInstance` to a `LinCluster` via a `LinMaster` or `LinSlave`.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

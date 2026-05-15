@@ -23,6 +23,7 @@ use pyo3::{
 /// `ConstantSpecification` is a specification of a constant that can be part of a package, i.e. it can be defined stand-alone.
 /// These constant values can be referenced from value specifications.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -407,6 +408,7 @@ impl PartialEq for RecordValueSpecification {
 
 /// textual value
 #[pyclass(
+    skip_from_py_object,
     eq,
     get_all,
     set_all,
@@ -463,6 +465,7 @@ impl From<&TextValueSpecification> for autosar_data_abstraction::datatype::TextV
 
 /// numerical value
 #[pyclass(
+    skip_from_py_object,
     eq,
     get_all,
     set_all,
@@ -523,6 +526,7 @@ impl From<&NumericalValueSpecification>
 
 /// reference to a `ConstantValue`
 #[pyclass(
+    skip_from_py_object,
     eq,
     get_all,
     set_all,
@@ -706,6 +710,7 @@ impl PartialEq for ApplicationValueSpecification {
 
 /// Default init pattern, which is used when an optional `ApplicationRecordElement` in not available
 #[pyclass(
+    skip_from_py_object,
     eq,
     get_all,
     set_all,
@@ -774,6 +779,7 @@ impl From<&NotAvailableValueSpecification>
 
 /// reference to a `DataPrototype`, to be used as a pointer in the software
 #[pyclass(
+    skip_from_py_object,
     eq,
     get_all,
     set_all,
@@ -1231,6 +1237,7 @@ impl PartialEq for NumericalRuleBasedValueSpecification {
 
 /// standard fill rules for rule based value specifications
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -1410,6 +1417,7 @@ impl PartialEq for SwAxisCont {
 /// enumeration of the axis categories.
 /// This is a restricted version of the `CalprmAxisCategoryEnum`: `FixAxis` is not permitted in `SwAxisCont`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -2070,6 +2078,7 @@ pub(crate) fn pyany_to_composite_rule_based_value_argument(
 
 /// argument of a rule-based value specification
 #[pyclass(
+    from_py_object,
     module = "autosar_data._autosar_data._abstraction._datatype",
     get_all,
     set_all,

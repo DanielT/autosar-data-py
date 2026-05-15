@@ -23,6 +23,7 @@ pub(crate) use reference::*;
 
 /// `EcucValueCollection` collects references to all the separate modules that form the ECU configuration
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -112,6 +113,7 @@ impl EcucValueCollection {
 
 /// The `EcucModuleConfigurationValues` is a container for the configuration of a single base software module
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -220,6 +222,7 @@ iterator_wrapper!(
 
 /// The `EcucContainerValue` is a container in the ECU configuration
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"

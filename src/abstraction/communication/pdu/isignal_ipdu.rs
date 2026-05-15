@@ -19,6 +19,7 @@ use pyo3::prelude::*;
 
 /// Represents the `IPdus` handled by Com
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -167,6 +168,7 @@ impl ISignalIPdu {
 
 /// `ISignalToIPduMapping` connects an `ISignal` or `ISignalGroup` to an `ISignalToIPdu`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -402,6 +404,7 @@ impl PartialEq for IpduTiming {
 
 /// Cyclic and event controlled timing parameters for an IPDU
 #[pyclass(
+    skip_from_py_object,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication",
     get_all,
@@ -513,6 +516,7 @@ impl PartialEq for TransmissionModeTiming {
 
 /// Cyclic timing parameters for an IPDU
 #[pyclass(
+    skip_from_py_object,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication",
     get_all,
@@ -583,6 +587,7 @@ impl std::fmt::Debug for CyclicTiming {
 
 /// Event controlled timing parameters for an IPDU
 #[pyclass(
+    skip_from_py_object,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication",
     get_all,
@@ -638,6 +643,7 @@ impl EventControlledTiming {
 
 /// `ISignalIPduGroup`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

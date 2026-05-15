@@ -21,6 +21,7 @@ import autosar_data.abstraction
 
 # from ._autosar_data import *
 from typing import (
+    Optional,
     final,
     Dict,
     FrozenSet,
@@ -280,7 +281,7 @@ class AutosarVersion:
     A version of the Autosar standard
     """
 
-    def __init__(self, verstring: str) -> AutosarVersion: ...
+    def __init__(self, verstring: str) -> None: ...
     def __lt__(self, other: AutosarVersion) -> bool: ...
     def __le__(self, other: AutosarVersion) -> bool: ...
     def __eq__(self, other: AutosarVersion) -> bool: ...
@@ -309,6 +310,7 @@ class AutosarVersion:
     AUTOSAR_00051: AutosarVersion
     AUTOSAR_00052: AutosarVersion
     AUTOSAR_00053: AutosarVersion
+    AUTOSAR_00054: AutosarVersion
     LATEST: AutosarVersion
 
 @final
@@ -371,24 +373,24 @@ class Element:
     comment: str
     """XML comment attached to this element"""
     def create_sub_element(
-        self, element_name: ElementName, position: int = None
+        self, element_name: ElementName, position: Optional[int] = None
     ) -> Element:
         """create a sub element under this element with the given ElementName (optionally at a specific position)"""
         ...
 
     def create_named_sub_element(
-        self, element_name: ElementName, item_name: str, position: int = None
+        self, element_name: ElementName, item_name: str, position: Optional[int] = None
     ) -> Element:
         """create a named sub element under this element with the given ElementName (optionally at a specific position)"""
         ...
 
     def create_copied_sub_element(
-        self, other: Element, position: int = None
+        self, other: Element, position: Optional[int] = None
     ) -> Element:
         """create a copy of some other element (with all of its children) as a child of this element (optionally at a specific position)"""
         ...
 
-    def move_element_here(self, move_element: Element, position: int = None) -> Element:
+    def move_element_here(self, move_element: Element, position: Optional[int] = None) -> Element:
         """move an element from somewhere else in this model or from another model to become a child element (optionally at a specific position)"""
         ...
 
@@ -644,11 +646,11 @@ class CharacterDataTypeUnsignedInt:
     def __repr__(self) -> str: ...
     def __str__(self) -> str: ...
 
-def check_file(filename: str):
+def check_file(filename: str) -> bool:
     """Check if the file contains arxml data. Returns true if an arxml file header is found and does not parse anything after it."""
     ...
 
-def check_buffer(input: Union[str, bytes]):
+def check_buffer(input: Union[str, bytes]) -> bool:
     """Check if the buffer contains arxml data. Returns true if an arxml file header is found and does not parse anything after it."""
     ...
 

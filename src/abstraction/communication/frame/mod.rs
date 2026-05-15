@@ -15,6 +15,7 @@ pub(crate) use lin::*;
 
 /// `PduToFrameMapping` connects a PDU to a frame
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -140,6 +141,7 @@ iterator_wrapper!(PduToFrameMappingIterator, PduToFrameMapping);
 
 /// The `FramePort` allows an ECU to send or receive a frame
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

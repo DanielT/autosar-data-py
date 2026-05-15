@@ -13,6 +13,7 @@ use pyo3::{IntoPyObjectExt, prelude::*};
 
 /// A `ServiceInstanceCollectionSet` contains `ServiceInstance`s that are provided or consumed by an ECU
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -139,6 +140,7 @@ iterator_wrapper!(
 
 /// A `ProvidedServiceInstance` is a service that is provided by an ECU
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -308,6 +310,7 @@ impl ProvidedServiceInstance {
 
 /// An `EventHandler` describes the handling of a single event in a `ProvidedServiceInstance`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -423,6 +426,7 @@ iterator_wrapper!(EventHandlerIterator, EventHandler);
 
 /// A `ConsumedServiceInstance` is a service that is consumed by an ECU
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -611,6 +615,7 @@ impl ConsumedServiceInstance {
 
 /// A `ConsumedEventGroup` is a group of events in a `ConsumedServiceInstance` that are consumed by an ECU
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -744,6 +749,7 @@ iterator_wrapper!(ConsumedEventGroupIterator, ConsumedEventGroup);
 
 /// A `LocalUnicastAddress` is a local address (TCP or UDP) that can be used for a `ProvidedServiceInstance` or `ConsumedServiceInstance`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication",
@@ -799,6 +805,7 @@ iterator_wrapper!(LocalUnicastAddressIterator, LocalUnicastAddress);
 /// A group of Pdus that can be activated or deactivated for transmission over a socket connection.
 /// It is used by `EventHandler`s in `ProvidedServiceInstance`s and `ConsumedServiceInstance`s.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -905,6 +912,7 @@ iterator_wrapper!(PduActivationRoutingGroupIterator, PduActivationRoutingGroup);
 ///
 /// Use [`ArPackage::create_someip_sd_server_service_instance_config`] to create a new `SomeipSdServerServiceInstanceConfig`.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -1039,6 +1047,7 @@ impl SomeipSdServerServiceInstanceConfig {
 ///
 /// Use [`ArPackage::create_someip_sd_server_event_group_timing_config`] to create a new `SomeipSdServerEventGroupTimingConfig`.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -1112,6 +1121,7 @@ impl SomeipSdServerEventGroupTimingConfig {
 ///
 /// Use [`ArPackage::create_someip_sd_client_service_instance_config`] to create a new `SomeipSdClientServiceInstanceConfig`.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -1205,6 +1215,7 @@ impl SomeipSdClientServiceInstanceConfig {
 ///
 /// Use [`ArPackage::create_someip_sd_client_event_group_timing_config`] to create a new `SomeipSdClientEventGroupTimingConfig`.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -1321,7 +1332,11 @@ impl SomeipSdClientEventGroupTimingConfig {
 //##################################################################
 
 /// A `RequestResponseDelay` contains the minimum and maximum delay for a request-response communication
-#[pyclass(eq, module = "autosar_data._autosar_data._abstraction._communication")]
+#[pyclass(
+    skip_from_py_object,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct RequestResponseDelay(
     pub(crate) autosar_data_abstraction::communication::RequestResponseDelay,
@@ -1373,6 +1388,7 @@ impl RequestResponseDelay {
 
 /// A `InitialSdDelayConfig` contains the configuration for the initial delay of an SD client or server
 #[pyclass(
+    skip_from_py_object,
     eq,
     get_all,
     set_all,
@@ -1442,6 +1458,7 @@ impl From<autosar_data_abstraction::communication::InitialSdDelayConfig> for Ini
 
 /// A `SomipTpConfig` contains the configuration of individual `SomeIp` TP connections
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -1558,6 +1575,7 @@ impl SomeipTpConfig {
 
 /// A `SomeipTpConnection` contains the configuration of a single `SomeIp` TP connection
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -1662,6 +1680,7 @@ iterator_wrapper!(SomeipTpConnectionIterator, SomeipTpConnection);
 ///
 /// version >= `AUTOSAR_00046`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

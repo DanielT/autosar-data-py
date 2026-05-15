@@ -32,7 +32,12 @@ pub(crate) use mapping::*;
 ///
 /// It defines how ECUs communicate with each other over various networks.
 /// It also contains the mapping of software components to ECUs.
-#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct System(pub(crate) autosar_data_abstraction::System);
 
@@ -910,7 +915,13 @@ iterator_wrapper!(ISignalIPduGroupIterator, ISignalIPduGroup);
 //#########################################################
 
 /// The category of a System
-#[pyclass(frozen, eq, eq_int, module = "autosar_data._autosar_data._abstraction")]
+#[pyclass(
+    from_py_object,
+    frozen,
+    eq,
+    eq_int,
+    module = "autosar_data._autosar_data._abstraction"
+)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SystemCategory {
     /// The `System` is used to describe system constraints

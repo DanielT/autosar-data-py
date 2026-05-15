@@ -16,6 +16,7 @@ use pyo3::prelude::*;
 
 /// The `FlexrayArTpConfig` represents the configuration of the Flexray Autosar Transport Protocol
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -144,6 +145,7 @@ impl FlexrayArTpConfig {
 
 /// The `FlexrayArTpChannel` represents a channel in the Flexray Autosar Transport Protocol
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -313,6 +315,7 @@ iterator_wrapper!(FlexrayArTpChannelIterator, FlexrayArTpChannel);
 
 /// Types of Acknowledgement that can be used in an `FlexrayArTpChannel`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -360,6 +363,7 @@ impl From<autosar_data_abstraction::communication::FrArTpAckType> for FrArTpAckT
 
 /// Types of Maximum Message Length that can be used in an `FlexrayArTpChannel`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -418,6 +422,7 @@ impl From<autosar_data_abstraction::communication::MaximumMessageLengthType>
 /// The connection identifies the sender and the receiver of this particular communication.
 /// The Flexray Autosar Tp module routes a Pdu through this connection.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -545,6 +550,7 @@ iterator_wrapper!(FlexrayArTpConnectionIterator, FlexrayArTpConnection);
 ///
 /// A TP node (sender or receiver) provides the TP address and the connection to the topology description
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

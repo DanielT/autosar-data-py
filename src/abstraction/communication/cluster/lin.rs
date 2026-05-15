@@ -15,6 +15,7 @@ use pyo3::prelude::*;
 /// A `CanCluster` contains all configuration items associated with a CAN network.
 /// The cluster connects multiple ECUs.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

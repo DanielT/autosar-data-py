@@ -22,6 +22,7 @@ pub(crate) use port::*;
 ///
 /// Use [`ArPackage::create_composition_sw_component_type`] to create a new composition sw component type.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -278,6 +279,7 @@ impl CompositionSwComponentType {
 ///
 /// Use [`ArPackage::create_application_sw_component_type`] to create a new application sw component type.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -437,6 +439,7 @@ impl ApplicationSwComponentType {
 ///
 /// Use [`ArPackage::create_complex_device_driver_sw_component_type`] to create a new complex device driver sw component type.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -597,6 +600,7 @@ impl ComplexDeviceDriverSwComponentType {
 ///
 /// Use [`ArPackage::create_service_sw_component_type`] to create a new service sw component type.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -756,6 +760,7 @@ impl ServiceSwComponentType {
 ///
 /// Use [`ArPackage::create_sensor_actuator_sw_component_type`] to create a new sensor/actuator sw component type.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -916,6 +921,7 @@ impl SensorActuatorSwComponentType {
 ///
 /// Use [`ArPackage::create_ecu_abstraction_sw_component_type`] to create a new ECU abstraction sw component type.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -1126,6 +1132,7 @@ pub(crate) fn sw_component_type_to_pyany(
 
 /// A `SwComponentPrototype` is an instance of a software component type
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -1199,6 +1206,7 @@ pub(crate) fn component_prototype_to_pyany(
 
 /// The `RootSwCompositionPrototype` is a special kind of `SwComponentPrototype` that represents the root of the composition hierarchy
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"

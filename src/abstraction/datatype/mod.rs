@@ -26,6 +26,7 @@ pub(crate) use values::*;
 ///
 /// Use [`ArPackage::create_unit`] to create a new unit.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -90,6 +91,7 @@ impl Unit {
 
 /// `DataConstr` represents a data constraint.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -165,6 +167,7 @@ impl DataConstr {
 
 /// `DataConstrRule` represents a data constraint rule.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -227,6 +230,7 @@ iterator_wrapper!(DataConstrRuleIterator, DataConstrRule);
 
 /// The type of a data constraint rule
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,

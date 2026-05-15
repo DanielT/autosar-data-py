@@ -19,6 +19,7 @@ use pyo3::{IntoPyObjectExt, prelude::*};
 
 /// A `TimingEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` periodically
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -102,6 +103,7 @@ impl TimingEvent {
 
 /// an asynchronous server call completed
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -176,6 +178,7 @@ impl AsynchronousServerCallReturnsEvent {
 
 /// starts a runnable for background processing at low priority
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -250,6 +253,7 @@ impl BackgroundEvent {
 
 /// A `DataReceivedEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when data is received
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -348,6 +352,7 @@ impl DataReceivedEvent {
 
 /// A `DataSendCompletedEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when data is sent
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -422,6 +427,7 @@ impl DataSendCompletedEvent {
 
 /// A `DataReceiveErrorEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when a data receive error occurs
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -496,6 +502,7 @@ impl DataReceiveErrorEvent {
 
 /// A `DataWriteCompletedEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when data is written
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -570,6 +577,7 @@ impl DataWriteCompletedEvent {
 
 /// A `ExternalTriggerOccurredEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when an external trigger occurs
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -644,6 +652,7 @@ impl ExternalTriggerOccurredEvent {
 
 /// A `InitEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when the software component is initialized
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -714,6 +723,7 @@ impl InitEvent {
 
 /// A `InternalTriggerOccurredEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when an internal trigger occurs
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -788,6 +798,7 @@ impl InternalTriggerOccurredEvent {
 
 /// A `ModeSwitchedAckEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when a mode switch is acknowledged
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -862,6 +873,7 @@ impl ModeSwitchedAckEvent {
 
 /// A `OperationInvokedEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when an operation is invoked
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -964,6 +976,7 @@ impl OperationInvokedEvent {
 
 /// A `OsTaskExecutionEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when an OS task is executed
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -1038,6 +1051,7 @@ impl OsTaskExecutionEvent {
 
 /// A `SwcModeManagerErrorEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when a mode manager error occurs
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -1112,6 +1126,7 @@ impl SwcModeManagerErrorEvent {
 
 /// A `SwcModeSwitchEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when a mode switch occurs
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -1183,9 +1198,9 @@ impl SwcModeSwitchEvent {
 
     /// Set the `ModeActivationKind` for the `SwcModeSwitchEvent`
     #[setter]
-    fn set_mode_activation_kind(&self, kind: ModeActivationKind) -> PyResult<()> {
+    fn set_mode_activation_kind(&self, kind: &ModeActivationKind) -> PyResult<()> {
         self.0
-            .set_mode_activation_kind(kind.into())
+            .set_mode_activation_kind((*kind).into())
             .map_err(abstraction_err_to_pyerr)
     }
 
@@ -1234,6 +1249,7 @@ impl SwcModeSwitchEvent {
 
 /// Kind of mode switch condition used for activation of an event
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     eq_int,
@@ -1286,6 +1302,7 @@ impl From<ModeActivationKind> for autosar_data_abstraction::software_component::
 
 /// A `TransformerHardErrorEvent` is a subclass of `RTEEvent` which triggers a `RunnableEntity` when a transformer hard error occurs
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"

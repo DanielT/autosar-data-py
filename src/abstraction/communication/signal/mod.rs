@@ -21,7 +21,12 @@ use pyo3::{IntoPyObjectExt, prelude::*};
 //##################################################################
 
 /// Signal of the Interaction Layer
-#[pyclass(frozen, eq, module = "autosar.abstraction.communication")]
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ISignal(pub(crate) autosar_data_abstraction::communication::ISignal);
 
@@ -230,7 +235,12 @@ iterator_wrapper!(DataTransformationIterator, DataTransformation);
 /// The system signal represents the communication system's view of data exchanged between SW components which reside on different ECUs
 ///
 /// Use [`ArPackage::create_system_signal`] to create a new system signal
-#[pyclass(frozen, eq, module = "autosar.abstraction.communication")]
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SystemSignal(pub(crate) autosar_data_abstraction::communication::SystemSignal);
 
@@ -326,7 +336,12 @@ iterator_wrapper!(SystemSignalIterator, SystemSignal);
 //##################################################################
 
 /// An `ISignalGroup` groups signals that should always be kept together
-#[pyclass(frozen, eq, module = "autosar.abstraction.communication")]
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ISignalGroup(pub(crate) autosar_data_abstraction::communication::ISignalGroup);
 
@@ -463,7 +478,12 @@ impl ISignalGroup {
 /// guarantee the atomic transfer of AUTOSAR composite data types.
 ///
 /// Use [`ArPackage::create_system_signal_group`] to create a new system signal group
-#[pyclass(frozen, eq, module = "autosar.abstraction.communication")]
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SystemSignalGroup(
     pub(crate) autosar_data_abstraction::communication::SystemSignalGroup,
@@ -525,7 +545,12 @@ impl SystemSignalGroup {
 }
 
 /// an `ISignalTriggering` triggers a signal in a PDU
-#[pyclass(frozen, eq, module = "autosar.abstraction.communication")]
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ISignalTriggering(
     pub(crate) autosar_data_abstraction::communication::ISignalTriggering,
@@ -620,7 +645,12 @@ iterator_wrapper!(ISignalPortIterator, ISignalPort);
 //##################################################################
 
 /// The `ISignalPort` allows an ECU to send or receive a Signal
-#[pyclass(frozen, eq, module = "autosar.abstraction.communication")]
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct ISignalPort(pub(crate) autosar_data_abstraction::communication::ISignalPort);
 
@@ -691,7 +721,13 @@ impl ISignalPort {
 //##################################################################
 
 /// The `TransferProperty` defines if or how the signal influences the transfer of the PDU
-#[pyclass(frozen, eq, eq_int, module = "autosar.abstraction.communication")]
+#[pyclass(
+    from_py_object,
+    frozen,
+    eq,
+    eq_int,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TransferProperty {
     /// The signal is pending; it does not trigger the transfer of the PDU

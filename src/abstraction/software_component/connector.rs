@@ -13,6 +13,7 @@ use pyo3::{IntoPyObjectExt, prelude::*};
 
 /// A `DelegationSwConnector` connects a port of a software component that is contained inside a `SwCompositionType` with a port of the `SwCompositionType`.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -89,6 +90,7 @@ impl DelegationSwConnector {
 
 /// An `AssemblySwConnector` connects ports of two `SwCompositionType`s.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -171,6 +173,7 @@ impl AssemblySwConnector {
 
 /// A `PassThroughSwConnector` connects two ports of a `SwCompositionType`.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"

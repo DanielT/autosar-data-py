@@ -17,7 +17,12 @@ use pyo3::prelude::*;
 /// A `SystemMapping` contains mappings in the `System`
 ///
 /// it contains mappings between SWCs and ECUs, as well as between ports and signals
-#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SystemMapping(pub(crate) autosar_data_abstraction::SystemMapping);
 
@@ -128,7 +133,12 @@ impl SystemMapping {
 //##################################################################
 
 /// A `SwcToEcuMapping` contains a mapping between a `SwComponentPrototype` and an `EcuInstance`
-#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SwcToEcuMapping(pub(crate) autosar_data_abstraction::SwcToEcuMapping);
 
@@ -186,7 +196,12 @@ impl SwcToEcuMapping {
 //##################################################################
 
 /// A `SenderReceiverToSignalMapping` contains a mapping between a sender/receiver port and a system signal
-#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct SenderReceiverToSignalMapping(
     pub(crate) autosar_data_abstraction::SenderReceiverToSignalMapping,

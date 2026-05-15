@@ -9,6 +9,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 
 /// the `FlexrayPhysicalChannel` represents either channel A or B of Flexray cluster
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -116,6 +117,7 @@ iterator_wrapper!(FlexrayFrameTriggeringsIterator, FlexrayFrameTriggering);
 ///
 /// This enum is an abstraction over the \<CHANNEL-NAME\> element.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

@@ -10,6 +10,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 
 /// An `EcuInstance` needs a `FlexrayCommunicationController` in order to connect to a Flexray cluster.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -105,6 +106,7 @@ iterator_wrapper!(FlexrayPhysicalChannelIterator, FlexrayPhysicalChannel);
 
 /// A connector between a [`FlexrayCommunicationController`] in an ECU and a [`FlexrayPhysicalChannel`]
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

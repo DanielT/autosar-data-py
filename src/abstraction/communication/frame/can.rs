@@ -11,6 +11,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 
 /// A frame on a CAN bus
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -110,6 +111,7 @@ impl CanFrame {
 
 /// The frame triggering connects a frame to a physical channel
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -247,6 +249,7 @@ impl CanFrameTriggering {
 
 /// The addressing mode for a CAN frame
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -290,6 +293,7 @@ impl From<autosar_data_abstraction::communication::CanAddressingMode> for CanAdd
 
 /// The type of a CAN frame
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,

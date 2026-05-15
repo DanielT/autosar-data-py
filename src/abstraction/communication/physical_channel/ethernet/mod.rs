@@ -22,7 +22,11 @@ pub(crate) use someip_old::*;
 //##################################################################
 
 /// Provides information about the VLAN of an [`EthernetPhysicalChannel`]
-#[pyclass(eq, module = "autosar_data._autosar_data._abstraction._communication")]
+#[pyclass(
+    from_py_object,
+    eq,
+    module = "autosar_data._autosar_data._abstraction._communication"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct EthernetVlanInfo(
     pub(crate) autosar_data_abstraction::communication::EthernetVlanInfo,
@@ -69,6 +73,7 @@ impl EthernetVlanInfo {
 
 /// The `EthernetPhysicalChannel` represents a VLAN or untagged traffic
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -339,6 +344,7 @@ impl EthernetPhysicalChannel {
 ///
 /// This struct contains ECU-independent settings that should be re-used for all ECUs that are configured for SD.
 #[pyclass(
+    skip_from_py_object,
     eq,
     set_all,
     get_all,
@@ -412,6 +418,7 @@ impl CommonServiceDiscoveryConfig {
 ///
 /// This is the new way to establish a connection. It was introduced in Autosar 4.5.0 (`AUTOSAR_00048`).
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -535,6 +542,7 @@ iterator_wrapper!(StaticSocketConnectionIterator, StaticSocketConnection);
 
 /// A `SocketConnectionIpduIdentifierSet` contains a set of `SoConIPduIdentifiers`, which are used in static socket connections and in `SomeIp` events.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -622,6 +630,7 @@ impl SocketConnectionIpduIdentifierSet {
 
 /// A `SoConIPduIdentifier` describes a PDU that is transported over a static socket connection.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -738,6 +747,7 @@ iterator_wrapper!(SoConIPduIdentifierIterator, SoConIPduIdentifier);
 
 /// The role of a TCP connection in a static socket connection can either be `Connect` (=client) or `Listen` (=server).
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -773,6 +783,7 @@ impl From<TcpRole> for autosar_data_abstraction::communication::TcpRole {
 
 /// control types used in routing groups for SOME/IP events
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,

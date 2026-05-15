@@ -9,6 +9,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 /// An `EthernetCluster` contains all configuration items associated with an ethernet network.
 /// The cluster connects multiple ECUs.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

@@ -16,6 +16,7 @@ use pyo3::prelude::*;
 
 /// `FlexrayTpConfig` defines exactly one Flexray ISO TP Configuration
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -202,6 +203,7 @@ impl FlexrayTpConfig {
 
 /// A `FlexrayTpPduPool` contains a set of `NPdus` that can be used for sending and receiving
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -271,6 +273,7 @@ iterator_wrapper!(FlexrayTpPduPoolIterator, FlexrayTpPduPool);
 
 /// A `FlexrayTpConnection` defines a connection between `FlexrayTpNodes`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -453,6 +456,7 @@ iterator_wrapper!(FlexrayTpConnectionIterator, FlexrayTpConnection);
 
 /// A `FlexrayTpConnectionControl` defines the connection control parameters for a `FlexrayTpConnection`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -570,6 +574,7 @@ iterator_wrapper!(
 
 /// A `FlexrayTpEcu` represents an ECU within the `FlexrayTpConfig`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -670,6 +675,7 @@ iterator_wrapper!(FlexrayTpEcuIterator, FlexrayTpEcu);
 
 /// A `FlexrayTpNode` provides the TP address and the connection to the topology description in a `FlexrayTpConfig`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

@@ -12,6 +12,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 
 /// Flexray specific `NmCluster`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -306,6 +307,7 @@ iterator_wrapper!(FlexrayNmClusterIterator, FlexrayNmCluster);
 /// These settings must be provided when creating a new `FlexrayNmCluster`.
 /// Additional optional settings can be set using `FlexrayNmCluster` methods.
 #[pyclass(
+    skip_from_py_object,
     eq,
     get_all,
     set_all,
@@ -373,6 +375,7 @@ impl FlexrayNmClusterSettings {
 
 /// A `FlexrayNmClusterCoupling` `couples multiple `FlexrayNmCluster`s.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -452,6 +455,7 @@ impl FlexrayNmClusterCoupling {
 
 /// The `FlexrayNmScheduleVariant` defines the way the NM-Vote and NM-Data are transmitted within the Fexray network.
 #[pyclass(
+    from_py_object,
     eq,
     eq_int,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -540,6 +544,7 @@ impl From<autosar_data_abstraction::communication::FlexrayNmScheduleVariant>
 ///
 /// It connects a `FlexrayCommunicationController` with a `NmEcu`.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

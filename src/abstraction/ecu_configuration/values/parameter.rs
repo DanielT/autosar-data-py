@@ -11,6 +11,7 @@ use autosar_data_abstraction::{self, AbstractionElement};
 
 /// The `EcucAddInfoParamValue` holds descriptive text and takes the role of a parameter in the ECU configuration
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -58,6 +59,7 @@ impl EcucAddInfoParamValue {
 /// Internally this value is stored as a string; in additon to the value() function, there are also
 /// value_bool(), value_int() and value_float() functions, which parse the string and should be used as appropriate.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -197,6 +199,7 @@ impl EcucNumericalParamValue {
 /// The `EcucTextualParamValue` holds a string value and can represent a enumeration,
 ///  string, multi-line string, function name or linker symbol parameter definition.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"

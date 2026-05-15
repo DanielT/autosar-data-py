@@ -12,7 +12,12 @@ use pyo3::{IntoPyObjectExt, prelude::*};
 //##################################################################
 
 /// The `EcuInstance` represents one ECU in a `System`
-#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
+#[pyclass(
+    from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction"
+)]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct EcuInstance(pub(crate) autosar_data_abstraction::EcuInstance);
 

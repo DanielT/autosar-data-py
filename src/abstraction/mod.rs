@@ -24,7 +24,12 @@ create_exception!(
 
 //##################################################################
 
-#[pyclass(frozen, eq, module = "autosar_data._autosar_data._abstraction")]
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction"
+)]
 #[derive(Clone, PartialEq)]
 pub(crate) struct AutosarModelAbstraction(
     pub(crate) autosar_data_abstraction::AutosarModelAbstraction,
@@ -149,7 +154,13 @@ iterator_wrapper!(ArPackageIterator, ArPackage);
 //##################################################################
 
 /// The `ByteOrder` is used to define the order of bytes in a multi-byte value
-#[pyclass(frozen, eq, eq_int, module = "autosar_data._autosar_data._abstraction")]
+#[pyclass(
+    from_py_object,
+    frozen,
+    eq,
+    eq_int,
+    module = "autosar_data._autosar_data._abstraction"
+)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ByteOrder {
     /// Most significant byte at the lowest address = big endian

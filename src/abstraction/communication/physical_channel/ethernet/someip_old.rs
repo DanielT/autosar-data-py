@@ -13,6 +13,7 @@ use pyo3::prelude::*;
 ///
 /// This is the old V1 version of the service definition.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -130,6 +131,7 @@ iterator_wrapper!(ProvidedServiceInstanceV1Iterator, ProvidedServiceInstanceV1);
 ///
 /// This is the old V1 version of the service definition.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -233,6 +235,7 @@ iterator_wrapper!(EventHandlerV1Iterator, EventHandlerV1);
 ///
 /// This is the old V1 version of the service definition.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -340,6 +343,7 @@ iterator_wrapper!(ConsumedServiceInstanceV1Iterator, ConsumedServiceInstanceV1);
 ///
 /// This is the old V1 version of the service definition.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -468,6 +472,7 @@ iterator_wrapper!(ConsumedEventGroupV1Iterator, ConsumedEventGroupV1);
 /// This struct is used to configure the SD server and client behavior for a service instance.
 /// it is used for the old V1 service definitions.
 #[pyclass(
+    skip_from_py_object,
     eq,
     get_all,
     set_all,
@@ -572,6 +577,7 @@ impl SdConfig {
 
 /// Configuration for an SD event handler
 #[pyclass(
+    skip_from_py_object,
     eq,
     get_all,
     set_all,

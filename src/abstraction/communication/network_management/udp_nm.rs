@@ -13,6 +13,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 
 /// Udp / Ethernet specific `NmCluster`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -347,6 +348,7 @@ iterator_wrapper!(UdpNmClusterIterator, UdpNmCluster);
 
 /// `UdpNmClusterSettings` encapsulates the mandatory settings for a `UdpNmCluster`
 #[pyclass(
+    skip_from_py_object,
     eq,
     get_all,
     set_all,
@@ -418,6 +420,7 @@ impl UdpNmClusterSettings {
 ///
 /// It couples multiple `UdpNmCluster`s and provides UdpNm-specific settings
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -492,6 +495,7 @@ impl UdpNmClusterCoupling {
 
 /// Udp / Ethernet specific `NmNode`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

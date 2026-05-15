@@ -19,6 +19,7 @@ pub(crate) use udp_nm::*;
 ///
 /// Use [`System::create_nm_config`](crate::System::create_nm_config) to create a new `NmConfig` in a `System`.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -231,6 +232,7 @@ iterator_wrapper!(NmEcuIterator, NmEcu);
 
 /// The `NmEcu` represents an `EcuInstance` wich participates in network management.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

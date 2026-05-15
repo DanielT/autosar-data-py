@@ -25,6 +25,7 @@ use pyo3::{IntoPyObjectExt, prelude::*};
 /// The `EcucChoiceContainerDef` is used to define configuration containers
 /// that provide a choice between several EcucParamConfContainerDef
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -142,6 +143,7 @@ impl EcucChoiceContainerDef {
 
 /// The `EcucParamConfContainerDef` is used to define configuration containers
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"

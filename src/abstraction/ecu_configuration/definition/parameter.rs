@@ -16,6 +16,7 @@ use pyo3::{IntoPyObjectExt, prelude::*};
 
 /// `EcucAddInfoParamDef` is used to specify the need for formated text in the ECU configuration value description
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -282,6 +283,7 @@ impl EcucAddInfoParamDef {
 
 /// `EcucBooleanParamDef` is used to specify a boolean parameter in the ECU configuration
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -562,6 +564,7 @@ impl EcucBooleanParamDef {
 
 /// `EcucEnumerationParamDef` is used to specify an enumeration parameter in the ECU configuration
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -859,6 +862,7 @@ impl EcucEnumerationParamDef {
 
 /// `EcucEnumerationLiteralDef` is used to specify an enumeration literal in the ECU configuration
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -917,6 +921,7 @@ iterator_wrapper!(EcucEnumerationLiteralDefIterator, EcucEnumerationLiteralDef);
 
 /// `EcucFloatParamDef` is used to specify a float parameter in the ECU configuration
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -1221,6 +1226,7 @@ impl EcucFloatParamDef {
 
 /// `EcucIntegerParamDef` is used to specify an integer parameter in the ECU configuration
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -1525,6 +1531,7 @@ impl EcucIntegerParamDef {
 
 /// `EcucFunctionNameDef` is used to specify a function name parameter in the ECU configuration
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -1851,6 +1858,7 @@ impl EcucFunctionNameDef {
 
 /// `EcucLinkerSymbolDef` is used to specify a linker symbol parameter in the ECU configuration
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -2177,6 +2185,7 @@ impl EcucLinkerSymbolDef {
 
 /// `EcucMultilineStringParamDef` is used to specify a multiline string parameter in the ECU configuration
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -2503,6 +2512,7 @@ impl EcucMultilineStringParamDef {
 
 /// `EcucStringParamDef` is used to specify a string parameter in the ECU configuration
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"

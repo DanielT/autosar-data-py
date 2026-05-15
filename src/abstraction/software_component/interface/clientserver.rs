@@ -13,6 +13,7 @@ use autosar_data_abstraction::{
 ///
 /// Use [`ArPackage::create_client_server_interface`] to create a new client server interface
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -111,6 +112,7 @@ impl ClientServerInterface {
 
 /// An `ApplicationError` represents an error that can be returned by a client server operation
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -183,6 +185,7 @@ iterator_wrapper!(ApplicationErrorIterator, ApplicationError);
 
 /// A `ClientServerOperation` defines an operation in a `ClientServerInterface`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -282,6 +285,7 @@ iterator_wrapper!(ClientServerOperationIterator, ClientServerOperation);
 /// Output arguments are used to pass data from the server to the client and are usually passed by reference.
 /// In/Out arguments are used to pass data in both directions and are usually passed by reference.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -321,6 +325,7 @@ impl From<ArgumentDirection> for autosar_data_abstraction::software_component::A
 
 /// An `ArgumentDataPrototype` represents an argument in a `ClientServerOperation`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"

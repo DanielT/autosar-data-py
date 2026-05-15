@@ -23,6 +23,7 @@ pub(crate) use rte_event::*;
 /// The `SwcInternalBehavior` of a software component type describes the
 /// details that are needed to generate the RTE.
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -222,7 +223,7 @@ impl SwcInternalBehavior {
         &self,
         name: &str,
         runnable: &RunnableEntity,
-        activation: ModeActivationKind,
+        activation: &ModeActivationKind,
         context_port: &Bound<'_, PyAny>,
         mode_declaration: &ModeDeclaration,
         second_mode_declaration: Option<&ModeDeclaration>,
@@ -231,7 +232,7 @@ impl SwcInternalBehavior {
         match self.0.create_mode_switch_event(
             name,
             &runnable.0,
-            activation.into(),
+            (*activation).into(),
             &context_port,
             &mode_declaration.0,
             second_mode_declaration.map(|m| &m.0),
@@ -259,6 +260,7 @@ iterator_wrapper!(SwcInternalBehaviorIterator, SwcInternalBehavior);
 
 /// A `RunnableEntity` is a function that can be executed by the RTE
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -538,6 +540,7 @@ iterator_wrapper!(RunnableEntityIterator, RunnableEntity);
 
 /// A `VariableAccess` allows a `RunnableEntity` to access a variable in various contexts
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -627,6 +630,7 @@ iterator_wrapper!(VariableAccessIterator, VariableAccess);
 
 /// A `SynchronousServerCallPoint` allows a `RunnableEntity` to call a server operation synchronously
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -718,6 +722,7 @@ iterator_wrapper!(
 
 /// A `ModeAccessPoint`provides the ability to access the current mode of a ModeDeclarationGroup
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -805,6 +810,7 @@ iterator_wrapper!(ModeAccessPointIterator, ModeAccessPoint);
 
 /// A `ModeSwitchPoint` allows a `RunnableEntity` to switch modes in a ModeDeclarationGroup
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"

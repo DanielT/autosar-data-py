@@ -11,6 +11,7 @@ use pyo3::prelude::*;
 
 /// Container for `DoIp` TP configuration
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -116,6 +117,7 @@ impl DoIpTpConfig {
 
 /// This element defines the logical address of a `DoIp` connection
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -187,6 +189,7 @@ iterator_wrapper!(DoIpLogicAddressIterator, DoIpLogicAddress);
 
 /// The `DoIpTpConnection` defines a `DoIp` transport protocol connection
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"

@@ -19,6 +19,7 @@ use autosar_data_abstraction::{
 ///
 /// Use [`ArPackage::create_sender_receiver_interface`] to create a new sender receiver interface
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -107,6 +108,7 @@ impl SenderReceiverInterface {
 
 /// A `VariableDataPrototype` represents a data element in a `SenderReceiverInterface`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"

@@ -38,7 +38,7 @@ struct AutosarModel(autosar_data_rs::AutosarModel);
 /// Represents a file that is part of an AutosarModel
 struct ArxmlFile(autosar_data_rs::ArxmlFile);
 
-#[pyclass(frozen, module = "autosar_data._autosar_data")]
+#[pyclass(from_py_object, frozen, module = "autosar_data._autosar_data")]
 #[derive(Debug, Clone)]
 /// An element in the Autosar data model
 struct Element(autosar_data_rs::Element);
@@ -82,7 +82,7 @@ struct IncompatibleAttributeValueError {
     target_version: AutosarVersion,
 }
 
-#[pyclass(eq, frozen, module = "autosar_data._autosar_data")]
+#[pyclass(skip_from_py_object, eq, frozen, module = "autosar_data._autosar_data")]
 #[derive(Clone, PartialEq, Eq)]
 /// Type of an Element in the specification
 struct ElementType(autosar_data_specification::ElementType);
@@ -108,7 +108,7 @@ struct ValidSubElementInfo {
     is_allowed: bool,
 }
 
-#[pyclass(eq, eq_int, module = "autosar_data._autosar_data")]
+#[pyclass(skip_from_py_object, eq, eq_int, module = "autosar_data._autosar_data")]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// The content type of an element
 enum ContentType {
@@ -149,7 +149,7 @@ struct SubElementSpec {
     allowed_versions: Vec<AutosarVersion>,
 }
 
-#[pyclass(eq, eq_int, module = "autosar_data._autosar_data")]
+#[pyclass(skip_from_py_object, eq, eq_int, module = "autosar_data._autosar_data")]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// The content mode of an element type
 enum ContentMode {

@@ -16,6 +16,7 @@ pub(crate) use reference::*;
 
 /// The `EcucDefinitionCollection` is a container for all module definitions in the ECU configuration
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -84,6 +85,7 @@ impl EcucDefinitionCollection {
 
 /// The `EcucModuleDef` is a container for the definition of a single base software module
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -311,6 +313,7 @@ iterator_wrapper!(EcucModuleDefIterator, EcucModuleDef);
 /// `EcucConfigurationVariant` provides the different configuration variants that
 /// can be used by the module definition.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -377,6 +380,7 @@ impl From<autosar_data_abstraction::ecu_configuration::EcucConfigurationVariant>
 
 /// `EcucConfigurationClass` provides the different configuration classes for Autosar configuration parameters
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -425,6 +429,7 @@ impl From<autosar_data_abstraction::ecu_configuration::EcucConfigurationClass>
 
 /// The `EcucModuleDefCategory` represents the possible category values for a module definition
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,
@@ -471,6 +476,7 @@ impl From<autosar_data_abstraction::ecu_configuration::EcucModuleDefCategory>
 
 /// A `EcucDestinationUriDefSet` contains a list of `EcucDestinationUriDef`s
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -544,6 +550,7 @@ impl EcucDestinationUriDefSet {
 
 /// A `EcucDestinationUriDef` defines a target for an `EcucUriReferenceDef`
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -639,6 +646,7 @@ iterator_wrapper!(EcucDestinationUriDefIterator, EcucDestinationUriDef);
 /// `EcucDestinationUriNestingContract` provides the different nesting contracts for destination URIs
 #[allow(clippy::enum_variant_names)] // naming is consistent with the AUTOSAR standard
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,

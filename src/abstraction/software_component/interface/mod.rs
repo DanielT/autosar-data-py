@@ -26,6 +26,7 @@ pub(crate) use senderreceiver::*;
 ///
 /// Use [`ArPackage::create_mode_switch_interface`] to create a new mode switch interface
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -115,6 +116,7 @@ impl ModeSwitchInterface {
 
 /// A `ModeGroup` represents a mode group in a `ModeSwitchInterface`
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -184,6 +186,7 @@ impl ModeGroup {
 ///
 /// Use [`ArPackage::create_parameter_interface`] to create a new parameter interface
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -273,6 +276,7 @@ impl ParameterInterface {
 ///
 /// Typically such a parameter can be calibrated, but this is not required.
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -378,6 +382,7 @@ iterator_wrapper!(ParameterDataPrototypeIterator, ParameterDataPrototype);
 ///
 /// Use [`ArPackage::create_nv_data_interface`] to create a new non-volatile data interface
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"
@@ -448,6 +453,7 @@ impl NvDataInterface {
 ///
 /// Use [`ArPackage::create_trigger_interface`] to create a new trigger interface
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._software_component"

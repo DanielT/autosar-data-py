@@ -24,6 +24,7 @@ pub(crate) use transport_layer::*;
 
 /// The [`CommunicationDirection`] is used by the communication ports for frames, PDUs and signals
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,

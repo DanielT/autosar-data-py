@@ -13,6 +13,7 @@ use autosar_data_abstraction::{self, AbstractionElement};
 
 /// An `EcucInstanceReferenceValue` provides the mechanism to reference an instance of a prototype
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"
@@ -147,6 +148,7 @@ impl EcucInstanceReferenceValue {
 
 /// An `EcucReferenceValue` allows the ecu tonfiguration to refer to any identifiable element in the Autosar model
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._ecu_configuration"

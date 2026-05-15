@@ -15,6 +15,7 @@ use std::ops::Deref;
 ///
 /// Use [`ArPackage::create_implementation_data_type`] to create a new implementation data type
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -147,6 +148,7 @@ impl ImplementationDataType {
 
 /// An element of an implementation data type
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._datatype"
@@ -286,6 +288,7 @@ iterator_wrapper!(
 
 /// The category of an implementation data type
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     eq_int,

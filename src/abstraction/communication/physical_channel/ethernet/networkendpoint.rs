@@ -4,6 +4,7 @@ use autosar_data_abstraction::{self, AbstractionElement, IdentifiableAbstraction
 
 /// A network endpoint contains address information for a connection
 #[pyclass(
+    skip_from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -80,6 +81,7 @@ iterator_wrapper!(NetworkEndpointIterator, NetworkEndpoint);
 
 /// address information for a network endpoint
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -210,6 +212,7 @@ iterator_wrapper!(NetworkEndpointAddressIterator, NetworkEndpointAddress);
 
 /// `IPv4AddressSource` defines how the address of an IPv4 `NetworkEndpoint` is obtained
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
@@ -254,6 +257,7 @@ impl From<autosar_data_abstraction::communication::IPv4AddressSource> for IPv4Ad
 
 /// `IPv6AddressSource` defines how the address of an IPv6 `NetworkEndpoint` is obtained
 #[pyclass(
+    from_py_object,
     frozen,
     eq,
     module = "autosar_data._autosar_data._abstraction._communication"
