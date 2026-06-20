@@ -560,7 +560,58 @@ impl ArPackage {
     fn elements(&self) -> ElementsIterator {
         ElementsIterator::new(self.0.elements().map(Element))
     }
+
+    /// create a new `ReferenceBase` in the package
+    #[pyo3(text_signature = "(self, name: str, target: ArPackage, /)")]
+    fn create_reference_base(&self, name: &str, target: &ArPackage) -> PyResult<ReferenceBase> {
+        match self.0.create_reference_base(name, &target.0) {
+            Ok(value) => Ok(ReferenceBase(value)),
+            Err(e) => Err(AutosarAbstractionError::new_err(e.to_string())),
+        }
+    }
+
+    /// iterate over all `ReferenceBase`s in the package
+    #[pyo3(text_signature = "(self)")]
+    fn reference_bases(&self) -> ReferenceBaseIterator {
+        ReferenceBaseIterator::new(self.0.reference_bases().map(ReferenceBase))
+    }
 }
+
+//##################################################################
+
+/// A `ReferenceBase` is a base that can be used by relative references
+#[pyclass(
+    skip_from_py_object,
+    frozen,
+    eq,
+    module = "autosar_data._autosar_data._abstraction"
+)]
+#[derive(Clone, PartialEq)]
+pub(crate) struct ReferenceBase(pub(crate) autosar_data_abstraction::ReferenceBase);
+
+#[pymethods]
+impl ReferenceBase {
+    #[pyo3(signature = (/, *, deep = false))]
+    #[pyo3(text_signature = "(self, /, *, deep: bool = false)")]
+    fn remove(&self, deep: bool) -> PyResult<()> {
+        self.clone()
+            .0
+            .remove(deep)
+            .map_err(abstraction_err_to_pyerr)
+    }
+
+    #[getter]
+    fn element(&self) -> Element {
+        Element(self.0.element().clone())
+    }
+
+    fn __repr__(&self) -> String {
+        format!("{:#?}", self.0)
+    }
+}
+
+//##################################################################
 
 iterator_wrapper!(ElementsIterator, Element);
 iterator_wrapper!(ArPackagesIterator, ArPackage);
+iterator_wrapper!(ReferenceBaseIterator, ReferenceBase);

@@ -227,6 +227,34 @@ def test_element_references() -> None:
     assert el_fibex_element_ref.character_data is None
 
 
+def test_relative_references() -> None:
+    model = AutosarModel()
+    model.create_file("file")
+    el_ar_packages = model.root_element.create_sub_element("AR-PACKAGES")
+    el_sys_pkg = el_ar_packages.create_named_sub_element("AR-PACKAGE", "SysPkg")
+    el_sys_elements = el_sys_pkg.create_sub_element("ELEMENTS")
+    el_system = el_sys_elements.create_named_sub_element("SYSTEM", "System")
+
+    el_ecu_pkg = el_ar_packages.create_named_sub_element("AR-PACKAGE", "EcuPkg")
+    el_ecu_elements = el_ecu_pkg.create_sub_element("ELEMENTS")
+    el_ecu = el_ecu_elements.create_named_sub_element("ECU-INSTANCE", "Ecu")
+
+    # create a ReferenceBase in SysPkg and use it to set a reference from the System to the Ecu
+    el_reference_base = el_sys_pkg.create_sub_element(
+        "REFERENCE-BASES"
+    ).create_sub_element("REFERENCE-BASE")
+    el_reference_base.create_sub_element("SHORT-LABEL").character_data = "RefBase"
+    el_reference_base.create_sub_element("PACKAGE-REF").reference_target = el_ecu_pkg
+
+    el_fibex_element_ref = el_system.create_sub_element(
+        "FIBEX-ELEMENTS"
+    ).create_sub_element("FIBEX-ELEMENT-REF-CONDITIONAL")
+
+    el_fibex_element_ref.create_sub_element(
+        "FIBEX-ELEMENT-REF"
+    ).set_reference_target_relative(el_ecu, "RefBase")
+
+
 def test_element_character_data_1() -> None:
     # some elements have the data type double / f64 for their character content
     model = AutosarModel()

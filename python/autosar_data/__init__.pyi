@@ -402,7 +402,10 @@ class Element:
         """remove a sub element with the given name, together with all of its content"""
         ...
     reference_target: Element
-    """returns the target of the reference, if the element contains a reference"""
+    """the target of the reference, if the element contains a reference"""
+    def set_reference_target_relative(self, target: Element, base: str) -> None:
+        """set the reference target using a named relative reference base"""
+        ...
     def get_sub_element(self, name_str: str) -> Element:
         """get a sub element by its element name. If there are several then this returns the first of them"""
         ...

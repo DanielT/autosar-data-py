@@ -273,6 +273,15 @@ impl Element {
             .map_err(|error| AutosarDataError::new_err(error.to_string()))
     }
 
+    /// Set the reference target of a reference element using a relative reference
+    #[pyo3(signature = (target, base, /))]
+    #[pyo3(text_signature = "(self, target: Element, base: str, /)")]
+    fn set_reference_target_relative(&self, target: Element, base: &str) -> PyResult<()> {
+        self.0
+            .set_relative_reference_target(&target.0, base)
+            .map_err(|error| AutosarDataError::new_err(error.to_string()))
+    }
+
     /// Get the reference target of a reference element
     ///
     /// The element must have a reference content type, and the destination must exist.
